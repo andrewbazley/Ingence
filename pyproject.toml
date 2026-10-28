@@ -1,0 +1,255 @@
+[build-system]
+requires = ["hatchling>=1.24"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ingence"
+dynamic = ["version"]
+description = "Ingence is a read-only indexing and inference engine and local Dashboard for exploring scientific filesystems: it surveys what is there, and proposes how files relate using a Dictionary and a Rulebook you can read and edit."
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Andrew Bazley" }]
+keywords = ["provenance", "research-data-management", "filesystem", "inference", "metadata"]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: MacOS",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Scientific/Engineering",
+]
+
+# ---------------------------------------------------------------------------
+# Base install. Kept small on purpose: tests and documentation grow around
+# whatever is here, and removing a dependency later is costly.
+# Add a dependency here only with a stated reason.
+# ---------------------------------------------------------------------------
+dependencies = [
+    # DuckDB 2.0 is untested here, and its DB-API Arrow path warns on the person's screen.
+    "duckdb>=1.0,<2",
+    "pyarrow>=16",
+    "pydantic>=2.7",
+    "typer>=0.12",
+    "rich>=13.7",
+    "pyyaml>=6.0",
+    "blake3>=0.4",
+    "numpy>=1.26",
+    # Readers for the kinds of file every laboratory holds. The core reads images, tables, text,
+    # PDFs and Microsoft Office documents for tokenization and hashing. Text, delimited tables,
+    # TIFF and the Word and PowerPoint packages are read with the standard library. These three
+    # read the rest: PDFs, Excel workbooks, and the legacy .doc, .xls and .ppt files. Without
+    # them a base install reads such a file as bytes and strings only. All three are pure
+    # Python. openpyxl brings et-xmlfile and nothing else.
+    "pypdf>=4.2",
+    "openpyxl>=3.1",
+    "olefile>=0.47",
+    # Themes and patterns. The Dashboard opens on the Years view, which draws the themes of a
+    # run's experiments. The themes use TF-IDF and LSA (scikit-learn) over sparse matrices
+    # (scipy). Without these two packages the opening view is broken. Both are permissively
+    # licensed (BSD). The communities come from a seeded Louvain written in the engine, because
+    # the usual Leiden library (leidenalg, python-igraph) is GPL and is never a dependency.
+    "scikit-learn>=1.5",
+    "scipy>=1.13",
+]
+
+[project.urls]
+Homepage = "https://github.com/andrewbazley/ingence"
+Documentation = "https://ingence.org/"
+Repository = "https://github.com/andrewbazley/ingence"
+Issues = "https://github.com/andrewbazley/ingence/issues"
+Discussions = "https://github.com/andrewbazley/ingence/discussions"
+
+[project.scripts]
+# A module that imports nothing at module scope: a child the supervisor spawns re-runs the
+# launcher an installer writes for this line, and imports whatever the line names.
+ingence = "ingence.cli.launch:main"
+
+# ---------------------------------------------------------------------------
+# Optional extras. Each extra is a group of its own, so a release can leave one out whole.
+# ---------------------------------------------------------------------------
+[project.optional-dependencies]
+api = ["fastapi>=0.110", "uvicorn>=0.29"]
+content = [
+    "tifffile>=2024.1.30",
+    "Pillow>=10.3",
+    "nbformat>=5.10",
+    "datasketch>=1.6",
+    # Multi-pattern byte scanning. One pass for every term rather than one
+    # pass per term, which is the difference between usable and not on a
+    # dictionary of any size.
+    "pyahocorasick>=2.0",
+    # OLE compound storage (olefile), PDFs (pypdf) and workbooks (openpyxl) are in the
+    # base install, because the core reads those kinds of file.
+]
+# Perceptual hashing, and the CZI reader. The ND2 and LIF readers use the standard library,
+# so neither nd2 nor readlif is a dependency. On a real file, nd2's per-frame times count
+# one offset twice, and readlif gives no time at all.
+images = ["imagehash>=4.3", "pylibCZIrw>=4.1"]
+# Type-detection adapters. Both only choose how a file is read, and neither may write a
+# claim. A learned component is allowed in the engine only on those terms.
+detect = ["magika>=0.6", "python-magic>=0.4"]
+# ``patterns`` and ``themes`` are empty aliases, because scikit-learn and scipy are base
+# dependencies. The names stay so that ``pip install "ingence[themes]"`` written in an older
+# note still works.
+patterns = []
+themes = []
+# The Dashboard's browser harness. tests/test_browser.py drives the page in a real
+# browser, and is skipped without this. The engine and the page do not need it.
+browser = ["playwright>=1.55"]
+cluster = []
+# The tools that build documentation pages, which have a separate source. Install them in an
+# environment of their own, never in the one that runs the engine. The lower bounds are the
+# versions the pages were written against. Not part of the base install.
+docs = [
+    "sphinx>=9.1",
+    "pydata-sphinx-theme>=0.23",
+    "myst-parser>=5.1",
+    "sphinx-design>=0.7",
+]
+dev = [
+    "pytest>=8.2",
+    "pytest-cov>=5.0",
+    "hypothesis>=6.100",
+    "ruff>=0.5",
+    "mypy>=1.10",
+    "pre-commit>=3.7",
+    "types-PyYAML>=6.0",
+]
+
+[tool.hatch.version]
+path = "src/ingence/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ingence"]
+# The Dictionary's and Rulebook's YAML, the Dashboard's web assets, and the vendored
+# licences are data rather than code, and a wheel that drops any of them fails silently:
+# the engine starts, and it knows no words, holds no rules, or serves a blank page.
+artifacts = [
+    "src/ingence/dictionary/builtin/*.yaml",
+    "src/ingence/dictionary/packs/*/*.yaml",
+    "src/ingence/rulebook/builtin/*.yaml",
+    # What every version of the retired rules file held. The engine compares a project's old copy
+    # of that file with this record, and keeps the choices a person made in it.
+    "src/ingence/rulebook/*.yaml",
+    "src/ingence/api/*.yaml",
+    # The sample collection's vocabulary.
+    "src/ingence/evaluation/*.yaml",
+    # Which conclusions completeness counts in each class.
+    "src/ingence/completeness/*.yaml",
+    # The quality figures' catalogue.
+    "src/ingence/quality/*.yaml",
+    # The catalogues of the summaries other packages register with the quality figures.
+    "src/ingence/columns/*.yaml",
+    "src/ingence/design/*.yaml",
+    "src/ingence/themes/*.yaml",
+    "src/ingence/web/*.html",
+    "src/ingence/web/*.css",
+    "src/ingence/web/*.js",
+    # The Dashboard's icon: the site's mark, as a drawing and as a picture.
+    "src/ingence/web/*.svg",
+    "src/ingence/web/*.png",
+    "src/ingence/web/help/*",
+    # The pictures "How to read this" shows, and where each numbered mark goes.
+    "src/ingence/web/help/pictures/*",
+    # Vendored browser files, each in a folder of its own with its licence: Cytoscape.js for the
+    # Graph page, and the Dashboard's two fonts. They are nested, so the top-level globs above
+    # do not reach them.
+    "src/ingence/web/vendor/*/*",
+    # The Graph workspace, built by Vite from explorer/, with its libraries' notices.
+    "src/ingence/web/explorer/*",
+]
+
+[tool.hatch.build.targets.sdist]
+include = ["src/ingence", "schemas", "tests", "LICENSE", "LICENSES", "NOTICE",
+           "INSTALL.md", "GETTING_STARTED.md", "tools/release/hatch_build.py"]
+
+# A build names its commit. The hook writes ``ingence/_build_commit.txt`` into the sdist and the
+# wheel. ``/api/v1/version`` and every run record read that file, so feedback can say which build
+# it came from. A wheel is not a checkout, so without the file it would report no commit.
+[tool.hatch.build.hooks.custom]
+path = "tools/release/hatch_build.py"
+
+# ---------------------------------------------------------------------------
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "B", "A", "C4", "SIM", "RUF", "ANN", "S"]
+ignore = [
+    "ANN401",  # typing.Any is deliberate in the payload columns
+    "S101",    # assert is how the invariant fixtures express themselves
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["ANN", "S"]
+# The Dashboard's views interpolate exactly one thing into a query: a run of "?" placeholders,
+# one per entry already read out of the Index. Every value a request can influence is bound as
+# a parameter. S608 cannot see that, and the alternative is a noqa inside a triple-quoted SQL
+# string, which puts the marker into the query itself -- "#" is not a comment in DuckDB.
+"src/ingence/api/routes/views.py" = ["S608"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["ingence"]
+
+# ---------------------------------------------------------------------------
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_unreachable = true
+plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+module = [
+    "blake3.*",
+    "duckdb.*",
+    "pyarrow.*",
+    # Optional dependencies: absent in a base install and, where present,
+    # shipping no type information. Every one of them is imported inside the
+    # function that needs it, so the engine runs without any of them; this list
+    # is what lets the type checker run without them too.
+    "datasketch.*",
+    "imagehash.*",
+    "magic.*",
+    "magika.*",
+    "PIL.*",
+    "ahocorasick.*",
+    "nbformat.*",
+    "olefile.*",
+    "openpyxl.*",
+    "pypdf.*",
+    "tifffile.*",
+    # Base dependencies, imported only inside ``ingence.themes``.
+    "sklearn.*",
+    "scipy.*",
+    # Installed with scikit-learn, which requires it; imported by ``ingence.themes.mapxy``.
+    "threadpoolctl.*",
+]
+ignore_missing_imports = true
+
+# ---------------------------------------------------------------------------
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+addopts = "-ra --strict-markers --strict-config"
+filterwarnings = ["error"]
+# A test that hangs must say where, and then must stop. Without both, a stuck
+# test holds a CI runner until the job's time limit, and the job's log does not
+# say where the test stopped.
+# faulthandler is in the standard library and pytest drives it, so this adds no
+# dependency. The timeout is well above the slowest normal test, which is the
+# supervisor's wall-clock case at three seconds.
+faulthandler_timeout = 180
+# `faulthandler_timeout` alone defaults to `exit=False`: pytest calls
+# `dump_traceback_later(timeout, exit=False)`, which writes every thread's
+# traceback once and then lets the process carry on hanging. The dump is written
+# and the job still runs to the limit, and a job's log cannot be read until the
+# job ends. This setting makes the process exit after the dump, so the log can be read.
+faulthandler_exit_on_timeout = true

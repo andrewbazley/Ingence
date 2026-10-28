@@ -1,0 +1,206 @@
+# Revision 3: the scan layer's own rules, declared and provisional, and two rules
+# declared again.
+#
+# Every run cites four rules that no revision declared. A containment edge names
+# census.filesystem_containment, a directory's closed-world counts name
+# census.directory_aggregate, the precise kind of a pipe or a socket names
+# census.object_kind, and an embedding edge names cascade.container_member. They
+# were constants in the scan layer. Without a declaration, the rule behind the most numerous
+# records in any run could not be opened and read.
+#
+# DECLARED UNDER THE NAMES EVERY RUN HAS CITED
+#
+# Each keeps its identifier and version 1, so every edge, count and observation already published
+# cites a declared rule. Their predicates are registered like any other, and the census and the
+# cascade take each rule's version and predicate from the Rulebook at the start of a run and call
+# the predicate where the fact is computed.
+#
+# AN EFFECT OF THEIR OWN, BECAUSE NO PHASE OF INFERENCE RUNS THEM
+#
+# These rules establish what the pool holds while it is enumerated or a container is opened. Their
+# effect is enumerates: run by the scan layer and never by infer, so the order rules run in stays
+# derived from their effect.
+#
+# PROVISIONAL, AND IN FORCE WHILE THEY ARE
+#
+# The Record has no way to confirm a rule, so all four stay provisional. While they are, no
+# project revision may switch one off, supersede it or tune it, because the containment forest
+# and the embedding edges are what the publication invariants check. The status is shown with
+# each rule and kept out of the digest, because confirming a rule changes nothing it concludes.
+#
+# A CONDITION COUNTS ONLY WHAT NAMES ONE
+#
+# One component can define a shared condition: a treatment written in two names makes them one
+# condition, and sharing it says nothing else about them. But a generic word shared by unrelated
+# files would make a condition too, so the condition counts quantities, and words bound to a sense
+# of kind condition or reagent, so a laboratory's own treatment names group nothing until they are
+# taught. It still names nothing that would defeat its claims, so its classes are counted and
+# publish nothing.
+#
+# WHERE A DERIVATION MAY START
+#
+# The roles a derivation's source may hold refused two steps the projection rule
+# itself describes, a figure drawn from an analysis and a summary drawn from a
+# quantification, and listed tabular, which no sense in the Dictionary names, so no
+# file could ever hold it. Both sources are added and tabular is removed.
+#
+# REVISIONS ARE APPEND-ONLY
+#
+# Revisions 0 to 2 are not edited. same_experimental_condition and
+# derivation_endpoints_hold_eligible_roles are declared again here at version 2,
+# which supersedes version 1 from this revision forward and leaves version 1
+# readable, so a run recorded against an earlier revision still resolves to the
+# rules it ran.
+
+revision: 3
+summary: >-
+  The scan layer's own rules, declared under the identifiers every run has cited,
+  with an effect of their own and marked provisional; a condition kept to the words
+  that name one; and the roles a derivation may start from, declared again.
+
+rules:
+  # ---------------------------------------------------------------------
+  # enumerates: what the pool holds, established while it is enumerated or
+  # a container is opened, and run by the scan layer alone.
+  # ---------------------------------------------------------------------
+  - id: census.filesystem_containment
+    version: "1"
+    predicate: contains_what_enumeration_listed
+    effect: enumerates
+    status: provisional
+    primitive: contains
+    specialization: directory_of
+    tier: entailed
+    level: folder
+    statement: >-
+      A directory contains each item enumeration lists directly inside it.
+    rationale: >-
+      Enumeration either found the item inside the directory or it did not, so
+      there is nothing to weigh, and contains is the one primitive that is
+      observationally complete once enumeration finishes.
+
+  - id: census.directory_aggregate
+    version: "1"
+    predicate: totals_from_enumeration
+    effect: enumerates
+    status: provisional
+    primitive: contains
+    tier: entailed
+    level: folder
+    statement: >-
+      A directory holds exactly the files, folders and bytes enumeration counted
+      directly inside it and beneath it.
+    rationale: >-
+      A closed-world count is legitimate only under contains, where an item absent
+      after enumeration is not there rather than unread, and it lets a folder mean
+      something before any file in it is opened.
+
+  - id: census.object_kind
+    version: "1"
+    predicate: object_kind_from_mode
+    effect: enumerates
+    status: provisional
+    tier: entailed
+    level: file
+    statement: >-
+      An object that is not a file, a folder or a link is recorded as the kind its
+      mode names, such as a pipe, a socket or a device.
+    rationale: >-
+      The schema records every such object as other, and its precise kind is a
+      literal fact read from its mode, kept as an observation so that nothing about
+      the object is lost.
+
+  - id: cascade.container_member
+    version: "1"
+    predicate: embeds_what_expansion_recovered
+    effect: enumerates
+    status: provisional
+    primitive: embeds
+    tier: entailed
+    level: file
+    statement: >-
+      A container embeds each member opening it recovers, and records why expansion
+      stopped.
+    rationale: >-
+      A member either came out of the container or it did not, and because a
+      container is never known to be fully expanded, the state expansion stopped in
+      is what makes an absent member readable.
+
+  # ---------------------------------------------------------------------
+  # groups: a condition kept to the words that name one.
+  # ---------------------------------------------------------------------
+  - id: same_experimental_condition
+    version: "2"
+    predicate: same_component_values
+    effect: groups
+    primitive: equivalent
+    specialization: same_condition_as
+    tier: defeasible
+    level: file
+    statement: >-
+      Two items are the same condition when they agree on every component of kind
+      {component_kinds}, counting a word only where it is matched to a sense of kind
+      {counted_theme_kinds}, and each carries {minimum_components} or more of them.
+    rationale: >-
+      One component can define a shared condition, a treatment written in two names,
+      but only a quantity or a word naming a condition or a reagent can define one: a
+      generic word shared by unrelated files is not a condition, and comparing
+      normalized magnitudes still lets two people write one dose differently and reach
+      one group.
+    parameters:
+      - name: component_kinds
+        type: string_list
+        default: [quantity, word]
+        description: >-
+          Which components carry the condition. Quantities for the dose and the
+          duration, words for the agent and the status term beside them.
+      - name: counted_theme_kinds
+        type: string_list
+        default: [condition, reagent]
+        description: >-
+          The kinds of sense a word must be matched to for it to count. A treatment
+          name the Dictionary has not been taught matches nothing, and groups nothing
+          until a laboratory teaches it.
+      - name: minimum_components
+        type: integer
+        default: 1
+        minimum: 1
+        maximum: 20
+        description: >-
+          How many such components each side must carry. Without a floor the empty
+          key becomes the largest group in the pool, and it would hold every file
+          whose name says nothing.
+
+  # ---------------------------------------------------------------------
+  # constraint: where a derivation may start.
+  # ---------------------------------------------------------------------
+  - id: derivation_endpoints_hold_eligible_roles
+    version: "2"
+    predicate: endpoint_holds_an_eligible_role
+    effect: constraint
+    primitive: derives
+    tier: entailed
+    level: file
+    statement: >-
+      A derivation is considered only where the source holds one of {source_roles}
+      and the target holds one of {target_roles}.
+    rationale: >-
+      A figure is not derived from a license file, and stating which kinds of thing
+      may stand at each end limits the pairs proposed to a few, instead of comparing
+      every file with every other; an endpoint nothing classified is ineligible rather
+      than wrong, which routes the fix to coverage.
+    parameters:
+      - name: source_roles
+        type: string_list
+        default: [raw, acquisition, processed, analysis, quantification, reference_data]
+        description: >-
+          What the file a pair is made from may be. Narrow by design: this list limits the
+          pairs proposed, and widening it widens the sweep. A figure is drawn
+          from an analysis and a summary from a quantification, so both are sources,
+          and a role no sense names could never be held, so none is listed.
+      - name: target_roles
+        type: string_list
+        default: [processed, analysis, quantification, summary, report, figure]
+        description: >-
+          What the file made from it may be. A raw acquisition is never made from another
+          file, which is the asymmetry that keeps the relation directed.

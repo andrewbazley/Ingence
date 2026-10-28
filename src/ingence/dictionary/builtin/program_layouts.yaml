@@ -1,0 +1,92 @@
+# How a language's packaging lays out a package or an environment, the same on every machine.
+#
+# Read by the rule that raises a folder as a program (`installed_software_in_folder`) and by a dive,
+# which reads what lies beneath such a folder last. A layout binds no word: it is matched against a
+# folder's children, never against a name alone.
+#
+# Each layout lists the parts a folder holds directly, each met by a different child. A part is a
+# name, compared without case, or a list of names any one of which will do. `*` stands for any run
+# of characters. A name ending in `/` is a folder and any other name is a file. `named` is what the
+# folder's own name must look like. `code` names this kind's own code files, read where a folder of
+# them is shared as an archive of its own name (`name.zip`, `name-1.2.tar.gz`).
+#
+# A laboratory's own package is laid out this way as often as anybody's, and is recognised without
+# its name being known. The file structure and the file types identify it. A folder of scripts with
+# no packaging is not raised: a script is a program file by file, and a folder of them can hold a
+# laboratory's experiments beneath it.
+section: program_layouts
+theme_kind: software
+summary: Packaging conventions by which a package or an environment is recognised from its folder.
+
+entries: []
+
+layouts:
+  # -- Python ---------------------------------------------------------------
+  # A packaging file beside the code it packages: setuptools, the pyproject standard, the
+  # metadata an unpacked source distribution carries, pipenv. The second part is a module, the
+  # conventional source or test folder, or the metadata folder an installation leaves.
+  - package: Python package
+    holds:
+      - [setup.py, setup.cfg, pyproject.toml, PKG-INFO, Pipfile]
+      - ["*.py", src/, tests/, test/, "*.egg-info/", "*.dist-info/"]
+    code: ["*.py"]
+  # An importable package: its initialiser beside a module.
+  - package: Python package
+    holds: [__init__.py, "*.py"]
+  # The dependency list pip installs from, beside a module: code meant to be installed and run
+  # somewhere else.
+  - package: Python package
+    holds: [requirements.txt, "*.py"]
+  # A virtual environment's root holds the configuration file `venv` writes and nothing else does.
+  - package: Python environment
+    holds: [pyvenv.cfg]
+  # conda keeps an environment's record of what it installed in `conda-meta`, at every
+  # environment's root, the base installation's included.
+  - package: conda environment
+    holds: [conda-meta/]
+
+  # -- R --------------------------------------------------------------------
+  # Every R package, source or installed, holds its description and its namespace file.
+  - package: R package
+    holds: [DESCRIPTION, NAMESPACE]
+    code: ["*.r"]
+
+  # -- MATLAB ---------------------------------------------------------------
+  # MATLAB's documented toolbox contents file beside a function.
+  - package: MATLAB toolbox
+    holds: [Contents.m, "*.m"]
+    code: ["*.m"]
+  # A folder of functions beside a class folder of their own.
+  - package: MATLAB toolbox
+    holds: ["@*/", "*.m"]
+  # A class folder: MATLAB reads a folder named `@` and a class name as that class's methods.
+  - package: MATLAB class
+    named: "@*"
+    holds: ["*.m"]
+  # A namespace folder: MATLAB reads a folder named `+` and a name as a package namespace.
+  - package: MATLAB namespace
+    named: "+*"
+    holds: ["*.m"]
+
+  # -- any language ---------------------------------------------------------
+  # Code published under a licence: the licence and the readme a code host's download or a code
+  # archive carries at its top, beside code. How a program arrives that has no packaging of its
+  # own; a dataset or a design published the same way holds no code at its top, and is not read
+  # as one.
+  - package: published code
+    said_as: published code
+    holds:
+      - ["LICENSE*", "LICENCE*", "COPYING*"]
+      - ["README*"]
+      - ["*.py", "*.m", "*.r", "*.jl", "*.java", "*.ipynb", "*.ijm", "*.c", "*.cpp", "*.sh", src/]
+
+  # -- Java -----------------------------------------------------------------
+  # A build file (Maven, Gradle, Ant) beside the sources it builds.
+  - package: Java package
+    holds:
+      - [pom.xml, build.gradle, build.gradle.kts, build.xml]
+      - [src/, "*.java"]
+    code: ["*.java"]
+  # A Java runtime's root: its launchers, its libraries and the release file naming its version.
+  - package: Java runtime
+    holds: [bin/, lib/, release]

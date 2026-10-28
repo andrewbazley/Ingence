@@ -1,0 +1,435 @@
+/* The Years view: the rows-by-time surface of the Dashboard design, in the engine's own shell.
+   The tokens follow four rules: light and dark are stepped and not inverted, the completeness ramp
+   reads darker-is-more on light and lighter-is-more on dark, and every color does one job (magenta:
+   a person said so; red: a problem, only as a border or a dot with a word; hatching: unknown or not
+   applicable). No font is loaded: the system's, as in the rest of the Dashboard. */
+
+:root {
+  --y-ink: #16181d; --y-ink2: #52514e; --y-ink3: #6b6962;
+  --y-rule: #e1e0d9; --y-rule2: #c3c2b7; --y-track: #ecebe5; --y-track2: #d5d3ca;
+  --y-raised: #ffffff; --y-panel: #fcfcfb; --y-sel: #e4ecf7; --y-focus: #1c5cab;
+  --y-yes: #1c5cab; --y-most: #6da7ec; --y-some: #b9d4f3;
+  --y-human: #c2185b; --y-human-soft: #fbe3ee; --y-proposal: #6f6ca8; --y-problem: #d03b3b;
+  --y-hatch: repeating-linear-gradient(135deg, var(--y-ink3) 0 2px, var(--y-panel) 2px 4px);
+  --y-name: 300px; --y-right: 200px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --y-ink: #f2f1ec; --y-ink2: #c3c2b7; --y-ink3: #a09e96;
+    --y-rule: #2c2c2a; --y-rule2: #45443f; --y-track: #2a2a28; --y-track2: #3a3935;
+    --y-raised: #222321; --y-panel: #1a1a19; --y-sel: #1f2a3a; --y-focus: #86b6ef;
+    --y-yes: #9ec5f4; --y-most: #5598e7; --y-some: #2a5f9e;
+    --y-human: #f06ea9; --y-human-soft: #3a2230; --y-proposal: #a29fe0; --y-problem: #e66767;
+  }
+}
+
+/* ---------- the page */
+.years { display: flex; flex-direction: column; min-height: calc(100vh - 170px); font-variant-numeric: tabular-nums; }
+/* Where the inspector stands under the list (the window is 1240 pixels wide or less), the Years block
+   is no taller than its content: a minimum of nearly the window's height would push the card of the
+   row just clicked below the fold. */
+@media (max-width: 1240px) { .years { min-height: 0; } }
+.years .ycrumbs { display: flex; align-items: center; flex-wrap: wrap; gap: 2px; margin: 0 0 8px; font-size: 14px; }
+.years .ycrumbs button { font: inherit; border: 0; background: transparent; color: var(--y-ink2); padding: 3px 7px;
+  border-radius: 5px; cursor: pointer; max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.years .ycrumbs button:hover { background: var(--y-track); }
+.years .ycrumbs button[aria-current="location"] { color: var(--y-ink); font-weight: 700; max-width: 420px; }
+.years .ycrumbs .ysep { color: var(--y-ink3); }
+.years .ycrumbs .yroot { border: 1px solid var(--y-rule2); background: var(--y-raised); font-size: 12px; margin-right: 4px; }
+.years .yhead { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin: 2px 0 4px; }
+.years .yhead h2 { font-size: 24px; line-height: 1.2; margin: 0; text-transform: none; letter-spacing: 0; color: var(--y-ink); font-weight: 400; }
+.years .yhint { margin: 0 0 10px; color: var(--y-ink2); font-size: 13.5px; max-width: 110ch; }
+
+/* The bar above the rows: the measure switch, the views behind keys, the file grouping. */
+.years .ybar { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin: 0 0 6px; font-size: 12.5px; color: var(--y-ink2); }
+.years .ybar .ychip, .years .ychip { font: inherit; font-size: 12.5px; padding: 3px 10px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--y-rule2); background: transparent; color: var(--y-ink); }
+.years .ychip.on { border-color: var(--y-ink); background: var(--y-track); font-weight: 700; }
+.years .ychip.human { border-color: var(--y-human); color: var(--y-human); background: var(--y-human-soft); }
+.years .ybar .ygap { flex: 1; }
+.years .ybar input[type="search"] { font: inherit; font-size: 13px; padding: 3px 8px; border: 1px solid var(--y-rule2);
+  border-radius: 6px; background: var(--y-raised); color: var(--y-ink); min-width: 220px; }
+.years .ycount { color: var(--y-ink3); }
+
+/* ---------- the axis and the rows */
+.years .yaxis { display: grid; grid-template-columns: var(--y-name) minmax(0, 1fr) var(--y-right); align-items: end;
+  border-bottom: 1px solid var(--y-rule2); font-size: 12px; color: var(--y-ink2); position: sticky; top: 0; background: var(--page); z-index: 1; }
+.years .yaxis .yticks { position: relative; height: 24px; cursor: grab; user-select: none; }
+.years .yaxis .yticks:active { cursor: grabbing; }
+.years .ytick { position: absolute; top: 0; height: 24px; border: 0; border-left: 1px solid var(--y-rule); border-radius: 0; padding: 0 0 0 4px;
+  overflow: hidden; white-space: nowrap; text-overflow: clip; font: inherit; background: transparent; color: inherit; text-align: left; }
+.years .ytick.clickable { cursor: pointer; }
+.years .ytick.clickable:hover { background: var(--y-track); }
+.years .ytick.chosen { background: var(--y-sel); }
+.years .yaxis .yrighthead { padding: 0 0 3px 10px; }
+.years .yaxis .yreset { font: inherit; font-size: 12px; border: 1px solid var(--y-rule2); background: var(--y-raised);
+  border-radius: 5px; padding: 1px 8px; cursor: pointer; margin-left: 8px; color: var(--y-ink); }
+.years .ylist { position: relative; overflow: auto; max-height: calc(100vh - 330px); outline: none; }
+.years .ylist:focus-visible { box-shadow: inset 0 0 0 2px var(--y-focus); }
+.years .ygridline { position: absolute; top: 0; bottom: 0; width: 0; border-left: 1px dotted var(--y-rule); pointer-events: none; }
+.years .yrow { display: grid; grid-template-columns: var(--y-name) minmax(0, 1fr) var(--y-right); align-items: stretch;
+  border-bottom: 1px solid var(--y-rule); cursor: pointer; position: relative; min-height: 44px; }
+.years .yrow.soft { border-bottom: 2px dotted var(--y-rule2); }
+.years .yrow:hover { background: color-mix(in srgb, var(--y-sel) 55%, transparent); }
+.years .yrow.selected { background: var(--y-sel); }
+.years .yrow.focused, .years .yrow:focus-visible { outline: 2px solid var(--accent, var(--y-focus)); outline-offset: -2px; }
+.years .yrow.dim { opacity: 0.45; }
+.years .yhead-row { padding: 10px 6px 4px; color: var(--y-ink2); font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase;
+  border-bottom: 1px solid var(--y-rule2); display: flex; gap: 10px; align-items: baseline; cursor: pointer; }
+.years .yhead-row strong { color: var(--y-ink); letter-spacing: 0; text-transform: none; font-size: 13px; }
+.years .yname { padding: 6px 8px 6px 6px; min-width: 0; display: flex; flex-direction: column; justify-content: center; }
+.years .ylabel { font-size: 15px; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--y-ink); }
+.years .yrow.selected .ylabel { font-weight: 700; }
+.years .ylabel.human { color: var(--y-human); }
+.years .ylabel.mono, .years .mono { font-family: var(--mono); font-size: 12.5px; }
+.years .ysub { font-size: 12px; color: var(--y-ink2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px; }
+.years .ysub.human { color: var(--y-human); }
+.years .ydot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 5px; vertical-align: 1px; }
+.years .ydot.human { background: var(--y-human); }
+.years .ydot.problem { background: var(--y-problem); }
+.years .ytime { position: relative; min-width: 0; overflow: hidden; }
+.years .ymark { position: absolute; width: 9px; height: 22px; border-radius: 2px; border: 1px solid transparent; top: 10px; }
+.years .ymark.all { background: var(--y-yes); }
+.years .ymark.most { background: var(--y-most); }
+.years .ymark.some { background: var(--y-some); }
+.years .ymark.none { background: var(--y-track); border-color: var(--y-rule2); }
+.years .ymark.na { background: var(--y-hatch); }
+.years .ymark.plain { background: var(--y-ink3); }
+.years .ymark.ink { background: var(--y-ink); }
+.years .ymark.human { background: var(--y-human); }
+.years .ymark.gap { border: 1px dotted var(--y-problem); }
+.years .ymark.soft { border: 1px dotted var(--y-ink2); }
+.years .ymark.selected { outline: 2px solid var(--y-ink); outline-offset: 1px; }
+.years .ymark.pending { border: 1px solid var(--y-human); }
+.years .yspan { position: absolute; height: 2px; background: var(--y-rule2); }
+.years .ybin { position: absolute; bottom: 6px; background: var(--y-ink3); border-radius: 2px 2px 0 0; min-width: 2px; }
+.years .ybin.all { background: var(--y-yes); } .years .ybin.most { background: var(--y-most); } .years .ybin.some { background: var(--y-some); }
+.years .yright { padding: 6px 0 6px 10px; display: flex; flex-direction: column; justify-content: center; font-size: 12.5px; color: var(--y-ink2); min-width: 0; }
+.years .ybarbox { display: flex; align-items: center; gap: 8px; }
+.years .ybartrack { flex: 1; height: 8px; border-radius: 2px; background: var(--y-track); overflow: hidden; }
+.years .ybartrack.na { background: var(--y-hatch); }
+.years .ybarfill { height: 100%; background: var(--y-yes); }
+.years .ybartext { white-space: nowrap; }
+.years .ybartext.human { color: var(--y-human); }
+.years .ybartext.problem { color: var(--y-problem); }
+/* A value drawn on a 0 to 1 axis. */
+.years .yaxbox { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.years .yaxis01 { position: relative; flex: 0 0 140px; height: 12px; border-radius: 2px; background: var(--y-track); }
+.years .yaxband { position: absolute; top: 0; bottom: 0; background: var(--y-hatch); border-right: 1px solid var(--y-ink3); }
+.years .yaxtick { position: absolute; top: -2px; bottom: -2px; width: 0; border-left: 1px dotted var(--y-ink2); }
+.years .yaxdot { position: absolute; top: 3px; width: 6px; height: 6px; margin-left: -3px; border-radius: 50%; background: var(--y-yes); opacity: 0.7; }
+.years .yaxmark { position: absolute; top: -2px; width: 3px; height: 16px; margin-left: -1px; background: var(--y-ink); }
+.years .yaxmark.soft { background: var(--y-most); }
+.years .yseedpics { display: flex; flex-wrap: wrap; gap: 8px 28px; margin: 0 0 12px; }
+.years .yseedpic { display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
+.years .ysweep { display: flex; align-items: flex-end; gap: 4px; height: 44px; }
+.years .ysweepcol { display: flex; flex-direction: column; justify-content: flex-end; align-items: center; width: 22px; height: 100%; font-size: 10.5px; color: var(--y-ink2); }
+.years .ysweepcol.kept { outline: 1px solid var(--y-ink); outline-offset: 1px; }
+.years .ysweepbar { display: block; width: 100%; background: var(--y-yes); min-height: 2px; }
+.years .ysweepbar.na { background: none; min-height: 0; height: 0; border-top: 1px dashed var(--y-ink3); }
+.years .ysweeplab { line-height: 1.2; }
+.years .yopen { position: absolute; right: 4px; top: 50%; margin-top: -10px; color: var(--y-ink3); font-size: 16px; line-height: 20px; pointer-events: none; }
+.years .yrow .yright { padding-right: 18px; }
+.years .yspacer { border: 0; }
+
+/* The legend under the rows. */
+.years .ylegend { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; margin: 8px 0 4px; font-size: 12px; color: var(--y-ink2); }
+.years .ylegend .ysw { display: inline-block; width: 11px; height: 11px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; border: 1px solid transparent; }
+.years .ynote { font-size: 12.5px; color: var(--y-ink2); margin: 6px 0; max-width: 110ch; }
+.years .ykeys { font-size: 12px; color: var(--y-ink3); margin: 4px 0 0; }
+
+/* ---------- the inspector's cards (the detail pane) */
+.ycard { font-size: 13.5px; line-height: 1.45; }
+.ycard .ykicker { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--y-ink3); margin: 0 0 2px; }
+.ycard h2.ytitle { font-size: 19px; line-height: 1.25; margin: 0 0 4px; text-transform: none; letter-spacing: 0; color: var(--y-ink); font-weight: 700; }
+.ycard h2.ytitle.human { color: var(--y-human); }
+.ycard .yengine { font-size: 12.5px; color: var(--y-ink2); margin: 0 0 6px; }
+.ycard .ysubline { margin: 0 0 10px; color: var(--y-ink2); }
+.ycard dl.yfacts { display: grid; grid-template-columns: max-content 1fr; gap: 2px 10px; font-size: 13px; margin: 8px 0; }
+.ycard dl.yfacts dt { color: var(--y-ink3); } .ycard dl.yfacts dd { margin: 0; overflow-wrap: anywhere; }
+.ycard h3 { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--y-ink3); margin: 14px 0 4px; font-weight: 600; }
+.ycard .yrows { display: flex; flex-direction: column; gap: 1px; }
+.ycard .yitem { display: flex; align-items: center; gap: 8px; font: inherit; text-align: left; border: 0; background: transparent;
+  color: var(--y-ink); padding: 4px 6px; border-radius: 5px; cursor: pointer; width: 100%; }
+.ycard .yitem:hover { background: var(--y-track); }
+.ycard .yitem .ysw { flex: none; width: 10px; height: 10px; border-radius: 2px; border: 1px solid transparent; }
+.ycard .yitem .ytext { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ycard .yitem .ynum { color: var(--y-ink3); font-size: 12px; white-space: nowrap; }
+.ycard .ywords { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0; }
+.ycard .yword { font: inherit; font-size: 12.5px; padding: 2px 9px; border-radius: 999px; border: 1px solid var(--y-rule2);
+  background: var(--y-raised); color: var(--y-ink); cursor: pointer; min-height: 24px; }
+.ycard .yword:hover { border-color: var(--y-ink); }
+.ycard .yword.sense { border-style: dashed; }
+.ycard .ywhy { margin: 12px 0 0; padding: 8px 10px; border-left: 3px solid var(--y-rule2); background: color-mix(in srgb, var(--y-track) 60%, transparent); font-size: 13px; }
+.ycard .ywhy.projection { border-left-color: var(--y-proposal); }
+.ycard .ywhy.human { border-left-color: var(--y-human); }
+.ycard .ywhy .yrule { display: block; margin-top: 4px; font-family: var(--mono); font-size: 11.5px; color: var(--y-ink3); }
+.ycard .yactions { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 4px; }
+.ycard .yact { font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 6px; border: 1px solid var(--y-rule2);
+  background: var(--y-raised); color: var(--y-ink); cursor: pointer; }
+.ycard .yact.human { border-color: var(--y-human); color: var(--y-human); background: var(--y-human-soft); }
+.ycard .yact:disabled { opacity: 0.5; cursor: default; }
+.ycard .ysaid { margin: 6px 0; }
+.ycard .yhuman { color: var(--y-human); }
+.ycard .yproblem { color: var(--y-problem); }
+.ycard .ywheel { margin: 4px 0 6px; }
+.ycard .ystatus { font-size: 12.5px; margin: 6px 0; }
+.ycard details.yrecord { margin-top: 12px; }
+.ycard details.yrecord > summary { cursor: pointer; font-size: 13px; color: var(--y-ink2); }
+
+/* ---------- the inspector's cards.
+   The website's tokens: one job each (magenta where a person said so, red only as a border or a dot
+   beside a word, hatching where a thing is unknown or not in the data, the accent for selection and
+   links). A card is a grid of blocks 14 px apart. */
+.ycard.yc { display: grid; gap: 9px; font-size: 14px; line-height: 1.4; color: var(--ink); }
+.ycard.yc > * { margin: 0; min-width: 0; }
+.ycard .yc-head { display: grid; gap: 2px; }
+.ycard .yc-head > * { margin: 0; }
+.ycard.yc .ykicker { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.ycard.yc h2.ytitle { font-size: 20px; line-height: 1.25; font-weight: 700; color: var(--ink); overflow-wrap: anywhere; }
+.ycard.yc h2.ytitle.human { color: var(--person); }
+.ycard.yc h2.ytitle.mono { font: 500 16px/1.35 var(--mono); }
+.ycard.yc .yengine, .ycard.yc .ysubline { font-size: 13px; color: var(--ink-soft); margin: 0; }
+.ycard .yc-monoline { font: 13px/1.4 var(--mono); color: var(--ink-soft); overflow-wrap: anywhere; margin: 0; }
+.ycard h3.yc-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); margin: 0 0 4px; }
+.ycard .yc-block > .ywords { margin: 0; }
+.ycard .yc-lead { margin: 0; }
+.ycard .yc-soft { font-size: 13px; color: var(--ink-soft); margin: 4px 0 0; }
+.ycard .yc-soft.human, .ycard .human { color: var(--person); }
+.ycard .yc-soft .link, .ycard .yc-kv .link, .ycard .yc-more { font: inherit; }
+.ycard .yc-kv { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px 14px; margin: 0; }
+.ycard .yc-kv dt { color: var(--ink-soft); }
+.ycard .yc-kv dd { margin: 0; overflow-wrap: anywhere; }
+.ycard .yc-kv dd.mono { font-family: var(--mono); font-size: 13px; color: var(--ink); }
+.ycard .yc-kv dd button.link { text-align: left; }
+.ycard .yc-clocks { gap: 3px 14px; font-size: 13px; }
+.ycard .yc-clocks dd.mono { font-size: 13px; }
+.ycard .yc-hatched { display: inline-flex; gap: 6px; align-items: center; color: var(--ink-soft); }
+.ycard .yc-hatch { flex: none; width: 14px; height: 14px; background: var(--hatch); border: 1px solid var(--line); border-radius: 2px; }
+.ycard .yc-problem-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; border: 2px solid var(--problem); margin-right: 6px; vertical-align: 1px; box-sizing: border-box; }
+.ycard .yc-note { font-size: 13px; background: var(--code-bg); padding: 6px 12px; }
+.ycard .yc-note .card-id { margin-top: 4px; font-size: 12px; }
+/* The project: a small Wheel beside the completeness sentence. */
+.ycard .yc-wheelrow { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 12px; align-items: center; }
+.ycard .yc-small { margin: 0; }
+.ycard .yc-small svg { width: 120px; height: 120px; }
+.ycard .yc-small text.center { font-size: 12px; font-weight: 700; fill: var(--ink); }
+.ycard .yc-small text.center.sub { display: none; }
+.ycard .yc-wheeltext { display: grid; gap: 4px; }
+.ycard .yc-wheeltext > * { margin: 0; }
+@media (max-width: 1023px) { .ycard .yc-wheel-link { display: none; } }
+/* Lines of work: words at the left, how many and where they are going at the right. */
+.ycard .yc-lines { display: grid; gap: 0; }
+.ycard .yc-lines.open { max-height: 240px; overflow-y: auto; }
+.ycard .yc-line { display: flex; justify-content: space-between; gap: 8px; padding: 2px 0; border: 0; border-bottom: 1px solid var(--line); background: transparent; font: inherit; color: var(--ink); text-align: left; cursor: pointer; width: 100%; }
+.ycard .yc-line:hover .yc-linename { text-decoration: underline; }
+.ycard .yc-linename { min-width: 0; overflow-wrap: anywhere; }
+.ycard .yc-linenum { color: var(--ink-soft); white-space: nowrap; }
+.ycard .yc-more { display: block; margin-top: 0; min-height: 24px; line-height: 24px; font-size: 13px; }
+/* Chips: the actions a card ends with. */
+.ycard.yc .yactions { margin: 0; gap: 8px; }
+.ycard.yc .yact { display: inline-block; font: inherit; font-size: 14px; padding: 6px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); color: var(--ink); cursor: pointer; text-decoration: none; }
+.ycard.yc .yact:hover { border-color: var(--ink-soft); }
+.ycard.yc .yact.human { border-color: var(--person); color: var(--person); background: var(--panel); }
+.ycard.yc .yact:focus-visible, .ycard.yc .link:focus-visible, .ycard.yc .yword:focus-visible, .ycard.yc .yc-line:focus-visible, .ycard.yc .yc-rulerow:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.ycard.yc .yword { border-color: var(--line); background: var(--panel); }
+/* Your name for it. */
+.ycard .yc-namehead { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.ycard .yc-namehead h3 { margin-bottom: 0; }
+.ycard .yc-yourname { display: grid; gap: 6px; }
+.ycard .yc-yourname > * { margin: 0; }
+.ycard .yc-given { margin: 0; }
+.ycard .yc-given strong.human { color: var(--person); }
+.ycard .yc-more-about > summary { cursor: pointer; font-size: 13px; color: var(--ink-soft); }
+.ycard .yc-more-about .yrows { margin-top: 6px; }
+/* An experiment's design grid, compact: cells 22 px, shaded by replicates, hatched where the
+   combination was not found, dotted where the output found is empty. */
+.ycard .yc-gridblock { display: grid; gap: 8px; }
+.ycard .yc-gridblock > * { margin: 0; }
+.ycard .yc-gridblock .yc-namehead h3 { margin: 0; }
+.ycard .yc-gridwrap { overflow-x: auto; }
+.ycard .yc-minigrid { display: grid; grid-template-columns: auto repeat(var(--cols, 9), minmax(22px, 1fr)); gap: 2px; font: 11px var(--mono); color: var(--ink-soft); align-items: center; }
+.ycard .yc-gcol { text-align: center; white-space: normal; overflow-wrap: anywhere; line-height: 1.15; }
+.ycard .yc-grow { padding-right: 6px; white-space: nowrap; }
+.ycard .yc-cell { height: 22px; border-radius: 3px; border: 1px solid var(--line); display: grid; place-items: center; box-sizing: border-box; color: var(--ink); }
+.ycard .yc-cell.one { background: var(--accent-soft); }
+.ycard .yc-cell.many { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.ycard .yc-cell.notfound { background: var(--hatch); }
+.ycard .yc-cell.empty { border: 1.5px dotted var(--ink); }
+.ycard .yc-cell.none { border-color: transparent; }
+.ycard .yc-gridkey { margin: 0; }
+/* A file: its clocks, the tables with the same columns, and what the rules concluded. */
+.ycard .yc-columns { border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; display: grid; gap: 4px; }
+.ycard .yc-columns .card-id { font-size: 12px; }
+.ycard .yc-rules { display: grid; gap: 6px; font-size: 13px; }
+.ycard .yc-rule { display: grid; }
+.ycard .yc-rulerow { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 46%); gap: 8px; align-items: start; width: 100%; padding: 2px 0; border: 0; background: transparent; font: inherit; color: inherit; text-align: left; cursor: pointer; }
+.ycard .yc-rulerow:hover .yc-ruletext { text-decoration: underline; }
+.ycard .yc-ruletext { min-width: 0; overflow-wrap: anywhere; }
+/* A rule's name is never cut short: it wraps. */
+.ycard .yc-rulename { font: 12px/1.4 var(--mono); color: var(--ink-soft); overflow-wrap: anywhere; word-break: break-word; white-space: normal; text-overflow: clip; overflow: visible; min-width: 0; }
+.ycard .yc-ruledetail { padding: 4px 0 6px 10px; border-left: 2px solid var(--line); display: grid; gap: 2px; }
+.ycard .yc-ruledetail .yc-soft { margin: 0; overflow-wrap: anywhere; }
+.ycard .yc-conflict { color: var(--ink); }
+.ycard .yc-file { font: 12px var(--mono); text-align: left; overflow-wrap: anywhere; }
+.ycard .yc-teach { display: grid; gap: 6px; }
+
+.ycard [hidden] { display: none !important; }
+
+/* ---------- What changed (History): every figure beside the previous run's. No color says
+   better or worse: a count that went up is not better. */
+/* A fixed layout in the pane's width: the figure's name and both values wrap, so this run and the previous
+   run stand side by side at 1440 pixels and nothing scrolls sideways. */
+.ui-quality-runs { table-layout: fixed; width: 100%; }
+.ui-quality-runs col.ui-col-figure { width: 38%; }
+.ui-quality-runs th, .ui-quality-runs td { white-space: normal; overflow-wrap: anywhere; vertical-align: top; }
+.ui-quality-runs th .ui-runname { display: block; font-weight: 400; font-size: 12px; color: var(--ink-soft); }
+.ui-quality-runs td.ui-previous { color: var(--ink-soft); }
+.ui-quality-runs td.ui-quality-now .ui-bar { display: block; margin: 4px 0 0; width: min(72px, 100%); }
+.ui-quality-runs .ui-change { color: var(--ink); }
+
+/* ---------- the Wheel and Overlap */
+.ywheel svg { display: block; max-width: 100%; height: auto; }
+.ywheel path { cursor: pointer; stroke: var(--y-panel); stroke-width: 1; }
+.ywheel path:hover { stroke: var(--y-ink); }
+.ywheel path.selected { stroke: var(--y-ink); stroke-width: 2; }
+.ywheel path.dim { opacity: 0.35; }
+.ywheel text { font-size: 11px; fill: var(--y-ink); pointer-events: none; }
+.ywheel text.center { font-size: 12px; fill: var(--y-ink2); text-anchor: middle; }
+.ywheel .fill-all { fill: var(--y-yes); } .ywheel .fill-most { fill: var(--y-most); } .ywheel .fill-some { fill: var(--y-some); }
+.ywheel .fill-none { fill: var(--y-track2); } .ywheel .fill-na { fill: var(--y-track2); } .ywheel .fill-plain { fill: var(--y-ink3); }
+.ywheel .fill-broad { fill: var(--y-track2); } .ywheel .fill-human { fill: var(--y-human); }
+.years .ybig { display: grid; grid-template-columns: minmax(0, 1fr) minmax(260px, 300px); gap: 20px; align-items: start; }
+/* Overlap: the table of words two lines share goes under the lines and their bars, always. Beside
+   them it is pushed past the edge of the list, or squeezes the names to nothing. */
+.years .yovlbox .ybig { grid-template-columns: 1fr; }
+.years .yovl table { width: auto; font-size: 12px; border-collapse: collapse; }
+.years .yovl th, .years .yovl td { padding: 2px 6px; border: 0; text-align: left; }
+.years .yovl td.cell { width: 22px; height: 22px; padding: 0; border: 1px solid var(--y-panel); }
+.years .yovl th.rot { max-width: 140px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 400; color: var(--y-ink2); }
+.years .ystab { display: grid; grid-template-columns: minmax(140px, 1fr) minmax(170px, 220px) 90px; gap: 4px 12px; align-items: center; font-size: 13px; }
+.years .ystab .ybartrack { height: 8px; }
+.years .ystab .link { min-height: 24px; padding: 2px 0; text-align: left; }
+.years .ystab .ybarfill.soft { background: var(--y-most); }
+
+/* ---------- the Ladders section */
+.yladders table { font-size: 13px; }
+.yladders td:first-child { white-space: nowrap; font-weight: 600; }
+/* The small Wheel in a card: its hole is about 64 pixels across, so the word under the count is
+   set smaller to stay inside it; the count keeps its size. */
+.ycard .ywheel text.center.sub { font-size: 10px; }
+
+/* ---------- the design grid of an experiment: one cell per combination of conditions.
+   Shading is how many times the combination was repeated, a hatch is a combination not found in
+   the names read (hatching: unknown or not applicable), an outline is an empty output. The number
+   sits in its own pill, so it reads the same on any shade. */
+.years .ydesign { margin: 6px 0 10px; }
+.years .ydesign h3 { font-size: 14px; margin: 14px 0 4px; color: var(--y-ink); }
+.years .dgrid { border-collapse: separate; border-spacing: 3px; font-size: 13px; }
+.years .dgrid .dhead { font-weight: 400; color: var(--y-ink2); padding: 2px 8px; text-align: left; white-space: nowrap; }
+.years .dgrid thead .dhead { text-align: center; }
+.years .dgrid .dcorner { text-align: left; color: var(--y-ink3); }
+.years .dcell { min-width: 64px; height: 40px; text-align: center; border-radius: 4px; border: 1px solid var(--y-rule2); }
+.years .dcell.dfull, .years .dcell.dempty { background: color-mix(in srgb, var(--y-yes) calc(var(--d-share, 0.5) * 100%), var(--y-panel)); }
+.years .dcell.dnotfound { background: var(--y-hatch); border-style: dashed; }
+.years .dcell.dempty { box-shadow: inset 0 0 0 2px var(--y-ink); }
+.years .dcell.dnone { border-color: transparent; }
+.years .dnum { display: inline-block; min-width: 1.6em; padding: 1px 6px; border-radius: 999px; background: var(--y-raised); color: var(--y-ink); font-weight: 700; }
+.years .dlegend { margin-top: 8px; }
+.years .dsw { display: inline-block; width: 14px; height: 14px; margin-right: 5px; vertical-align: -2px; border-radius: 3px; border: 1px solid var(--y-rule2); }
+.years .dsw.dfull { background: var(--y-yes); }
+.years .dsw.dnotfound { background: var(--y-hatch); border-style: dashed; }
+.years .dsw.dempty { background: var(--y-some); box-shadow: inset 0 0 0 2px var(--y-ink); }
+.years .dfacts { margin: 2px 0 6px; padding-left: 20px; color: var(--y-ink2); font-size: 13.5px; }
+.years .dfacts strong { color: var(--y-ink); }
+.years .dfinding { margin: 8px 0; padding: 6px 10px; border-left: 3px solid var(--y-proposal); background: var(--y-raised); color: var(--y-ink); font-size: 13.5px; max-width: 110ch; }
+
+/* ---------- the Wheel's key, Overlap's ring, narrow windows ---------- */
+
+/* The categorical palette of Overlap's ring: six colors, bound by the list of lines beside it (never
+   used beside the completeness ramp). */
+:root {
+  --y-cat-0: #1f5fa8; --y-cat-1: #0b6b57; --y-cat-2: #8a4a10; --y-cat-3: #5a4fcf; --y-cat-4: #2a7f9e; --y-cat-5: #7a6a00;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --y-cat-0: #7fb0ee; --y-cat-1: #5cc2a8; --y-cat-2: #d9a35c; --y-cat-3: #a49cf0; --y-cat-4: #6fc3dc; --y-cat-5: #d6c24a;
+  }
+}
+
+/* The Wheel: a number where an arc is too narrow for its name, and the key that names every line. */
+.ywheel text.wnum { font-size: 10.5px; font-weight: 600; fill: var(--y-ink2); }
+.ywheel path.hot { stroke: var(--y-ink); stroke-width: 2; }
+.ywheelkey .ykeylist { list-style: none; margin: 4px 0 12px; padding: 0; }
+.ywheelkey .ykeyrow { display: grid; grid-template-columns: 2.4em minmax(0, 1fr) auto; gap: 6px; align-items: baseline; width: 100%;
+  font: inherit; font-size: 13px; text-align: left; border: 0; background: transparent; padding: 3px 6px; border-radius: 5px; cursor: pointer; color: var(--y-ink); }
+.ywheelkey .ykeyrow:hover, .ywheelkey .ykeyrow:focus-visible { background: var(--y-track); }
+.ywheelkey .ykeyrow:focus-visible { outline: 2px solid var(--accent, var(--y-focus)); outline-offset: -2px; }
+.ywheelkey .ynumber { font-family: var(--mono); color: var(--y-ink3); text-align: right; }
+.ywheelkey .ylinelabel { overflow-wrap: anywhere; }
+.ywheelkey .ylinecount { color: var(--y-ink3); font-size: 12px; white-space: nowrap; }
+
+/* Overlap: each line's stability is the shared 0-1 axis (its own label is the line's name beside it). */
+.years .ystab .stability { grid-template-columns: minmax(0, 1fr) auto; }
+.years .ystab .stability .stability-label { display: none; }
+.years .ystab.head strong { font-size: 12px; color: var(--y-ink3); font-weight: 600; }
+.years .ystabs { min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+/* The list keeps the room one of its rows needs (a name, the axis and the core count: about 424 px)
+   and the ring takes what is left, up to 480 px, so the ring never stands over a number. */
+.years .yoverlap[data-drawing="ring"] .ybig { grid-template-columns: minmax(430px, 1fr) minmax(260px, 480px); }
+.years .yringhead { font-size: 16px; margin: 4px 0 8px; color: var(--y-ink); }
+.years .yring .yring-box { max-width: 480px; margin: 0 0 8px; border: 1px solid var(--y-rule); border-radius: 8px; background: var(--y-panel); padding: 8px; }
+.years .yring .yring-svg { display: block; width: 100%; height: auto; }
+.years .yring .arc { cursor: pointer; opacity: 0.88; stroke: none; }
+.years .yring .arc.hot { opacity: 1; }
+.years .yring .arc.c0 { fill: var(--y-cat-0); --c: var(--y-cat-0); } .years .yring .arc.c1 { fill: var(--y-cat-1); --c: var(--y-cat-1); }
+.years .yring .arc.c2 { fill: var(--y-cat-2); --c: var(--y-cat-2); } .years .yring .arc.c3 { fill: var(--y-cat-3); --c: var(--y-cat-3); }
+.years .yring .arc.c4 { fill: var(--y-cat-4); --c: var(--y-cat-4); } .years .yring .arc.c5 { fill: var(--y-cat-5); --c: var(--y-cat-5); }
+.years .yring .arc.dotted { fill: var(--y-panel); stroke: var(--c); stroke-width: 1.5; stroke-dasharray: 3 3; opacity: 1; }
+.years .yring .chord { fill: none; stroke: var(--y-yes); stroke-opacity: 0.35; stroke-linecap: round; }
+.years .yring .chord.hot { stroke-opacity: 0.95; }
+.years .yring text.center { text-anchor: middle; fill: var(--y-ink2); font-size: 12px; pointer-events: none; }
+.years .yring text.center.main { fill: var(--y-ink); font-size: 14px; font-weight: 700; }
+.years .yring-pairs { width: 100%; font-size: 13px; }
+.years .yring-pairs td.words { overflow-wrap: anywhere; }
+.years .yring-pairs td.n { text-align: right; font-family: var(--mono); white-space: nowrap; }
+.years .yring-pairs .link { text-align: left; }
+
+/* Below 1024 pixels nothing is hidden; it is behind a chip. 600 to 1023: the inspector is a drawer
+   opened by "Details" (or Enter on a row); Wheel and Overlap are sheets over the rows. */
+.years .ychip.details { border-color: var(--accent, var(--y-focus)); color: var(--accent, var(--y-focus)); }
+.years .ychip.details.on { background: var(--y-sel); font-weight: 700; }
+.ysheet-close, .ydrawer-close { font: inherit; font-size: 13px; padding: 4px 12px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--y-rule2); background: var(--y-raised); color: var(--y-ink); }
+.ydrawer-close[hidden] { display: none; }
+@media (min-width: 1024px) { .ydrawer-close, .ysheet { display: none; } }
+@media (max-width: 1023px) {
+  :root { --y-name: 240px; --y-right: 190px; }
+  main.years-layout { grid-template-columns: 1fr; }
+  main.years-layout > #detail { position: fixed; top: var(--ydrawer-top, 0px); right: 0; bottom: 0; width: min(440px, 100vw); z-index: 40;
+    padding-top: 52px; overflow-y: auto; border-left: 1px solid var(--line); background: var(--panel); transform: translateX(100%); visibility: hidden; }
+  main.years-layout.drawer-open > #detail { transform: none; visibility: visible; }
+  .ydrawer-close { position: fixed; top: calc(var(--ydrawer-top, 0px) + 10px); right: 14px; z-index: 41; }
+  .ysheet { position: fixed; left: 0; right: 0; bottom: 0; z-index: 35; overflow: auto; background: var(--page); padding: 12px 20px 28px; border-top: 1px solid var(--line); }
+  .ysheet-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin: 0 0 10px; }
+  .ysheet-head h2 { margin: 0; font-size: 22px; line-height: 1.2; text-transform: none; letter-spacing: 0; color: var(--y-ink); font-weight: 400; }
+  .ysheet .ykicker { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--y-ink3); margin: 0 0 2px; }
+  .ysheet .ybig, .years .yoverlap[data-drawing="ring"] .ybig { grid-template-columns: 1fr; }
+  .years .ybar .ygap { flex: 1 1 0; }
+}
+@media (max-width: 800px) {
+  :root { --y-name: 180px; --y-right: 150px; }
+  .years .yrow .ybartrack { display: none; }
+  .years .yright .ybartext { overflow: hidden; text-overflow: ellipsis; }
+}
+/* Below 600 pixels: the title, one sentence, and a box that says what still works and links to it. */
+@media (max-width: 599px) {
+  main.years-layout > #detail { display: none; }
+}
+.years.phone { min-height: 0; }
+.years .ynarrow { margin: 10px 0; padding: 12px 14px; border: 1px solid var(--y-rule2); border-left: 3px solid var(--accent, var(--y-focus)); border-radius: 8px; background: var(--y-panel); }
+.years .ynarrow p { margin: 0 0 8px; font-size: 14px; }
+.years .ynarrow p:last-child { margin: 0; }
+.years .ynarrow .link { font-size: 14px; min-height: 32px; }
+/* Enter on a row moves the focus to the inspector: it has the ring too. */
+main.years-layout > #detail:focus-visible { outline: 2px solid var(--accent, var(--y-focus)); outline-offset: -2px; }

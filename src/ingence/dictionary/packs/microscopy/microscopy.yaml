@@ -1,0 +1,191 @@
+# Microscopy and imaging.
+#
+# Imaging filenames carry more structure than almost any other kind: a single name routinely
+# encodes modality, channel, position, timepoint and processing stage, which is exactly the
+# pattern the naming-grammar layer exists to recover.
+#
+# Nothing here names a biological target of one laboratory. Fluorophores and dyes are reagent
+# classes sold to everybody, and the widely used public ones are spelled by name (a stain, a
+# fluorescent protein, a quantum dot), each from a public source named beside it. Public cell lines,
+# proteins and drugs are in the biochemistry pack.
+
+# The pack's manifest. Its digest is over the words below, not the comments: a changed word needs a
+# new version and a new digest.
+pack:
+  name: microscopy
+  version: "3"
+  domain: microscopy
+  author: Ingence
+  licence: MIT
+  schema: "1.22"
+  digest: e8374e609e3d6f00aac578fb73a8dcf1
+section: microscopy
+theme_kind: technique
+origin: builtin
+domain: microscopy
+# The pack's file formats are rows of the file-type table
+# (`src/ingence/dictionary/file_types.yaml`), every row naming this section. The senses are the ones
+# this file declared, term for term and spelling for spelling, so nothing made from them moves. What
+# each format is, who writes it and whether it is recorded data is the table's.
+file_types: from_table
+summary: Imaging modalities, optical configuration, labels and image processing.
+
+entries:
+  # -- modality -------------------------------------------------------------
+  - {term: brightfield, surfaces: [bf, brightfield, "bright-field", transmitted, trans]}
+  - {term: phase_contrast, surfaces: [ph, phase, phasecontrast, "phase-contrast", ph1, ph2, ph3]}
+  - {term: differential_interference_contrast, surfaces: [dic, nomarski]}
+  - {term: darkfield, surfaces: [df, darkfield, "dark-field"]}
+  - {term: epifluorescence, surfaces: [epi, epifluorescence, widefield, "wide-field", wf, fluo, fluorescence, "fluorescence microscopy", "widefield microscopy"]}
+  # Light microscopy written out, the family every optical modality above is a kind of; a name or a
+  # text that says only this says no more.
+  - {term: light_microscopy, canonical: light microscopy, surfaces: ["light microscopy"]}
+  - {term: confocal, surfaces: [confocal, lsm, clsm, pointscanning, "point-scanning"]}
+  - {term: spinning_disk, surfaces: [sd, spinningdisk, "spinning-disk", csu, yokogawa_style]}
+  - {term: two_photon, surfaces: ["2p", twophoton, "two-photon", multiphoton, mp, "3p"]}
+  - {term: light_sheet, surfaces: [lightsheet, "light-sheet", lsfm, spim, dslm, lls, "lattice-light-sheet"]}
+  - {term: total_internal_reflection, surfaces: [tirf, tirfm]}
+  # HILO, the oblique illumination that images single molecules deep in a cell: Tokunaga, Imamoto
+  # and Sakata-Sogawa, Nature Methods 2008, doi 10.1038/nmeth1171 ("highly inclined thin
+  # illumination"); the name spelled out as below is in PubMed 36652205.
+  - {term: highly_inclined_illumination, canonical: HILO, surfaces: [hilo, "highly inclined and laminated optical sheet", "highly inclined thin illumination"]}
+  - {term: structured_illumination, surfaces: [sim, "structured-illumination", apotome],
+   ambiguous_with: [simulation]}
+  - {term: stimulated_emission_depletion, surfaces: [sted, resolft]}
+  # `single molecule` alone does not name a method: only the localisation's own phrase is.
+  - {term: single_molecule_localisation, surfaces: [palm, storm, dstorm, smlm, paint, dnapaint, "single-molecule localisation", "single-molecule localization", "single-molecule localisation microscopy", "single-molecule localization microscopy"]}
+  - {term: airyscan, surfaces: [airyscan, "airy-scan", isim, rescan]}
+  - {term: expansion_microscopy, surfaces: [exm, expansion, "expansion-microscopy"]}
+  # Electron microscopy, written short or out ("electron microscopy" written out would be two loose
+  # words). Cryo-EM is not one of its spellings: it is its own sense, below.
+  - {term: electron_microscopy, surfaces: [em, sem, "electron microscopy", "electron microscope", "scanning electron microscopy", "electron tomography", fibsem, "fib-sem", sbfsem, tomography]}
+  # Transmission electron microscopy is its own sense, a kind of electron microscopy, as CryoEM is.
+  # The sense above keeps scanning, FIB-SEM, serial block-face and the general spellings.
+  - {term: transmission_electron_microscopy, canonical: transmission electron microscopy, surfaces: [tem, "transmission electron microscopy", "transmission electron microscope", "transmission-em"]}
+  # CryoEM is its own sense, named "CryoEM" as one word. Every spelling of it, whole or in parts,
+  # reads as this one sense: `CryoEM`, `cryo-EM`, `cryo EM`, `Cryo_EM` and `cryoem` reach `cryo-em`
+  # written in parts, and the long forms are spelled in parts, read across the separators they span.
+  # `cryo-electron` is its first half wherever a longer phrase (cryo-electron tomography) does not
+  # follow, so `cryo-electron micrographs` is CryoEM and micrographs, and `cryo` never reads alone
+  # beside `electron`. It is a kind of electron microscopy, and so is each derivative below a kind
+  # of it; the Dictionary has no field for a broader sense, so that is said here and not in the
+  # words.
+  - {term: cryo_electron_microscopy, canonical: CryoEM, surfaces: [cryoem, "cryo-em", "cryo-tem", "cryo-electron microscopy", "electron cryo-microscopy", "cryo-electron", "cryogenic electron microscopy", "cryogenic-em", "cryo-electron microscope", "cryo-transmission electron microscopy", "cryo-micrograph", "cryo-sem"]}
+  # CryoEM's derivatives are each their own sense. `cryo` written before ET, FIB or CLEM is the
+  # first half of that phrase, never cryopreservation. Cryo-SEM has no sense of its own: it is cryo
+  # electron microscopy by scanning, bound to CryoEM, the family's own, rather than to a sense of
+  # its own that two studies in a public image archive use. A FIB with `serial` or a plasma FIB is
+  # CryoFIB.
+  - {term: cryo_electron_tomography, canonical: CryoET, surfaces: ["cryo-et", "cryo-electron tomography", "electron cryo-tomography", "cryo-tomography", "cryo-electron tomogram", "cryo-tomogram", "cryo-electron tomographic", "cryo-transmission electron tomography", "cryo-transmission electron tomogram", "cryogenic electron tomography", "cryogenic electron tomogram", "cryogenic electron tomograph"]}
+  - {term: cryo_focused_ion_beam, canonical: CryoFIB, surfaces: ["cryo-fib", "cryo-fib-sem", "cryo-plasma-fib", "cryo serial fib", "cryo-fib-sem serial", "cryo-pfib"]}
+  - {term: cryo_correlative, canonical: CryoCLEM, surfaces: ["cryo-clem", "cryo-correlative"]}
+  - {term: atomic_force_microscopy, surfaces: [afm, scanningprobe]}
+  # X-ray tomography of a specimen, soft X-ray tomography of a frozen cell among it, written out or
+  # short (`Xray_tomo`, `xray_CT`; the parts bind flush too, so `xray` is `x-ray`): the phrase wins
+  # over `x-ray` and `ct`, which stay clinical imaging's own spellings in the clinical pack, and
+  # over `cryo`.
+  - {term: x_ray_tomography, canonical: X-ray tomography, surfaces: ["x-ray tomography", "x-ray tomogram", "x-ray tomo", "x-ray ct", "x-ray microtomography", "micro-ct", "soft x-ray tomography", "cryo-soft x-ray tomography", sxt, "cryo-sxt", "cryo-soft x-ray"],
+   ambiguous_with: [clinical_imaging]}
+  - {term: correlative, surfaces: [clem, correlative, "correlative-light-electron"]}
+
+  # -- quantitative fluorescence methods ------------------------------------
+  # FRAP written out: the phrase, whose first word is `fluorescence`, the epifluorescence spelling.
+  - {term: photobleaching_recovery, surfaces: [frap, flip, fluorescence_recovery, "fluorescence recovery after photobleaching"]}
+  - {term: energy_transfer, surfaces: [fret, bret, acceptor_photobleach, sensitised_emission]}
+  - {term: fluorescence_lifetime, surfaces: [flim, tcspc, lifetime]}
+  - {term: correlation_spectroscopy, surfaces: [fcs, fccs, rics, "n&b", numberandbrightness]}
+  - {term: photoactivation, surfaces: [photoactivation, photoconversion, paGFP_class, optogenetic_stim]}
+  # Single-molecule tracking is single-particle tracking of molecules (Wikipedia, Single-particle
+  # tracking; a review that spells out `single-molecule tracking (SMT)`: PubMed 36876879), so its
+  # abbreviation and the two phrases are one sense with `spt`.
+  - {term: single_particle_tracking, surfaces: [spt, smt, "single particle tracking", "single molecule tracking", tracking, trajectories, msd, "mean-squared-displacement", diffusion]}
+  # A method of cryo-EM and of single-particle tracking alike: the two words adjacent and in that
+  # order, across `_`, `-`, a space or a dot, or written flush.
+  - {term: single_particle, surfaces: ["single particle"]}
+  # A tracker writes its trajectories as `traj` files. The computational pack declares the sense (a
+  # simulation writes them too); this entry adds the spelling to it wherever both load, so a project
+  # naming microscopy without the computational pack still reads `traj`. Loaded together they are
+  # the one sense, unchanged.
+  - {term: trajectory, extends: true, theme_kind: acquisition, surfaces: [traj]}
+  - {term: ratiometric, surfaces: [ratiometric, ratio_imaging, fura_style, pericam_style]}
+  # `calcium` and `Ca2+` alone are the ion, not the method (otherwise a calcium channel's structure
+  # would read as calcium imaging): only the method's phrase and its indicators are.
+  - {term: calcium_imaging, surfaces: ["calcium imaging", ca_imaging, gcamp_class, gcamp, gcamp6, gcamp6f, gcamp6s, gcamp6m, jgcamp7, jgcamp8, "fluo-4", "fluo-3", "cal-520", transients]}
+
+  # -- labels and dyes, as reagent classes ----------------------------------
+  # DAPI and the Hoechst dyes (33342, 33258; bisbenzimides) stain DNA: Wikipedia, DAPI and Hoechst
+  # stain; PubChem 2954, 1464 and 2392; ChEBI 51231, 51232 and 52082. The number is part of the
+  # dye's name, so it is spelled with the word.
+  - {term: nuclear_stain, surfaces: [dapi, hoechst, "hoechst 33342", "hoechst 33258", bisbenzimide, draq5, sytox, propidium, pi_stain, todo3], theme_kind: reagent}
+  # `signed`: a cell or a population is written as carrying the label or lacking it (`GFP+`,
+  # `GFP-`), so a trailing minus after one of these is its sign and not a divider. A trailing plus
+  # is a sign after any word. The widely used variants are spelled by name: `sfgfp`, superfolder GFP
+  # (FPbase B4SOW; Pedelacq et al., Nature Biotechnology 2006, doi 10.1038/nbt1172) and `megfp`,
+  # monomeric EGFP (FPbase QKFJN), beside GFP (UniProt P42212), EGFP (FPbase R9NL8) and mCherry
+  # (FPbase ZERB6). `halo tag` is HaloTag, the self-labeling tag (Wikipedia, HaloTag); a name is
+  # split at its capital, so it is spelled in two words. It joins `halo` and `snap`.
+  - {term: fluorescent_protein, surfaces: [gfp, egfp, sfgfp, megfp, "halo tag", yfp, cfp, bfp, rfp, mcherry, mscarlet, mneongreen, tdtomato, dsred, mkate, mturquoise, venus, citrine, cerulean, halo, snap, clip], theme_kind: reagent, signed: true}
+  # `tmr` is tetramethylrhodamine (ChEBI 52282, PubChem 9952143), a rhodamine.
+  - {term: synthetic_dye, surfaces: [tmr, tetramethylrhodamine, alexa, atto, cf_dye, dylight, janelia_fluor, jf, cy2, cy3, cy5, cy7, fitc, tritc, texasred, "texas-red", rhodamine, bodipy, coumarin], theme_kind: reagent}
+  # A quantum dot is a semiconductor nanocrystal used as a fluorescent label (Wikipedia, Quantum
+  # dot). `qdot` is a vendor's spelling that the literature uses as a noun.
+  - {term: quantum_dot, canonical: quantum dot, surfaces: ["quantum dot", qdot], theme_kind: reagent}
+  # MitoTracker, LysoTracker and ER-Tracker are written with a capital in the middle, where a name
+  # is split, so each is also spelled in its two words.
+  - {term: organelle_tracker, surfaces: [mitotracker, lysotracker, ertracker, "mito tracker", "lyso tracker", "er tracker", golgi_stain, phalloidin, wga, cellmask, membrane_dye], theme_kind: reagent}
+  - {term: viability_stain, surfaces: [calcein, annexin, live_dead, "live-dead", trypanblue, edu, brdu, tunel], theme_kind: reagent}
+  - {term: immunolabel, surfaces: [immunofluorescence, if_stain, immunostain, immunohistochemistry, ihc, primary_ab, secondary_ab], theme_kind: reagent}
+
+  # -- optical configuration ------------------------------------------------
+  - {term: channel, surfaces: [ch, chan, channel, c0, c1, c2, c3, c4, w1, w2, w3], theme_kind: channel}
+  - {term: wavelength, surfaces: [ex, em, excitation, emission, nm_line, "405", "488", "561", "594", "640", "647"], theme_kind: channel}
+  - {term: immersion, surfaces: [oil, water, glycerol, silicone, air, dry, immersion, "multi-immersion"]}
+  - {term: working_distance, surfaces: [wd, "working-distance"]}
+  - {term: exposure, surfaces: [exp_time, exposure, integration_time, dwell, dwelltime]}
+  - {term: gain, surfaces: [gain, emgain, "em-gain", offset_gain, iso]}
+  - {term: laser_power, surfaces: [power, laserpower, "laser-power", intensity_setting, percent_power]}
+  - {term: pinhole, surfaces: [pinhole, airy_units, au_pinhole]}
+  # An electron microscope's phase plate, the two words adjacent and in that order.
+  - {term: phase_plate, surfaces: ["phase plate"]}
+  - {term: binning, surfaces: [bin1, bin2, bin4, binning]}
+  - {term: pixel_size, surfaces: [pixelsize, "pixel-size", xyres, zstep, "z-step", stepsize, voxelsize]}
+
+  # -- acquisition geometry -------------------------------------------------
+  - {term: z_stack, surfaces: [z, zs, zstack, "z-stack", zseries, slice, slices, plane, planes, section, optical_section], theme_kind: acquisition}
+  # `timelapse`, `time-lapse` and `movie` are not spellings of the time series below. A time-lapse
+  # means an image stack. Spelled as a time series, these words would stand between a file role and
+  # an acquisition axis on many files and resolve to neither. A time-lapse is both of those things
+  # and is first of all a stack of images, so the `image_stack` sense spells it and says that and
+  # nothing more. A laboratory that means the axis teaches it once, and that answer outranks this.
+  # `frame` and `frames` alone do not mean a time series: a frame is one image of any series, a
+  # movie's dose fractions as often as its time points.
+  - {term: time_series, surfaces: [t, tp, timeseries, movie_series], theme_kind: acquisition}
+  - {term: image_stack, canonical: image stack, theme_kind: acquisition,
+     surfaces: [timelapse, "time-lapse", time_lapse, imagestack, "image-stack", stack, stacks]}
+  - {term: tile, surfaces: [tile, tiles, tiled, mosaic, montage, stitchset, grid_scan], theme_kind: acquisition}
+  - {term: multipoint, surfaces: [multipoint, xy, xyz, positions, stagepositions, sites], theme_kind: acquisition}
+  - {term: field_of_view, surfaces: [fov, field, frame_area, view], theme_kind: acquisition}
+  # A trial acquisition: in an imaging laboratory's names `test` is an image taken to try a dye, a
+  # setting or a sample (`dyeTest`), not a statistic's held-out set, the core's reading. Wins only
+  # in a project that accepted this pack.
+  - {term: trial_acquisition, canonical: trial acquisition, surfaces: [test], theme_kind: acquisition}
+  - {term: region_of_interest, surfaces: [roi, rois, region, regions, bounding_box, bbox], theme_kind: acquisition}
+
+  # -- image processing -----------------------------------------------------
+  # `maxz`: a maximum projection along z, written whole as one word.
+  - {term: maximum_projection, surfaces: [mip, maxproj, "max-projection", maximum_intensity, sumproj, avgproj, stdproj, maxz]}
+  - {term: orthogonal_view, surfaces: [ortho, orthogonal, xz, yz, resliced, reslice]}
+  - {term: flat_field, surfaces: [ffc, flatfield, "flat-field", shading, shadingcorrection, illumination_correction]}
+  - {term: background_subtraction, surfaces: [bgsub, "background-subtracted", rollingball, "rolling-ball", tophat],
+   ambiguous_with: [alignment]}
+  - {term: bleach_correction, surfaces: [bleachcorrect, "bleach-corrected", photobleach_correction]}
+  - {term: drift_correction, surfaces: [driftcorrect, "drift-corrected", stabilised, stabilized, registration_drift]}
+  - {term: deconvolution_method, surfaces: [rl_decon, richardson, lucy, huygens_style, blinddecon]}
+  - {term: segmentation_method, surfaces: [otsu, watershed, cellpose, stardist, ilastik, unet, threshold_seg, activecontour]}
+  # A skeletonised shape: the centre lines of a segmented structure, which skeletonising plugins and
+  # network tracers write, often as a `.vtk` mesh. The core's `template` sense does not spell it.
+  - {term: skeleton, canonical: skeletonised shape, surfaces: [skeleton, skeletons, skeletonised, skeletonized]}
+  # `trackmate` is a program's name, in the programs pack.
+  - {term: tracking_method, surfaces: [trackpy, btrack, lap_tracker, kalman, linking]}
+  - {term: colocalisation, surfaces: [coloc, colocalisation, colocalization, pearson_coloc, manders, li_ica]}
+  - {term: intensity_measure, surfaces: [intensity, intensities, meanintensity, integrateddensity, intden, rawintden, area_measure, perimeter, circularity, aspectratio, feret]}

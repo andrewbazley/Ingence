@@ -1,0 +1,280 @@
+# Molecular and cell biology, biochemistry.
+#
+# The broadest domain section, because its vocabulary is shared by almost every wet laboratory
+# whatever they study. It holds reagent classes, technique names and the public scientific
+# vocabulary that laboratories share: a widely used cell line, drug, reagent or protein, each taken
+# from a public source and carrying its identifier. Never a person, a private construct or strain
+# name, a project code, an internal abbreviation or a date.
+
+# The pack's manifest. Its digest is over the words below, not the comments: a changed word needs a
+# new version and a new digest.
+pack:
+  name: biochemistry
+  version: "3"
+  domain: biochemistry
+  author: Ingence
+  licence: MIT
+  schema: "1.22"
+  digest: 6d106581d1730883eda17200703093a3
+section: biochemistry
+theme_kind: technique
+origin: builtin
+domain: biochemistry
+# The pack's file formats are rows of the file-type table
+# (`src/ingence/dictionary/file_types.yaml`), every row naming this section. The senses are the ones
+# this file declared, term for term and spelling for spelling, so nothing made from them moves. What
+# each format is, who writes it and whether it is recorded data is the table's.
+file_types: from_table
+summary: Wet-laboratory techniques, reagent classes, cell culture and genetics.
+
+entries:
+  # -- separation and detection ---------------------------------------------
+  - {term: electrophoresis, surfaces: [gel, gels, electrophoresis, sdspage, "sds-page", page_gel, agarose_gel, nativegel, "2d-gel"]}
+  - {term: immunoblot, surfaces: [western, "western-blot", immunoblot, blot, wb]}
+  - {term: nucleic_blot, surfaces: [southern, northern, dotblot, slotblot]}
+  - {term: immunoassay, surfaces: [elisa, aliquot_elisa, sandwich_elisa, luminex, msd_assay, alphalisa]}
+  - {term: chromatography, surfaces: [hplc, uplc, fplc, gc, sec, iex, affinity_chrom, column]}
+  - {term: flow_cytometry, surfaces: [facs, flow, cytometry, sorting, gating_strategy, compensation]}
+  - {term: microscopy_prep, surfaces: [fixation, fixed, pfa, formaldehyde, methanol_fix, permeabilisation, permeabilization, perm, blocking, blocked, mounting, mountant, antifade]}
+
+  # -- amplification and nucleic acids --------------------------------------
+  - {term: polymerase_chain_reaction, surfaces: [pcr, rtpcr, "rt-pcr", qpcr, "q-pcr", rtqpcr, ddpcr, digitalpcr, nested_pcr, colony_pcr]}
+  - {term: cloning, surfaces: [cloning, ligation, gibson, golden_gate, gateway, topo, infusion, assembly_cloning]}
+  - {term: restriction, surfaces: [digest, digestion, restriction, linearised, linearized, enzyme_cut]}
+  - {term: vector, surfaces: [plasmid, vector, backbone, insert, construct, cassette, promoter, terminator, orf, cds, tag_sequence], theme_kind: reagent}
+  - {term: oligonucleotide, surfaces: [primer, primers, oligo, oligos, probe, probes, adapter_oligo], theme_kind: reagent}
+  - {term: extraction, surfaces: [miniprep, midiprep, maxiprep, extraction, purification, purified, cleanup, phenol_chloroform, columnprep]}
+  - {term: quantitation, surfaces: [nanodrop, qubit, bioanalyzer, tapestation, a260, a280, "260/280", "260/230"]}
+
+  # -- genetic manipulation -------------------------------------------------
+  - {term: genome_editing, surfaces: [crispr, cas9, cas12, base_editing, prime_editing, sgrna, grna, "guide-rna", talen, zfn]}
+  - {term: knockout, surfaces: [ko, knockout, "knock-out", null_allele, deletion_strain]}
+  - {term: knockdown, surfaces: [kd, knockdown, "knock-down", sirna, shrna, rnai, morpholino, degron, auxin_degron]}
+  - {term: knockin, surfaces: [ki, knockin, "knock-in", tagged, endogenous_tag, homologous_recombination]}
+  - {term: overexpression, surfaces: [oe, overexpression, "over-expression", ectopic, induced_expression]}
+  - {term: delivery, surfaces: [transfection, transfected, transduction, transduced, electroporation, nucleofection, lipofection, infection_viral]}
+  - {term: viral_vector, surfaces: [lentivirus, lenti, retrovirus, aav, adenovirus, baculovirus, vsvg], theme_kind: reagent}
+  - {term: selection, surfaces: [selection, puromycin, blasticidin, hygromycin, neomycin, g418, zeocin, ampicillin, kanamycin, resistance_marker], theme_kind: reagent}
+  - {term: induction, surfaces: [induced, induction, doxycycline, dox, iptg, tamoxifen, rapamycin, arabinose, tet_on, tet_off], theme_kind: reagent}
+
+  # -- cell culture ---------------------------------------------------------
+  - {term: passage, surfaces: [passage, p1, p2, p3, p4, p5, split_ratio, subculture], theme_kind: culture}
+  - {term: confluence, surfaces: [confluence, confluent, subconfluent, density_plated, seeded, seeding], theme_kind: culture}
+  - {term: medium, surfaces: [media, medium, dmem, rpmi, mem, emem, dmemf12, optimem, "opti-mem", neurobasal, ymd, lb_broth, sc_media], theme_kind: reagent}
+  - {term: supplement, surfaces: [fbs, fcs, serum, penstrep, "pen-strep", glutamine, glutamax, nea, b27, n2, hepes_supp], theme_kind: reagent}
+  - {term: dissociation, surfaces: [trypsin, trypsinised, accutase, versene, edta_diss, scraped], theme_kind: culture}
+  - {term: buffer, surfaces: [pbs, tbs, tbst, tris, hepes, mops, mes, hbss, tae, tbe, ripa, lysis_buffer, sample_buffer, laemmli], theme_kind: reagent}
+  # `cryo` alone is not cryopreservation: it is as often the first half of a cryo-microscopy word,
+  # which the microscopy pack spells whole (`cryo-EM`, `cryo-ET`), so alone it binds nothing;
+  # cryopreservation keeps its own spellings.
+  - {term: cryopreservation, surfaces: [cryopreservation, cryopreserved, cryopreserve, cryoprotectant, cryoprotection, cryovial, frozen_stock, thawed, dmso_freeze, ln2_stored, vial_stock], theme_kind: culture}
+  # Liquid-liquid phase separation, the condensates' process: the phrase wins over `phase`, which in
+  # a name is the microscopy pack's phase contrast.
+  - {term: phase_separation, canonical: phase separation, theme_kind: subject,
+     surfaces: ["phase separation", "liquid-liquid phase separation", llps]}
+  # The cell's plasma membrane: the phrase wins over `plasma`, the clinical pack's blood product.
+  - {term: plasma_membrane, canonical: plasma membrane, theme_kind: subject, surfaces: ["plasma membrane"]}
+  - {term: contamination_check, surfaces: [mycoplasma, myco, sterility, str_profiling, authentication], theme_kind: culture}
+
+  # -- generic biological subjects, no specific identities ------------------
+  - {term: cell_line_generic, surfaces: [cellline, "cell-line", line, clone, subclone, isolate, strain, background_strain], theme_kind: subject}
+  # A cell, the unit a culture, an image or a count is made of: `cells` reads as it through its
+  # plural, as `masks` reads as a mask.
+  - {term: cell, surfaces: [cell], theme_kind: subject}
+  # `wildtype` and `wt` belong to the core's `wild_type` condition, so this pack does not spell
+  # them.
+  - {term: genotype_generic, surfaces: [mutant, mut, variant_strain, heterozygous, het, homozygous, hom, transgenic, parental], theme_kind: subject}
+  - {term: primary_culture, surfaces: [primary, primaries, ipsc, esc, organoid, spheroid, explant, ex_vivo], theme_kind: subject}
+  - {term: model_organism_generic, surfaces: [invitro, "in-vitro", invivo, "in-vivo", insilico, "in-silico"], theme_kind: subject}
+
+  # -- model organisms, by their binomial and their short forms -------------
+  # Shared by every laboratory that works on one, so a species ships where a strain never does. Each
+  # binomial and its abbreviated genus is spelled in parts, so it binds across an underscore, a
+  # hyphen, a space or a dot (`E. coli`, `E_coli`) or written flush (`Ecoli`), and only with its
+  # words adjacent and in order; a common name, and a genus or species word used alone for the
+  # organism, are spelled whole. `yeast` alone is left out: it names the budding and the fission
+  # yeast alike. `fly`, `worm` and `human` are left out too, because they are too often other words
+  # (a fly-through, a worm gear, a human annotation).
+  - {term: escherichia_coli, canonical: Escherichia coli, theme_kind: subject,
+     surfaces: ["escherichia coli", "e coli"]}
+  - {term: saccharomyces_cerevisiae, canonical: Saccharomyces cerevisiae, theme_kind: subject,
+     surfaces: ["saccharomyces cerevisiae", "s cerevisiae", cerevisiae, "budding yeast"]}
+  - {term: schizosaccharomyces_pombe, canonical: Schizosaccharomyces pombe, theme_kind: subject,
+     surfaces: ["schizosaccharomyces pombe", "s pombe", pombe, "fission yeast"]}
+  - {term: caenorhabditis_elegans, canonical: Caenorhabditis elegans, theme_kind: subject,
+     surfaces: ["caenorhabditis elegans", "c elegans", elegans]}
+  - {term: drosophila_melanogaster, canonical: Drosophila melanogaster, theme_kind: subject,
+     surfaces: ["drosophila melanogaster", "d melanogaster", drosophila, "fruit fly"]}
+  - {term: danio_rerio, canonical: Danio rerio, theme_kind: subject,
+     surfaces: ["danio rerio", "d rerio", zebrafish]}
+  - {term: mus_musculus, canonical: Mus musculus, theme_kind: subject,
+     surfaces: ["mus musculus", "m musculus", mouse, mice, murine]}
+  - {term: arabidopsis_thaliana, canonical: Arabidopsis thaliana, theme_kind: subject,
+     surfaces: ["arabidopsis thaliana", "a thaliana", arabidopsis, "thale cress"]}
+  - {term: homo_sapiens, canonical: Homo sapiens, theme_kind: subject,
+     surfaces: ["homo sapiens", "h sapiens"]}
+  # More of the widely used model organisms, declared as the nine above, so that each is read by its
+  # whole name and never split into loose words: the binomial and its abbreviated genus in parts,
+  # and a common name and a word used alone for the organism whole. A genus word is spelled alone
+  # only where its genus has one widely used model species (`dictyostelium`, not `xenopus`,
+  # `plasmodium` or `bacillus`, each holding another), and a species word only where no other
+  # shipped species shares it.
+  - {term: bacillus_subtilis, canonical: Bacillus subtilis, theme_kind: subject,
+     surfaces: ["bacillus subtilis", "b subtilis", subtilis]}
+  - {term: plasmodium_falciparum, canonical: Plasmodium falciparum, theme_kind: subject,
+     surfaces: ["plasmodium falciparum", "p falciparum", falciparum]}
+  - {term: xenopus_laevis, canonical: Xenopus laevis, theme_kind: subject,
+     surfaces: ["xenopus laevis", "x laevis", laevis, "african clawed frog"]}
+  - {term: xenopus_tropicalis, canonical: Xenopus tropicalis, theme_kind: subject,
+     surfaces: ["xenopus tropicalis", "x tropicalis", tropicalis, "western clawed frog"]}
+  - {term: rattus_norvegicus, canonical: Rattus norvegicus, theme_kind: subject,
+     surfaces: ["rattus norvegicus", "r norvegicus", norvegicus, rat]}
+  - {term: dictyostelium_discoideum, canonical: Dictyostelium discoideum, theme_kind: subject,
+     surfaces: ["dictyostelium discoideum", "d discoideum", dictyostelium, discoideum]}
+  - {term: chlamydomonas_reinhardtii, canonical: Chlamydomonas reinhardtii, theme_kind: subject,
+     surfaces: ["chlamydomonas reinhardtii", "c reinhardtii", chlamydomonas, reinhardtii]}
+  - {term: tetrahymena_thermophila, canonical: Tetrahymena thermophila, theme_kind: subject,
+     surfaces: ["tetrahymena thermophila", "t thermophila", tetrahymena, thermophila]}
+  - {term: neurospora_crassa, canonical: Neurospora crassa, theme_kind: subject,
+     surfaces: ["neurospora crassa", "n crassa", neurospora]}
+  - {term: caulobacter_crescentus, canonical: Caulobacter crescentus, theme_kind: subject,
+     surfaces: ["caulobacter crescentus", "c crescentus", caulobacter, crescentus]}
+  - {term: gallus_gallus, canonical: Gallus gallus, theme_kind: subject,
+     surfaces: ["gallus gallus", "g gallus", chicken]}
+  - {term: toxoplasma_gondii, canonical: Toxoplasma gondii, theme_kind: subject,
+     surfaces: ["toxoplasma gondii", "t gondii", toxoplasma, gondii]}
+  - {term: trypanosoma_brucei, canonical: Trypanosoma brucei, theme_kind: subject,
+     surfaces: ["trypanosoma brucei", "t brucei", brucei]}
+  - {term: nicotiana_benthamiana, canonical: Nicotiana benthamiana, theme_kind: subject,
+     surfaces: ["nicotiana benthamiana", "n benthamiana", benthamiana]}
+  - {term: zea_mays, canonical: Zea mays, theme_kind: subject,
+     surfaces: ["zea mays", "z mays", maize]}
+  - {term: oryzias_latipes, canonical: Oryzias latipes, theme_kind: subject,
+     surfaces: ["oryzias latipes", "o latipes", latipes, medaka]}
+  - {term: schmidtea_mediterranea, canonical: Schmidtea mediterranea, theme_kind: subject,
+     surfaces: ["schmidtea mediterranea", "s mediterranea", schmidtea]}
+  # Five more, found split into loose words in the theme labels of a public image archive.
+  # `tuberculosis` alone is the disease and `bovine` an adjective of reagents (bovine serum
+  # albumin), so neither is a spelling.
+  - {term: staphylococcus_aureus, canonical: Staphylococcus aureus, theme_kind: subject,
+     surfaces: ["staphylococcus aureus", "s aureus", aureus]}
+  - {term: mycobacterium_tuberculosis, canonical: Mycobacterium tuberculosis, theme_kind: subject,
+     surfaces: ["mycobacterium tuberculosis", "m tuberculosis"]}
+  - {term: bos_taurus, canonical: Bos taurus, theme_kind: subject,
+     surfaces: ["bos taurus", "b taurus", taurus, cattle]}
+  - {term: helicobacter_pylori, canonical: Helicobacter pylori, theme_kind: subject,
+     surfaces: ["helicobacter pylori", "h pylori", pylori]}
+  - {term: triticum_aestivum, canonical: Triticum aestivum, theme_kind: subject,
+     surfaces: ["triticum aestivum", "t aestivum", aestivum, wheat]}
+
+  # -- common public biology ------------------------------------------------
+  # Common, public scientific vocabulary ships in the pack where each word belongs. It covers public
+  # scientific terms only: never a person, a private construct or strain name, a project code, an
+  # internal abbreviation or a date. Every entry here is taken from a public source, and its
+  # accession is in `ontology_ids`: Cellosaurus for a cell line, ChEBI and PubChem for a compound,
+  # UniProt for a protein, FPbase for a fluorescent protein. A word with no accession (a tag, a
+  # signal, a promoter) names its public page in the comment above it (Wikipedia). Each cell line,
+  # drug and protein is a sense of its own, as the core's ATP and ADP are, so two names holding two
+  # of them stay two conditions. A short spelling that a laboratory may mean otherwise is not
+  # shipped bare: `tg` is also transgenic, `myc` the gene, `cmv` the virus, `cck` an assay kit,
+  # `ubc` a university and `cho` a surname. The entry spells the long form, and a laboratory that
+  # means the short one adds it to its own pack.
+
+  # Cell lines (Cellosaurus). A cell line is the subject of a culture, as an organism is.
+  - {term: hela, canonical: HeLa, theme_kind: subject, surfaces: [hela],
+     ontology_ids: ["Cellosaurus:CVCL_0030"]}
+  # HEK293 and its large-T derivative 293T are two lines in Cellosaurus (CVCL_0045, CVCL_0063); they
+  # are one sense here. `293T` alone is not spelled: `293 t` also reads a plate numbered 293.
+  - {term: hek293, canonical: HEK293, theme_kind: subject,
+     surfaces: ["hek 293", "hek 293t"],
+     ontology_ids: ["Cellosaurus:CVCL_0045", "Cellosaurus:CVCL_0063"]}
+  - {term: u2os, canonical: U2OS, theme_kind: subject, surfaces: [u2os, "u 2 os", u20s],
+     ontology_ids: ["Cellosaurus:CVCL_0042"]}
+  - {term: cos7, canonical: COS-7, theme_kind: subject, surfaces: ["cos 7", cos7],
+     ontology_ids: ["Cellosaurus:CVCL_0224"]}
+  # CHO-K1 is a line of its own in Cellosaurus (CVCL_0214), one sense with CHO here.
+  - {term: cho, canonical: CHO, theme_kind: subject,
+     surfaces: ["chinese hamster ovary", "cho cell", "cho k1"],
+     ontology_ids: ["Cellosaurus:CVCL_0213", "Cellosaurus:CVCL_0214"]}
+
+  # Drugs and reagents (ChEBI, PubChem). `chx` is cycloheximide's usual short form and is shipped as
+  # nothing else.
+  - {term: dimethyl_sulfoxide, canonical: dimethyl sulfoxide, theme_kind: reagent,
+     surfaces: [dmso, "dimethyl sulfoxide", "dimethyl sulphoxide", dimethylsulfoxide],
+     ontology_ids: ["ChEBI:28262", "PubChem:679"]}
+  - {term: thapsigargin, theme_kind: reagent, surfaces: [thapsigargin],
+     ontology_ids: ["ChEBI:9516", "PubChem:446378"]}
+  - {term: tunicamycin, theme_kind: reagent, surfaces: [tunicamycin],
+     ontology_ids: ["ChEBI:29699"]}
+  - {term: cycloheximide, theme_kind: reagent, surfaces: [cycloheximide, chx],
+     ontology_ids: ["ChEBI:27641", "PubChem:6197"]}
+  - {term: nocodazole, theme_kind: reagent, surfaces: [nocodazole],
+     ontology_ids: ["ChEBI:34892", "PubChem:4122"]}
+
+  # Proteins (UniProt). BiP and GRP78 are one protein (gene HSPA5), so one sense.
+  - {term: bip, canonical: BiP, theme_kind: subject,
+     surfaces: [bip, grp78, hspa5, "grp 78", "binding immunoglobulin protein"],
+     ontology_ids: ["UniProt:P11021"]}
+  - {term: calnexin, theme_kind: subject, surfaces: [calnexin, canx],
+     ontology_ids: ["UniProt:P27824"]}
+
+  # Salts, buffers' parts, detergents and everyday reagents (ChEBI, PubChem, UniProt). The buffers
+  # themselves (PBS, Tris, DMEM, FBS) and doxycycline were already spelled above in their classes.
+  - {term: bovine_serum_albumin, canonical: bovine serum albumin, theme_kind: reagent,
+     surfaces: [bsa, "bovine serum albumin"], ontology_ids: ["UniProt:P02769"]}
+  - {term: calcium_chloride, canonical: calcium chloride, theme_kind: reagent,
+     surfaces: [cacl2, "calcium chloride"], ontology_ids: ["ChEBI:3312", "PubChem:5284359"]}
+  - {term: potassium_chloride, canonical: potassium chloride, theme_kind: reagent,
+     surfaces: [kcl, "potassium chloride"], ontology_ids: ["ChEBI:32588", "PubChem:4873"]}
+  - {term: dithiothreitol, theme_kind: reagent, surfaces: [dtt, dithiothreitol],
+     ontology_ids: ["ChEBI:18320", "PubChem:439196"]}
+  - {term: sodium_dodecyl_sulfate, canonical: sodium dodecyl sulfate, theme_kind: reagent,
+     surfaces: [sds, "sodium dodecyl sulfate", "sodium dodecyl sulphate"],
+     ontology_ids: ["ChEBI:8984"]}
+  - {term: polysorbate_20, canonical: Tween 20, theme_kind: reagent,
+     surfaces: ["tween 20", "polysorbate 20"], ontology_ids: ["ChEBI:53424"]}
+  - {term: polyethylene_glycol, canonical: polyethylene glycol, theme_kind: reagent,
+     surfaces: [peg, peg4k, peg6k, peg8k, peg10k, peg20k, peg3350, peg4000, peg6000, peg8000,
+                 peg10000, peg20000, "polyethylene glycol"],
+     ontology_ids: ["ChEBI:46793"]}
+  - {term: dextran, theme_kind: reagent, surfaces: [dextran], ontology_ids: ["ChEBI:52071"]}
+  - {term: saponin, theme_kind: reagent, surfaces: [saponin], ontology_ids: ["ChEBI:26605"]}
+  - {term: proteinase_k, canonical: proteinase K, theme_kind: reagent,
+     surfaces: ["proteinase k", protk], ontology_ids: ["UniProt:P06873"]}
+  - {term: atp_gamma_s, canonical: ATP-gamma-S, theme_kind: reagent,
+     surfaces: ["atp gamma s", atpgammas, atpgs, "atp gs"],
+     ontology_ids: ["ChEBI:27575", "PubChem:440317"]}
+  # Insulin is this pack's, not the core's: the core's reagents stay ATP, ADP and TCEP.
+  - {term: insulin, theme_kind: reagent, surfaces: [insulin], ontology_ids: ["UniProt:P01308"]}
+  - {term: histamine, theme_kind: reagent, surfaces: [histamine],
+     ontology_ids: ["ChEBI:18295", "PubChem:774"]}
+  - {term: cholecystokinin, theme_kind: reagent, surfaces: [cholecystokinin],
+     ontology_ids: ["UniProt:P06307"]}
+  - {term: ionomycin, theme_kind: reagent, surfaces: [ionomycin],
+     ontology_ids: ["ChEBI:63954", "PubChem:6912226"]}
+  - {term: oligomycin, theme_kind: reagent, surfaces: [oligomycin], ontology_ids: ["ChEBI:25675"]}
+  - {term: novobiocin, theme_kind: reagent, surfaces: [novobiocin],
+     ontology_ids: ["ChEBI:28368", "PubChem:54675769"]}
+
+  # Tags, signals and promoters (Wikipedia: His-tag, Myc-tag, Glutathione S-transferase, KDEL
+  # sequence, Cytomegalovirus, Ubiquitin C), the parts a construct is named by. Bare `myc`, `cmv`
+  # and `ubc` are not spelled: they are a gene, a virus and a university's initials as often as a
+  # tag or a promoter. The GST tag is the Schistosoma japonicum enzyme (UniProt P08515).
+  - {term: his_tag, canonical: His tag, theme_kind: reagent,
+     surfaces: [his6, "6x his", "6 his", "his tag", "polyhistidine tag", histag]}
+  - {term: myc_tag, canonical: Myc tag, theme_kind: reagent, surfaces: ["myc tag"]}
+  - {term: glutathione_s_transferase, canonical: glutathione S-transferase, theme_kind: reagent,
+     surfaces: [gst, "glutathione s transferase"], ontology_ids: ["UniProt:P08515"]}
+  - {term: kdel, canonical: KDEL, theme_kind: reagent,
+     surfaces: [kdel, "er retention signal"]}
+  - {term: cmv_promoter, canonical: CMV promoter, theme_kind: reagent,
+     surfaces: [pcmv, "cmv promoter"]}
+  - {term: ubc_promoter, canonical: UbC promoter, theme_kind: reagent,
+     surfaces: ["ubc promoter", "ubiquitin c promoter"]}
+
+  # -- treatment vocabulary -------------------------------------------------
+  - {term: inhibitor, surfaces: [inhibitor, inh, antagonist, blocker], theme_kind: reagent}
+  - {term: activator, surfaces: [activator, agonist, stimulant, inducer_chem], theme_kind: reagent}
+  - {term: stress, surfaces: [heatshock, "heat-shock", coldshock, oxidative, osmotic, starvation, hypoxia, nutrient_withdrawal], theme_kind: condition}
+  - {term: dose_response, surfaces: [doseresponse, "dose-response", titration, serialdilution, "serial-dilution", curve_dose], theme_kind: condition}
+  - {term: washout, surfaces: [washout, "wash-out", recovery_period, chase, pulse_chase], theme_kind: condition}

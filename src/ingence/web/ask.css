@@ -1,0 +1,37 @@
+/* Ask (ask.js). One column at a readable measure. The tokens are app.css's, so the dark scheme
+   follows. The suggestions sit apart from the matches, with a dashed edge. */
+
+.ask-page { display: grid; gap: 12px; max-width: 880px; }
+.ask-page h2 { margin: 0; }
+.ask-page h3 { margin: 0 0 6px; font-size: 15px; }
+.ask-page h4 { margin: 8px 0 4px; font-size: 13px; color: var(--ink-soft); }
+.ask-question:focus { outline: none; }
+.ask-lead { margin: 0; }
+.ask-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0; }
+.ask-said { font-size: 12.5px; color: var(--ink-soft); }
+
+/* Each part beneath the question, a quiet box. */
+.ask-part { border-top: 1px solid var(--line); padding-top: 10px; }
+.ask-part p { margin: 0 0 4px; font-size: 14px; }
+.ask-label { font-weight: 600; }
+.ask-included ul { margin: 0 0 4px; padding-left: 18px; font-size: 13.5px; }
+
+/* The experiments, by tier. */
+.ask-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.ask-experiment p { margin: 0 0 2px; }
+.ask-name { font-size: 14.5px; }
+button.ask-open { font-weight: 700; text-align: left; overflow-wrap: anywhere; }
+button.ask-open:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.ask-status:empty { display: none; }
+.ask-matched, .ask-facts { font-size: 13px; }
+.ask-facts { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; }
+.ask-meter { display: inline-block; width: 120px; height: 10px; border-radius: 5px; background: var(--code-bg);
+  border: 1px solid var(--line); overflow: hidden; }
+.ask-meter-fill { display: block; height: 100%; background: var(--acquisition); }
+
+/* The suggestions, apart. */
+.ask-suggestions { border-top-style: dashed; }
+.ask-suggested { font-size: 13px; color: var(--later); }
+
+/* The story beside the list. */
+.ask-story-title { margin: 0 0 8px; }

@@ -1,0 +1,166 @@
+# The base revision. Every rule the engine ships starts here.
+#
+# This file is the product. The code is the interpreter; these are the rules it
+# interprets, and a user who disagrees with a conclusion should be able to open
+# this file, read the sentence that licensed it, change a parameter and re-run.
+#
+# Revisions are append-only. A later revision adds a rule, supersedes one, or
+# raises a rule's version with different parameters; nothing here is edited in
+# place, because a past run must replay exactly and this file is the record of
+# what the engine believed and when.
+#
+# Every rule carries a rationale and it is not decorative. A rule that cannot be
+# justified in one sentence is a heuristic in disguise and should be marked as
+# one.
+
+revision: 0
+summary: >-
+  The base rules. One per effect class, so every phase of the pipeline has a
+  worked example before the long tail is transcribed.
+
+rules:
+  # ---------------------------------------------------------------------
+  # constraint: expresses impossibility, which a score cannot.
+  # ---------------------------------------------------------------------
+  - id: derivation_is_acyclic
+    version: "1"
+    predicate: derivation_is_acyclic
+    effect: constraint
+    primitive: derives
+    tier: entailed
+    level: file
+    statement: >-
+      Nothing is derived from itself, at any chain length up to {max_chain_length}.
+    rationale: >-
+      A cycle in derives means the output graph is provably incoherent, and a
+      score cannot express impossibility: a large enough pile of weak support
+      would otherwise outvote a contradiction.
+    parameters:
+      - name: max_chain_length
+        type: integer
+        default: 64
+        minimum: 2
+        maximum: 4096
+        description: >-
+          How far a derivation chain is followed before the check gives up.
+          A ceiling on work, not on what is permitted: a chain longer than this
+          is reported as unchecked rather than as acyclic.
+
+  # ---------------------------------------------------------------------
+  # classifies: says what one thing is, never what it relates to.
+  # ---------------------------------------------------------------------
+  - id: format_from_extension
+    version: "1"
+    predicate: format_from_extension
+    effect: classifies
+    tier: defeasible
+    level: file
+    statement: >-
+      A file is of the format its extension names, where that extension binds
+      cleanly to a single sense of kind {theme_kind}.
+    rationale: >-
+      An extension is what a filesystem carries and a format's spelling is its
+      extension, so the match is nearly direct; it stays defeasible because an
+      extension is a conclusion the writer made and any file can be misnamed.
+    parameters:
+      - name: theme_kind
+        type: string
+        default: format
+        description: >-
+          The theme kind an extension may match. Constrains what may match
+          rather than guessing what probably means what, which is why md in an
+          extension slot is markdown and md in a folder name is still ambiguous.
+
+  # ---------------------------------------------------------------------
+  # groups: defines an equivalence, and therefore a grouping and a level.
+  # ---------------------------------------------------------------------
+  - id: same_composition
+    version: "1"
+    predicate: same_composition
+    effect: groups
+    primitive: equivalent
+    respect: composition
+    tier: defeasible
+    level: folder
+    statement: >-
+      Two folders are equivalent in respect composition when the shape
+      composition of their direct children agrees and each holds at least
+      {minimum_children} children.
+    rationale: >-
+      Composition recurrence is measurably real and bimodal on real trees, which
+      licenses an equivalence in a stated respect and does not license a
+      partitioning experiment type, because a wrong partition asserts that a file
+      is missing from a set it was never part of.
+    parameters:
+      - name: minimum_children
+        type: integer
+        default: 3
+        minimum: 1
+        maximum: 1000
+        description: >-
+          How many direct children a folder needs before its composition is
+          treated as a signal. A folder with one child matches many folders by
+          accident.
+
+  # ---------------------------------------------------------------------
+  # proposes: contributes positive support for an edge.
+  # ---------------------------------------------------------------------
+  - id: derives_from_name_family
+    version: "1"
+    predicate: derives_from_name_family
+    effect: proposes
+    primitive: derives
+    specialization: processed_from
+    tier: defeasible
+    level: file
+    statement: >-
+      A file is proposed as derived from another when they share a name family,
+      the source is one of {source_roles}, and at least {minimum_support}
+      independent families of evidence agree.
+    rationale: >-
+      A shared name family between a projection and an acquisition is the
+      commonest real provenance signal in a laboratory filesystem, and requiring
+      independent families stops one fact seen three ways counting as three.
+    parameters:
+      - name: source_roles
+        type: string_list
+        default: [raw_acquisition, derived_image, tabular_data]
+        description: >-
+          Which roles the earlier file of a pair may hold. A narrow list keeps the
+          pairs proposed to a few, rather than every possible pair.
+      - name: minimum_support
+        type: integer
+        default: 2
+        minimum: 1
+        maximum: 8
+        description: >-
+          How many distinct support families must agree. The parameter a sweep
+          would vary, and the curve it produces reports coverage against
+          conflict rather than a single objective.
+
+  # ---------------------------------------------------------------------
+  # flags: raises something for a person without concluding anything.
+  # ---------------------------------------------------------------------
+  - id: authored_name_doubt
+    version: "1"
+    predicate: authored_name_doubt
+    effect: flags
+    tier: defeasible
+    level: folder
+    statement: >-
+      A folder is raised for attention when its own name carries at least
+      {minimum_terms} doubt terms.
+    rationale: >-
+      Nothing machine-generated emits final_final or use_this_one, so a hit is by
+      construction evidence a person typed it and was unsure; what the doubt means
+      is not something the engine can say, which is why this raises rather than
+      concludes.
+    parameters:
+      - name: minimum_terms
+        type: integer
+        default: 1
+        minimum: 1
+        maximum: 10
+        description: >-
+          How many doubt terms a name needs before it is raised. One is enough
+          because the lexicon is deliberately narrow.

@@ -1,0 +1,23 @@
+# Filesystem artefacts nobody created on purpose.
+#
+# Operating systems, editors and sync clients scatter these through every data
+# pool. They are not research data, they are not junk exactly, and they should
+# not be mistaken for either. Naming them lets the engine set them aside
+# explicitly rather than having every rule trip over them separately.
+#
+# Note the distinction from the negative lexicon: nothing here signals that
+# somebody doubted a file. These are files nobody chose to make at all.
+section: filesystem_noise
+theme_kind: quality
+origin: builtin
+summary: Files created by tools rather than by people.
+
+entries:
+  - {term: macos_metadata, surfaces: [".DS_Store", "._", "__MACOSX", ".Spotlight-V100", ".fseventsd", ".TemporaryItems", "Icon\r", ".apdisk"], strength: decisive}
+  - {term: windows_metadata, surfaces: ["Thumbs.db", "desktop.ini", "ehthumbs.db", "$RECYCLE.BIN", "System Volume Information"], strength: decisive}
+  - {term: linux_metadata, surfaces: [".directory", ".Trash-1000", "lost+found"], strength: decisive}
+  - {term: editor_backup, surfaces: ["~$", ".swp", ".swo", ".bak~", "#autosave#", ".~lock"], strength: decisive}
+  - {term: version_control, surfaces: [".git", ".svn", ".hg", ".gitignore", ".gitattributes", ".gitkeep"], strength: decisive}
+  - {term: language_cache, surfaces: ["__pycache__", ".pyc", ".pyo", ".ipynb_checkpoints", ".Rhistory", ".RData", ".Rproj.user", "node_modules", ".mypy_cache", ".pytest_cache", ".ruff_cache"], strength: decisive}
+  - {term: sync_artifact, surfaces: [".dropbox", ".dropbox.cache", ".onedrive", "Icon?", "conflicted copy", ".nfs"], strength: strong}
+  - {term: archive_helper, surfaces: [".part", ".crdownload", ".download", ".partial", ".tmp.download"], strength: strong}

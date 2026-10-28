@@ -1,0 +1,97 @@
+# The negative lexicon: words that signal doubt about the thing they name.
+#
+# Every other section here helps the engine work out what a file *is*. This one helps it work out
+# what a person *thought* of it, which is information nobody else records and which no amount of
+# content analysis recovers.
+#
+# The signal is unusually honest, because these words are written by somebody who
+# already knew something was wrong. "final_v3_ACTUAL_use_this" is a complete
+# account of a versioning problem, written by the person who had it.
+#
+# A hit here never concludes anything on its own. It raises a file for attention. Some of these
+# words are ordinary in some fields: a "control" is not doubtful, a file about a "test" statistic is
+# not a test file, and "sample" is a real experimental unit. `strength` records how strongly a term
+# signals doubt so that a rule can require more than a passing mention, and `ambiguous` marks the
+# terms that are also ordinary vocabulary somewhere. `low` marks a term that is too common in
+# ordinary names to raise a file alone. It counts beside another doubt term, or asks a person to
+# confirm.
+section: negative_lexicon
+theme_kind: quality
+origin: builtin
+summary: Words signalling doubt, obsolescence, breakage or throwaway status.
+
+entries:
+  # -- explicit wrongness ---------------------------------------------------
+  - {term: wrong, surfaces: [wrong, incorrect, mistake, mistaken, oops, whoops], strength: strong}
+  - {term: bad, surfaces: [bad, poor, terrible, awful, useless, rubbish], strength: strong}
+  - {term: broken, surfaces: [broken, broke, busted, corrupt, corrupted, damaged, malformed], strength: strong}
+  - {term: invalid, surfaces: [invalid, bogus, nonsense, garbage, junk, rubbish_data], strength: strong}
+  - {term: failed, surfaces: [failed, failure, fail, crashed, aborted, died], strength: strong}
+  - {term: contaminated, surfaces: [contaminated, contamination, contam, dirty, infected], strength: strong}
+
+  # -- explicit instructions not to use -------------------------------------
+  # The strongest signal in the whole engine. Somebody took the trouble to say so.
+  - {term: do_not_use, surfaces: [donotuse, "do-not-use", "do_not_use", dontuse, "dont-use", notuse, unusable], strength: decisive}
+  # Written inside a file far more often than in its name: a note from a researcher to whoever reads
+  # it next. The engine records it and never obeys it, because it reads every file in the folders a
+  # person gives it.
+  - {term: do_not_analyse, surfaces: [donotanalyse, "do-not-analyse", "do_not_analyse", donotanalyze, "do-not-analyze", "do_not_analyze", notforanalysis, excludefromanalysis], strength: decisive}
+  - {term: ignore, surfaces: [ignore, ignored, ignoreme, disregard, skipme], strength: decisive}
+  - {term: deprecated, surfaces: [deprecated, deprec, superseded, retired, defunct], strength: decisive}
+  - {term: obsolete, surfaces: [obsolete, outdated, stale, expired, legacy, oldversion], strength: strong}
+  - {term: delete, surfaces: [delete, deleteme, "delete-me", todelete, toremove, removeme, trash, bin, recycle], strength: decisive}
+  - {term: archive_only, surfaces: [donotedit, readonly, frozen, locked, sealed], strength: moderate}
+
+  # -- throwaway and scratch ------------------------------------------------
+  - {term: temporary, surfaces: [tmp, temp, temporary, transient, ephemeral], strength: strong}
+  - {term: scratch, surfaces: [scratch, scratchpad, sandbox, playground, workspace_tmp], strength: strong}
+  # `testing` is not a spelling of this sense: in a laboratory's names it is method development
+  # (a folder named for a method being tried), and its data are real.
+  - {term: test_artifact, surfaces: [testfile, "test-file", trialrun, dryrun, "dry-run", smoketest], strength: moderate, ambiguous: true}
+  - {term: debug, surfaces: [debug, debugging, dbg, verbose_out, tracefile], strength: moderate}
+  - {term: dummy, surfaces: [dummy, placeholder, stub, fake, mock_data, synthetic_placeholder, lorem], strength: strong}
+  - {term: example, surfaces: [example, demo, sample_file, toy, tutorial], strength: moderate, ambiguous: true}
+
+  # -- the versioning cry for help ------------------------------------------
+  # Each of these is somebody telling you their versioning broke down. The more
+  # of them a name carries, the louder it is.
+  - {term: final_final, surfaces: [finalfinal, "final_final", "final-final", finalfinalfinal, reallyfinal, actualfinal, truefinal], strength: decisive}
+  - {term: use_this_one, surfaces: [usethis, "use-this", usethisone, thisone, correctone, goodone, latest_good], strength: strong}
+  - {term: version_soup, surfaces: [v2final, v3final, finalv2, final2, final3, newfinal, newnew, newest_new], strength: strong}
+  - {term: emphatic, surfaces: [ACTUAL, REAL, PROPER, DEFINITELY, PLEASE, IMPORTANT], strength: moderate, note: "Capitalised emphasis in a filename is a person shouting at their future self."}
+
+  # -- untitled and unnamed -------------------------------------------------
+  # Nobody names a file "untitled" on purpose. It means the moment of naming was
+  # skipped, which usually means the moment of deciding what it was was skipped.
+  - {term: untitled, surfaces: [untitled, unnamed, noname, "no-name", nameless], strength: strong}
+  - {term: default_name, surfaces: [document1, document2, book1, sheet1, presentation1, image1, newfile, "new-file"], strength: strong}
+  - {term: new_folder, surfaces: [newfolder, "new folder", "new-folder", untitledfolder, folder1, foldera], strength: strong}
+  # Not "bar", which is the pressure unit. A short run of one repeated letter is asked about and not
+  # concluded doubtful. `aaa` can be "AAA", meaning triple-A. So `aaa`, `xxx` and `zzz` are not
+  # listed: an abbreviation is written so as often as a placeholder, and only the person knows
+  # which. A keyboard's own sequences and a programmer's placeholders stay.
+  - {term: keyboard_mash, surfaces: [asdf, asdfasdf, qwerty, test123, foo, baz, blah], strength: low}
+
+  # -- uncertainty ----------------------------------------------------------
+  - {term: questionable, surfaces: [questionable, suspect, suspicious, dodgy, sketchy, weird, odd, strange], strength: low}
+  - {term: unsure, surfaces: [unsure, uncertain, maybe, perhaps, possibly, probably, might, unclear, ambiguous, tbd, tbc], strength: moderate}
+  - {term: check, surfaces: [check, checkme, verify, confirm, review, revisit, recheck, doublecheck], strength: moderate}
+  - {term: fixme, surfaces: [fixme, "fix-me", tofix, needsfix, broken_fix, hack, kludge, workaround], strength: strong}
+  - {term: todo, surfaces: [todo, "to-do", pending_work, unfinished, incomplete, halfdone, "half-done"], strength: moderate}
+
+  # -- redo and repetition after trouble ------------------------------------
+  - {term: redo, surfaces: [redo, redone, rerun_after_fail, repeat_of, attempt2, attempt3, secondtry, tryagain], strength: moderate}
+  - {term: recovered, surfaces: [recovered, recovery, restored, salvaged, autosave, autorecover, crashrecovery], strength: moderate}
+  - {term: conflicted, surfaces: [conflict, conflicted, "conflicted-copy", mergeconflict, sync_conflict], strength: strong,
+     note: "Cloud sync services write this. It means two versions diverged and neither won."}
+
+  # -- duplication ----------------------------------------------------------
+  - {term: duplicate, surfaces: [dup, dupe, duplicate, copy2, copy3, "copy-of", copyof, "(1)", "(2)", "- Copy"], strength: moderate}
+
+  # -- exclusion from analysis ----------------------------------------------
+  # Distinct from doubt: these say the data is real and deliberately left out,
+  # which is a different fact and often a more interesting one.
+  - {term: excluded, surfaces: [excluded, exclude, omitted, dropped, discarded, rejected, outlier, outliers], strength: moderate,
+     note: "Deliberate exclusion, not doubt. Worth surfacing because the reason is rarely recorded anywhere else."}
+  - {term: quarantine, surfaces: [quarantine, quarantined, isolated, held, onhold, "on-hold", parked], strength: low}
+  - {term: superseded_by, surfaces: [replacedby, "replaced-by", supersededby, seeinstead], strength: strong}

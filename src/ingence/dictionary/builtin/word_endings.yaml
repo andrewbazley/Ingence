@@ -1,0 +1,32 @@
+# Endings that form a new word when glued to a word written in capitals.
+#
+# Biochemical nomenclature makes a word from another one by an ending: an enzyme from its substrate
+# (`ATPase`, `GTPases`), a modification from what is attached (`SUMOylation`, `PEGylated`). The
+# reader looks where a run of capitals meets lower-case letters. A known word in capitals divides
+# from the word glued after it (`GFPKelt`, `DAPIzorl`), but never from one of these endings, which
+# form one word with it. An ending binds nothing and is never a word of its own. The list says only
+# where a glued spelling is not divided.
+#
+# `plural_keeps` lists the endings after which a final `s` is never a plural's. A word ending in
+# one is a Latin name or a singular (`Bacillus`, `axis`, `mass`), so it is never read as the plural
+# of the word without its `s`. Any other plural folds onto its singular only where the singular is
+# a Dictionary word, which keeps `Pseudomonas` and `elegans` whole (no `pseudomona`, no `elegan`).
+# `ens` and `ans` are not listed, because `specimens` and `humans` are plurals. A species word with
+# such an ending folds onto nothing unless its stem is a word.
+section: word_endings
+theme_kind: term
+summary: Endings that make one new word of the capitals they are glued to, so the two are never divided.
+entries: []
+word_endings: [ase, ases, ylate, ylates, ylated, ylating, ylation, ylations]
+# `word_prefixes` lists the prefixes that form one word with what follows them (`micrograph`,
+# `metaphase`, `transform`, `polyphase`). A run of letters is never cut after one into two
+# Dictionary words, as `channelhoechst` is cut. A longer word beginning with one, such as
+# `microscope`, still divides from the word glued after it. The prefixes come from those at which
+# a general English word list divided (photo, trans, micro, poly, meta, ortho, macro, topo, oligo)
+# and their kin.
+word_prefixes: [anti, auto, cryo, cyto, electro, endo, hetero, homo, hyper, hypo, inter, intra, kymo, macro, meta, micro, mono, multi, nano, neuro, oligo, ortho, para, phospho, photo, poly, post, super, thermo, topo, trans, ultra]
+plural_keeps: [is, ss, us]
+# `plural_never_onto` lists the kinds that a plural never folds onto. A unit belongs to the
+# quantity reader. A date, a doubt word and a status are not nouns that a plural is made from
+# (`temps` is not a temporary file, `mays` is not a month, `bins` is not an instruction to delete).
+plural_never_onto: [date, quality, status, unit]

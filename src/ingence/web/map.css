@@ -1,0 +1,207 @@
+/* The Map of groups: a section of Advanced (Views). Tokens are the website's (app.css :root), one
+   job per color. The categorical palette of lines and the completeness ramp are never shown
+   together (map.js draws one measure at a time). A value the engine does not have is hatched, never
+   given a color. */
+
+:root {
+  /* The lines of work, in the order of their size (map.js ranks them); the ninth and later share
+     --map-other. */
+  --map-c0: #1f5fa8; --map-c1: #0b6b57; --map-c2: #b36b00; --map-c3: #5a4fcf;
+  --map-c4: #8a4a10; --map-c5: #2a8f9e; --map-c6: #7a6a00; --map-c7: #4d5b6b;
+  --map-other: #8b909c;
+  /* How far raw data was followed by an analysis: the Years view's ramp, darker is more. */
+  --map-all: #1c5cab; --map-most: #6da7ec; --map-some: #b9d4f3; --map-none: #ecebe5;
+  /* Year: later is darker on light. */
+  --map-year-early: #f1dfc2; --map-year-late: #7a3b00;
+  --map-ground: color-mix(in srgb, var(--panel) 86%, transparent);
+  /* Outlines of groups: up to four, each with a dash of its own so two never differ by color alone.
+     Never the magenta of a person's words, never the red of a problem. */
+  --map-o0: #d55e00; --map-o1: #0072b2; --map-o2: #00836a; --map-o3: #9a7200;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --map-c0: #79b0ee; --map-c1: #58c9ab; --map-c2: #e0a469; --map-c3: #a29fe0;
+    --map-c4: #d49a6a; --map-c5: #6fcbd8; --map-c6: #d4c25a; --map-c7: #a9b4c4;
+    --map-other: #6d7382;
+    --map-all: #9ec5f4; --map-most: #5598e7; --map-some: #2a5f9e; --map-none: #2a2a28;
+    --map-year-early: #4a3a26; --map-year-late: #f0b878;
+    --map-o0: #ff8a3d; --map-o1: #56b4e9; --map-o2: #3ddc9c; --map-o3: #f0c040;
+  }
+}
+
+main.single-layout .pane > .map-page { max-width: none; }
+
+.map-page { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 20px; align-items: start; }
+@media (max-width: 1100px) { .map-page { grid-template-columns: 1fr; } }
+.map-page.loading { grid-template-columns: minmax(0, 1fr); }
+.map-main { display: grid; gap: 10px; align-content: start; min-width: 0; }
+
+.map-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; }
+/* Beside the heading, as the board draws them, once the column is wide enough: the heading takes the
+   room left and wraps. */
+@media (min-width: 1101px) {
+  .map-head { flex-wrap: nowrap; }
+  .map-head > div:first-child { flex: 1 1 0; min-width: 0; }
+  .map-chips { flex: 0 1 auto; justify-content: flex-end; }
+}
+.map-head .eyebrow { margin: 0; }
+.map-page h2.map-title { margin: 0; font-size: 20px; line-height: 1.3; text-transform: none; letter-spacing: 0; color: var(--ink); }
+
+.map-chips { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 14px; }
+.map-chips-label { color: var(--ink-soft); font-size: 13px; }
+.map-chip { font: inherit; font-size: 14px; padding: 4px 12px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--line); background: transparent; color: var(--ink); min-height: 28px; }
+.map-chip[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); font-weight: 700; }
+.map-chip:focus-visible, .map-tool:focus-visible, .map-key:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* The plot's box: the drawing above, the engine's sentence on what the places mean in its corner. */
+/* Square-ish: the places are one scale on both axes, so a box much wider than tall would be empty at
+   the sides. */
+.map-plot { border: 1px solid var(--line); border-radius: 8px; background: var(--panel); display: flex;
+  flex-direction: column; overflow: hidden; width: min(100%, 95vh); height: min(55vh, 560px); min-height: 400px; }
+/* The plot is 55vh tall, so the legend's first line still shows at 1280 by 900 under Advanced's two
+   rows of sections. */
+.map-plot.loading { width: 100%; height: auto; min-height: 440px; }
+.map-canvas { position: relative; flex: 1; min-height: 0; }
+.map-svg { display: block; width: 100%; height: 100%; touch-action: none; cursor: crosshair; }
+.map-svg:focus { outline: none; }
+.map-svg:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.map-method { margin: 0; padding: 6px 12px 8px; font-size: 12px; color: var(--ink-soft); border-top: 1px solid var(--line); max-width: none; }
+
+/* A thin outline in the ink's color keeps the palest fills (the first years, "no raw followed")
+   visible on the panel, and overlapping dots apart. */
+.map-dot { stroke: color-mix(in srgb, var(--ink) 45%, transparent); stroke-width: 0.8; opacity: 0.92; cursor: pointer; }
+.map-dot.unknown { stroke: var(--ink-soft); stroke-width: 1; }
+.map-dot.faded { opacity: 0.1; pointer-events: none; }
+.map-dot:hover { stroke: var(--ink); stroke-width: 1.5; }
+.map-hatch-ground { fill: var(--panel); }
+.map-hatch-line { fill: var(--ink-soft); }
+.map-chosen { fill: none; stroke: var(--ink); stroke-width: 3; pointer-events: none; }
+.map-cursor { fill: none; stroke: var(--accent); stroke-width: 2; stroke-dasharray: 3 2; pointer-events: none; display: none; }
+/* The keyboard's ring shows while the plot has the keyboard's focus, not after a click. */
+.map-svg:focus-visible .map-cursor { display: inline; }
+
+.map-names.hidden { display: none; }
+.map-theme { cursor: pointer; }
+.map-center { fill: none; stroke: var(--ink-soft); stroke-width: 1.5; stroke-dasharray: 1.5 3; stroke-linecap: round; pointer-events: none; }
+.map-ground { fill: var(--map-ground); stroke: none; }
+.map-theme.kept .map-ground { stroke: var(--ink); stroke-width: 1; }
+.map-text { font: 700 12px var(--text); fill: var(--ink); pointer-events: none; }
+.map-page .person { fill: var(--person); color: var(--person); }
+
+.map-tip { position: absolute; z-index: 3; pointer-events: none; background: var(--panel); border: 1px solid var(--line);
+  border-radius: 6px; padding: 5px 9px; font-size: 13px; box-shadow: none; max-width: 320px; }
+.map-tip[hidden], .map-rubber[hidden] { display: none; }
+.map-rubber { position: absolute; z-index: 2; border: 1px dashed var(--accent); background: var(--accent-soft); opacity: 0.5; pointer-events: none; }
+.map-live { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+.map-tools { position: absolute; top: 8px; right: 8px; display: flex; gap: 4px; z-index: 2; }
+.map-tool { font: inherit; font-size: 12px; min-width: 28px; min-height: 28px; padding: 2px 8px; border: 1px solid var(--line);
+  border-radius: 6px; background: var(--map-ground); color: var(--ink); cursor: pointer; }
+.map-tool[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+
+.map-swatch { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: middle;
+  border: 1px solid color-mix(in srgb, var(--ink) 45%, transparent); flex: none; }
+.map-swatch.unknown { background: repeating-linear-gradient(135deg, var(--ink-soft) 0 1px, var(--panel) 1px 3px); border-color: var(--ink-soft); }
+.map-center-key { display: inline-block; width: 10px; height: 10px; border-radius: 50%; border: 1px dotted var(--ink-soft); margin-right: 6px; vertical-align: middle; }
+.map-ramp { display: inline-block; width: 120px; height: 8px; border-radius: 4px; margin: 0 8px; vertical-align: middle;
+  border: 1px solid var(--line); background: linear-gradient(90deg, var(--map-year-early), var(--map-year-late)); }
+
+.map-legend { display: grid; gap: 6px; font-size: 13px; color: var(--ink-soft); }
+.map-legend-line { margin: 0; display: flex; flex-wrap: wrap; gap: 6px 16px; max-width: none; }
+.map-keys { display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: center; }
+.map-key { font: inherit; font-size: 13px; display: inline-flex; align-items: center; gap: 0; padding: 2px 10px 2px 8px;
+  border: 1px solid var(--line); border-radius: 999px; background: transparent; color: var(--ink); cursor: pointer; max-width: 28ch; }
+.map-key > span:nth-child(2) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.map-key .map-key-count { margin-left: 6px; flex: none; font-family: var(--mono); font-size: 12px; }
+.map-key[aria-pressed="true"] { border-color: var(--ink); font-weight: 700; }
+.map-key.plain { border: 0; padding: 0; cursor: default; color: var(--ink-soft); max-width: none; }
+.map-more { display: contents; }
+.map-more > summary { cursor: pointer; padding: 2px 8px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink); }
+.map-more[open] > summary { margin-bottom: 4px; }
+.map-more > .map-keys { flex-basis: 100%; }
+
+.map-kept { margin: 0; font-size: 13px; color: var(--ink); max-width: none; }
+.map-unplaced { margin: 0; font-size: 13px; color: var(--ink-soft); max-width: none; }
+.map-unplaced-list { margin: 6px 0 0; padding-left: 18px; max-height: 14em; overflow: auto; }
+.map-unplaced-list li { margin: 2px 0; }
+
+/* The card at the right. The stability axis is drawn narrow here: its label and value on one row,
+   the track under them across the card, and the three ends wrapping under the track. */
+.map-stability .stability { grid-template-columns: 1fr auto; }
+.map-stability .stability .stability-track { grid-column: 1 / -1; grid-row: 2; }
+.map-stability .stability .stability-ends { grid-column: 1 / -1; flex-wrap: wrap; justify-content: flex-start; gap: 0 14px; }
+.map-card { display: grid; gap: 12px; align-content: start; font-size: 14px; border-left: 1px solid var(--line); padding-left: 20px; min-width: 0; }
+@media (max-width: 1100px) { .map-card { border-left: 0; padding-left: 0; border-top: 1px solid var(--line); padding-top: 12px; } }
+.map-card .eyebrow { margin: 0; }
+.map-name { margin: 0; font-size: 17px; line-height: 1.3; overflow-wrap: anywhere; }
+.map-folder { margin: 0; font-size: 13px; }
+.map-facts { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; }
+.map-facts dt { color: var(--ink-soft); }
+.map-facts dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+.map-stability { display: grid; gap: 6px; }
+.map-stability p { margin: 0; font-size: 12px; }
+.map-source { margin: 0; font-size: 12px; }
+.map-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.map-hint { margin: 0; font-size: 13px; }
+.map-nothing { margin: 0; color: var(--ink-soft); }
+
+/* While the map is built: the sentence, three dots that pulse, the themes named in the order of size. */
+.map-loading { display: grid; place-items: center; padding: 24px 16px; }
+.map-loading-card { max-width: 56ch; text-align: left; }
+.map-dots-loading { display: inline-flex; gap: 6px; margin-top: 4px; }
+.map-dots-loading span { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); animation: map-pulse 1.2s ease-in-out infinite; }
+.map-dots-loading span:nth-child(2) { animation-delay: 0.2s; }
+.map-dots-loading span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes map-pulse { 0%, 100% { opacity: 0.25; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) {
+  .map-dots-loading span { animation: none; opacity: 0.7; }
+}
+.map-themes-first { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 13px; }
+.map-themes-first li { white-space: nowrap; }
+
+/* Outlines of groups: under the dots, never in the way of a click. The outline is the shape of the
+   places of a group's experiments, drawn with the dash of its mark. Where two outlines meet, the
+   overlap is shaded with the ink. */
+.map-outlines { pointer-events: none; }
+/* The Outlines button hides the groups' outlines; another owner's are not its to hide. */
+.map-outlines.hide-groups [data-owner="groups"] { display: none; }
+.map-outline { fill: color-mix(in srgb, var(--o) 11%, transparent); stroke: var(--o); stroke-width: 2; stroke-linejoin: round; }
+.map-outline.o1 { stroke-dasharray: 7 4; }
+.map-outline.o2 { stroke-dasharray: 2 4; stroke-linecap: round; }
+.map-outline.o3 { stroke-dasharray: 10 4 2 4; }
+.map-overlap { fill: color-mix(in srgb, var(--ink) 20%, transparent); stroke: none; }
+.map-outline-tag rect { fill: var(--o); }
+.map-outline-tag text { font: 700 12px var(--text); fill: var(--panel); }
+.map-outline-key { display: inline-block; width: 18px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: middle;
+  border: 2px solid var(--o); background: color-mix(in srgb, var(--o) 11%, transparent); }
+.map-outline-key.o1 { border-style: dashed; }
+.map-outline-key.o2 { border-style: dotted; }
+/* The fourth dash is dash and dot (10 4 2 4 on the map): a border cannot draw it, so the box's four
+   edges are drawn as gradients of the same pattern. */
+.map-outline-key.o3 {
+  border-color: transparent;
+  background:
+    repeating-linear-gradient(90deg, var(--o) 0 10px, transparent 10px 14px, var(--o) 14px 16px, transparent 16px 20px) 0 0 / 100% 2px no-repeat border-box,
+    repeating-linear-gradient(90deg, var(--o) 0 10px, transparent 10px 14px, var(--o) 14px 16px, transparent 16px 20px) 0 100% / 100% 2px no-repeat border-box,
+    repeating-linear-gradient(180deg, var(--o) 0 10px, transparent 10px 14px, var(--o) 14px 16px, transparent 16px 20px) 0 0 / 2px 100% no-repeat border-box,
+    repeating-linear-gradient(180deg, var(--o) 0 10px, transparent 10px 14px, var(--o) 14px 16px, transparent 16px 20px) 100% 0 / 2px 100% no-repeat border-box,
+    color-mix(in srgb, var(--o) 11%, transparent);
+}
+.map-overlap-key { display: inline-block; width: 18px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: middle;
+  background: color-mix(in srgb, var(--ink) 20%, transparent); border: 1px solid var(--line); }
+.map-outline-legend { align-items: center; }
+.map-groups { display: grid; gap: 10px; }
+.map-group { display: grid; gap: 4px; border-top: 1px solid var(--line); padding-top: 8px; }
+.map-group .eyebrow { margin: 0; }
+.map-group-name { margin: 0; font-weight: 700; overflow-wrap: anywhere; }
+.map-group p { margin: 0; }
+.map-outline-letter { margin-right: 5px; }
+
+/* Compare lines of work: a list to tick two to four from, and the button. */
+.map-compare { font-size: 13px; color: var(--ink-soft); }
+.map-compare > summary { cursor: pointer; color: var(--ink); width: max-content; }
+.map-compare-lines { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 6px 0; }
+.map-compare-line { display: inline-flex; align-items: center; gap: 2px; cursor: pointer; }
+.map-compare-go { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.map-outline-legend .map-key .faint { margin-left: 6px; }

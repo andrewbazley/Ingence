@@ -1,0 +1,108 @@
+# Statistical and analytical vocabulary.
+#
+# Shared by every quantitative field, which makes it one of the highest-value
+# domain-neutral sections: a column called "sd" means the same thing whether the
+# study is about cells or climate.
+section: statistics
+theme_kind: statistic
+origin: builtin
+summary: Descriptive statistics, tests, models and evaluation measures.
+
+entries:
+  # -- descriptive ----------------------------------------------------------
+  - {term: mean, surfaces: [mean, avg, ave, average, mu]}
+  - {term: median, surfaces: [median, med, p50]}
+  - {term: mode, surfaces: [mode]}
+  - {term: standard_deviation, surfaces: [sd, std, stdev, stddev, sigma]}
+  - {term: standard_error, surfaces: [se, sem, stderr]}
+  - {term: variance, surfaces: [var, variance]}
+  - {term: coefficient_of_variation, surfaces: [cv, "coefficient-of-variation"]}
+  - {term: interquartile_range, surfaces: [iqr]}
+  - {term: quartile, surfaces: [q1, q3, quartile, quartiles]}
+  - {term: percentile, surfaces: [pct, percentile, quantile, p95, p99]}
+  - {term: minimum, surfaces: [min, minimum, lowest]}
+  - {term: maximum, surfaces: [max, maximum, highest, peak]}
+  - {term: range, surfaces: [range, spread]}
+  - {term: sum, surfaces: [sum, total, integral, integrated, auc_area]}
+  # `n` is also `stated_replicate_count` in time_and_versions, on the kind `count`. The
+  # collision is declared from both sides so that neither reads as an accident.
+  - {term: count, surfaces: [n, count, counts, number, freq, frequency, tally],
+     ambiguous_with: [stated_replicate_count]}
+
+  # -- transforms -----------------------------------------------------------
+  - {term: zscore, surfaces: [z, zscore, "z-score", standardised, standardized]}
+  - {term: logarithm, surfaces: [log, ln, log2, log10, logged]}
+  - {term: ratio, surfaces: [ratio, quotient, relative]}
+  - {term: fold_change, surfaces: [fc, foldchange, "fold-change", log2fc, logfc]}
+  - {term: difference, surfaces: [diff, difference, delta, change]}
+  - {term: percent_change, surfaces: [pctchange, "percent-change", relchange]}
+
+  # -- tests ----------------------------------------------------------------
+  - {term: t_test, surfaces: [ttest, "t-test", students, welch, paired_t]}
+  - {term: analysis_of_variance, surfaces: [anova, manova, ancova, "two-way", "one-way"]}
+  - {term: chi_square, surfaces: [chisq, chisquare, "chi-square", chi2]}
+  - {term: mann_whitney, surfaces: [mannwhitney, "mann-whitney", wilcoxon, ranksum, signedrank]}
+  - {term: kruskal_wallis, surfaces: [kruskal, "kruskal-wallis"]}
+  - {term: kolmogorov_smirnov, surfaces: [ks, kstest, "kolmogorov-smirnov"]}
+  - {term: shapiro_wilk, surfaces: [shapiro, "shapiro-wilk"]}
+  - {term: levene, surfaces: [levene, bartlett]}
+  - {term: fisher_exact, surfaces: [fisher, fishers, "fisher-exact"]}
+  - {term: correlation, surfaces: [corr, correlation, pearson, spearman, kendall, rho, tau]}
+
+  # -- multiple comparison --------------------------------------------------
+  - {term: p_value, surfaces: [p, pval, pvalue, "p-value", pvals]}
+  - {term: adjusted_p_value, surfaces: [padj, qval, qvalue, fdr, adjusted, corrected_p]}
+  - {term: bonferroni, surfaces: [bonferroni, bonf]}
+  - {term: benjamini_hochberg, surfaces: [bh, "benjamini-hochberg"]}
+  - {term: holm, surfaces: [holm, sidak]}
+  - {term: tukey, surfaces: [tukey, hsd, dunnett, scheffe]}
+  - {term: significance, surfaces: [sig, significant, ns, nonsignificant, alpha]}
+
+  # -- models ---------------------------------------------------------------
+  - {term: fit, surfaces: [fit, fitted, fitting, model, modelled, modeled]}
+  - {term: regression, surfaces: [reg, regression, lm, glm, ols, mixed, lme, lmm]}
+  - {term: linear, surfaces: [linear, lin]}
+  - {term: nonlinear, surfaces: [nonlinear, "non-linear", nls]}
+  - {term: polynomial, surfaces: [poly, polynomial, quadratic, cubic]}
+  - {term: exponential, surfaces: [exp_fit, exponential, decay, growth]}
+  - {term: logistic, surfaces: [logistic, sigmoid, hill, "dose-response", ic50, ec50]}
+  - {term: gaussian, surfaces: [gaussian, normal, lorentzian, voigt]}
+  - {term: residual, surfaces: [resid, residual, residuals, error_term]}
+  - {term: r_squared, surfaces: [r2, rsq, rsquared, "r-squared", adjr2]}
+  - {term: coefficient, surfaces: [coef, coeff, coefficient, beta, weight]}
+  - {term: slope, surfaces: [slope, gradient, m_coef]}
+  - {term: intercept, surfaces: [intercept, offset_term, b_coef]}
+  - {term: confidence_interval, surfaces: [ci, "confidence-interval", ci95, lower, upper, bounds]}
+
+  # -- multivariate and clustering ------------------------------------------
+  - {term: principal_component_analysis, surfaces: [pca, pc1, pc2, principal]}
+  - {term: dimensionality_reduction, surfaces: [tsne, "t-sne", umap, lda, ica, nmf, mds, embedding]}
+  - {term: clustering, surfaces: [cluster, clusters, clustering, kmeans, hierarchical, dbscan, hdbscan, louvain, leiden]}
+  - {term: distance, surfaces: [dist, distance, euclidean, cosine, jaccard, manhattan, mahalanobis]}
+  - {term: dendrogram, surfaces: [dendrogram, linkage, tree_plot]}
+
+  # -- evaluation -----------------------------------------------------------
+  - {term: receiver_operating_characteristic, surfaces: [roc, auroc]}
+  - {term: area_under_curve, surfaces: [auc, aupr, auprc]}
+  - {term: sensitivity, surfaces: [sensitivity, recall, tpr]}
+  - {term: specificity, surfaces: [specificity, tnr]}
+  - {term: precision, surfaces: [precision, ppv]}
+  - {term: f_score, surfaces: [f1, fscore, "f-score", fbeta]}
+  - {term: accuracy, surfaces: [accuracy, acc]}
+  - {term: confusion_matrix, surfaces: [confusion, tp, fp, tn, fn]}
+  - {term: cross_validation, surfaces: [cv_fold, crossval, kfold, holdout, train, test, validation, val]}
+
+  # -- signal ---------------------------------------------------------------
+  - {term: signal, surfaces: [signal, sig_intensity, amplitude]}
+  - {term: noise, surfaces: [noise, background, bg, blank, dark]}
+  - {term: signal_to_noise, surfaces: [snr, "s/n", sbr, cnr]}
+  - {term: threshold, surfaces: [threshold, cutoff, "cut-off", gate, gating, limit]}
+  - {term: limit_of_detection, surfaces: [lod, loq, "limit-of-detection"]}
+
+  # -- what a tracking analysis writes --------------------------------------
+  # The measures a single-particle tracking script names its outputs by, domain-neutral within
+  # the analysis of trajectories.
+  - {term: step_size, surfaces: [step_size, step_sizes, "step-size", "step-sizes"]}
+  - {term: diffusion_coefficient, surfaces: [deff, d_eff, diffusion_coefficient, "diffusion-coefficient", diffusivity]}
+  - {term: time_lag, surfaces: [tlag, t_lag, time_lag, lag_time, timelag]}
+  - {term: turning_angle, surfaces: [cos_theta, costheta, turning_angle, "turning-angle"]}

@@ -1,0 +1,440 @@
+# English words that lie within a slip of a shipped Dictionary spelling: one edit away, or two under
+# the seven-letter rule. A name that writes one of them is never read as a slip of the other
+# (`commons` beside `comments`). Built offline from a hand-written list of common English words and
+# their plurals, checked against the shipped Dictionary. This is not a section and loads as none.
+# Every word is plain English.
+spelling_denylist:
+  - abouts  # near about
+  - actuals  # near actual
+  - agains  # near again
+  - aligns  # near align
+  - alone  # near clone
+  - alphas  # near alpha
+  - aprils  # near april
+  - around  # near round
+  - arounds  # near rounds
+  - arrows  # near arrow
+  - augusts  # near august, augustus
+  - awfuls  # near awful
+  - backed  # near packed
+  - backups  # near backup
+  - batchs  # near batch, batches
+  - battle  # near cattle
+  - bead  # near head
+  - better  # near letter
+  - black  # near blank
+  - blanks  # near blank
+  - blast  # near last
+  - block  # near lock
+  - bloom  # near loom
+  - blur  # near a bench word, listed whatever the Dictionary spells
+  - bonus  # near bogus
+  - border  # near order
+  - bother  # near other
+  - bound  # near bounds, round
+  - brain  # near train
+  - brake  # near broke
+  - breath  # near breadth
+  - bridge  # near fridge
+  - brokens  # near broken
+  - brokes  # near broke, broken
+  - budgets  # near budget
+  - builds  # near build
+  - built  # near build
+  - bursts  # near burst
+  - cable  # near table
+  - cables  # near tables
+  - cameras  # near camera
+  - castle  # near cattle
+  - catch  # near batch, patch
+  - chain  # near chan
+  - charge  # near change
+  - charges  # near changes
+  - charm  # near charmm, chart
+  - charms  # near charmm, charts
+  - chases  # near chase
+  - checks  # near check
+  - cheek  # near check
+  - chill  # near hill
+  - chose  # near chase
+  - clock  # near lock
+  - close  # near clone
+  - columns  # near column
+  - copys  # near copy
+  - county  # near count, counts
+  - countys  # near counts
+  - court  # near count
+  - courts  # near counts
+  - crack  # near track
+  - cracks  # near tracks
+  - craft  # near draft
+  - crafts  # near drafts
+  - crash  # near trash
+  - cream  # near cram
+  - crest  # near vrest
+  - crisp  # near crispr
+  - crisps  # near crispr
+  - croppeds  # near cropped
+  - crops  # near crop
+  - curve  # near curie
+  - cut  # near a bench word, listed whatever the Dictionary spells
+  - damage  # near damaged
+  - damages  # near damaged
+  - death  # near depth
+  - debut  # near debug
+  - delay  # near decay
+  - deltas  # near delta
+  - denses  # near lenses
+  - depths  # near depth
+  - dirtys  # near dirty
+  - dishs  # near dish
+  - dodge  # near dodgy
+  - drain  # near train
+  - drank  # near rank
+  - dried  # near died
+  - drift  # near draft
+  - drifts  # near drafts
+  - dwells  # near dwell, wells
+  - eager  # near edger
+  - eating  # near gating
+  - eight  # near might, weight
+  - emails  # near email
+  - emerge  # near merge
+  - ending  # near pending
+  - ensure  # near unsure
+  - errors  # near error
+  - ethnics  # near ethics
+  - expert  # near export
+  - experts  # near exports
+  - faileds  # near failed
+  - father  # near feather
+  - fields  # near field
+  - fight  # near might
+  - filed  # near failed, field, fixed, tiled
+  - filing  # near firing
+  - fill  # near filt, hill
+  - filled  # near killed
+  - finals  # near final
+  - fits  # near bits, fitc
+  - fitteds  # near fitted
+  - fixeds  # near fixed
+  - fixes  # near fixed
+  - flame  # near frame
+  - flames  # near frames
+  - flash  # near flask
+  - flat  # near flac
+  - fleet  # near feet
+  - flock  # near lock
+  - formal  # near normal
+  - forum  # near form
+  - foster  # near poster
+  - found  # near round
+  - founds  # near bounds, rounds
+  - frank  # near rank
+  - freeze  # near freezer
+  - freezes  # near freezer
+  - frozens  # near frozen
+  - gettings  # near settings
+  - giant  # near grant
+  - glass  # near class
+  - grace  # near trace
+  - graces  # near traces
+  - grain  # near gain, train
+  - grand  # near grant
+  - grants  # near grant
+  - grape  # near graph
+  - grapes  # near graphs
+  - grass  # near grams
+  - great  # near treat
+  - grids  # near grid
+  - grind  # near grid
+  - ground  # near round
+  - grounds  # near rounds
+  - growths  # near growth
+  - guild  # near build
+  - harsh  # near hash
+  - hatch  # near batch, patch
+  - headed  # near header
+  - headeds  # near headers
+  - height  # near weight
+  - honor  # near donor
+  - honors  # near donors
+  - house  # near mouse
+  - indexs  # near index
+  - intro  # near into
+  - killeds  # near killed
+  - labelleds  # near labelled
+  - later  # near laser, latex, liter, water
+  - laters  # near lasers, liters
+  - latests  # near latest
+  - latter  # near letter
+  - layer  # near laser
+  - layers  # near lasers
+  - leader  # near header, reader
+  - leaders  # near headers
+  - lease  # near please
+  - leases  # near lenses
+  - least  # near last
+  - legacys  # near legacy
+  - letters  # near letter
+  - light  # near might
+  - limits  # near limit
+  - linen  # near line
+  - liver  # near liter
+  - livers  # near liters
+  - logic  # near logfc
+  - lover  # near lower
+  - lowers  # near lower
+  - lucky  # near lucy
+  - maker  # near make
+  - making  # near masking
+  - makings  # near mask, masked, masking, masks
+  - manners  # near manders
+  - marchs  # near march
+  - marine  # near murine
+  - marked  # near masked, parked
+  - marker  # near a bench word, listed whatever the Dictionary spells
+  - markers  # near a bench word, listed whatever the Dictionary spells
+  - maskeds  # near masked
+  - masters  # near master
+  - match  # near batch, march, patch
+  - matter  # near master
+  - maybes  # near maybe
+  - meant  # near mean
+  - medias  # near media, median
+  - mediums  # near medium
+  - mergeds  # near merged
+  - merger  # near merge, merged
+  - merges  # near merge, merged
+  - metal  # near meta
+  - mights  # near might
+  - minus  # near mins
+  - mixeds  # near mixed
+  - models  # near model
+  - mother  # near other
+  - mount  # near count
+  - mounts  # near counts
+  - mouses  # near mouse
+  - mouth  # near month
+  - mouths  # near months
+  - narrow  # near arrow
+  - night  # near might
+  - noises  # near noise
+  - normals  # near normal
+  - noted  # near note, notes
+  - noteds  # near notes
+  - notices  # near notice
+  - option  # near options
+  - orange  # near range
+  - orders  # near order
+  - others  # near other
+  - packeds  # near packed
+  - paints  # near paint
+  - papers  # near paper
+  - pasta  # near fasta
+  - pasted  # near passed
+  - pastes  # near passes
+  - patchs  # near patch
+  - pauses  # near passes
+  - pearl  # near perl
+  - person  # near pearson
+  - phases  # near phase
+  - phones  # near phone
+  - photos  # near photo
+  - phrase  # near phase
+  - picked  # near packed
+  - pilots  # near pilot, plots
+  - pitch  # near patch
+  - place  # near plane, plate
+  - places  # near planes, plates
+  - planet  # near plane, planes
+  - planets  # near planes
+  - plant  # near plane
+  - plants  # near planes
+  - pleases  # near please
+  - point  # near paint
+  - polar  # near molar
+  - pool  # near pmol, poor
+  - pooleds  # near pooled
+  - pound  # near round
+  - pounds  # near bounds, rounds
+  - powder  # near power
+  - powers  # near power
+  - prime  # near primer
+  - primes  # near primer, primers
+  - print  # near paint
+  - priors  # near prior
+  - propers  # near proper
+  - prove  # near probe
+  - proves  # near probes
+  - quite  # near quote
+  - quotes  # near quote
+  - radio  # near ratio
+  - rally  # near tally
+  - ranges  # near range
+  - rating  # near gating
+  - ratios  # near ratio
+  - readers  # near headers, reader
+  - realm  # near real
+  - recalls  # near recall
+  - repeats  # near repeat
+  - replay  # near reply
+  - replys  # near reply
+  - resort  # near report
+  - resorts  # near reports
+  - reviews  # near review
+  - ridge  # near fridge
+  - right  # near might
+  - roman  # near raman
+  - saint  # near paint
+  - scale  # near scaled, stale
+  - scaleds  # near scaled
+  - scales  # near scaled
+  - scanned  # near scanner
+  - scans  # near sans
+  - scheme  # near schema
+  - schemes  # near schemas
+  - scopes  # near scope
+  - score  # near core, fscore, scope, zscore
+  - scores  # near cores
+  - sector  # near vector
+  - seed  # near sted
+  - seededs  # near seeded
+  - seeing  # near seeding
+  - senior  # near sensor
+  - senses  # near lenses
+  - series  # near zseries
+  - serve  # near server
+  - servers  # near server
+  - serves  # near server
+  - shades  # near spades
+  - shame  # near sham
+  - share  # near shared
+  - shareds  # near shared
+  - shares  # near shared
+  - sheep  # near sheet, sweep
+  - sheeps  # near sweeps
+  - sheets  # near sheet
+  - shock  # near stock
+  - sight  # near might
+  - signals  # near signal
+  - simple  # near sample
+  - simples  # near samples
+  - singles  # near single
+  - slate  # near plate
+  - slates  # near plates
+  - sleep  # near sweep
+  - sleeps  # near sweeps
+  - slopes  # near slope
+  - smooths  # near smooth
+  - sorted  # near sorter
+  - sound  # near round
+  - sounds  # near bounds, rounds
+  - sources  # near source
+  - spaces  # near spades
+  - spares  # near spades
+  - speak  # near peak
+  - speaks  # near peaks
+  - spent  # near spect
+  - spine  # near spike, spin
+  - spines  # near spikes
+  - spins  # near spin
+  - spite  # near site, spike
+  - spites  # near sites, spikes
+  - split  # near a bench word, listed whatever the Dictionary spells
+  - splits  # near a bench word, listed whatever the Dictionary spells
+  - spoke  # near spike
+  - spokes  # near spikes
+  - spreads  # near spread
+  - spun  # near spin, srun
+  - stable  # near stale, table
+  - stables  # near tables
+  - stages  # near stage
+  - stain  # near strain
+  - stake  # near stage, stale, take
+  - stakes  # near takes
+  - stales  # near stale
+  - stall  # near stale
+  - stare  # near stage, stale
+  - state  # near stage, stale
+  - steep  # near step, sweep
+  - steeps  # near sweeps
+  - stick  # near sick, stack, stock
+  - sticks  # near stacks
+  - stiff  # near tiff
+  - stocks  # near stacks, stock
+  - stole  # near stale
+  - stood  # near stool
+  - stools  # near stool
+  - stop  # near step
+  - store  # near storm
+  - storms  # near storm
+  - story  # near storm
+  - strains  # near strain
+  - stuck  # near stack, stock
+  - stucks  # near stacks
+  - studios  # near studies
+  - studys  # near study
+  - style  # near stale
+  - suite  # near site
+  - suites  # near sites
+  - supply  # near suppl
+  - sweet  # near sheet, sweep
+  - sweets  # near sweeps
+  - switch  # near stitch
+  - taken  # near take, takes, talen
+  - takens  # near takes
+  - talent  # near talen
+  - teach  # near tech
+  - tempo  # near temp
+  - tests  # near test
+  - thank  # near than
+  - threat  # near thread, treat
+  - threats  # near threads
+  - thumbs  # near thumb
+  - tight  # near might
+  - tired  # near tiled
+  - title  # near tile
+  - titles  # near tiles
+  - todays  # near today
+  - totals  # near total
+  - tower  # near lower, power
+  - trackeds  # near tracked
+  - trade  # near trace
+  - trades  # near traces
+  - trail  # near train, trial
+  - trails  # near trials
+  - trains  # near train, trans
+  - trait  # near train
+  - trashs  # near trash
+  - treats  # near treat
+  - treaty  # near treat
+  - trick  # near track
+  - tricks  # near tracks
+  - trimmeds  # near trimmed
+  - trims  # near trim, tris
+  - truck  # near track
+  - trucks  # near tracks
+  - truths  # near truth
+  - uppers  # near upper
+  - value  # near pvalue, qvalue
+  - venue  # near venus
+  - venues  # near venus
+  - verse  # near vers
+  - verses  # near versus
+  - visits  # near visit
+  - vital  # near vial
+  - wash  # near bash, hash
+  - watch  # near batch, patch
+  - waters  # near water
+  - weigh  # near weight
+  - weighs  # near weight
+  - weights  # near weight
+  - weirds  # near weird
+  - wheats  # near wheat
+  - width  # near with
+  - withouts  # near without
+  - wound  # near round
+  - wounds  # near bounds, rounds
+  - wrongs  # near wrong
+  - yield  # near field

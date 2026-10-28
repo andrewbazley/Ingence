@@ -1,0 +1,2 @@
+Written by tools/make_historical_fixtures.py under schema 1.20.
+Every name is invented. Regenerate only under that schema's own engine.

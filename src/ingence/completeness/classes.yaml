@@ -1,0 +1,37 @@
+# The conclusions of the engine that put a file in each class that completeness counts.
+#
+# This file presents what a run concluded. It holds no vocabulary. Every value below is a sense
+# that the Dictionary holds (`dictionary/builtin/process_workflow.yaml` for stages,
+# `dictionary/builtin/formats.yaml` and the packs for formats) or a value that an experiment rule
+# writes (`rulebook/revision_4.py`). Nothing here binds a spelling, decides a stage or changes a
+# claim. A file is counted from its resolved claims only: a conclusion published as conflicting
+# puts it in no class (a conflicting conclusion is not a known one).
+#
+# The lists follow the toolkit that completeness replaces, where the engine's senses say the same
+# thing. Where they differ, the comment says how and why.
+
+# A raw acquisition: a file some rule read at one of these stages (an instrument's format, read by
+# `acquisition_stage_from_format`), and no rule read at an analysis stage below. The toolkit let
+# a name-read stage overwrite a format-read one in table order; here an analysis stage wins and
+# nothing else overwrites, so a recording in a folder named `raw` stays a raw acquisition.
+raw_acquisition_stages: [acquisition]
+
+# An analysis file: a file some rule read at one of these stages. The toolkit's eight, and
+# `pooled` (an analysis resting on several replicates, the engine's own sense).
+analysis_stages: [analysis, summary, processed, quantification, report, export, intermediate,
+                  preprocessed, pooled]
+
+# Stages at which a table is still raw data, never a results table (the toolkit's rule: a table
+# read at `acquisition` or `raw` is not a result).
+not_result_stages: [acquisition, raw]
+
+# A results table: a file read as one of these formats, at no stage above (unless an analysis
+# stage). The toolkit went by extension (csv, tsv, xlsx, xls, prism, pzfx, mat); the engine's
+# formats say it: `tabular_format` holds csv, tsv, xlsx, xls, ods and the column stores, and
+# `prism_project` (the biochemistry pack) pzfx and prism. A `.mat` file is read as an array, which
+# may be a workspace rather than a table, so it is not counted.
+result_table_formats: [tabular_format, prism_project]
+
+# An experiment is not declared here: it is ``ingence.experiment_units``'s, the one definition
+# completeness and themes share (any folder a rule resolved as an experiment's, the highest above
+# a file).

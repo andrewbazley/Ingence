@@ -1,0 +1,112 @@
+# The quality figures of the design-grid summary. Read by `ingence.quality.catalogue` in the shape
+# of `quality/catalogue.yaml`. Every figure is counted from the grids the engine draws from the
+# run's file names, the replicate classes and the recorded name layouts; the grid is a projection
+# and the figures are counts of it. A share is never stored: a count and its whole are, and a page
+# shows the share as a bar.
+sections:
+  design: "Design grid"
+figures:
+  design.with_grid:
+    section: design
+    label: "Experiments with a design grid"
+    unit: experiments
+    known_from: infer
+    total: "experiments in the run"
+    method: "Experiments whose file names give at least one factor, out of all the experiments the run holds. Stated when the run was written: a later answer or setting does not change it."
+  design.factors_per_grid:
+    section: design
+    label: "Grids by number of factors"
+    unit: grids
+    known_from: infer
+    total: "experiments with a design grid"
+    method: "Design grids by how many factors each has, out of the grids, and a reader takes the middle value from the rows. Stated when the run was written: a later answer or setting does not change it."
+    facet_form: "the number of factors (2)"
+  design.grids_with_fill:
+    section: design
+    label: "Grids whose fill can be stated"
+    unit: grids
+    known_from: infer
+    total: "experiments with a design grid"
+    method: "Grids of two or more factors whose factors are crossed or partly crossed; a nested design has no fill, because its product is not what was expected. Stated when the run was written: a later answer or setting does not change it."
+  design.median_fill:
+    section: design
+    label: "Median fill of a grid, scaled to 1,000 combinations"
+    unit: points
+    known_from: infer
+    total: "1,000 points, a grid with every combination found"
+    method: "The middle value, over the grids that have a fill, of the combinations found over the combinations the levels allow, written as that many points of 1,000 and rounded to a whole number; not recorded where no grid has a fill. Stated when the run was written: a later answer or setting does not change it."
+  design.crossed_pairs:
+    section: design
+    label: "Pairs of factors that are crossed"
+    unit: pairs
+    known_from: infer
+    total: "pairs of factors"
+    method: "Pairs of factors within one grid whose levels occur together (crossed), out of all pairs of factors in all grids; the rest are nested. Stated when the run was written: a later answer or setting does not change it."
+  design.files_in_grid:
+    section: design
+    label: "Files drawn in a grid"
+    unit: files
+    known_from: infer
+    total: "files of the experiments"
+    method: "Files of all the experiments that fill a cell of a grid, out of all the files of the experiments, including those inside installed programs. Stated when the run was written: a later answer or setting does not change it."
+  design.files_left_out:
+    section: design
+    label: "Files left out of a grid"
+    unit: files
+    known_from: infer
+    total: "files of the experiments"
+    method: "Files of the experiments that no grid holds, by the first reason that applies, out of all the files of the experiments. Stated when the run was written: a later answer or setting does not change it."
+    facets:
+      program: "inside an installed program"
+      no_name_layout: "no name layout recorded for the file"
+      no_condition_class: "no class of replicates holds the file"
+      no_condition_part: "the name has no part that could be a condition"
+      another_layout: "the name is laid out unlike the grid's"
+      no_factor: "the layout has no part that varies"
+  design.no_grid:
+    section: design
+    label: "Experiments with no design grid"
+    unit: experiments
+    known_from: infer
+    total: "experiments in the run"
+    method: "Experiments that have no grid, by the reason most of their files were left out for, out of all the experiments; an experiment with no files found is its own reason. Stated when the run was written: a later answer or setting does not change it."
+    facets:
+      program: "inside an installed program"
+      no_name_layout: "no name layout recorded for the file"
+      no_condition_class: "no class of replicates holds the file"
+      no_condition_part: "the name has no part that could be a condition"
+      another_layout: "the name is laid out unlike the grid's"
+      no_factor: "the layout has no part that varies"
+      no_files: "no file of the experiment was found"
+  design.grids_with_merge:
+    section: design
+    label: "Grids where parts of names were merged"
+    unit: grids
+    known_from: infer
+    total: "experiments with a design grid"
+    method: "Grids in which two or more parts of a name that go together were drawn as one factor. Stated when the run was written: a later answer or setting does not change it."
+  design.series_ordered:
+    section: design
+    label: "Classes of replicates the series rule would put in order"
+    unit: classes
+    known_from: infer
+    total: "classes of two or more replicates"
+    method: "Classes of replicates with two or more members that the series rule would put in order, counted from the reading the rule uses; the rule ships switched off, and this is what it would do. Stated when the run was written: a later answer or setting does not change it."
+  design.series_not_ordered:
+    section: design
+    label: "Classes of replicates the series rule would not put in order"
+    unit: classes
+    known_from: infer
+    total: "classes of two or more replicates"
+    method: "The other classes of two or more replicates, by why the rule would not put them in order. Stated when the run was written: a later answer or setting does not change it."
+    facets:
+      unrecorded: "the run recorded no layout for the names"
+      layout: "the names are not laid out alike"
+      no_variation: "nothing tells the members apart by name"
+      many_parts: "more than one part varies, or the one that varies is no counting part"
+      labels: "the labels of the counting part differ"
+      parse: "a value of the counting part is no number"
+      not_counting: "the numbers do not count, so they may name a condition"
+      tie: "two members carry the same number"
+      clocks: "the files' own clocks run against the order of the numbers"
+      too_few: "the class holds fewer than two members"

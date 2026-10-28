@@ -1,0 +1,104 @@
+name: "Bug"
+description: "Something in Ingence is broken, crashes, or does something that looks wrong."
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting this. Please check the existing issues first.
+
+        Questions such as "how do I...?" belong in Discussions, and a security problem must be reported
+        privately: see the Security policy.
+
+        Before you post, see [Reporting a problem without sharing your data](https://ingence.org/guides/reporting-a-problem.html).
+  - type: checkboxes
+    id: no-private-data
+    attributes:
+      label: Before you post
+      description: The guide above says what to leave out and what to write in its place.
+      options:
+        - label: "I have not pasted file paths, folder names, people's names or counts from my own data"
+          required: true
+  - type: input
+    id: ingence-version
+    attributes:
+      label: Ingence version
+      description: Run `ingence --version` in a terminal and paste the first line it prints.
+      placeholder: "ingence 0.4.0"
+    validations:
+      required: true
+  - type: dropdown
+    id: system
+    attributes:
+      label: Your system
+      description: The operating system you ran Ingence on.
+      options:
+        - "macOS 13 or later, Apple silicon (arm64)"
+        - "macOS 13 or later, Intel (x86_64)"
+        - "Windows 10 and 11"
+        - "Ubuntu Linux LTS releases"
+        - "Another system or an older version (say which below)"
+    validations:
+      required: true
+  - type: dropdown
+    id: python-version
+    attributes:
+      label: Python version
+      description: Run `python --version` in the environment Ingence is installed in.
+      options:
+        - "3.12"
+        - "3.13"
+        - "3.14"
+        - "Another version (say which below)"
+    validations:
+      required: true
+  - type: dropdown
+    id: install-route
+    attributes:
+      label: How you installed Ingence
+      options:
+        - uv
+        - pip
+        - conda
+        - From the source code (a checkout)
+        - Another way (say which below)
+    validations:
+      required: true
+  - type: dropdown
+    id: where
+    attributes:
+      label: Where it went wrong
+      options:
+        - ingence init
+        - ingence index
+        - ingence dive
+        - ingence infer
+        - ingence see (the Dashboard in the browser)
+        - Another command (say which below)
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: >-
+        What you did, what you expected, and what happened instead. If a message appeared, copy it,
+        after replacing every path, folder name and person's name in it with a stand-in such as <path>.
+    validations:
+      required: true
+  - type: textarea
+    id: shape
+    attributes:
+      label: The shape of your folders
+      description: >-
+        In words, with invented names: for example "a folder per day, each holding a movie and a
+        spreadsheet". The smallest made-up folder that shows the problem is the best description.
+  - type: textarea
+    id: name-shapes
+    attributes:
+      label: Name shapes (optional)
+      description: >-
+        Run `ingence teach shapes -p PROJECT` and paste the table it prints. It shows the shapes of
+        your file and folder names, not the names. Read it before you post.
+      render: text

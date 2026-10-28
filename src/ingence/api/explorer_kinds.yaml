@@ -1,0 +1,53 @@
+# The Graph workspace's display families. They set how the Wheel, Lineage and Timeline group the
+# formats and stages that a run concluded, for color and counting only.
+#
+# This file holds presentation, not vocabulary. Every term below is already a sense that the
+# Dictionary holds (`dictionary/builtin/formats.yaml` and the packs) or a stage value that a
+# rule writes. Nothing here binds a spelling, decides a format or changes a claim. The workspace
+# counts a format that this file does not name as `other`: a known format outside the five
+# families. It counts a file whose run holds no format claim as `unknown`. The two are never
+# merged.
+#
+# The families' order is the color order (image, table, text, archive, array). The order is
+# validated for color-blind separation in both themes. Changing the order changes the palette.
+
+kinds:
+  image:
+    label: images and video
+    formats: [image_format, video_format, icon_format, illustrator_document, affinity_document]
+  table:
+    label: tables
+    formats: [tabular_format, lookup_table, database_table_file, embedded_database]
+  text:
+    label: text and documents
+    formats: [plain_text, markdown, restructured_text, latex_source, rich_document,
+              slide_deck_format, portable_document, xml_document, markup_document,
+              structured_format, yaml_document, toml_document, ini_document, log_file,
+              configuration_file, notebook_format, r_markdown, citation_format,
+              reference_library, iwork_document, program_output, error_stream]
+  archive:
+    label: archives and containers
+    formats: [archive_format, compressed_archive, compression_format, python_wheel,
+              package_relationship_part]
+  array:
+    label: arrays, volumes and meshes
+    formats: [array_format, vtk_data, mesh_format, cad_drawing, cad_exchange_format,
+              r_workspace]
+
+# A stage value that a rule writes, read into four families. A stage is a reading of a name or a
+# format. It is never evidence that a file was analyzed, and the workspace says so wherever it
+# shows a stage. A value that is not listed is `other`. Two families on one file are
+# `conflicting`.
+stages:
+  acquisition:
+    label: acquisition
+    values: [acquisition, raw, acquisitions]
+  processing:
+    label: processing
+    values: [processed, processing, export, exported, converted]
+  analysis:
+    label: analysis
+    values: [analysis, quantification, analysed]
+  summary:
+    label: summary and figures
+    values: [summary, report, figure, presentation]

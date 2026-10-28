@@ -1,0 +1,82 @@
+name: "Documentation"
+description: "A page is wrong, unclear, out of date, or missing."
+title: "[Docs]: "
+labels: ["documentation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        If you were confused, the page is at fault, not you. Say where.
+
+        Before you post, see [Reporting a problem without sharing your data](https://ingence.org/guides/reporting-a-problem.html).
+  - type: checkboxes
+    id: no-private-data
+    attributes:
+      label: Before you post
+      description: The guide above says what to leave out and what to write in its place.
+      options:
+        - label: "I have not pasted file paths, folder names, people's names or counts from my own data"
+          required: true
+  - type: input
+    id: ingence-version
+    attributes:
+      label: Ingence version
+      description: Run `ingence --version` in a terminal and paste the first line it prints.
+      placeholder: "ingence 0.4.0"
+    validations:
+      required: true
+  - type: dropdown
+    id: system
+    attributes:
+      label: Your system
+      description: The operating system you ran Ingence on.
+      options:
+        - "macOS 13 or later, Apple silicon (arm64)"
+        - "macOS 13 or later, Intel (x86_64)"
+        - "Windows 10 and 11"
+        - "Ubuntu Linux LTS releases"
+        - "Another system or an older version (say which below)"
+    validations:
+      required: true
+  - type: dropdown
+    id: python-version
+    attributes:
+      label: Python version
+      description: Run `python --version` in the environment Ingence is installed in.
+      options:
+        - "3.12"
+        - "3.13"
+        - "3.14"
+        - "Another version (say which below)"
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: Which page or file
+      description: The page's title or address, or the file's name (for example INSTALL.md).
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is wrong or unclear
+      description: >-
+        The sentence that misled you, the step that did not work, or the question the page does not
+        answer.
+    validations:
+      required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: What would help
+      description: A rewording, an example, or the missing step. You can leave this empty.
+  - type: textarea
+    id: name-shapes
+    attributes:
+      label: Name shapes (optional)
+      description: >-
+        Only if a project of yours shows the problem. Run `ingence teach shapes -p PROJECT` and paste
+        the table it prints. It shows the shapes of your file and folder names, not the names. Read it
+        before you post.
+      render: text

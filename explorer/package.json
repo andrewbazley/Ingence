@@ -1,0 +1,24 @@
+{
+  "//": "The Graph workspace: Wheel, Lineage and Timeline, in React and TypeScript, built by Vite into src/ingence/web/explorer/, which the engine serves beside the other pages. The built files are committed, so installing the engine needs no Node; after you change these sources, run `npm ci` and `npm run build` in this folder and commit what changes under src/ingence/web/explorer/.",
+  "name": "ingence-explorer",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "tsc --noEmit -p tsconfig.json && vite build && node scripts/notices.mjs",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "dev": "vite build --watch"
+  },
+  "dependencies": {
+    "@dagrejs/dagre": "1.1.8",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "5.2.0",
+    "typescript": "5.9.3",
+    "vite": "7.3.6"
+  }
+}

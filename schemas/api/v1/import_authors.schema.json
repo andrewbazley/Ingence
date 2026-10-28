@@ -1,0 +1,1 @@
+{"additionalProperties":false,"description":"Whom Import offers as a file's author: the people who have answered in this project.","properties":{"authors":{"items":{"type":"string"},"title":"Authors","type":"array"}},"required":["authors"],"title":"ImportAuthors","type":"object"}

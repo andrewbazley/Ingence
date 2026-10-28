@@ -1,0 +1,34 @@
+# Instruments and hardware, named generically.
+#
+# Deliberately free of vendor model numbers. A model name is a fact about one
+# laboratory's purchasing history, and a shipped dictionary full of them would be
+# noise for everyone else. What generalises is the *kind* of instrument, and a
+# user who wants their own model recognised adds one entry.
+section: instruments
+theme_kind: instrument
+origin: builtin
+summary: Kinds of laboratory and computing hardware, without vendor specifics.
+
+entries:
+  - {term: microscope, surfaces: [microscope, scope, micro, imaging_system]}
+  - {term: camera, surfaces: [camera, cam, detector, sensor, ccd, emccd, scmos, cmos]}
+  - {term: objective, surfaces: [objective, obj, lens, lenses]}
+  - {term: laser, surfaces: [laser, lasers, laserline, excitation_source]}
+  - {term: lamp, surfaces: [lamp, led, arc, halogen, xenon, mercury, illuminator]}
+  - {term: filter, surfaces: [filter, filters, filterset, dichroic, emission_filter, excitation_filter, bandpass, longpass, shortpass]}
+  - {term: stage, surfaces: [stage, xystage, zstage, piezo, motorised, motorized]}
+  - {term: incubator, surfaces: [incubator, incubation_chamber, co2, environmental_chamber, heated_stage]}
+  - {term: plate_reader, surfaces: [platereader, "plate-reader", reader, spectrophotometer, luminometer, fluorimeter, fluorometer]}
+  - {term: scanner, surfaces: [scanner, slidescanner, gel_scanner, densitometer]}
+  - {term: sequencer, surfaces: [sequencer, sequencing_machine, flowcell_machine]}
+  - {term: mass_spectrometer, surfaces: [massspec, "mass-spec", spectrometer, ms_instrument]}
+  - {term: cytometer, surfaces: [cytometer, flowcytometer, facs, sorter, cellsorter]}
+  - {term: centrifuge, surfaces: [centrifuge, ultracentrifuge, microfuge, spin]}
+  - {term: thermocycler, surfaces: [thermocycler, pcrmachine, "pcr-machine", cycler, lightcycler, qpcr_machine]}
+  - {term: gel_documentation, surfaces: [geldoc, "gel-doc", imager, licor, chemidoc, blotimager]}
+  - {term: amplifier, surfaces: [amplifier, amp_rig, headstage, digitizer, daq, adc]}
+  - {term: manipulator, surfaces: [manipulator, micromanipulator, injector, puller]}
+  - {term: balance, surfaces: [balance, scale_instrument, weighing]}
+  - {term: ph_meter, surfaces: [phmeter, "ph-meter", probe_ph]}
+  - {term: freezer, surfaces: [freezer, fridge, "minus80", "-80", "-20", ln2, cryostore, dewar]}
+  - {term: workstation, surfaces: [workstation, desktop_machine, laptop, server, node, cluster, hpc, gpu_node]}

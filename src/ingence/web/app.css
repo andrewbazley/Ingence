@@ -1,0 +1,812 @@
+/* The Dashboard's styles. No framework, no build step, no downloaded font: everything the page
+   needs ships beside the engine, because the engine must render on a machine that has never had a
+   network. */
+
+:root {
+  --ink: #16181d;
+  --ink-soft: #5b6270;
+  --line: #d9dce3;
+  --page: #fbfbfc;
+  --panel: #ffffff;
+  --accent: #1f5fa8;
+  --acquisition: #0b6b57;
+  --later: #8a4a10;
+  --doubt: #a11b3a;
+  --ink-quiet: #6c727e;
+  /* The website's tokens, one job each. */
+  --on-accent: #ffffff;
+  --accent-soft: #e6eef9;
+  --person: #c2185b;
+  --problem: #d03b3b;
+  --hatch: repeating-linear-gradient(135deg, #5b6270 0 1px, transparent 1px 5px);
+  --code-bg: #f2f3f6;
+  --text: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #e8eaef;
+    --ink-soft: #9aa2b1;
+    --line: #333844;
+    --page: #14161b;
+    --panel: #1b1e25;
+    --accent: #79b0ee;
+    --acquisition: #58c9ab;
+    --later: #e0a469;
+    --doubt: #f08098;
+    --ink-quiet: #868d9c;
+    --on-accent: #14161b;
+    --accent-soft: #223247;
+    --person: #e4679e;
+    --problem: #f07070;
+    --hatch: repeating-linear-gradient(135deg, #9aa2b1 0 1px, transparent 1px 5px);
+    --code-bg: #1b1e25;
+    color-scheme: dark;
+  }
+}
+
+* { box-sizing: border-box; }
+
+/* The focus ring on every control is 2 px of the accent with a 2 px offset. A view that draws focus
+   its own way (a row's inset ring, the Years list) says so with a more specific rule of its own,
+   later in this file or in its own sheet. */
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* The skip target is a region, not a control: it takes focus from the skip link and shows no ring. */
+main:focus { outline: none; }
+
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--ink);
+  font: 15px/1.5 var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+header {
+  padding: 14px 20px 10px;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+/* The brand is the mark (26 px; the files in the text color, the made file in the accent) beside
+   "Ingence" (18 px, bold), as the website's header has them. */
+h1 { margin: 0; font-size: 18px; font-weight: 700; letter-spacing: 0.01em; line-height: 1.2; color: var(--ink); }
+h1.brand { display: inline-flex; align-items: center; gap: 10px; }
+.brand-mark { width: 26px; height: 26px; flex: none; }
+.brand .files { stroke: currentColor; }
+.brand .made { fill: var(--accent); }
+
+nav { margin: 10px 0 8px; display: flex; gap: 8px; flex-wrap: wrap; }
+
+nav button {
+  font: inherit;
+  padding: 5px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+nav button.active { border-color: var(--accent); color: var(--accent); font-weight: 600; }
+
+.summary { margin: 0; color: var(--ink-soft); font-size: 13px; }
+.decider { margin-top: 2px; }
+.decided-by { margin: 6px 0; }
+.engine-hint { display: block; color: var(--acquisition); }
+ol.timeline { list-style: none; margin: 8px 0; padding: 0 0 0 14px; border-left: 2px solid var(--line); }
+ol.timeline li.run { position: relative; margin: 0 0 14px; padding-left: 10px; }
+ol.timeline li.run::before { content: ""; position: absolute; left: -21px; top: 7px; width: 10px;
+  height: 10px; border-radius: 50%; background: var(--panel); border: 2px solid var(--accent); }
+ol.timeline li.run.current::before { background: var(--accent); }
+ol.timeline .run-head { margin: 0; font-weight: 600; }
+ol.timeline .run-head .tag { margin-left: 6px; }
+details.landed > summary { cursor: pointer; }
+td code { overflow-wrap: anywhere; }
+.waiting { margin: 4px 0 14px; padding: 6px 10px; border: 1px dashed var(--line); border-radius: 4px; }
+
+main {
+  display: grid;
+  grid-template-columns: minmax(320px, 40%) 1fr;
+  gap: 1px;
+  background: var(--line);
+  min-height: calc(100vh - 150px);
+}
+
+@media (max-width: 860px) { main { grid-template-columns: 1fr; } }
+
+.pane { background: var(--page); padding: 16px 20px; overflow-x: auto; }
+.detail { background: var(--panel); }
+.empty { color: var(--ink-soft); font-style: italic; }
+
+h2 { font-size: 14px; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-soft); }
+h3 { font-size: 14px; margin: 18px 0 6px; }
+
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { text-align: left; padding: 5px 10px 5px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--ink-soft); font-weight: 600; white-space: nowrap; }
+td.n, th.n { text-align: right; padding-right: 14px; }
+
+tr.row { cursor: pointer; }
+tr.row:hover td { background: color-mix(in srgb, var(--accent) 8%, transparent); }
+
+code, .mono { font-family: var(--mono); font-size: 12px; }
+
+.tag {
+  display: inline-block;
+  font-size: 11px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+  margin: 1px 4px 1px 0;
+  white-space: nowrap;
+}
+.tag.acquisition { color: var(--acquisition); }
+.tag.later { color: var(--later); }
+.tag.doubt { color: var(--doubt); }
+.tag.plain { color: var(--ink-soft); }
+
+.note {
+  border-left: 3px solid var(--accent);
+  padding: 8px 12px;
+  margin: 12px 0;
+  background: color-mix(in srgb, var(--accent) 7%, transparent);
+  font-size: 13px;
+}
+
+.unknown { color: var(--ink-soft); }
+
+/* One row on the page's ground, 13 px, a 1 px line above. The sentence is at the left. At the right
+   are the version in mono, the documentation (the one outbound link) and Report a problem. Below
+   900 px the right half wraps under the sentence, as a second row. Links are underlined, so a link
+   is told from its sentence by more than color. */
+footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 24px;
+  padding: 12px 20px;
+  border-top: 1px solid var(--line);
+  background: var(--page);
+  color: var(--ink-soft);
+  font-size: 13px;
+}
+footer p { margin: 0; }
+footer .footer-links { display: flex; flex-wrap: nowrap; align-items: baseline; gap: 4px 16px; white-space: nowrap; }
+footer .footer-version { font-family: var(--mono); font-size: 13px; color: var(--ink-soft); }
+footer a { color: var(--accent); text-decoration: underline; }
+@media (max-width: 899px) {
+  footer { display: block; }
+  footer .footer-links { margin-top: 4px; flex-wrap: wrap; white-space: normal; }
+}
+
+/* Inventory: a count and a width. A chart library is for the Structure view, where a
+   graph needs layout; a bar needs arithmetic. */
+.bars { display: flex; flex-direction: column; gap: 3px; margin-bottom: 6px; }
+
+.bar {
+  display: grid;
+  /* Wide enough for the longest state name the schema can produce. A truncated
+     `examined_no_evidence` reads as a different word from `examined_conflicting`, and
+     telling the absence states apart is the whole point of showing them. */
+  grid-template-columns: minmax(168px, 34%) 1fr minmax(52px, auto);
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+}
+
+@media (max-width: 520px) {
+  .bar { grid-template-columns: 1fr minmax(52px, auto); }
+  .bar-track { grid-column: 1 / -1; }
+}
+
+.bar-label {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-soft);
+  overflow-wrap: anywhere;
+}
+
+.bar-track { background: color-mix(in srgb, var(--ink) 7%, transparent); border-radius: 3px; height: 14px; }
+.bar-fill { display: block; height: 14px; border-radius: 3px; min-width: 2px; }
+.bar-n { font-family: var(--mono); font-size: 12px; text-align: right; }
+
+/* Review: one question at a time, with what ranked it and what the engine already knows.
+   The only view that writes, so the state of a decision has to be unmistakable on sight. */
+
+.dims { margin: 4px 0 10px; font-size: 13px; }
+.dims summary { cursor: pointer; color: var(--ink-soft); font-family: var(--mono); font-size: 12px; }
+.dims ul { margin: 6px 0 0; padding-left: 18px; color: var(--ink-soft); font-size: 12.5px; }
+.dims li { margin-bottom: 3px; }
+
+.dim { display: flex; flex-direction: column; line-height: 1.25; }
+
+.evidence { border-left: 2px solid var(--line); padding-left: 12px; margin: 10px 0 14px; }
+.evidence h3 { margin: 10px 0 4px; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-soft); }
+.why { margin: 0; font-family: var(--mono); font-size: 13px; }
+
+.ids { margin: 6px 0 0; padding-left: 18px; font-size: 12px; }
+
+.answers { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0 12px; }
+.answers.secondary { margin-top: 2px; }
+/* The answer in force, where a row shows one (the Coverage view's worth-reading answers). */
+.answers button.active { border-color: var(--accent); color: var(--accent); font-weight: 600; }
+
+.answer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+  padding: 7px 12px;
+  border: 1px solid var(--accent);
+  border-radius: 5px;
+  background: var(--panel);
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+
+.answer:hover { background: color-mix(in srgb, var(--accent) 10%, var(--panel)); }
+.answer strong { font-size: 14px; }
+.answer .kind { font-family: var(--mono); font-size: 11px; color: var(--ink-soft); }
+.answer.quiet { border-color: var(--line); color: var(--ink-soft); }
+
+.define { margin: 4px 0 12px; }
+.define-row { display: flex; flex-wrap: wrap; align-items: stretch; gap: 8px; }
+.define-term { flex: 1 1 260px; min-width: 200px; }
+.define-term, .define-kind {
+  padding: 7px 10px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--panel);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 13px;
+}
+.define-kind { font-family: var(--mono); font-size: 12px; }
+
+.field { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.field label { font-size: 12px; color: var(--ink-soft); min-width: 74px; }
+
+.field input {
+  flex: 1;
+  padding: 5px 8px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--page);
+  color: var(--ink);
+  font: inherit;
+  font-size: 13px;
+}
+
+/* A status line with nothing to say yet takes no room. */
+.note:empty { display: none; }
+
+/* A refusal and a write have to look different at a glance, because one of them changed
+   something that cannot be taken back. */
+.note.refused { color: var(--doubt); }
+.note.kept { color: var(--acquisition); }
+
+.record { margin: 4px 0 0; padding: 0; list-style: none; font-size: 13px; }
+.record li { border-left: 2px solid var(--line); padding: 4px 0 4px 10px; margin-bottom: 6px; }
+.record li.in-force { border-left-color: var(--acquisition); }
+.record .payload { margin-top: 2px; font-size: 11.5px; color: var(--ink-soft); overflow-wrap: anywhere; }
+.tag.now { background: color-mix(in srgb, var(--acquisition) 18%, transparent);
+  color: color-mix(in srgb, var(--acquisition) 75%, var(--ink)); margin-left: 6px; }
+
+/* An answer control inside a table cell (the coverage view's define) takes the row's own spacing
+ * rather than the block margin an answer list has below a question. */
+td .answers { margin: 0; }
+
+/* The review pages. A question is asked in the words it is about, so its heading keeps their case:
+   "sd" and "SD" can be different words. */
+h2.question { text-transform: none; letter-spacing: 0; font-size: 17px; color: var(--ink); line-height: 1.35; }
+
+/* The list is wider on a review page, where a row carries its answer. */
+main.review-layout { grid-template-columns: minmax(420px, 56%) 1fr; }
+
+/* A selected row, the progress line, the filters and the bar that writes one note to every
+   selected row. */
+tr.row.selected td { background: color-mix(in srgb, var(--accent) 14%, transparent); }
+.progress { margin: 8px 0; font-size: 13px; font-weight: 600; }
+.filters { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 6px 0 10px; font-size: 13px; }
+.filters select, .group select, .group input, .field select {
+  padding: 4px 6px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--panel);
+  color: var(--ink);
+  font: inherit;
+  font-size: 13px;
+  max-width: 100%;
+}
+.group { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 6px 0 10px; font-size: 13px; }
+.group input { flex: 1 1 220px; }
+.group button { font: inherit; font-size: 13px; padding: 4px 10px; cursor: pointer; }
+.note-inline { color: var(--ink-soft); }
+.note-cell { color: var(--ink-soft); font-size: 12px; }
+.faint { color: var(--ink-soft); font-size: 12px; }
+.summary-strong { font-size: 15px; font-weight: 600; margin: 6px 0 10px; }
+
+/* The engine's own reading beside a question: its words, labeled, never a decision. */
+:root { --guess: #7a5bb0; }
+@media (prefers-color-scheme: dark) { :root { --guess: #b9a0e8; } }
+.guess-by { color: var(--guess); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
+.engine-reading { border-left: 3px solid var(--line, #888); padding: 4px 10px; margin: 8px 0; }
+.engine-reading .guess-by { color: var(--ink-soft); }
+/* An answer imported from a file says so beside it. */
+.tag.imported { color: var(--ink-soft); }
+
+/* A word made plain: the word marked inside each name, the rest of the name quiet. */
+mark { background: color-mix(in srgb, var(--later) 30%, transparent); color: var(--ink); padding: 0 1px; border-radius: 2px; font-weight: 700; }
+.names { list-style: none; padding: 0; margin: 6px 0 10px; font-family: var(--mono); font-size: 13px; }
+.names li { padding: 2px 0; }
+.names .quiet { color: var(--ink-soft); }
+.names .where { color: var(--ink-soft); font-family: inherit; font-size: 11px; }
+
+/* Programs: one block each, its parts behind a disclosure. */
+.program { border-bottom: 1px solid var(--line); padding: 8px 0 10px; }
+.program h3 { margin: 4px 0; }
+
+/* What a definition is waiting for. */
+.applying { margin: 0.4rem 0 0; padding: 0.35rem 0.6rem; border-radius: 4px;
+  background: #eef4fb; color: #1d3b5a; font-size: 0.9rem; }
+.applying.done { background: #eef8ee; color: #1d4a22; }
+.applying.failed { background: #fbeeee; color: #6a1d1d; }
+
+/* A run by its name, its identifier small beside it. */
+.run-name { white-space: nowrap; }
+
+/* The line saying how many answered rows left the list, and the control bringing them back. */
+.answered-toggle { color: var(--ink-soft); font-weight: 400; }
+button.link { font: inherit; color: var(--accent); background: none; border: 0; padding: 0;
+  cursor: pointer; text-decoration: underline; }
+.progress:empty { display: none; }
+
+/* Per-file conclusions, grouped and told rather than asked. */
+.told { margin-top: 22px; border-top: 1px solid var(--line); padding-top: 6px; }
+.told-group { border-left: 3px solid var(--line); padding: 4px 0 4px 12px; margin: 12px 0; }
+.told-head { margin: 0 0 4px; font-size: 13px; }
+.told-head code { margin-right: 6px; }
+.told-why { margin: 0 0 6px; font-size: 13px; }
+.told-examples { list-style: none; margin: 0; padding: 0; font-size: 12.5px; }
+.told-examples li { padding: 2px 4px; cursor: pointer; }
+.told-examples li:hover { background: color-mix(in srgb, var(--accent) 8%, transparent); }
+.told-examples li.selected { background: color-mix(in srgb, var(--accent) 14%, transparent); }
+
+/* The rules in force, each in plain words. */
+.rule { border-bottom: 1px solid var(--line); padding: 8px 0; }
+.rule-plain { margin: 0 0 2px; font-size: 14px; line-height: 1.45; }
+.rule .faint { margin: 0 0 2px; }
+.rule details summary { cursor: pointer; color: var(--ink-soft); font-size: 12px; }
+.rule-statement { margin: 4px 0 0; font-size: 12.5px; color: var(--ink-soft); }
+/* The rule's name and version open it. Inactive rules are shown apart, and a rule arrived at is
+   outlined. */
+.rule details.rule-written summary { font-family: var(--mono); }
+.rule.inactive .rule-plain { color: var(--ink-soft); }
+details.rules-inactive > summary h3 { display: inline; }
+.rule.arrived { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 4px; }
+.rule-handle { font-family: var(--mono); font-size: 12px; }
+
+/* The tabs: three groups, a review tab counting what waits on it, quiet at zero. */
+nav { align-items: center; }
+nav button .count { font-variant-numeric: tabular-nums; }
+/* Quiet is a lighter gray, a dashed outline and the tab's own "(0)". The gray is a color of its own
+   and not the text faded by opacity: faded text fell to 2.2:1 against the page, and the guidelines
+   ask for 4.5:1 (--ink-quiet is 4.8:1 on white and 5.0:1 on the dark panel). */
+nav button.quiet { color: var(--ink-quiet); border-style: dashed; border-color: var(--line); }
+nav button.quiet.active { color: var(--accent); border-color: var(--accent); }
+
+/* A page's own few words, the rest behind "What is this?", and the sentence an empty page shows. */
+.lead { margin: 4px 0 6px; font-size: 13.5px; }
+details.what { margin: 0 0 8px; font-size: 13px; }
+details.what summary { cursor: pointer; color: var(--accent); font-size: 12.5px; }
+details.what p { margin: 6px 0 0; color: var(--ink-soft); max-width: 70ch; }
+.nothing { font-size: 15px; margin: 14px 0; }
+.lead:empty { display: none; }
+.group.unused { display: none; }
+
+/* A page with nothing beside its list (the rules) takes the whole width, at a readable measure. */
+main.single-layout { grid-template-columns: 1fr; }
+main.single-layout .detail { display: none; }
+main.single-layout .pane > * { max-width: 92ch; }
+
+/* What changed between two runs: sentences first, a pair of bars per kind. */
+ul.said { margin: 4px 0 14px; padding-left: 18px; font-size: 14px; line-height: 1.5; }
+ul.said li { margin-bottom: 4px; }
+.before-after { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 10px 24px; margin: 6px 0 16px; }
+.ba .bar { grid-template-columns: 58px 1fr minmax(52px, auto); }
+.ba-head { margin: 0 0 3px; font-size: 13px; }
+details.changed { margin: 8px 0; font-size: 13px; }
+details.changed > summary { cursor: pointer; font-weight: 600; }
+
+/* The run pickers fit their pane. */
+.field select { flex: 1; min-width: 0; }
+
+/* The pages in one row, and the sections of the page beneath them. */
+.top { display: flex; align-items: center; gap: 12px; }
+.top h1 { flex: 0 0 auto; }
+#search-slot { flex: 1 1 200px; min-width: 160px; }
+.help-toggle { font-weight: 700; width: 32px; padding: 0; justify-content: center; }
+#pages { margin-bottom: 4px; }
+#pages button { font-weight: 600; }
+#pages button.quiet { color: var(--ink-quiet); border-style: dashed; border-color: var(--line); }
+/* A dot on a page's tab while anything waits there; quiet and hollow while counting. */
+#pages button .dot { display: inline-block; width: 8px; height: 8px; margin-left: 6px;
+  border-radius: 50%; background: var(--doubt); vertical-align: 2px; }
+#pages button .dot.counting { background: transparent; border: 1.5px solid var(--ink-soft);
+  width: 7px; height: 7px; }
+nav.sections { margin: 2px 0 8px; }
+nav.sections button { font-size: 13px; padding: 3px 10px; border-radius: 6px; }
+nav.sections.single { display: none; }
+/* Advanced's sections under three small headings (Engine, Lists, Views); a section, a heading or a
+   page with nothing in it is hidden (app.js, showWhatWaits). */
+nav.sections-grouped { gap: 3px 14px; margin-bottom: 4px; }
+nav.sections-grouped button { padding: 2px 9px; }
+nav .section-group { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 3px 6px; }
+nav .section-group[hidden], nav button[hidden] { display: none; }
+nav .section-group-name { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--ink-soft); }
+
+/* Help: a tooltip after a pause, numbered markers and callouts in point mode. */
+.help-tip { position: fixed; z-index: 50; max-width: 300px; background: var(--ink); color: var(--page);
+  border-radius: 8px; padding: 8px 10px; font-size: 12.5px; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25); }
+.help-tip p, .help-callout p { margin: 4px 0 0; }
+.help-tip kbd { display: inline-block; margin-top: 4px; padding: 0 5px; border: 1px solid currentColor;
+  border-radius: 4px; font-size: 11px; }
+.help-marker { position: fixed; z-index: 60; width: 24px; height: 24px; border-radius: 50%; border: 0;
+  background: var(--later); color: var(--panel); font-size: 12px; font-weight: 700; cursor: pointer; }
+.help-callout { position: fixed; z-index: 61; width: 280px; background: var(--panel);
+  border: 2px solid var(--later); border-radius: 10px; padding: 8px 10px; font-size: 12.5px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25); }
+.help-arrow { position: fixed; z-index: 61; height: 2px; background: var(--later); }
+/* The first visit's tour: a step count, then Skip, Back and Next. */
+.help-callout.help-tour { width: min(300px, calc(100vw - 16px)); }
+.help-callout .help-tour-count { margin: 0 0 2px; font-size: 11.5px; color: var(--ink-soft); }
+.help-callout .help-tour-controls { display: flex; gap: 6px; justify-content: flex-end; margin: 8px 0 0; }
+.help-tour-controls button { font: inherit; padding: 3px 10px; border-radius: 6px; border: 1px solid var(--line);
+  background: var(--panel); color: var(--ink); cursor: pointer; }
+.help-tour-controls button.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent);
+  font-weight: 700; }
+.help-tour-controls button:disabled { opacity: 0.5; cursor: default; }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+nav[hidden] { display: none; }
+#search-box { width: 100%; max-width: 520px; font: inherit; padding: 5px 10px; border: 1px solid var(--line);
+  border-radius: 6px; background: var(--page); color: var(--ink); }
+
+/* The workspace's controls. */
+/* The workspace's buttons are chips of the header's group, so the span holding them takes no box of
+   its own. */
+#workspace-slot { display: contents; }
+#workspace-slot button:disabled { opacity: 0.55; cursor: default; }
+/* What waits for Re-run: a count on the button's corner, a summary by kind beneath the header, and
+   the notice shown when a session opens. */
+/* The pressable box is 24 by 24 pixels at least, the smallest target the accessibility guidelines
+   accept (2.5.8). What is seen is still the 20-pixel circle. The fill sits inside a 4-pixel clear
+   border (background-clip), and the 2-pixel ring in the page's color is an outline drawn over that
+   border. So the circle does not grow over the "n" of Re-run. The badge sits on the top right
+   corner of the Re-run chip (its wrapper), so the group's gaps stay equal whether it shows. */
+.chip-badge-wrap { position: relative; display: inline-flex; }
+.rerun-badge { position: absolute; top: -12px; right: -14px; min-width: 24px; height: 24px; padding: 0 4px;
+  border-radius: 999px; border: 4px solid transparent;
+  background: var(--later); background-clip: padding-box;
+  outline: 2px solid var(--page); outline-offset: -4px;
+  color: var(--page); font: 600 11px/16px system-ui, sans-serif;
+  cursor: pointer; z-index: 1; }
+.rerun-badge:hover, .rerun-badge[aria-expanded="true"] { background-color: var(--accent); }
+.rerun-badge:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.rerun-notice, .rerun-summary { margin: 0.4rem 0 0; padding: 0.4rem 0.6rem; border-radius: 4px;
+  border: 1px solid var(--line); background: var(--panel); font-size: 0.9rem; }
+.rerun-notice { display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
+  border-left: 3px solid var(--later); }
+.rerun-notice[hidden], .rerun-summary[hidden] { display: none; }
+.rerun-summary details { padding: 2px 0; }
+.rerun-summary summary { cursor: pointer; font-weight: 600; }
+.rerun-summary ul { margin: 4px 0 6px 1.2rem; padding: 0; }
+.rerun-share { margin: 0 0 6px; color: var(--later); }
+.draft-note { margin-left: 8px; font-size: 12px; color: var(--ink-soft); }
+.draft-error { color: #8a2222; }
+table.settings { border-collapse: collapse; width: 100%; font-size: 13px; }
+table.settings th, table.settings td { text-align: left; padding: 4px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+table.settings input[type="text"], table.settings input[type="number"] { width: 12em; }
+/* The Settings page's rows (settings.js). */
+table.settings td:first-child { width: 45%; }
+table.settings .purpose { color: var(--ink-soft); margin-top: 2px; }
+table.settings input.comma-list { width: 100%; max-width: 28em; }
+table.settings tr.changed td:first-child code { font-weight: 600; }
+.tag.changed { border-color: var(--later); color: var(--later); }
+.changed-mark { margin-left: 6px; white-space: nowrap; }
+.read-by { margin-top: 2px; }
+dialog.settings-file pre.file-text { max-height: 50vh; overflow: auto; background: var(--page);
+  border: 1px solid var(--line); padding: 8px; font-size: 12px; white-space: pre; }
+dialog.commit-dialog { max-width: 32rem; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); color: var(--ink); }
+dialog.commit-dialog label { display: block; margin: 8px 0; }
+dialog.commit-dialog input[type="text"] { width: 100%; box-sizing: border-box; }
+dialog.commit-dialog .actions { display: flex; gap: 8px; justify-content: flex-end; }
+
+/* The Dashboard's dialogs (dialogs.js): labeled, focus kept inside, Escape closes. */
+dialog.ingence-dialog { max-width: 34rem; width: calc(100% - 32px); border: 1px solid var(--line);
+  border-radius: 10px; background: var(--panel); color: var(--ink); padding: 16px 20px; }
+dialog.ingence-dialog::backdrop { background: rgba(10, 12, 16, 0.45); }
+dialog.ingence-dialog h2 { margin-top: 0; font-size: 18px; }
+dialog.ingence-dialog label { display: block; margin: 8px 0 4px; }
+dialog.ingence-dialog input[type="text"], dialog.ingence-dialog textarea { width: 100%; box-sizing: border-box; }
+dialog.ingence-dialog .actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 12px; }
+dialog.ingence-dialog button.primary { font-weight: 600; }
+.dialog-problem { color: var(--doubt); min-height: 1em; margin: 4px 0; font-size: 13px; }
+[aria-invalid="true"] { outline: 2px solid var(--doubt); outline-offset: 1px; }
+
+/* One way to say loading, failed and empty (app.js's states). */
+.state-loading { font-style: italic; }
+.state-failed .note { margin-bottom: 6px; }
+
+/* The object under investigation, under the header. */
+.focus { margin: 4px 0 0; font-size: 13px; }
+.focus strong { font-weight: 600; }
+
+/* The inspector (inspector.js). */
+.inspector-facts { display: grid; grid-template-columns: max-content 1fr; gap: 2px 10px; font-size: 13px; }
+.inspector-facts dt { color: var(--ink-soft); }
+.inspector-facts dd { margin: 0; word-break: break-word; }
+.inspector-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.inspector-back { display: block; margin-bottom: 6px; }
+.word-link { font-family: var(--mono); }
+.correction { border-top: 1px solid var(--line); margin-top: 12px; padding-top: 8px; }
+.correction .field label { min-width: 5em; display: inline-block; }
+
+/* The Rules page's settings (app.js's parameterInput). */
+table.parameters textarea { width: 100%; min-width: 14rem; box-sizing: border-box; font-family: var(--mono); font-size: 12px; }
+table.parameters select, table.parameters input[type="number"] { max-width: 14rem; }
+details.rule-settings { margin: 6px 0 10px; }
+
+/* Paging through fifty rows at a time. */
+.pager { display: flex; gap: 12px; align-items: center; font-size: 13px; color: var(--ink-soft); }
+.pager button[disabled] { opacity: 0.4; cursor: default; }
+
+/* The years the data spans, asked before a run. */
+fieldset.years { border: 1px solid var(--line); border-radius: 8px; margin: 8px 0; }
+fieldset.years input[type="number"] { width: 6em; }
+
+/* The job ledger on History. */
+.jobs .tag.refused { background: var(--doubt); color: var(--panel); }
+
+/* Approving a group's words (review.js's approveCore). */
+.approve-core { border-top: 1px solid var(--line); margin-top: 12px; padding-top: 8px; }
+.core-word { display: inline-block; margin-right: 10px; font-family: var(--mono); }
+
+/* At a phone's width every page is one column: the review pages' wider list included (two columns
+   squeeze the answer to a sliver), and a long run identifier wraps. */
+@media (max-width: 860px) {
+  /* The header holds the pages, the sections and three lines: kept on screen it covered most of
+     a phone's height, so there it scrolls away with the page. */
+  header { position: static; }
+  main.review-layout { grid-template-columns: 1fr; }
+  .summary code { word-break: break-all; }
+  dialog.ingence-dialog { padding: 12px 14px; }
+}
+
+/* At a phone's width a run's name in the header may wrap too; kept on one line it made every page
+   scroll sideways (found by the Graph workspace's narrow-layout test). */
+@media (max-width: 860px) {
+  .summary .run-name { white-space: normal; }
+}
+
+/* Words as they are typed, under the search box. */
+#search-slot { position: relative; }
+#search-suggest { position: absolute; z-index: 30; top: calc(100% + 4px); left: 0; width: min(520px, 100%);
+  margin: 0; padding: 4px 0; list-style: none; background: var(--panel); color: var(--ink); border: 1px solid var(--line);
+  border-radius: 8px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12); }
+#search-suggest li { padding: 5px 10px; cursor: pointer; display: flex; gap: 8px; justify-content: space-between; }
+#search-suggest li[aria-selected="true"], #search-suggest li:hover { background: color-mix(in srgb, var(--accent) 12%, transparent); }
+
+/* The Dictionary: where each word came from is a colored tag, one color per origin on every row,
+   chip and spelling; an inactive word or spelling is grayed and struck. */
+:root { --origin-core: #5b6270; --origin-domain: #1f5fa8; --origin-laboratory: #7a5bb0; --origin-yours: #0b6b57; }
+@media (prefers-color-scheme: dark) {
+  :root { --origin-core: #9aa2b1; --origin-domain: #79b0ee; --origin-laboratory: #b9a0e8; --origin-yours: #58c9ab; }
+}
+.tag.origin-core { color: var(--origin-core); }
+.tag.origin-domain { color: var(--origin-domain); }
+.tag.origin-laboratory { color: var(--origin-laboratory); }
+.tag.origin-yours { color: var(--origin-yours); background: color-mix(in srgb, var(--origin-yours) 12%, transparent); }
+.dict-stats { font-size: 13px; color: var(--ink-soft); margin: 0 0 8px; }
+.dict-stats strong { color: var(--ink); font-size: 15px; }
+input.dict-search { width: 100%; max-width: 36rem; box-sizing: border-box; font-size: 15px; padding: 7px 10px;
+  border: 1px solid var(--line); border-radius: 8px; background: var(--panel); color: var(--ink); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 6px; }
+.chip { font: inherit; font-size: 12px; padding: 3px 10px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--line); background: var(--panel); color: var(--ink); }
+.chip .chip-n { color: var(--ink-soft); margin-left: 2px; }
+.chip.active { border-color: currentColor; font-weight: 600; }
+.chip.origin-core.active { color: var(--origin-core); }
+.chip.origin-domain.active { color: var(--origin-domain); }
+.chip.origin-laboratory.active { color: var(--origin-laboratory); }
+.chip.origin-yours { color: var(--origin-yours); }
+.chip.origin-inactive { color: var(--ink-soft); }
+.chip.origin-all.active { color: var(--accent); }
+.dict-controls { display: flex; gap: 8px; margin: 6px 0 10px; }
+table.dictionary td.spellings code.spelling, .dict-spellings code.spelling { margin-right: 6px;
+  display: inline-block; white-space: nowrap; overflow-wrap: normal; }
+table.dictionary td:first-child strong { overflow-wrap: break-word; }
+/* At a phone's width the kind column gives way: it is in the word's own page a tap away. */
+@media (max-width: 860px) {
+  table.dictionary th:nth-child(2), table.dictionary td:nth-child(2) { display: none; }
+  table.dictionary .tag { white-space: normal; border-radius: 8px; }
+}
+code.spelling.yours { color: var(--origin-yours); font-weight: 600; }
+code.spelling.inactive, .dict-spellings li.inactive code.spelling { text-decoration: line-through; color: var(--ink-soft); }
+tr.row.inactive td { color: var(--ink-soft); }
+tr.row.inactive strong { text-decoration: line-through; }
+td.names { white-space: nowrap; }
+.names-bar { display: inline-block; height: 8px; border-radius: 4px; vertical-align: middle;
+  background: color-mix(in srgb, var(--accent) 55%, transparent); }
+.dict-names strong { font-size: 22px; color: var(--accent); }
+.dict-spellings, .dict-senses { list-style: none; padding: 0; margin: 4px 0 8px; }
+.dict-spellings li, .dict-senses li { padding: 3px 0; }
+.dict-add-part { margin: 14px 0; }
+.dict-add-part summary { cursor: pointer; font-weight: 600; }
+.dict-add, .dict-add-spelling { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 8px 0; }
+.dict-packs { border-top: 1px solid var(--line); margin-top: 18px; padding-top: 4px; }
+.dict-packs label.answer input[type="file"] { font-size: 12px; margin-top: 4px; }
+/* The Questions pages. A row the keyboard reaches shows it; a note's chips sit beside the box, a
+   recognized term bold, a word nothing reads quiet; one answer for every file a value was concluded
+   about, with the list a scroll away; a rule as a handle. */
+.asks { margin: 2px 0 6px; font-size: 14px; }
+tr.row:focus-visible, div.row:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+div.program.row.selected { border-left: 3px solid var(--accent); padding-left: 8px; }
+.note-field { display: flex; flex-direction: column; gap: 6px; align-items: stretch; }
+.note-field .note-input { width: 100%; }
+.note-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.note-chips:empty { display: none; }
+.note-chip {
+  border: 1px solid var(--line); border-radius: 999px; background: var(--panel);
+  color: var(--ink); font: inherit; font-size: 0.85em; padding: 1px 10px; cursor: pointer;
+}
+.note-chip.bound { border-color: var(--acquisition); color: var(--acquisition); font-weight: 600; }
+.note-chip.bound:hover { background: color-mix(in srgb, var(--acquisition) 10%, transparent); }
+.note-chip.unbound { color: var(--ink-soft); border-style: dashed; }
+.note-chip.kept { border-color: var(--acquisition); background: color-mix(in srgb, var(--acquisition) 14%, transparent); cursor: default; }
+.note-chip.refused { border-color: var(--doubt); color: var(--doubt); }
+.note-asking:empty { display: none; }
+.for-all { margin: 10px 0; padding: 8px 10px; border: 1px dashed var(--line); border-radius: 8px; }
+.for-all-list { max-height: 240px; overflow-y: auto; margin-top: 6px; }
+.for-all-place summary { font-family: var(--mono); font-size: 0.9em; }
+.for-all-place ul.names { margin: 2px 0 6px; }
+.rule-handle { font-family: var(--mono); font-size: 0.85em; }
+.what-is-this summary { color: var(--ink-soft); font-size: 0.9em; cursor: pointer; }
+
+/* The header's row holds the search box, Commit, Re-run, Import, Export and help. At a phone's
+   width it wraps, with the search box on a row of its own. Without the wrap every page scrolls
+   sideways (the narrow Graph workspace test found the row 8 px too wide on Linux's fonts). */
+@media (max-width: 860px) {
+  .top { flex-wrap: wrap; row-gap: 8px; }
+  #search-slot { flex: 1 1 100%; order: 3; }
+}
+
+/* The Years view's layout, the list wide and the inspector a fixed width beside it. */
+main.years-layout { grid-template-columns: minmax(0, 1fr) 400px; }
+/* The inspector goes under the list below 1240 pixels, where the list would be left less than 800:
+   the Years timeline needs about 300 for its year labels beside the 300 and 200 of its columns. */
+@media (max-width: 1240px) { main.years-layout { grid-template-columns: 1fr; } }
+
+/* The Rules search box. */
+input.rules-search { width: 100%; max-width: 36rem; box-sizing: border-box; font-size: 15px; padding: 7px 10px;
+  border: 1px solid var(--line); border-radius: 8px; background: var(--panel); color: var(--ink); }
+.rules-search-note { margin: 4px 0 8px; min-height: 1.2em; }
+
+/* ---- The shared pieces every view uses -------------------------- */
+
+/* A card, as the website's: a 1 px line, 8 px corners, no shadow; a small uppercase eyebrow and a
+   mono line of identifiers. */
+.card { border: 1px solid var(--line); border-radius: 8px; background: var(--panel); padding: 14px 16px; min-width: 0; }
+.card + .card { margin-top: 12px; }
+.eyebrow { margin: 0 0 4px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.card-id, .mono { font-family: var(--mono); font-size: 0.92em; color: var(--ink-soft); overflow-wrap: anywhere; }
+.notice-note { border-left: 3px solid var(--accent); background: var(--panel); padding: 8px 12px; }
+
+/* The stability of a grouping on its 0-1 axis (stability.js): a 6 px track, a tick at the
+   threshold, a dot at the value (filled at or above the threshold, dotted below). */
+.stability { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 4px 10px; font-size: 12px; color: var(--ink-soft); }
+.stability .stability-label { color: var(--ink); font-size: 13px; }
+.stability .stability-track { position: relative; height: 6px; border-radius: 3px; background: var(--line); min-width: 120px; }
+.stability .stability-tick { position: absolute; top: -4px; width: 1px; height: 14px; background: var(--ink-soft); }
+.stability .stability-dot { position: absolute; top: 50%; width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 50%; background: var(--accent); border: 1px solid var(--accent); }
+.stability .stability-dot.below { background: var(--panel); border: 1.5px dotted var(--accent); }
+.stability .stability-value { font-family: var(--mono); color: var(--ink); }
+.stability .stability-ends { grid-column: 2; display: flex; justify-content: space-between; font-size: 11px; }
+.stability .stability-ends .stability-mid { position: absolute; }
+
+/* One drawn state per view (states.say): an eyebrow, a dot, one bold sentence, a line or two, one
+   or two actions. Never a spinner alone, never a percentage. Red is a border, never a fill. */
+.state-card { border: 1px solid var(--line); border-radius: 8px; background: var(--panel); padding: 14px 16px; max-width: 760px; display: grid; gap: 6px; }
+.state-card .state-head { display: flex; align-items: center; gap: 8px; }
+.state-card .state-dot { width: 10px; height: 10px; border-radius: 50%; flex: none; background: var(--ink-soft); }
+.state-card .state-dot.census { background: var(--later); }
+.state-card .state-dot.loading { background: var(--accent); }
+.state-card .state-dot.problem { background: var(--panel); border: 2px solid var(--problem); }
+.state-card .state-sentence { margin: 0; font-weight: 700; color: var(--ink); }
+.state-card .state-body { margin: 0; color: var(--ink-soft); }
+.state-card .state-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+
+/* The Graph page's search controls at least 24 px tall (WCAG 2.2 target size) under the text face's
+   line metrics. */
+.graph-page details input[type="search"], .graph-page details button { min-height: 24px; }
+
+/* ---- The header, the skip link, the sheets and the states of the frame ------- */
+
+/* The header's one row at 1280: brand, search, the chips, the project's name. Below that width the
+   row wraps rather than clip (the search box and the name take their own rows). */
+.top { flex-wrap: wrap; row-gap: 8px; }
+.top #search-slot { max-width: 520px; }
+
+/* One group of 32 px chips with equal gaps. Buttons and the one link are the same chip; a disabled
+   chip keeps its place and is quieter. */
+.header-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.chip-control {
+  display: inline-flex; align-items: center; box-sizing: border-box; min-height: 32px; height: 32px;
+  padding: 0 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--panel);
+  color: var(--ink); font: inherit; font-size: 14px; line-height: 1; text-decoration: none; white-space: nowrap;
+  cursor: pointer;
+}
+.chip-control:hover:not(:disabled) { border-color: var(--ink-soft); }
+.chip-control:disabled { cursor: default; }
+.chip-control.chip-small { min-height: 28px; height: 28px; padding: 0 10px; font-size: 13px; }
+a.chip-control { color: var(--accent); }
+
+/* The project's name, with Rename. A name a person gave is theirs, in the person's color; the
+   folder's own name, which nobody gave, is quiet. */
+.project-name { display: flex; align-items: center; gap: 8px; min-width: 0; max-width: 300px; }
+.project-name[hidden] { display: none; }
+.project-name-text { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-weight: 700; color: var(--ink-soft); }
+.project-name-text.given { color: var(--person); }
+
+/* The skip link: the page's first focus stop, out of sight until it has focus. */
+.skip-link { position: absolute; left: 8px; top: -48px; z-index: 100; padding: 8px 14px; border-radius: 6px;
+  background: var(--accent); color: var(--on-accent); font-weight: 700; text-decoration: underline; }
+.skip-link:focus { top: 8px; }
+
+/* A root that cannot be reached: above the rows, the last run still reading beneath. */
+.root-state { padding: 12px 20px 0; background: var(--page); }
+.root-state[hidden] { display: none; }
+.root-state .state-card { max-width: none; }
+.root-state .root-strip { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; margin: 0; padding: 8px 12px;
+  border: 1px solid var(--line); border-radius: 8px; background: var(--panel); font-size: 13px; }
+.root-state .root-strip .state-dot { width: 10px; height: 10px; border-radius: 50%; flex: none;
+  background: var(--panel); border: 2px solid var(--problem); }
+
+/* The keyboard sheet and the report sheet (dialogs.js, className). */
+dialog.ingence-dialog .eyebrow { margin: 0 0 4px; }
+dialog.ingence-dialog.sheet { max-width: 38rem; }
+dialog.ingence-dialog.sheet h2 { font-size: 17px; text-transform: none; letter-spacing: 0; color: var(--ink); margin: 0 0 8px; }
+dialog.ingence-dialog.sheet .dialog-text:empty { display: none; }
+dialog.ingence-dialog.sheet .sheet-note { margin: 8px 0; color: var(--ink-soft); font-size: 13px; }
+dialog.ingence-dialog.sheet .sheet-note code { font-family: var(--mono); font-size: 12px; color: var(--ink); }
+dialog.ingence-dialog.sheet .sheet-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 12px 0 8px; }
+.sheet-button { min-height: 36px; padding: 0 14px; border: 1px solid var(--line); border-radius: 6px; background: var(--panel);
+  color: var(--ink); font: inherit; cursor: pointer; }
+.sheet-button.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); font-weight: 700; }
+.sheet-button:disabled { opacity: 0.55; cursor: default; }
+a.sheet-button { display: inline-flex; align-items: center; text-decoration: none; }
+a.sheet-button.primary { color: var(--on-accent); }
+dialog.ingence-dialog.sheet a:not(.sheet-button) { color: var(--accent); text-decoration: underline; }
+.report-text { margin: 8px 0; padding: 10px 12px; max-height: 40vh; overflow: auto; border: 1px solid var(--line);
+  border-radius: 6px; background: var(--code-bg); font-family: var(--mono); font-size: 12.5px; line-height: 1.5;
+  white-space: pre-wrap; overflow-wrap: anywhere; color: var(--ink); }
+.shortcut-table { width: 100%; margin: 6px 0 10px; font-size: 13px; }
+.shortcut-table caption { text-align: left; font-weight: 700; padding: 6px 0 2px; font-size: 13px; }
+.shortcut-table th, .shortcut-table td { padding: 3px 10px 3px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+.shortcut-table th { width: 9.5em; font-weight: 400; white-space: normal; }
+kbd { font-family: var(--mono); font-size: 12px; padding: 0 5px; border: 1px solid var(--line); border-radius: 4px; background: var(--code-bg); }
+.sheet-scroll { max-height: 56vh; overflow: auto; padding-right: 4px; }
+
+/* The Search page's empty result and the other states, each drawn once by states.say. */
+.state-card .state-actions a.answer, .state-card .state-actions button.answer { text-decoration: none; }

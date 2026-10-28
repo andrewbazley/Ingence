@@ -1,0 +1,33 @@
+/* A scan's progress, its bar, the question before Stop, and the line over a readout while a new
+   scan is not ready (scan.js draws them). The landing page and the Dashboard both load this file
+   after app.css, whose colors it uses. */
+
+.scan-progress { display: block; }
+.scan-progress-line { display: block; }
+.scan-progress .scan-phase { font-weight: 700; }
+.scan-bar { display: block; position: relative; height: 8px; margin: 6px 0 2px; border-radius: 4px;
+  background: var(--accent-soft); border: 1px solid var(--line); overflow: hidden; max-width: 520px; }
+.scan-bar-fill { display: block; height: 100%; background: var(--accent); border-radius: 4px 0 0 4px;
+  transition: width 0.4s ease-out; }
+@media (prefers-reduced-motion: reduce) { .scan-bar-fill { transition: none; } }
+
+/* Stop the scan? A small panel under the progress line, never a pop-up. */
+.stop-confirm { margin: 6px 0 0; padding: 10px 12px; border: 1px solid var(--line);
+  border-left: 3px solid var(--later); border-radius: 6px; background: var(--panel); color: var(--ink);
+  max-width: 520px; font-size: 14px; }
+.stop-confirm p { margin: 0 0 6px; }
+.stop-confirm .stop-confirm-head { font-weight: 700; }
+.stop-confirm .stop-confirm-actions { display: flex; gap: 8px; margin: 8px 0 0; }
+.stop-confirm .stop-confirm-said { margin: 6px 0 0; color: var(--ink-soft); }
+.stop-confirm .stop-confirm-said:empty { display: none; }
+.stop-confirm button.primary { background: var(--accent); border: 1px solid var(--accent);
+  color: var(--on-accent); font-weight: 700; border-radius: 6px; padding: 4px 12px; font: inherit; }
+
+/* The header's Re-run while a job can be stopped: it reads Stop. */
+#rerun-button.stop-mode { border-color: var(--later); color: var(--later); font-weight: 700; }
+
+/* While a new scan runs over a finished one: the readout is the last finished scan's. */
+.scan-not-ready { margin: 8px 16px 0; padding: 6px 10px; border: 1px solid var(--line);
+  border-left: 3px solid var(--accent); border-radius: 6px; background: var(--accent-soft);
+  color: var(--ink); font-size: 14px; }
+.scan-not-ready[hidden] { display: none; }

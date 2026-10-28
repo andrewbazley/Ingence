@@ -1,0 +1,54 @@
+# What a file is *for*, independent of its format.
+#
+# A PDF can be a manuscript, a protocol, a figure or a receipt, and the format
+# says nothing about which. This section names the roles, which is what lets a
+# rule treat a protocol differently from a figure without either being a
+# different file type.
+section: file_roles
+theme_kind: file_role
+origin: builtin
+summary: The purpose a file serves, independent of its format.
+
+entries:
+  - {term: readme, surfaces: [readme, "read-me", aboutthis, about]}
+  - {term: licence, surfaces: [license, licence, copying, copyright, notice]}
+  - {term: changelog, surfaces: [changelog, changes, history, news, releasenotes]}
+  - {term: notes, surfaces: [notes, note, memo, comments, remarks, observations, journal_notes, labnotes, "lab-notes"]}
+  - {term: protocol, surfaces: [protocol, protocols, sop, procedure, method, methods, recipe, instructions]}
+  - {term: figure, surfaces: [fig, figure, figures, panel, panels, plate_figure, graphic], product: true}
+  - {term: supplementary, surfaces: [supp, suppl, supplementary, supplement, si, appendix, extended]}
+  - {term: table, surfaces: [table, tables, tab, sheet, worksheet, spreadsheet]}
+  - {term: plot, surfaces: [plot, plots, chart, charts, graph, graphs, diagram], product: true}
+  # -- what an analysis script draws -----------------------------------------
+  # Each kind of plot is its own term and a product, so that a figure's kind can be read from its
+  # name. Naming the kind is more useful than only noting that a name names a figure.
+  - {term: heatmap, surfaces: [heatmap, heatmaps, "heat-map", heat_map], product: true}
+  - {term: boxplot, surfaces: [boxplot, boxplots, "box-plot", box_plot, "box-and-whisker"], product: true}
+  - {term: violin_plot, surfaces: [violin, violins, violinplot, "violin-plot"], product: true}
+  - {term: histogram, surfaces: [histogram, histograms, hist], product: true}
+  - {term: scatter_plot, surfaces: [scatter, scatterplot, "scatter-plot"], product: true}
+  - {term: volcano_plot, surfaces: [volcano, volcanoplot, "volcano-plot"], product: true}
+  - {term: density_plot, surfaces: [kde, gkde, densityplot, "density-plot"], product: true}
+  - {term: cumulative_distribution, surfaces: [cdf, ecdf], product: true}
+  - {term: kymograph, surfaces: [kymograph, kymographs, kymo], product: true}
+  - {term: image, surfaces: [image, images, img, picture, pic, photo, photograph, snapshot, screenshot]}
+  - {term: movie, surfaces: [movie, movies, video, videos, clip, animation]}
+  - {term: thumbnail, surfaces: [thumb, thumbnail, thumbnails, preview, icon, contactsheet]}
+  # `skeleton` is not a spelling of `template`: in a laboratory's names it is a skeletonised shape
+  # (the microscopy pack's), written beside a `.vtk` mesh, far more often than a template.
+  - {term: template, surfaces: [template, templates, boilerplate, blank_form]}
+  - {term: schema, surfaces: [schema, schemas, spec, specification, definition, ddl]}
+  - {term: dictionary_file, surfaces: [dictionary, glossary, codebook, lookup, mapping, keyfile, legend, key]}
+  - {term: reference_data, surfaces: [reference, ref, standard, standards, groundtruth, "ground-truth", gt, truth, gold]}
+  - {term: calibration_data, surfaces: [calibration, calib, cal_file, calibrant, blank_ref]}
+  # `label` and `labels` both belong here: an annotation named for its image (`kelt07_label.png`)
+  # is read by this sense, and the singular is how one file of a dataset is written.
+  - {term: annotation, surfaces: [annotation, annotations, label, labels, roi, rois, mask_file, segmentation_file]}
+  # What a step reads, as a dataset's folder of inputs is named. A folder of one name's files whose
+  # words mean input holds the sources of the same names in a folder beside it.
+  - {term: input_data, surfaces: [input, inputs]}
+  - {term: metadata, surfaces: [metadata, meta, header, headers, sidecar, descriptor, provenance]}
+  - {term: presentation, surfaces: [presentation, slides, deck, talk, seminar, poster], product: true}
+  - {term: correspondence, surfaces: [email, letter, correspondence, message, reply]}
+  - {term: administrative, surfaces: [invoice, receipt, order, quote, budget, grant, approval, form, contract]}
+  - {term: inventory_file, surfaces: [inventory, stock, registry, database_export, listing]}

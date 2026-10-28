@@ -1,0 +1,1295 @@
+# The retired rules file as one version of it stood in git, with its words removed: no
+# statement, rationale, description or summary. Recognition of the file and the choices kept
+# from it read none of these.
+project_revision: 1
+defer_beneath:
+- scope: installed_software_in_folder
+  except:
+  - program_from_extension
+  - format_from_extension_unless_contradicted
+  - copies_by_sampled_digest
+  - identical_by_content_digest
+  - same_array_shape
+  - same_column_schema
+  - placeholder_from_entry_kind
+  - filesystem_noise_from_spelling
+  - access_failure_is_concentrated
+  - comprehension_failure_is_concentrated
+  - earliest_credible_time
+changes:
+- supersede: stage_from_name
+- supersede: file_role_from_name
+- supersede: same_name_family
+- supersede: filesystem_noise_from_name
+- supersede: raw_data_from_acquisition_format
+- supersede: projection_derives_from_acquisition
+- supersede: authored_name_doubt
+- supersede: same_observed_metadata
+- supersede: binding_is_ambiguous
+- supersede: extension_contradicts_content
+- supersede: format_from_extension
+- supersede: vocabulary_unread_in_folder
+- override: identical_by_content_digest
+  parameters:
+    digest_algorithm: blake3_whole
+- supersede: references_a_declared_output
+- supersede: derives_from_declared_reference
+rules:
+- id: program_from_extension
+  version: '3'
+  predicate: class_from_bound_sense
+  effect: classifies
+  tier: defeasible
+  level: file
+  defeated_by:
+  - content_contradicts_extension
+  parameters:
+  - name: senses
+    type: string_list
+    default:
+    - python_source
+    - notebook_format
+    - shell_script
+    - sql_source
+    - python_wheel
+    - python_bytecode
+    - executable_format
+    - c_source
+    - c_header
+    - javascript_source
+    - perl_source
+    - r_source
+    - r_markdown
+    - java_source
+    - java_bytecode
+    - fortran_module
+    - matlab_source
+    - imagej_macro
+    - beanshell_script
+    - clojure_source
+    - ruby_source
+    - groovy_script
+  - name: minimum_match_quality
+    type: enum
+    choices:
+    - exact
+    - case_folded
+    - loose
+    default: exact
+  - name: slot
+    type: enum
+    default: extension
+    choices:
+    - extension
+    - name
+- id: pipeline_stage_from_name
+  version: '2'
+  predicate: sense_from_name_tokens
+  effect: classifies
+  tier: defeasible
+  level: file
+  defeated_by:
+  - program_from_extension
+  - installed_software_in_folder
+  parameters:
+  - name: theme_kind
+    type: string
+    default: stage
+  - name: senses
+    type: string_list
+    default:
+    - raw
+    - acquisition
+    - preprocessed
+    - intermediate
+    - processed
+    - analysis
+    - pooled
+    - quantification
+    - summary
+    - report
+    - export
+  - name: minimum_senses
+    type: integer
+    default: 1
+    minimum: 1
+    maximum: 10
+- id: file_role_unless_program
+  version: '2'
+  predicate: sense_from_name_tokens
+  effect: classifies
+  tier: defeasible
+  level: file
+  defeated_by:
+  - program_from_extension
+  - installed_software_in_folder
+  parameters:
+  - name: theme_kind
+    type: string
+    default: file_role
+  - name: minimum_senses
+    type: integer
+    default: 1
+    minimum: 1
+    maximum: 10
+- id: name_family_without_stages
+  version: '1'
+  predicate: same_component_values
+  effect: groups
+  primitive: equivalent
+  respect: name_family
+  tier: defeasible
+  level: file
+  defeated_by:
+  - filesystem_noise_from_spelling
+  - placeholder_from_entry_kind
+  parameters:
+  - name: component_kinds
+    type: string_list
+    default:
+    - word
+  - name: ignored_theme_kinds
+    type: string_list
+    default:
+    - stage
+  - name: minimum_components
+    type: integer
+    default: 2
+    minimum: 1
+    maximum: 20
+- id: same_name_identity
+  version: '4'
+  predicate: same_component_values
+  effect: groups
+  primitive: equivalent
+  respect: name_identity
+  tier: defeasible
+  level: file
+  defeated_by:
+  - filesystem_noise_from_spelling
+  - placeholder_from_entry_kind
+  parameters:
+  - name: compared_within
+    type: enum
+    default: folder
+    choices:
+    - pool
+    - folder
+  - name: component_kinds
+    type: string_list
+    default:
+    - word
+    - number
+    - indexed
+    - quantity
+    - date
+    - version
+  - name: ignored_theme_kinds
+    type: string_list
+    default:
+    - stage
+    - replicate
+  - name: minimum_components
+    type: integer
+    default: 2
+    minimum: 1
+    maximum: 20
+  - name: ordered_component_kinds
+    type: string_list
+    default:
+    - number
+    - quantity
+- id: filesystem_noise_from_spelling
+  version: '1'
+  predicate: sense_from_name_spelling
+  effect: classifies
+  tier: defeasible
+  level: file
+  parameters:
+  - name: senses
+    type: string_list
+    default:
+    - macos_metadata
+    - windows_metadata
+    - linux_metadata
+    - editor_backup
+    - version_control
+    - language_cache
+    - sync_artifact
+    - archive_helper
+  - name: positions
+    type: string_list
+    default:
+    - whole
+    - prefix
+    - suffix
+  - name: excluded_surfaces
+    type: string_list
+    default:
+    - ~$
+- id: acquisition_stage_from_format
+  version: '3'
+  predicate: class_from_format_origin
+  effect: classifies
+  tier: defeasible
+  level: file
+  defeated_by:
+  - content_contradicts_extension
+  - later_stage_from_name
+  parameters:
+  - name: senses
+    type: string_list
+    default:
+    - image_format
+    - ephys_format
+  - name: written_by
+    type: string_list
+    default:
+    - instrument
+  - name: concludes
+    type: string
+    default: acquisition
+  - name: minimum_match_quality
+    type: enum
+    choices:
+    - exact
+    - case_folded
+    - loose
+    default: exact
+  - name: slot
+    type: enum
+    default: extension
+    choices:
+    - extension
+    - name
+- id: analysis_stage_from_derived_sense
+  version: '1'
+  predicate: class_from_bound_sense
+  effect: classifies
+  tier: defeasible
+  level: file
+  defeated_by:
+  - program_from_extension
+  parameters:
+  - name: senses
+    type: string_list
+    default:
+    - trajectory
+  - name: concludes
+    type: string
+    default: analysis
+  - name: minimum_match_quality
+    type: enum
+    choices:
+    - exact
+    - case_folded
+    - loose
+    default: case_folded
+  - name: slot
+    type: enum
+    default: name
+    choices:
+    - extension
+    - name
+- id: content_unreadable
+  version: '5'
+  predicate: content_unreadable
+  effect: flags
+  tier: defeasible
+  level: file
+  defeated_by:
+  - installed_software_in_folder
+  parameters:
+  - name: written_before
+    type: string
+    default: '2025-09-16T00:00:00Z'
+- id: later_stage_from_name
+  version: '1'
+  predicate: sense_from_name_tokens
+  effect: classifies
+  tier: defeasible
+  level: file
+  parameters:
+  - name: theme_kind
+    type: string
+    default: stage
+  - name: senses
+    type: string_list
+    default:
+    - preprocessed
+    - intermediate
+    - processed
+    - analysis
+    - pooled
+    - quantification
+    - summary
+    - report
+    - export
+    - normalised
+    - aligned
+    - filtered
+    - smoothed
+    - denoised
+    - deconvolved
+    - segmented
+    - stitched
+    - cropped
+    - resized
+    - downsampled
+    - upsampled
+    - projected
+    - merged
+    - masked
+    - thresholded
+    - binned
+    - converted
+    - corrected
+    - subset
+    - annotated
+  - name: minimum_senses
+    type: integer
+    default: 1
+    minimum: 1
+    maximum: 10
+  - name: minimum_match_quality
+    type: enum
+    choices:
+    - exact
+    - case_folded
+    - loose
+    default: case_folded
+- id: derivation_within_name_identity
+  version: '3'
+  predicate: derives_from_stage_transition
+  effect: proposes
+  primitive: derives
+  specialization: processed_from
+  tier: defeasible
+  level: file
+  candidates_within: same_name_identity
+  defeated_by:
+  - installed_software_in_folder
+  parameters:
+  - name: stage_transitions
+    type: mapping
+    default:
+      raw: processed
+      acquisition: processed
+      processed: analysis
+      analysis: quantification
+      quantification: summary
+  - name: refuse_siblings_on_one_rung
+    type: boolean
+    default: true
+- id: references_a_mentioned_file
+  version: '1'
+  predicate: references_by_declared_path
+  effect: proposes
+  primitive: references
+  tier: defeasible
+  level: file
+  candidates_within: mentioned
+  defeated_by:
+  - installed_software_in_folder
+  parameters:
+  - name: minimum_resolution
+    type: enum
+    default: unique_suffix
+    choices:
+    - exact
+    - unique_suffix
+    - unique_basename
+    - ambiguous
+- id: derivation_named_by_a_describing_file
+  version: '1'
+  predicate: derives_from_declared_reference
+  effect: proposes
+  primitive: derives
+  specialization: processed_from
+  tier: defeasible
+  level: file
+  candidates_within: co_mentioned
+  defeated_by:
+  - installed_software_in_folder
+  parameters:
+  - name: describing_formats
+    type: string_list
+    default:
+    - python_source
+    - r_source
+    - r_markdown
+    - matlab_source
+    - shell_script
+    - perl_source
+    - notebook_format
+    - imagej_macro
+    - flowjo_workspace
+    - log_file
+  - name: minimum_resolution
+    type: enum
+    default: unique_suffix
+    choices:
+    - exact
+    - unique_suffix
+    - unique_basename
+    - ambiguous
+  - name: describing_roles
+    type: string_list
+    default:
+    - protocol
+    - notes
+  - name: stage_transitions
+    type: mapping
+    default:
+      raw: processed
+      acquisition: processed
+      processed: analysis
+      analysis: quantification
+      quantification: summary
+- id: doubt_in_a_folder_name
+  version: '1'
+  predicate: authored_name_doubt
+  effect: flags
+  tier: defeasible
+  level: folder
+  parameters:
+  - name: raises
+    type: enum
+    default: doubt
+    choices:
+    - doubt
+    - confirmation
+  - name: minimum_terms
+    type: integer
+    default: 1
+    minimum: 1
+    maximum: 10
+  - name: senses
+    type: string_list
+    default:
+    - wrong
+    - bad
+    - broken
+    - invalid
+    - failed
+    - contaminated
+    - do_not_use
+    - ignore
+    - deprecated
+    - obsolete
+    - delete
+    - archive_only
+    - temporary
+    - scratch
+    - test_artifact
+    - debug
+    - dummy
+    - example
+    - final_final
+    - use_this_one
+    - version_soup
+    - emphatic
+    - untitled
+    - default_name
+    - new_folder
+    - keyboard_mash
+    - questionable
+    - unsure
+    - check
+    - fixme
+    - todo
+    - redo
+    - recovered
+    - conflicted
+    - duplicate
+    - excluded
+    - quarantine
+    - superseded_by
+  - name: low_strength_senses
+    type: string_list
+    default:
+    - keyboard_mash
+    - questionable
+    - quarantine
+- id: doubt_to_confirm_in_a_folder_name
+  version: '1'
+  predicate: authored_name_doubt
+  effect: flags
+  tier: defeasible
+  level: folder
+  parameters:
+  - name: raises
+    type: enum
+    default: confirmation
+    choices:
+    - doubt
+    - confirmation
+  - name: minimum_terms
+    type: integer
+    default: 1
+    minimum: 1
+    maximum: 10
+  - name: senses
+    type: string_list
+    default:
+    - wrong
+    - bad
+    - broken
+    - invalid
+    - failed
+    - contaminated
+    - do_not_use
+    - ignore
+    - deprecated
+    - obsolete
+    - delete
+    - archive_only
+    - temporary
+    - scratch
+    - test_artifact
+    - debug
+    - dummy
+    - example
+    - final_final
+    - use_this_one
+    - version_soup
+    - emphatic
+    - untitled
+    - default_name
+    - new_folder
+    - keyboard_mash
+    - questionable
+    - unsure
+    - check
+    - fixme
+    - todo
+    - redo
+    - recovered
+    - conflicted
+    - duplicate
+    - excluded
+    - quarantine
+    - superseded_by
+  - name: low_strength_senses
+    type: string_list
+    default:
+    - keyboard_mash
+    - questionable
+    - quarantine
+- id: replicate_from_indexed_label
+  version: '1'
+  predicate: index_of_bound_label
+  effect: classifies
+  tier: defeasible
+  level: file
+  defeated_by:
+  - program_from_extension
+  parameters:
+  - name: theme_kind
+    type: string
+    default: replicate
+  - name: minimum_match_quality
+    default: exact
+    type: enum
+    choices:
+    - exact
+    - case_folded
+    - loose
+- id: stated_count_may_mark_replicates
+  version: '2'
+  predicate: stated_count_may_mark_replicates
+  effect: flags
+  tier: defeasible
+  level: file
+  parameters:
+  - name: maximum_count
+    type: integer
+    default: 9
+    minimum: 1
+    maximum: 99
+  - name: theme_kind
+    type: string
+    default: count
+  - name: stage_rules
+    type: string_list
+    default:
+    - pipeline_stage_from_name
+    - acquisition_stage_from_format
+    - analysis_stage_from_derived_sense
+  - name: observation_rules
+    type: string_list
+    default:
+    - acquisition_stage_from_format
+  - name: derivation_rules
+    type: string_list
+    default:
+    - program_from_extension
+- id: indexed_label_may_mark_replicates
+  version: '1'
+  predicate: indexed_label_may_mark_replicates
+  effect: flags
+  tier: defeasible
+  level: root
+  parameters:
+  - name: maximum_index
+    type: integer
+    default: 9
+    minimum: 2
+    maximum: 99
+  - name: minimum_folders
+    type: integer
+    default: 2
+    minimum: 1
+    maximum: 100
+- id: installed_software_in_folder
+  version: '3'
+  predicate: installed_software_in_scope
+  effect: flags
+  tier: defeasible
+  level: folder
+  parameters:
+  - name: archive_suffixes
+    type: string_list
+    default:
+    - .zip
+    - .tar.gz
+    - .tgz
+    - .tar.bz2
+    - .tar.xz
+    - .tar
+  - name: minimum_code_share
+    type: real
+    default: 0.5
+    minimum: 0.0
+    maximum: 1.0
+  - name: bundle_name_suffixes
+    type: string_list
+    default:
+    - .app
+  - name: layout_folder_names
+    type: string_list
+    default:
+    - bin
+    - sbin
+    - lib
+    - lib64
+    - libexec
+    - include
+    - share
+    - site-packages
+    - dist-packages
+    - Frameworks
+    - __pycache__
+    - node_modules
+  - name: minimum_layout_folders
+    type: integer
+    default: 2
+    minimum: 1
+    maximum: 20
+  - name: program_extensions
+    type: string_list
+    default:
+    - h
+    - hpp
+    - so
+    - dylib
+    - dll
+    - a
+    - o
+    - lib
+    - pyc
+    - pyd
+    - class
+    - jar
+    - exe
+  - name: minimum_program_files
+    type: integer
+    default: 20
+    minimum: 1
+    maximum: 100000
+  - name: minimum_program_share
+    type: real
+    default: 0.5
+    minimum: 0.0
+    maximum: 1.0
+  - name: manifest_names
+    type: string_list
+    default:
+    - setup.py
+    - setup.cfg
+    - pyproject.toml
+    - package.json
+    - CMakeLists.txt
+    - Makefile
+    - configure
+    - Cargo.toml
+- id: binding_is_ambiguous_outside_programs
+  version: '1'
+  predicate: readings_conflict
+  effect: flags
+  tier: defeasible
+  level: file
+  defeated_by:
+  - installed_software_in_folder
+  parameters:
+  - name: reading
+    type: string
+    default: dictionary_binding
+  - name: minimum_alternatives
+    type: integer
+    default: 2
+    minimum: 2
+    maximum: 100
+- id: same_observed_metadata_outside_programs
+  version: '2'
+  predicate: same_observed_metadata
+  effect: groups
+  primitive: equivalent
+  respect: observed_metadata
+  tier: abductive
+  level: file
+  defeated_by:
+  - installed_software_in_folder
+  parameters:
+  - name: compared_facts
+    type: string_list
+    default:
+    - name
+    - size_bytes
+    - modified_ns
+    - entry_type
+- id: copies_by_sampled_digest
+  version: '1'
+  predicate: same_content_digest
+  effect: groups
+  primitive: equivalent
+  respect: sampled_content
+  tier: defeasible
+  level: file
+  defeated_by:
+  - content_unreadable
+  parameters:
+  - name: digest_algorithm
+    type: string
+    default: blake3_quick
+- id: declared_digest_contradicted
+  version: '1'
+  predicate: declared_digest_contradicted
+  effect: classifies
+  tier: entailed
+  level: file
+  parameters:
+  - name: digest_algorithm
+    type: string
+    default: md5
+- id: identical_by_declared_digest
+  version: '1'
+  predicate: same_declared_digest
+  effect: groups
+  primitive: identical
+  tier: defeasible
+  level: file
+  defeated_by:
+  - declared_digest_contradicted
+  parameters:
+  - name: digest_algorithm
+    type: string
+    default: md5
+- id: content_contradicts_extension
+  version: '1'
+  predicate: extension_contradicts_content
+  effect: flags
+  tier: defeasible
+  level: file
+  parameters:
+  - name: detector
+    type: string
+    default: signature
+  - name: raises
+    type: enum
+    choices:
+    - any_disagreement
+    - contradiction
+    - container
+    default: contradiction
+  - name: container_media_types
+    type: string_list
+    default:
+    - application/gzip
+    - application/pdf
+    - application/x-hdf5
+    - application/x-ole-storage
+    - application/x-tar
+    - application/x-xz
+    - application/x-bzip2
+    - application/vnd.sqlite3
+    - application/x-iso9660-image
+    - application/x-elf
+    - application/x-mach-binary
+    - video/mp4
+    - video/quicktime
+  - name: unclear_media_types
+    type: string_list
+    default:
+    - application/zip
+- id: format_built_on_a_container
+  version: '2'
+  predicate: extension_contradicts_content
+  effect: flags
+  tier: defeasible
+  level: file
+  parameters:
+  - name: detector
+    type: string
+    default: signature
+  - name: raises
+    type: enum
+    choices:
+    - any_disagreement
+    - contradiction
+    - container
+    default: container
+  - name: container_media_types
+    type: string_list
+    default:
+    - application/gzip
+    - application/pdf
+    - application/x-hdf5
+    - application/x-ole-storage
+    - application/x-tar
+    - application/x-xz
+    - application/x-bzip2
+    - application/vnd.sqlite3
+    - application/x-iso9660-image
+    - application/x-elf
+    - application/x-mach-binary
+    - video/mp4
+    - video/quicktime
+  - name: unclear_media_types
+    type: string_list
+    default:
+    - application/zip
+  - name: archive_types
+    type: string_list
+    default:
+    - archive_format
+    - compressed_archive
+    - compression_format
+- id: format_from_extension_unless_contradicted
+  version: '1'
+  predicate: format_from_extension
+  effect: classifies
+  tier: defeasible
+  level: file
+  defeated_by:
+  - content_contradicts_extension
+  parameters:
+  - name: theme_kind
+    type: string
+    default: format
+- id: content_says_do_not_analyse
+  version: '1'
+  predicate: content_holds_a_phrase
+  effect: flags
+  tier: defeasible
+  level: file
+  parameters:
+  - name: phrases
+    type: string_list
+    default:
+    - donotanalyse
+    - do-not-analyse
+    - do_not_analyse
+    - donotanalyze
+    - do-not-analyze
+    - do_not_analyze
+    - notforanalysis
+    - excludefromanalysis
+    - donotuse
+    - do-not-use
+    - do_not_use
+- id: earliest_credible_time
+  version: '2'
+  predicate: earliest_credible_time
+  effect: classifies
+  tier: defeasible
+  level: file
+  defeated_by:
+  - placeholder_from_entry_kind
+  parameters:
+  - name: earliest_credible_year
+    type: integer
+    default: 1990
+    minimum: 1970
+    maximum: 2100
+  - name: future_tolerance_seconds
+    type: integer
+    default: 86400
+    minimum: 0
+    maximum: 31536000
+- id: copied_in_bulk
+  version: '2'
+  predicate: copied_in_bulk
+  effect: flags
+  tier: defeasible
+  level: folder
+  parameters:
+  - name: minimum_files
+    type: integer
+    default: 5
+    minimum: 2
+    maximum: 100000
+  - name: minimum_share
+    type: real
+    default: 0.8
+    minimum: 0.0
+    maximum: 1.0
+  - name: burst_window_seconds
+    type: integer
+    default: 600
+    minimum: 1
+    maximum: 604800
+  - name: stage_rules
+    type: string_list
+    default:
+    - acquisition_stage_from_format
+    - pipeline_stage_from_name
+    - analysis_stage_from_derived_sense
+  - name: entry_stages
+    type: string_list
+    default:
+    - raw
+    - acquisition
+  - name: time_rule
+    type: string
+    default: earliest_credible_time
+- id: empty_replicate_is_no_data_point
+  version: '1'
+  predicate: empty_among_data
+  effect: classifies
+  tier: defeasible
+  level: file
+  defeated_by:
+  - installed_software_in_folder
+- id: folder_copied_in_bulk
+  version: '1'
+  predicate: copied_in_bulk_from_contents
+  effect: classifies
+  tier: defeasible
+  level: folder
+  defeated_by:
+  - installed_software_in_folder
+  parameters:
+  - name: minimum_files
+    type: integer
+    default: 5
+    minimum: 2
+    maximum: 100000
+  - name: minimum_share
+    type: real
+    default: 0.8
+    minimum: 0.0
+    maximum: 1.0
+  - name: burst_window_seconds
+    type: integer
+    default: 600
+    minimum: 1
+    maximum: 604800
+- id: folder_copied_by_declared_clocks
+  version: '1'
+  predicate: copied_in_bulk_by_declared_clocks
+  effect: classifies
+  tier: defeasible
+  level: folder
+  defeated_by:
+  - installed_software_in_folder
+  parameters:
+  - name: minimum_files
+    type: integer
+    default: 1
+    minimum: 1
+    maximum: 100000
+  - name: minimum_share
+    type: real
+    default: 0.8
+    minimum: 0.0
+    maximum: 1.0
+  - name: burst_window_seconds
+    type: integer
+    default: 86400
+    minimum: 1
+    maximum: 31536000
+- id: roi_archive_from_members
+  version: '1'
+  predicate: format_from_archive_members
+  effect: classifies
+  tier: defeasible
+  level: file
+  defeated_by:
+  - placeholder_from_entry_kind
+  parameters:
+  - name: member_extensions
+    type: string_list
+    default:
+    - roi
+  - name: header_observation
+    type: string
+    default: archive.imagej_roi_headers
+  - name: format
+    type: string
+    default: fiji_roi_zip
+- id: roi_archive_named_but_unlisted
+  version: '1'
+  predicate: archive_named_but_unlisted
+  effect: flags
+  tier: defeasible
+  level: file
+  parameters:
+  - name: archive_senses
+    type: string_list
+    default:
+    - archive_format
+  - name: named_senses
+    type: string_list
+    default:
+    - region_of_interest
+- id: vocabulary_unread_in_folder_outside_programs
+  version: '1'
+  predicate: vocabulary_unread_in_scope
+  effect: flags
+  tier: defeasible
+  level: folder
+  defeated_by:
+  - installed_software_in_folder
+  parameters:
+  - name: denominator
+    type: enum
+    choices:
+    - word_occurrences
+    - all_kinds
+    default: word_occurrences
+  - name: maximum_unbound_share
+    type: real
+    default: 0.8
+    minimum: 0.0
+    maximum: 1.0
+  - name: minimum_occurrences
+    type: integer
+    default: 20
+    minimum: 1
+    maximum: 1000000
+- id: experiment_folder_from_contents
+  version: '1'
+  predicate: experiment_from_contents
+  effect: classifies
+  tier: defeasible
+  level: folder
+  defeated_by:
+  - installed_software_in_folder
+  parameters:
+  - name: minimum_key_characters
+    type: integer
+    default: 6
+    minimum: 1
+    maximum: 200
+- id: experiment_folder_from_dated_name
+  version: '1'
+  predicate: experiment_from_dated_name
+  effect: classifies
+  tier: defeasible
+  level: folder
+  defeated_by:
+  - installed_software_in_folder
+- id: replicates_of_one_condition
+  version: '1'
+  predicate: same_component_values
+  effect: groups
+  primitive: equivalent
+  specialization: same_condition_as
+  tier: defeasible
+  level: file
+  defeated_by:
+  - filesystem_noise_from_spelling
+  - placeholder_from_entry_kind
+  parameters:
+  - name: compared_within
+    type: enum
+    default: folder
+    choices:
+    - pool
+    - folder
+  - name: component_kinds
+    type: string_list
+    default:
+    - word
+    - indexed
+    - quantity
+    - date
+    - version
+    - extension
+  - name: ignored_theme_kinds
+    type: string_list
+    default:
+    - stage
+    - replicate
+  - name: minimum_components
+    type: integer
+    default: 2
+    minimum: 1
+    maximum: 20
+  - name: ordered_component_kinds
+    type: string_list
+    default:
+    - quantity
+- id: experiments_may_belong_together
+  version: '2'
+  predicate: experiments_may_belong_together
+  effect: flags
+  tier: defeasible
+  level: folder
+  parameters:
+  - name: experiment_rules
+    type: string_list
+    default:
+    - experiment_folder_from_contents
+    - experiment_folder_from_dated_name
+  - name: policy
+    type: enum
+    choices:
+    - outermost_evidence
+    - structure_then_name
+    - name_first
+    default: name_first
+  - name: neighbours
+    type: integer
+    default: 3
+    minimum: 1
+    maximum: 50
+  - name: minimum_similarity
+    type: real
+    default: 0.2
+    minimum: 0.0
+    maximum: 1.0
+  - name: minimum_shared
+    type: integer
+    default: 2
+    minimum: 1
+    maximum: 50
+  - name: maximum_group_size
+    type: integer
+    default: 8
+    minimum: 2
+    maximum: 1000
+  - name: maximum_groups
+    type: integer
+    default: 0
+    minimum: 0
+    maximum: 5000
+  - name: common_share
+    type: real
+    default: 0.25
+    minimum: 0.0
+    maximum: 1.0
+- id: unbound_word_in_a_kinds_place
+  version: '1'
+  predicate: unbound_word_where_a_kind_stands
+  effect: flags
+  tier: defeasible
+  level: folder
+  defeated_by:
+  - installed_software_in_folder
+  parameters:
+  - name: minimum_bound
+    type: integer
+    default: 2
+    minimum: 1
+    maximum: 20
+  - name: agreement
+    type: real
+    default: 0.75
+    minimum: 0.0
+    maximum: 1.0
+  - name: minimum_names
+    type: integer
+    default: 3
+    minimum: 2
+    maximum: 1000
+- id: experiments_approved_together
+  version: '1'
+  predicate: approved_experiment_group
+  effect: groups
+  primitive: equivalent
+  respect: approved_experiment_group
+  tier: defeasible
+  level: file
+  defeated_by:
+  - filesystem_noise_from_spelling
+  - placeholder_from_entry_kind
+  parameters:
+  - name: proposal_rule
+    type: string
+    default: experiments_may_belong_together
+- id: group_resolved_within_experiment
+  version: '1'
+  predicate: resolved_group_within_experiment
+  effect: groups
+  primitive: equivalent
+  respect: resolved_group_within_experiment
+  tier: defeasible
+  level: file
+  defeated_by:
+  - filesystem_noise_from_spelling
+  - placeholder_from_entry_kind
+- id: group_resolved_across_experiments
+  version: '1'
+  predicate: resolved_group_across_experiments
+  effect: groups
+  primitive: equivalent
+  respect: resolved_group_across_experiments
+  tier: defeasible
+  level: file
+  defeated_by:
+  - filesystem_noise_from_spelling
+  - placeholder_from_entry_kind
+  parameters:
+  - name: proposal_rule
+    type: string
+    default: experiments_may_belong_together
+  - name: term_source
+    type: enum
+    choices:
+    - folder_and_files
+    - folder_name
+    default: folder_and_files
+  - name: minimum_word_characters
+    type: integer
+    default: 2
+    minimum: 1
+    maximum: 50
+  - name: ignored_theme_kinds
+    type: string_list
+    default:
+    - stage
+    - replicate
+  - name: minimum_core_terms
+    type: integer
+    default: 2
+    minimum: 1
+    maximum: 50
+  - name: maximum_deviations
+    type: integer
+    default: 2
+    minimum: 0
+    maximum: 50
+- id: group_resolution_deviation
+  version: '1'
+  predicate: group_resolution_deviation
+  effect: flags
+  tier: defeasible
+  level: folder
+  defeated_by:
+  - installed_software_in_folder
+  parameters:
+  - name: asked_first
+    type: boolean
+    default: true

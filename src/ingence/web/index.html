@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ingence</title>
+<!-- The mark the website uses, small. The PNG is for a browser that draws
+     no SVG icon. Both ship beside the page; nothing is fetched. -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<!-- The two faces, shipped inside the package (vendor/); nothing is fetched. -->
+<link rel="stylesheet" href="/fonts.css">
+<link rel="stylesheet" href="/app.css">
+<!-- A scan's progress, its bar, the question before Stop (scan.js). -->
+<link rel="stylesheet" href="/scan.css">
+</head>
+<body>
+<!-- The first focus stop of every page, so the long tables of Engine can be skipped. keys.js moves
+     focus to the main region without changing the address (the address names the view). -->
+<a id="skip-link" class="skip-link" href="#main">Skip to the page</a>
+<header>
+  <div class="top">
+    <!-- The brand is the mark and the word, as the website's header has them. The mark is inline so
+         one drawing follows the scheme: the files take the text color, the made file the
+         accent. -->
+    <h1 class="brand"><svg class="brand-mark" viewBox="0 0 32 32" width="26" height="26" aria-hidden="true" focusable="false"><g class="files" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="10" height="8" rx="1.5"/><rect x="19" y="3" width="10" height="8" rx="1.5"/><path d="M8 11 Q12.32 11.21 13.26 12.78 M24 11 Q19.68 11.21 18.74 12.78"/></g><path class="made" d="M13.13 17.89 A3.8 3.8 0 1 1 18.87 17.89 L16 21.2 Z"/><rect class="made" x="13.75" y="23.2" width="4.5" height="8.8" rx="1.3"/></svg><span class="brand-word">Ingence</span></h1>
+    <!-- One box on every page. The box is Ask; Enter opens the Ask view (#ask?q=...). Its id stays
+         search-box, which keys.js and the views that focus it name. -->
+    <span id="search-slot"><input id="search-box" type="search" autocomplete="off" data-help="ask.box"
+      placeholder="Ask: for example, which experiments used GFP"
+      aria-label="Ask"></span>
+    <!-- The header's controls as one group of 32 px chips with equal gaps. The workspace's Commit
+         and Re-run controls go in the first span, and Import and Export, whose meaning is the
+         page's; the span takes no box of its own, so its buttons are the group's chips. -->
+    <div id="header-controls" class="header-controls" role="group" aria-label="Project controls">
+      <span id="workspace-slot">
+        <button id="commit-button" type="button" class="chip-control" data-help="workspace.commit" disabled>Committed</button>
+        <!-- How many changes wait for Re-run; opens a summary by kind. The badge sits on the corner
+             of Re-run and keeps its own count dot. -->
+        <span class="chip-badge-wrap">
+          <button id="rerun-button" type="button" class="chip-control" data-help="workspace.rerun" disabled>Re-run</button>
+          <!-- No data-help of its own: its marker in the pointing mode would sit on the next chip's, and
+               Re-run's own help says what the number is. -->
+          <button id="rerun-badge" type="button" class="rerun-badge"
+                  aria-controls="rerun-summary" aria-expanded="false" hidden></button>
+        </span>
+        <button id="import-button" type="button" class="chip-control" data-help="transfer.import" disabled>Import</button>
+        <button id="export-button" type="button" class="chip-control" data-help="transfer.export" disabled>Export</button>
+      </span>
+      <a id="landing-link" class="chip-control" href="/landing" data-help="landing.link">Open another project</a>
+      <button id="help-button" type="button" class="chip-control help-toggle" data-help="help.point"
+              aria-haspopup="dialog" aria-label="Keyboard shortcuts and help">?</button>
+    </div>
+    <!-- The project's name, with Rename. A name a person gave is theirs (magenta); the folder's own
+         name is quiet. app.js fills it from /api/v1/shell. -->
+    <div id="project-name" class="project-name" data-help="project.name" hidden>
+      <span id="project-name-text" class="project-name-text"></span>
+      <button id="rename-button" type="button" class="chip-control chip-small" data-help="project.rename">Rename</button>
+    </div>
+  </div>
+  <!-- Six pages. The Dashboard leads with the Overview and the experiments, and shows one thing at
+       a time. An old address (#years, #review, #graph...) opens its view on the page that holds it.
+       A section with nothing waiting is hidden, and so is a page with no section left. -->
+  <nav id="pages" aria-label="pages">
+    <button data-page="overview" data-help="page.overview" class="active">Overview</button>
+    <button data-page="overlap" data-help="page.overlap">Overlap</button>
+    <button data-page="experiments" data-help="page.experiments">Experiments</button>
+    <button data-page="checks" data-help="page.checks">Checks</button>
+    <button data-page="history" data-help="page.history">History</button>
+    <button data-page="advanced" data-help="page.advanced">Advanced</button>
+  </nav>
+  <nav class="sections" data-sections-of="overview" aria-label="sections of Overview" hidden>
+    <button data-view="overview" data-help="section.overview">Overview</button>
+  </nav>
+  <!-- Overlap (overlap.js), its modes Connections and By year; #years opens By year. -->
+  <nav class="sections" data-sections-of="overlap" aria-label="sections of Overlap" hidden>
+    <button data-view="overlap" data-help="section.overlap">Overlap</button>
+  </nav>
+  <nav class="sections" data-sections-of="experiments" aria-label="sections of Experiments" hidden>
+    <!-- The experiments the engine found, how complete each is and how its files were tied to
+         it. -->
+    <button data-view="experiments" data-help="section.experiments">Experiments</button>
+    <!-- A person's own sets (topics.js). A person reads "Collections"; the view stays topics. -->
+    <button data-view="topics" data-help="section.topics">Collections</button>
+  </nav>
+  <nav class="sections" data-sections-of="checks" aria-label="sections of Checks" hidden>
+    <button data-view="checks" data-help="section.checks">Checks</button>
+  </nav>
+  <nav class="sections" data-sections-of="history" aria-label="sections of History" hidden>
+    <button data-view="changes" data-help="section.changes">Changes</button>
+    <!-- Each run's manifest, what changed in sentences (/api/v1/manifest). -->
+    <button data-view="manifest" data-help="section.manifest">What changed</button>
+  </nav>
+  <!-- Advanced: every other view, under three small headings. -->
+  <nav class="sections sections-grouped" data-sections-of="advanced" aria-label="sections of Advanced" hidden>
+    <span class="section-group" role="group" aria-labelledby="sections-engine">
+      <span class="section-group-name" id="sections-engine">Engine</span>
+      <button data-view="rules" data-help="section.rules">Rules</button>
+      <button data-view="dictionary" data-help="section.dictionary">Dictionary</button>
+      <button data-view="settings" data-help="section.settings">Settings</button>
+      <!-- Each data folder's levels, as data (years.js). -->
+      <button data-view="ladders" data-help="section.ladders">Folder levels</button>
+    </span>
+    <span class="section-group" role="group" aria-labelledby="sections-lists">
+      <span class="section-group-name" id="sections-lists">Lists</span>
+      <button data-view="inventory" data-help="section.inventory">Inventory</button>
+      <button data-view="coverage" data-help="section.coverage">Coverage</button>
+      <button data-view="classes" data-waiting="classes" data-help="section.groupings">Word groups</button>
+      <button data-view="candidates" data-waiting="candidates" data-help="section.candidates">Suggested pairs</button>
+      <button data-view="extensions" data-waiting="extensions" data-help="section.extensions">Extensions</button>
+      <button data-view="programs" data-waiting="programs" data-help="section.programs">Programs</button>
+      <button data-view="claims" data-waiting="claims" data-help="section.claims">Conclusion samples</button>
+      <!-- The full queue of questions (review.js, questions.js); Checks shows the few that matter. -->
+      <button data-view="review" data-waiting="questions" data-help="section.questions">Questions</button>
+      <!-- A person teaches the engine their own words (words.js). -->
+      <button data-view="words" data-help="section.words">Words</button>
+      <button data-view="found" data-help="section.found">No analysis found</button>
+    </span>
+    <span class="section-group" role="group" aria-labelledby="sections-views">
+      <span class="section-group-name" id="sections-views">Views</span>
+      <!-- The Graph workspace (Wheel, Lineage, Timeline), and the one-hop page beside it. -->
+      <button data-view="explorer" data-help="section.explorer">Explorer</button>
+      <button data-view="graph" data-help="section.neighbourhood">Connections</button>
+      <!-- The Map of groups (map.js). The address #words opens it until words.js takes the
+           address. -->
+      <button data-view="map" data-help="section.map">Map of groups</button>
+      <!-- The stability pictures (years.js), a section of their own. -->
+      <button data-view="stability" data-help="section.stability">Stability</button>
+    </span>
+  </nav>
+  <p id="decider" class="summary decider"></p>
+  <!-- What is being looked at, kept across pages and reloads. -->
+  <p id="focus" class="summary focus" aria-live="polite" hidden></p>
+  <p id="applying" class="applying" hidden></p>
+  <!-- What the last import recorded: a line the page's advancing leaves alone. -->
+  <div id="imported" class="summary imported" role="status" hidden></div>
+  <!-- What waits for Re-run: said once when a session opens, with Re-run now and Later; and the
+       badge's summary, a line per kind. Nothing runs by itself. -->
+  <div id="rerun-notice" class="rerun-notice" role="status" data-help="workspace.notice" hidden></div>
+  <div id="rerun-summary" class="rerun-summary" role="region" aria-label="What Re-run applies" hidden></div>
+</header>
+
+<!-- The state of a root that cannot be reached, above the rows; the last run still reads beneath
+     it. app.js draws it with states.say. -->
+<div id="root-state" class="root-state" hidden></div>
+<!-- "Read, not yet inferred" above a view that works without a rule having run (Rules, Dictionary,
+     Settings, Changes); the views that show conclusions draw it in place. -->
+<div id="run-state" class="root-state" hidden></div>
+
+<main id="main" tabindex="-1">
+  <section id="list" class="pane" aria-label="The page">
+    <p class="empty state-loading" role="status">Loading...</p>
+  </section>
+  <section id="detail" class="pane detail" aria-label="What is selected" aria-live="polite">
+    <p class="empty">Nothing selected.</p>
+  </section>
+</main>
+
+<footer>
+  <p class="footer-line">
+    Ingence works only on this computer. Ingence never changes your files. Answers and notes go
+    into the answer log.
+  </p>
+  <!-- One row, the sentence at the left; at the right the version in mono, the documentation (the
+       one outbound link) and Report a problem. footer.js fills the version from /api/v1/version;
+       report.js opens its dialog. No build hash here: it is in the report's text. -->
+  <p class="footer-links">
+    <span id="footer-version" class="mono footer-version">ingence</span>
+    <a id="docs-link" href="https://ingence.org" target="_blank" rel="noopener noreferrer"
+       data-help="footer.docs">Documentation</a>
+    <a id="report-link" href="mailto:hello@ingence.org" data-help="footer.report"
+       aria-haspopup="dialog">Report a problem</a>
+  </p>
+</footer>
+
+<script src="/help/help.js"></script>
+<!-- The footer's version, and "Report a problem". Neither reads anything from the other scripts, so
+     they load first and the footer is right whatever else fails to load. -->
+<script src="/footer.js"></script>
+<script src="/report.js"></script>
+<!-- Keyboard paths no one page owns (focus kept clear of the sticky header; Escape). -->
+<script src="/keys.js"></script>
+<!-- The dialogs first, which every page uses; the one inspector after app.js. -->
+<script src="/dialogs.js"></script>
+<!-- The stability axis every view draws the same way. -->
+<script src="/stability.js"></script>
+<!-- A scan's progress in words and the question before Stop, which app.js's applying line and
+     workspace.js's header use. -->
+<script src="/scan.js"></script>
+<script src="/review.js"></script>
+<script src="/app.js"></script>
+<script src="/inspector.js"></script>
+<script src="/workspace.js"></script>
+<!-- The Settings section of Advanced (Engine), after the workspace whose drafts it uses. -->
+<script src="/settings.js"></script>
+<!-- Import and Export by page, after every script whose pages they serve. -->
+<script src="/transfer.js"></script>
+<!-- The Dictionary section of Advanced (Engine). -->
+<script src="/dictionary.js"></script>
+<link rel="stylesheet" href="/rules.css"><script src="/rules.js"></script>
+<!-- The Years view (the rows-by-time surface, the Wheel and Overlap behind it, the inspector's
+     cards, Rename, the Ladders section), after every script whose helpers it uses. -->
+<link rel="stylesheet" href="/years.css">
+<!-- Topics. The shared pieces (the colors, the Add to topic chooser, the chips) come before every
+     view that draws a topic; the Collections section of Experiments comes after Years. -->
+<link rel="stylesheet" href="/topics.css">
+<script src="/topic_kit.js"></script>
+<!-- Overlap's ring with chords, the Years view's own drawing, before the view that uses it. -->
+<script src="/ring.js"></script>
+<script src="/years.js"></script>
+<!-- Overlap (Connections and By year), the experiment's story and the workflow card. The drawing
+     library loads below, with the Graph page's; Overlap reads it only when it draws. -->
+<link rel="stylesheet" href="/overlap.css">
+<script src="/story.js"></script>
+<script src="/overlap.js"></script>
+<script src="/topics.js"></script>
+<!-- The standing views (No analysis found, What changed), and also the styles of the Questions
+     page, which review.js loads (questions.js) the first time it opens. -->
+<link rel="stylesheet" href="/standing.css">
+<script src="/found.js"></script>
+<script src="/manifest.js"></script>
+<!-- Experiments > Experiments, after years.js whose card and files it opens. -->
+<link rel="stylesheet" href="/experiments.css">
+<script src="/experiments.js"></script>
+<!-- The Overview (it opens first, after the quick checks of a new project) and Checks. -->
+<link rel="stylesheet" href="/overview.css">
+<script src="/overview.js"></script>
+<!-- Ask, the view the header's box and the Overview's box open (#ask?q=). -->
+<link rel="stylesheet" href="/ask.css">
+<script src="/ask.js"></script>
+<!-- The Graph page: its styles, its regions and its scripts, together. graph.js clones the template
+     into the page; the drawing library is vendored, never fetched. -->
+<link rel="stylesheet" href="/graph.css">
+<template id="graph-template">
+  <div class="graph-page">
+    <div class="graph-tools" data-graph="tools">
+      <fieldset data-help="graph.relations">
+        <legend>Relations</legend>
+        <div data-graph="relations"></div>
+      </fieldset>
+      <fieldset data-help="graph.proposals">
+        <legend>Suggestions</legend>
+        <label data-graph="proposals"><input type="checkbox"> Show suggested pairs</label>
+      </fieldset>
+      <fieldset data-help="graph.ladders">
+        <legend>Folder levels</legend>
+        <label data-graph="color"><input type="checkbox"> Color by folder level</label>
+        <label data-graph="lines"><input type="checkbox"> Themes on the folder levels</label>
+        <p class="faint" data-graph="lines-note">Off by default. Turning it on builds the themes once.</p>
+      </fieldset>
+      <p class="faint" data-graph="caps" data-help="graph.caps"></p>
+    </div>
+    <div class="graph-middle">
+      <div class="graph-head">
+      <h2 data-graph="title">Connections</h2>
+      <details data-graph="choose" data-help="graph.center">
+        <summary>Choose another folder or file</summary>
+        <input type="search" autocomplete="off" aria-label="Search for a folder or file to center on"
+          placeholder="a word from its name">
+        <button type="button">Search</button>
+        <div data-graph="results"></div>
+      </details>
+      <div data-graph="status" aria-live="polite"></div>
+      <div data-graph="lone"></div>
+      </div>
+      <div data-graph="canvas-wrap">
+        <div class="graph-canvas" data-graph="canvas" tabindex="0" role="application"
+          aria-roledescription="connections plot" data-help="graph.layout"></div>
+        <p class="faint graph-keys" data-graph="keys">In the plot, Tab and Shift Tab move to the next and the previous item. The arrow keys follow a line. Enter centers the graph on the item. F fits the drawing to the page.</p>
+        <p class="graph-legend" data-help="graph.legend">
+          <span><svg viewBox="0 0 44 12" aria-hidden="true"><line class="line-contains" x1="2" y1="6" x2="42" y2="6"/></svg>thin line: contains</span>
+          <span><svg viewBox="0 0 44 12" aria-hidden="true"><line class="line-published" x1="2" y1="6" x2="42" y2="6"/></svg>thick arrowed line: published by the scan</span>
+          <span><svg viewBox="0 0 44 12" aria-hidden="true"><line class="line-proposed" x1="2" y1="6" x2="42" y2="6"/></svg>dashed line: suggested</span>
+          <span><svg viewBox="0 0 44 12" aria-hidden="true"><rect class="shape" x="12" y="1" width="20" height="10" rx="3"/></svg>box: folder</span>
+          <span><svg viewBox="0 0 44 12" aria-hidden="true"><circle class="shape" cx="22" cy="6" r="5"/></svg>circle: file</span>
+          <span><svg viewBox="0 0 44 12" aria-hidden="true"><circle class="shape center" cx="22" cy="6" r="4.5"/></svg>heavy outline: the center</span>
+          <span data-graph="band-legend" hidden><svg viewBox="0 0 44 12" aria-hidden="true"><rect class="band" x="2" y="1" width="40" height="10" rx="3"/></svg>tinted band: one folder level, in the color shown in the list on the right</span>
+          <span data-graph="topic-legend" hidden><svg viewBox="0 0 44 12" aria-hidden="true"><circle class="topic-halo" cx="22" cy="6" r="5.5"/></svg>magenta halo: an experiment in one of your collections</span>
+        </p>
+      </div>
+      <div data-graph="list" data-help="graph.list"></div>
+    </div>
+    <div class="graph-side">
+      <section class="graph-ladders" data-graph="ladders" data-help="graph.ladders" aria-label="Folder levels in these connections"></section>
+      <aside class="graph-inspector" data-graph="inspector" aria-live="polite" aria-label="What is selected"
+        data-help="graph.inspector"></aside>
+    </div>
+  </div>
+</template>
+<script src="/vendor/cytoscape/cytoscape.min.js"></script>
+<script src="/graph.js"></script>
+<!-- The Map of groups, a section of Advanced (Views), registered by its script. -->
+<link rel="stylesheet" href="/map.css">
+<script src="/map.js"></script>
+<!-- The Words section of Advanced, after map.js, which answers the address #words. This script
+     takes the address back. -->
+<link rel="stylesheet" href="/words.css">
+<script src="/words.js"></script>
+<!-- The Graph workspace: built by Vite from explorer/ into web/explorer/, every dependency bundled;
+     it runs only when the Explorer section opens. -->
+<link rel="stylesheet" href="/explorer/explorer.css">
+<script type="module" src="/explorer/explorer.js"></script>
+</body>
+</html>

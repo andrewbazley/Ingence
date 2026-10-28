@@ -1,0 +1,59 @@
+# Mass spectrometry, spectroscopy and analytical chemistry.
+
+# The pack's manifest. Its digest is over the words below, not the comments: a changed word
+# needs a new version and a new digest.
+pack:
+  name: spectrometry
+  version: "3"
+  domain: spectrometry
+  author: Ingence
+  licence: MIT
+  schema: "1.22"
+  digest: 182693c514051e1a063bb02d9429d713
+section: spectrometry
+theme_kind: technique
+origin: builtin
+domain: spectrometry
+# The pack's file formats are rows of the file-type table
+# (`src/ingence/dictionary/file_types.yaml`), every row naming this section. The senses are the
+# ones this file declared, term for term and spelling for spelling, so nothing made from them
+# moves. What each format is, who writes it and whether it is recorded data is the table's.
+file_types: from_table
+summary: Mass spectrometry, optical and magnetic spectroscopy, and their measures.
+
+entries:
+  # -- mass spectrometry ----------------------------------------------------
+  # "ms" alone is a millisecond, and spells no technique here.
+  # Bare `ms` is deliberately absent: it is a millisecond for everyone, including here. Adding
+  # it to this pack would not make it mass spectrometry either, because a pack stands level with
+  # the core and a collision between equals ties and resolves to neither. A laboratory that means
+  # mass spectrometry answers the question once -- a `USER` sense, which does outrank both -- and
+  # may scope that answer to the kinds of file it is true in.
+  - {term: mass_spectrometry, surfaces: [massspec, "mass-spec", lcms, "lc-ms", gcms, "gc-ms", lcmsms, msms, "ms/ms", ms1, ms2, ms3]}
+  - {term: ionisation, surfaces: [esi, maldi, apci, appi, nanospray, ei_ionisation, ci_ionisation]}
+  - {term: analyser, surfaces: [tof, qtof, orbitrap, quadrupole, iontrap, ftms, triplequad, qqq], theme_kind: instrument}
+  - {term: acquisition_mode, surfaces: [dda, dia, swath, prm, srm, mrm, targeted_ms, untargeted]}
+  - {term: omics_application, surfaces: [proteomics, metabolomics, lipidomics, glycomics, peptidomics]}
+  - {term: labelling_strategy, surfaces: [tmt, itraq, silac, dimethyl_label, labelfree, "label-free", spikein]}
+  - {term: modification, surfaces: [ptm, phospho, phosphorylation, acetyl, methyl, ubiquitin, glyco, sumo, oxidation, carbamidomethyl]}
+  - {term: search_engine, surfaces: [mascot, maxquant, proteomediscoverer, fragpipe, msfragger, comet, sequest, skyline, spectronaut, diann], theme_kind: software}
+  - {term: ms_measure, surfaces: [mz, "m/z", precursor, fragment_ion, retentiontime, "retention-time", rt_ms, peakarea, peakheight, intensity_ms, isotope, charge_state], theme_kind: statistic}
+  - {term: nuclear_magnetic_resonance, surfaces: [nmr, hnmr, "1h-nmr", cnmr, "13c-nmr", pnmr, fnmr]}
+  - {term: nmr_experiment, surfaces: [cosy, hsqc, hmbc, noesy, roesy, tocsy, dept, hetcor]}
+  - {term: nmr_measure, surfaces: [chemicalshift, "chemical-shift", ppm_shift, coupling_constant, jcoupling, multiplet, integration_nmr], theme_kind: statistic}
+
+  # -- optical spectroscopy -------------------------------------------------
+  - {term: absorbance_spectroscopy, surfaces: [uv, vis, uvvis, "uv-vis", absorbance, od, "od600", a280_spec, a260_spec]}
+  - {term: vibrational_spectroscopy, surfaces: [ir, ftir, raman, atr, nearinfrared, nir]}
+  - {term: chiroptical, surfaces: [cd_spec, circulardichroism, "circular-dichroism", ord]}
+  - {term: fluorescence_spectroscopy, surfaces: [emission_spectrum, excitation_spectrum, spectralscan, lambda_scan, anisotropy, polarisation_spec]}
+  - {term: scattering, surfaces: [dls, sls, saxs, waxs, sans, lightscattering, zeta_potential]}
+  # Rheology, the flow and deformation of soft matter, a bulk-property technique beside scattering
+  # and thermal analysis (Wikipedia, Rheology).
+  - {term: rheology, surfaces: [rheology, rheometry]}
+
+  # -- structural -----------------------------------------------------------
+  # `X-ray crystallography` and `X-ray diffraction` written out: the phrase wins
+  # over `x-ray`, the clinical pack's imaging.
+  - {term: crystallography, surfaces: [xrd, crystallography, diffraction, "x-ray crystallography", "x-ray diffraction", unitcell, spacegroup, mtz, pdb_file, cif]}
+  - {term: thermal_analysis, surfaces: [dsc, itc, tga, thermalshift, tsa, meltcurve, tm_value]}

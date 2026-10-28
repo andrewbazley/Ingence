@@ -1,0 +1,11 @@
+# Ingence engine settings.
+#
+# These govern how the engine runs, never what it concludes. The test is:
+# does changing this alter what the engine believes, or only how fast it
+# gets there? Interpretive commitments live in the Rulebook instead.
+#
+# Only what differs from the engine's defaults is written here: every setting
+# not written takes the default of the engine that reads it. Write a setting
+# here to hold its value. Delete this file and the engine uses its defaults.
+
+schema_version: '1.22'

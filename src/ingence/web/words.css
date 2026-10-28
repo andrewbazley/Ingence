@@ -1,0 +1,155 @@
+/* The Words section of Questions (words.js).
+ *
+ * Every selector here names a ``words-`` class, so a rule in this sheet, which is linked on every
+ * page, can never restyle another page. The Dashboard's tokens do the coloring, one job each:
+ * the accent for what is selected and for the meter's understood part, the person's magenta only
+ * where a person said so (an answer in force), hatching for what is not understood, the problem
+ * red never (nothing here is a fault). */
+
+/* ------------------------------------------------------------------ the reading meter */
+
+.words-meter { margin: 0 0 12px; max-width: 760px; }
+.words-meter .eyebrow { margin: 0 0 4px; }
+.words-meter-line { margin: 0 0 6px; font-size: 14px; }
+.words-meter-bar {
+  display: flex;
+  height: 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--panel);
+}
+.words-meter-now { background: var(--accent); min-width: 0; }
+.words-meter-gain { background: var(--accent-soft); border-left: 1px solid var(--accent); min-width: 0; }
+.words-meter-rest { background: var(--hatch); min-width: 0; }
+.words-meter-note { margin: 6px 0 0; font-size: 12px; }
+
+/* ------------------------------------------------------------------ the list */
+
+.words-toggles { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 18px; margin: 8px 0; font-size: 13px; }
+.words-toggle { display: inline-flex; align-items: center; gap: 4px; cursor: pointer; }
+.words-waiting { margin-left: auto; }
+
+.words-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 10px; }
+.words-chip {
+  font: inherit;
+  font-size: 12px;
+  padding: 2px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel);
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+.words-chip:hover { background: var(--accent-soft); }
+.words-chip.on { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); font-weight: 700; }
+
+tr.words-row td { vertical-align: middle; }
+.words-word code { font-size: 13px; }
+.words-written { font-size: 12px; }
+.words-answer { display: block; margin-top: 2px; }
+.words-files { white-space: nowrap; }
+.words-count { display: inline-block; min-width: 3ch; }
+.words-bar {
+  display: inline-block;
+  vertical-align: middle;
+  width: 72px;
+  height: 8px;
+  margin-left: 8px;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--ink) 8%, transparent);
+  overflow: hidden;
+}
+.words-bar-fill { display: block; height: 100%; background: var(--accent); }
+.words-state { font-size: 11px; }
+.words-pager { margin: 10px 0; }
+
+/* ------------------------------------------------------------------ the card */
+
+.words-card { max-width: 760px; }
+.words-card:focus { outline: none; }
+.words-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.words-card .question { text-transform: none; letter-spacing: 0; font-size: 18px; color: var(--ink); margin: 2px 0 6px; }
+.words-card h3 { margin: 16px 0 6px; }
+.words-facts { margin: 0 0 4px; }
+.words-state-says { margin: 0 0 6px; color: var(--ink-soft); }
+
+.words-answered { border-left: 3px solid var(--person); padding: 6px 10px; margin: 8px 0; }
+.words-answered p { margin: 2px 0; }
+
+.words-options { display: grid; gap: 6px; }
+.words-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--ink);
+  cursor: pointer;
+}
+.words-option:hover { background: color-mix(in srgb, var(--accent) 8%, var(--panel)); }
+.words-option.on { border-color: var(--accent); background: var(--accent-soft); }
+.words-number { flex: none; min-width: 1.6em; text-align: center; }
+.words-number:not(:empty) {
+  font-family: var(--mono);
+  font-size: 12px;
+  padding: 1px 5px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  color: var(--ink-soft);
+  background: var(--code-bg);
+}
+.words-option-text { display: grid; gap: 2px; min-width: 0; }
+.words-meta { font-size: 12px; color: var(--ink-soft); overflow-wrap: anywhere; }
+.words-own, .words-computer { margin: 2px 0 6px 34px; }
+
+.words-same-head { margin-top: 18px; }
+.words-variants { display: grid; gap: 8px; }
+.words-variant { border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; background: var(--panel); }
+.words-variant:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.words-variant-head { margin: 0 0 6px; }
+.words-variant-answers { display: flex; flex-wrap: wrap; gap: 6px; }
+.words-variant-answer {
+  font: inherit;
+  font-size: 13px;
+  padding: 3px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel);
+  color: var(--ink);
+  cursor: pointer;
+}
+.words-variant-answer:hover { background: var(--accent-soft); }
+.words-variant-answer.on { border-color: var(--accent); background: var(--accent-soft); font-weight: 700; }
+.words-variant-field { margin: 6px 0 0; }
+.words-variant-meaning { flex: 1; min-width: 0; font: inherit; padding: 4px 8px; border: 1px solid var(--line); border-radius: 4px; background: var(--panel); color: var(--ink); }
+
+.words-glued { margin-top: 8px; }
+.words-note { margin: 14px 0 6px; }
+.words-actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0; }
+.words-actions kbd, .words-variant-answer kbd {
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 0 4px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  color: var(--ink-soft);
+}
+.words-keys { font-size: 12px; margin: 4px 0; }
+.words-status:empty { display: none; }
+.words-evidence { margin-top: 14px; }
+.words-evidence summary { cursor: pointer; font-weight: 700; }
+
+@media (max-width: 860px) {
+  .words-own, .words-computer { margin-left: 0; }
+}
+
+/* ------------------------------------------------------------------ the block on Questions */
+
+.words-q-list { list-style: none; margin: 0 0 14px; padding: 0; display: grid; gap: 4px; }
+.words-q-list li { padding: 4px 0; border-bottom: 1px solid var(--line); font-size: 13px; }

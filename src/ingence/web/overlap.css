@@ -1,0 +1,141 @@
+/* Overlap: Connections and By year, the experiment's story and the workflow card (overlap.js,
+   story.js). Tokens are the website's (app.css :root), one job each. The theme colors are the Map
+   of groups' categorical palette, so a theme reads the same color on both. A kind of line never
+   differs from another by color alone: each has its own dash or ends. */
+
+:root {
+  --ov-c0: #1f5fa8; --ov-c1: #0b6b57; --ov-c2: #b36b00; --ov-c3: #5a4fcf;
+  --ov-c4: #8a4a10; --ov-c5: #2a8f9e; --ov-c6: #7a6a00; --ov-c7: #4d5b6b;
+  --ov-other: #a3a8b3;
+  --ov-k-words: #5b6270; --ov-k-workflow: #1f5fa8; --ov-k-instrument: #0b6b57;
+  --ov-k-repeat: #8a4a10; --ov-k-copy: #5a4fcf; --ov-k-made: #2a8f9e;
+  /* The stages of a story's days: raw, made from raw, analysis, figures. */
+  --st-raw: #0b6b57; --st-made: #6da7ec; --st-analysis: #1c5cab; --st-figures: #b36b00; --st-other: #a3a8b3;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ov-c0: #79b0ee; --ov-c1: #58c9ab; --ov-c2: #e0a469; --ov-c3: #a29fe0;
+    --ov-c4: #d49a6a; --ov-c5: #6fcbd8; --ov-c6: #d4c25a; --ov-c7: #a9b4c4;
+    --ov-other: #6d7382;
+    --ov-k-words: #9aa2b1; --ov-k-workflow: #79b0ee; --ov-k-instrument: #58c9ab;
+    --ov-k-repeat: #e0a469; --ov-k-copy: #a29fe0; --ov-k-made: #6fcbd8;
+    --st-raw: #58c9ab; --st-made: #2a5f9e; --st-analysis: #9ec5f4; --st-figures: #e0a469; --st-other: #6d7382;
+  }
+}
+
+/* The page: the drawing wide, the detail a fixed width beside it; under it below 1240 pixels. */
+main.overlap-layout { grid-template-columns: minmax(0, 1fr) 400px; }
+@media (max-width: 1240px) { main.overlap-layout { grid-template-columns: 1fr; } }
+
+.ov-top { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 16px; margin: 0 0 10px; }
+.ov-heading { margin: 0; font-size: 20px; }
+.ov-modes { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+.ov-mode { font: inherit; font-size: 14px; padding: 5px 14px; border: 0; background: var(--panel); color: var(--ink-soft); cursor: pointer; }
+.ov-mode + .ov-mode { border-left: 1px solid var(--line); }
+.ov-mode.on { background: var(--accent); color: var(--on-accent); font-weight: 700; }
+
+.ov-filters { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin: 0 0 8px; font-size: 14px; }
+.ov-field select { font: inherit; padding: 3px 6px; max-width: 18rem; }
+.ov-kinds { display: flex; flex-wrap: wrap; gap: 4px 12px; border: 0; padding: 0; margin: 0; }
+.ov-kinds legend { float: left; margin-right: 8px; font-weight: 700; }
+/* Overlap's page: its own class (the Overview's .ov-page holds its column to 880 px; Overlap uses the
+ * whole width). */
+.ol-page { display: grid; gap: 14px; }
+.ol-page h2 { margin: 0; }
+.ol-kind { display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
+.ol-kind input:disabled + svg { opacity: 0.35; }
+
+.ov-highlight { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin: 0 0 8px; }
+.ov-caption { margin: 0 0 6px; color: var(--ink-soft); font-size: 14px; }
+.ov-canvas { height: min(62vh, 600px); min-height: 360px; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); }
+.ov-keys { margin: 4px 0 8px; font-size: 13px; }
+
+.ov-legend { display: flex; flex-wrap: wrap; gap: 6px 28px; margin: 6px 0 10px; font-size: 13.5px; }
+.ov-legend-part { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; }
+.ov-legend-item { display: inline-flex; align-items: center; gap: 5px; }
+.ov-swatch { display: inline-block; width: 11px; height: 11px; border-radius: 50%; }
+
+/* The line samples: the same dash and ends as the drawing. */
+.ov-sample { width: 36px; height: 12px; flex: none; }
+.ov-sample line { stroke-width: 2; }
+.ov-sample circle { stroke: none; }
+.ov-sample-shared_words line { stroke: var(--ov-k-words); }
+.ov-sample-workflow line { stroke: var(--ov-k-workflow); stroke-dasharray: 6 4; }
+.ov-sample-instrument line { stroke: var(--ov-k-instrument); stroke-dasharray: 1.5 3; stroke-linecap: round; stroke-width: 2.5; }
+.ov-sample-repeat_of line { stroke: var(--ov-k-repeat); stroke-width: 1.6; }
+.ov-sample-copy line { stroke: var(--ov-k-copy); stroke-dasharray: 8 2 2 2; }
+.ov-sample-made_from line { stroke: var(--ov-k-made); stroke-width: 2.5; }
+.ov-sample-made_from circle { fill: var(--ov-k-made); }
+
+.ov-list { margin: 6px 0 16px; font-size: 14px; }
+.ov-list table { width: 100%; border-collapse: collapse; margin-top: 6px; }
+.ov-list td, .ov-list th { text-align: left; padding: 3px 8px 3px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+
+/* The detail: an experiment, or a line. */
+.ov-card { font-size: 14.5px; }
+.ov-card .eyebrow { margin: 0 0 2px; }
+.ol-title { font-size: 19px; margin: 0 0 6px; line-height: 1.3; }
+.ov-evidence { list-style: none; padding: 0; margin: 6px 0 10px; }
+.ov-evidence li { display: flex; align-items: center; gap: 6px; margin: 3px 0; }
+.ov-filegroup { margin: 10px 0; }
+.ov-filelist { list-style: none; padding: 0; margin: 4px 0; max-height: 280px; overflow: auto; }
+.ov-filelist li { margin: 1px 0; overflow-wrap: anywhere; }
+.ov-filelist li.ov-match button { font-weight: 700; }
+.ov-neighbors { margin: 8px 0; }
+
+/* The story. */
+.st-story { font-size: 14.5px; }
+.ystory { margin: 4px 0 12px; max-width: 80ch; }
+.st-head { font-size: 16px; margin: 12px 0 6px; }
+.st-eyebrow { font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--ink-soft); margin: 12px 0 4px; }
+.st-strip { display: flex; flex-wrap: wrap; gap: 2px; margin: 4px 0 8px; }
+.st-day { width: 12px; height: 18px; border-radius: 2px; background: var(--st-other); }
+.st-days { list-style: none; padding: 0; margin: 0; }
+.st-dayline { display: flex; align-items: center; gap: 8px; margin: 2px 0; }
+.st-dayline time { color: var(--ink-soft); font-size: 13px; }
+.st-swatch { display: inline-block; width: 10px; height: 10px; border-radius: 2px; background: var(--st-other); flex: none; }
+.st-raw { background: var(--st-raw); }
+.st-made { background: var(--st-made); }
+.st-analysis { background: var(--st-analysis); }
+.st-figures { background: var(--st-figures); }
+.st-more summary { cursor: pointer; color: var(--ink-soft); }
+.st-steps { list-style: none; display: flex; flex-wrap: wrap; gap: 4px; padding: 0; margin: 4px 0; }
+.st-step { padding: 2px 10px; border: 1px solid var(--line); border-radius: 999px; font-size: 13px; color: var(--ink-soft); }
+.st-step.reached { background: var(--accent-soft); border-color: var(--accent); color: var(--ink); font-weight: 700; }
+.st-progress { margin: 2px 0; }
+.st-links { list-style: none; padding: 0; margin: 2px 0; }
+.st-links li { margin: 2px 0; }
+/* A link in the list is a target of its own: at least 24px tall (WCAG 2.5.8). */
+.st-links button.st-link { min-height: 24px; text-align: left; }
+.st-files { margin: 12px 0 4px; }
+
+/* The workflow card. */
+.wf-cards { margin: 8px 0 12px; }
+.wf-head { font-size: 15px; margin: 4px 0; }
+.wf-card { border: 1px solid var(--line); border-radius: 6px; padding: 8px 12px; margin: 6px 0; background: var(--panel); }
+.wf-card.wf-off { opacity: 0.75; }
+.wf-line { margin: 0 0 6px; }
+.wf-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.wf-actions .answer { padding: 3px 12px; }
+.wf-preview { margin: 8px 0 0; }
+.wf-would-head { font-weight: 700; margin: 0 0 2px; }
+.wf-would { margin: 0 0 4px; }
+.wf-done p { margin: 6px 0 0; }
+.wf-form { margin: 8px 0 0; }
+.wf-form-head { margin: 0 0 4px; }
+.wf-stages { padding-left: 0; list-style: none; margin: 0 0 8px; }
+.wf-stage { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; padding: 4px 0; border-bottom: 1px solid var(--line); }
+.wf-stage-name { min-width: 9rem; font-weight: 700; }
+.wf-types { display: inline-flex; flex-wrap: wrap; gap: 4px; }
+.wf-type { display: inline-flex; align-items: center; gap: 2px; border: 1px solid var(--line); border-radius: 999px; padding: 0 2px 0 8px; font-size: 13px; }
+.wf-x { font: inherit; border: 0; background: transparent; cursor: pointer; padding: 0 5px; color: var(--ink-soft); }
+.wf-move { display: inline-flex; gap: 8px; margin-left: auto; }
+.wf-move button:disabled { color: var(--ink-quiet); text-decoration: none; cursor: default; }
+.wf-status { margin: 4px 0 0; }
+.exp-workflows { margin: 8px 0; }
+.exp-story-row > td { background: var(--page); padding: 8px 16px 16px; }
+.ov-card .ol-title { text-transform: none; letter-spacing: 0; color: var(--ink); }
+.exp-workflows .wf-card { max-width: 92ch; }
+
+/* An experiment's name opened from a line's evidence or a list is a target of at least 24px. */
+button.link[data-help="overlap.open_node"] { min-height: 24px; display: inline-flex; align-items: center; }

@@ -1,0 +1,86 @@
+# The quality figures of the themes summary. Read by `ingence.quality.catalogue` in
+# the shape of `quality/catalogue.yaml`. They are counted from the themes projection of the run
+# (the same one the Themes page and the themes export read), which is built from the run's
+# experiments, their words and the settings. A similarity or an agreement is a number between 0 and
+# 1; it is stated as that many points of 1,000 and rounded to a whole number, so it has its whole beside it.
+sections:
+  themes: "Themes"
+figures:
+  themes.placed:
+    section: themes
+    label: "Experiments placed in a theme"
+    unit: experiments
+    known_from: infer
+    total: "experiments"
+    method: "Experiments that belong to a theme in the placement shown, out of all the experiments the themes were drawn from. Stated when the run was written: a later answer or setting does not change it."
+  themes.unplaced:
+    section: themes
+    label: "Experiments placed in no theme"
+    unit: experiments
+    known_from: infer
+    total: "experiments"
+    method: "Experiments in no theme, by the reason the themes give, out of all the experiments; the rows add up to the experiments not placed. Stated when the run was written: a later answer or setting does not change it."
+    facets:
+      no_words: "it has no theme words"
+      too_small: "its group is smaller than a theme"
+      not_close: "its words are no closer to any other experiment's than chance"
+      not_close_to_group: "its words are no closer to the rest of its group than chance"
+      repeated_text: "its experiments read the same words, which is no theme on its own"
+  themes.seed_pairs_identical:
+    section: themes
+    label: "Pairs of seeds that place every experiment alike"
+    unit: pairs of seeds
+    known_from: infer
+    total: "pairs of seeds"
+    method: "Pairs of the random seeds the themes are drawn with whose final placements have an adjusted Rand index of 1, out of all pairs; not recorded where fewer than two seeds ran. Stated when the run was written: a later answer or setting does not change it."
+  themes.seed_agreement_least:
+    section: themes
+    label: "Agreement of the least alike pair of seeds, scaled to 1,000"
+    unit: points
+    known_from: infer
+    total: "1,000 points, the agreement of identical placements"
+    method: "The least adjusted Rand index among all pairs of seeds' final placements, written as that many of 1,000 and rounded to a whole number; a value below 0 (less alike than chance) is not recorded, since this figure cannot hold it. Stated when the run was written: a later answer or setting does not change it."
+  themes.seed_agreement_median:
+    section: themes
+    label: "Agreement of the middle pair of seeds, scaled to 1,000"
+    unit: points
+    known_from: infer
+    total: "1,000 points, the agreement of identical placements"
+    method: "The middle adjusted Rand index among all pairs of seeds' final placements, written as that many of 1,000 and rounded to a whole number; not recorded where fewer than two seeds ran. Stated when the run was written: a later answer or setting does not change it."
+  themes.shown_seed:
+    section: themes
+    label: "Number of the seed whose placement is shown"
+    unit: "(a seed's number, not a count)"
+    known_from: infer
+    method: "The number of the random seed whose final placement the themes show. It names a seed and counts nothing, so it has no whole and no bar; a change from the run before is a different seed. Stated when the run was written: a later answer or setting does not change it."
+  themes.medoid_seed:
+    section: themes
+    label: "Number of the seed most like the others (medoid)"
+    unit: "(a seed's number, not a count)"
+    known_from: infer
+    method: "The number of the seed whose final placement agrees most, on average, with every other seed's. It names a seed and counts nothing, so it has no whole and no bar. Not recorded where fewer than two seeds ran. Stated when the run was written: a later answer or setting does not change it."
+  themes.disconnected:
+    section: themes
+    label: "Themes not connected in their graph"
+    unit: themes
+    known_from: infer
+    total: "themes"
+    method: "Themes whose experiments do not form one connected piece of the nearest-neighbor graph in the placement shown, out of all themes. Stated when the run was written: a later answer or setting does not change it."
+  themes.broad_disconnected:
+    section: themes
+    label: "Broad themes not connected in their graph"
+    unit: broad themes
+    known_from: infer
+    total: "broad themes"
+    method: "Broad themes whose experiments do not form one connected piece of the nearest-neighbor graph, out of all broad themes. Stated when the run was written: a later answer or setting does not change it."
+  themes.cutoffs:
+    section: themes
+    label: "Similarity cutoffs chance gave, scaled to 1,000"
+    unit: points
+    known_from: infer
+    total: "1,000 points, the similarity of identical words"
+    method: "The cutoffs taken from the similarities of shuffled documents, each written as that many of 1,000 and rounded to a whole number: between themes (to keep an edge across themes), within a theme and for placing an experiment. Not recorded, with its own reason, where no shuffled documents were measured, where the settings set no cutoff of that kind (the cutoff within a theme is unset by default) or where the value is below 0. Stated when the run was written: a later answer or setting does not change it."
+    facets:
+      between: "to keep an edge between themes"
+      within: "to keep an edge within a theme"
+      placement: "to place an experiment"

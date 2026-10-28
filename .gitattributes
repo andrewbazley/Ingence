@@ -1,0 +1,13 @@
+# Line endings are normalised for source, and never for vendored material.
+* text=auto
+
+# The vendored UCUM essence file must stay byte-for-byte what was published.
+# Its licence permits reproducing the Work complete and unaltered and expressly
+# forbids modifying its contents. A checkout that rewrote its line endings
+# would distribute an altered copy on one platform and not the others. A test
+# also digests the file, and on Windows the digest differs after such a rewrite.
+vendor/** -text
+
+# The Dashboard's vendored browser files are kept as their releases shipped
+# them, for the same reasons: a test digests each against web/vendor/*/VENDOR.md.
+src/ingence/web/vendor/** -text

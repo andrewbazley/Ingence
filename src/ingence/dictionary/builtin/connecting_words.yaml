@@ -1,0 +1,32 @@
+# The small words that join the others in a name.
+#
+# `kelt_by_zib`, `vorn_with_brisa`, `kelt_vs_zib`: a word such as `by` or `with` says how the words
+# around it relate, and says nothing about what a file is. Without these entries the engine would
+# ask what such words mean, because they stand where statistics stand in neighbouring names. Bound
+# here, they are known and never asked about. A rule reads no connective as a subject.
+#
+# Words that a unit or a date already spells are left out (`in`, `on`, `a`), so that no reading
+# of a name changes.
+section: connecting_words
+theme_kind: connective
+origin: builtin
+summary: The small words that join others in a name, known so that they are never asked about.
+
+entries:
+  - {term: by, surfaces: [by]}
+  - {term: with, surfaces: [with]}
+  - {term: without, surfaces: [without]}
+  - {term: versus, surfaces: [vs, versus]}
+  - {term: and, surfaces: [and]}
+  - {term: or, surfaces: [or]}
+  - {term: of, surfaces: [of]}
+  - {term: for, surfaces: [for]}
+  - {term: from, surfaces: [from]}
+  - {term: to, surfaces: [to]}
+  - {term: at, surfaces: [at]}
+  - {term: into, surfaces: [into]}
+  - {term: the, surfaces: [the]}
+  - {term: an, surfaces: [an]}
+  - {term: per, surfaces: [per]}
+  - {term: via, surfaces: [via]}
+  - {term: than, surfaces: [than]}

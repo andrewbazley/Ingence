@@ -1,0 +1,1266 @@
+{
+ "shipped": {
+  "engine_tallies": {
+   "acquisition_stage_from_format": {
+    "concluded": 12,
+    "conflicting": 0,
+    "evaluated": 63,
+    "no_evidence": 51,
+    "starved": 0,
+    "unexamined": 0
+   },
+   "analysis_stage_from_derived_sense": {
+    "concluded": 0,
+    "conflicting": 0,
+    "evaluated": 63,
+    "no_evidence": 63,
+    "starved": 0,
+    "unexamined": 0
+   },
+   "content_contradicts_extension": {
+    "concluded": 1,
+    "conflicting": 0,
+    "evaluated": 63,
+    "no_evidence": 60,
+    "starved": 0,
+    "unexamined": 2
+   },
+   "content_unreadable": {
+    "concluded": 2,
+    "conflicting": 0,
+    "evaluated": 63,
+    "no_evidence": 61,
+    "starved": 0,
+    "unexamined": 0
+   },
+   "copies_by_sampled_digest": {
+    "concluded": 52,
+    "conflicting": 0,
+    "evaluated": 63,
+    "no_evidence": 0,
+    "starved": 0,
+    "unexamined": 11
+   },
+   "experiment_folder_from_contents": {
+    "concluded": 10,
+    "conflicting": 0,
+    "evaluated": 33,
+    "no_evidence": 23,
+    "starved": 0,
+    "unexamined": 0
+   },
+   "experiment_folder_from_dated_name": {
+    "concluded": 9,
+    "conflicting": 0,
+    "evaluated": 33,
+    "no_evidence": 24,
+    "starved": 0,
+    "unexamined": 0
+   },
+   "experiments_may_belong_together": {
+    "concluded": 0,
+    "conflicting": 0,
+    "evaluated": 33,
+    "no_evidence": 33,
+    "starved": 0,
+    "unexamined": 0
+   },
+   "export_stage_from_inner_format": {
+    "concluded": 0,
+    "conflicting": 0,
+    "evaluated": 63,
+    "no_evidence": 63,
+    "starved": 0,
+    "unexamined": 0
+   },
+   "group_resolution_deviation": {
+    "concluded": 5,
+    "conflicting": 0,
+    "evaluated": 33,
+    "no_evidence": 28,
+    "starved": 0,
+    "unexamined": 0
+   },
+   "identical_by_content_digest": {
+    "concluded": 6,
+    "conflicting": 0,
+    "evaluated": 63,
+    "no_evidence": 0,
+    "starved": 0,
+    "unexamined": 57
+   },
+   "installed_software_in_folder": {
+    "concluded": 1,
+    "conflicting": 0,
+    "evaluated": 33,
+    "no_evidence": 32,
+    "starved": 0,
+    "unexamined": 0
+   },
+   "pipeline_stage_from_name": {
+    "concluded": 15,
+    "conflicting": 0,
+    "evaluated": 63,
+    "no_evidence": 48,
+    "starved": 0,
+    "unexamined": 0
+   },
+   "replicates_of_one_condition": {
+    "concluded": 63,
+    "conflicting": 0,
+    "evaluated": 63,
+    "no_evidence": 0,
+    "starved": 0,
+    "unexamined": 0
+   },
+   "same_experimental_condition": {
+    "concluded": 0,
+    "conflicting": 0,
+    "evaluated": 63,
+    "no_evidence": 63,
+    "starved": 0,
+    "unexamined": 0
+   },
+   "stage_from_writer_tags": {
+    "concluded": 0,
+    "conflicting": 0,
+    "evaluated": 63,
+    "no_evidence": 18,
+    "starved": 0,
+    "unexamined": 45
+   }
+  },
+  "families": {
+   "contradicted_extension": {
+    "content_contradicts_extension": {
+     "by_tier": {
+      "raised": {
+       "correct": 1,
+       "wrong": 0
+      }
+     },
+     "concluded": 1,
+     "conflicting": 0,
+     "correct": 1,
+     "coverage": [
+      1,
+      1
+     ],
+     "expected": 1,
+     "ignored": 0,
+     "no_claim": 0,
+     "none_where_value": 0,
+     "outside": 0,
+     "precision": [
+      1,
+      1
+     ],
+     "recall": [
+      1,
+      1
+     ],
+     "undecidable": 0,
+     "undecidable_conflicting": 0,
+     "undecidable_decided": 0,
+     "undecidable_no_claim": 0,
+     "wrong": 0,
+     "wrong_value": 0,
+     "wrong_where_none": 0
+    },
+    "every rule": {
+     "by_tier": {
+      "raised": {
+       "correct": 1,
+       "wrong": 0
+      }
+     },
+     "concluded": 1,
+     "conflicting": 0,
+     "correct": 1,
+     "coverage": [
+      1,
+      1
+     ],
+     "expected": 1,
+     "ignored": 0,
+     "no_claim": 0,
+     "none_where_value": 0,
+     "outside": 0,
+     "precision": [
+      1,
+      1
+     ],
+     "recall": [
+      1,
+      1
+     ],
+     "undecidable": 0,
+     "undecidable_conflicting": 0,
+     "undecidable_decided": 0,
+     "undecidable_no_claim": 0,
+     "wrong": 0,
+     "wrong_value": 0,
+     "wrong_where_none": 0
+    },
+    "extension_contradicts_content": {
+     "by_tier": {},
+     "concluded": 0,
+     "conflicting": 0,
+     "correct": 0,
+     "coverage": [
+      0,
+      1
+     ],
+     "expected": 1,
+     "ignored": 0,
+     "no_claim": 1,
+     "none_where_value": 0,
+     "outside": 0,
+     "precision": [
+      0,
+      0
+     ],
+     "recall": [
+      0,
+      1
+     ],
+     "undecidable": 0,
+     "undecidable_conflicting": 0,
+     "undecidable_decided": 0,
+     "undecidable_no_claim": 0,
+     "wrong": 0,
+     "wrong_value": 0,
+     "wrong_where_none": 0
+    }
+   },
+   "copy": {
+    "copies_by_sampled_digest": {
+     "by_tier": {
+      "class": {
+       "correct": 3,
+       "wrong": 0
+      }
+     },
+     "concluded": 3,
+     "conflicting": 0,
+     "correct": 3,
+     "expected": 3,
+     "ignored": 0,
+     "missed": 0,
+     "outside": 0,
+     "precision": [
+      3,
+      3
+     ],
+     "recall": [
+      3,
+      3
+     ],
+     "rejected_right": 0,
+     "rejected_where_pair": 0,
+     "undecidable": 0,
+     "undecidable_conflicting": 0,
+     "undecidable_decided": 0,
+     "undecidable_no_claim": 0,
+     "undecidable_rejected": 0,
+     "wrong": 0
+    },
+    "every rule": {
+     "by_tier": {
+      "class": {
+       "correct": 3,
+       "wrong": 0
+      }
+     },
+     "concluded": 3,
+     "conflicting": 0,
+     "correct": 3,
+     "expected": 3,
+     "ignored": 0,
+     "missed": 0,
+     "outside": 0,
+     "precision": [
+      3,
+      3
+     ],
+     "recall": [
+      3,
+      3
+     ],
+     "rejected_right": 0,
+     "rejected_where_pair": 0,
+     "undecidable": 0,
+     "undecidable_conflicting": 0,
+     "undecidable_decided": 0,
+     "undecidable_no_claim": 0,
+     "undecidable_rejected": 0,
+     "wrong": 0
+    },
+    "identical_by_content_digest": {
+     "by_tier": {
+      "class": {
+       "correct": 3,
+       "wrong": 0
+      }
+     },
+     "concluded": 3,
+     "conflicting": 0,
+     "correct": 3,
+     "expected": 3,
+     "ignored": 0,
+     "missed": 0,
+     "outside": 0,
+     "precision": [
+      3,
+      3
+     ],
+     "recall": [
+      3,
+      3
+     ],
+     "rejected_right": 0,
+     "rejected_where_pair": 0,
+     "undecidable": 0,
+     "undecidable_conflicting": 0,
+     "undecidable_decided": 0,
+     "undecidable_no_claim": 0,
+     "undecidable_rejected": 0,
+     "wrong": 0
+    }
+   },
+   "derivation": {
+    "derivation_by_a_scripts_calls": {
+     "by_tier": {
+      "circumstantial": {
+       "correct": 1,
+       "wrong": 0
+      }
+     },
+     "concluded": 1,
+     "conflicting": 0,
+     "correct": 1,
+     "expected": 14,
+     "ignored": 0,
+     "missed": 13,
+     "outside": 0,
+     "precision": [
+      1,
+      1
+     ],
+     "recall": [
+      1,
+      14
+     ],
+     "rejected_right": 0,
+     "rejected_where_pair": 0,
+     "undecidable": 2,
+     "undecidable_conflicting": 0,
+     "undecidable_decided": 0,
+     "undecidable_no_claim": 2,
+     "undecidable_rejected": 0,
+     "wrong": 0
+    },
+    "derivation_named_for_an_acquisition": {
+     "by_tier": {
+      "circumstantial": {
+       "correct": 10,
+       "wrong": 0
+      }
+     },
+     "concluded": 10,
+     "conflicting": 0,
+     "correct": 10,
+     "expected": 14,
+     "ignored": 0,
+     "missed": 4,
+     "outside": 0,
+     "precision": [
+      10,
+      10
+     ],
+     "recall": [
+      10,
+      14
+     ],
+     "rejected_right": 0,
+     "rejected_where_pair": 0,
+     "undecidable": 2,
+     "undecidable_conflicting": 0,
+     "undecidable_decided": 0,
+     "undecidable_no_claim": 2,
+     "undecidable_rejected": 0,
+     "wrong": 0
+    },
+    "derivation_within_name_identity": {
+     "by_tier": {
+      "circumstantial": {
+       "correct": 2,
+       "wrong": 0
+      }
+     },
+     "concluded": 2,
+     "conflicting": 0,
+     "correct": 2,
+     "expected": 14,
+     "ignored": 0,
+     "missed": 12,
+     "outside": 0,
+     "precision": [
+      2,
+      2
+     ],
+     "recall": [
+      2,
+      14
+     ],
+     "rejected_right": 0,
+     "rejected_where_pair": 0,
+     "undecidable": 2,
+     "undecidable_conflicting": 0,
+     "undecidable_decided": 0,
+     "undecidable_no_claim": 2,
+     "undecidable_rejected": 0,
+     "wrong": 0
+    },
+    "every rule": {
+     "by_tier": {
+      "circumstantial": {
+       "correct": 13,
+       "wrong": 0
+      }
+     },
+     "concluded": 13,
+     "conflicting": 0,
+     "correct": 13,
+     "expected": 14,
+     "ignored": 0,
+     "missed": 1,
+     "outside": 0,
+     "precision": [
+      13,
+      13
+     ],
+     "recall": [
+      13,
+      14
+     ],
+     "rejected_right": 0,
+     "rejected_where_pair": 0,
+     "undecidable": 2,
+     "undecidable_conflicting": 0,
+     "undecidable_decided": 0,
+     "undecidable_no_claim": 2,
+     "undecidable_rejected": 0,
+     "wrong": 0
+    }
+   },
+   "empty_file": {
+    "content_unreadable": {
+     "by_tier": {
+      "raised": {
+       "correct": 2,
+       "wrong": 0
+      }
+     },
+     "concluded": 2,
+     "conflicting": 0,
+     "correct": 2,
+     "coverage": [
+      2,
+      2
+     ],
+     "expected": 2,
+     "ignored": 0,
+     "no_claim": 0,
+     "none_where_value": 0,
+     "outside": 0,
+     "precision": [
+      2,
+      2
+     ],
+     "recall": [
+      2,
+      2
+     ],
+     "undecidable": 0,
+     "undecidable_conflicting": 0,
+     "undecidable_decided": 0,
+     "undecidable_no_claim": 0,
+     "wrong": 0,
+     "wrong_value": 0,
+     "wrong_where_none": 0
+    }
+   },
+   "experiment_folder": {
+    "every rule": {
+     "by_tier": {
+      "defeasible": {
+       "correct": 9,
+       "wrong": 1
+      }
+     },
+     "concluded": 9,
+     "conflicting": 0,
+     "correct": 9,
+     "coverage": [
+      10,
+      10
+     ],
+     "expected": 10,
+     "ignored": 0,
+     "no_claim": 0,
+     "none_where_value": 1,
+     "outside": 0,
+     "precision": [
+      9,
+      10
+     ],
+     "recall": [
+      9,
+      10
+     ],
+     "undecidable": 0,
+     "undecidable_conflicting": 0,
+     "undecidable_decided": 0,
+     "undecidable_no_claim": 0,
+     "wrong": 1,
+     "wrong_value": 0,
+     "wrong_where_none": 0
+    },
+    "experiment_folder_from_contents": {
+     "by_tier": {
+      "defeasible": {
+       "correct": 9,
+       "wrong": 1
+      }
+     },
+     "concluded": 9,
+     "conflicting": 0,
+     "correct": 9,
+     "coverage": [
+      10,
+      10
+     ],
+     "expected": 10,
+     "ignored": 0,
+     "no_claim": 0,
+     "none_where_value": 1,
+     "outside": 0,
+     "precision": [
+      9,
+      10
+     ],
+     "recall": [
+      9,
+      10
+     ],
+     "undecidable": 0,
+     "undecidable_conflicting": 0,
+     "undecidable_decided": 0,
+     "undecidable_no_claim": 0,
+     "wrong": 1,
+     "wrong_value": 0,
+     "wrong_where_none": 0
+    },
+    "experiment_folder_from_dated_name": {
+     "by_tier": {
+      "defeasible": {
+       "correct": 9,
+       "wrong": 0
+      }
+     },
+     "concluded": 9,
+     "conflicting": 0,
+     "correct": 9,
+     "coverage": [
+      9,
+      10
+     ],
+     "expected": 10,
+     "ignored": 0,
+     "no_claim": 1,
+     "none_where_value": 0,
+     "outside": 0,
+     "precision": [
+      9,
+      9
+     ],
+     "recall": [
+      9,
+      10
+     ],
+     "undecidable": 0,
+     "undecidable_conflicting": 0,
+     "undecidable_decided": 0,
+     "undecidable_no_claim": 0,
+     "wrong": 0,
+     "wrong_value": 0,
+     "wrong_where_none": 0
+    }
+   },
+   "group": {
+    "every rule": {
+     "by_tier": {
+      "raised": {
+       "correct": 10,
+       "wrong": 0
+      }
+     },
+     "concluded": 10,
+     "conflicting": 0,
+     "correct": 10,
+     "expected": 13,
+     "groups_proposed": 1,
+     "ignored": 0,
+     "missed": 3,
+     "named_groups": 3,
+     "named_groups_matched": 1,
+     "outside": 0,
+     "precision": [
+      10,
+      10
+     ],
+     "recall": [
+      10,
+      13
+     ],
+     "rejected_right": 0,
+     "rejected_where_pair": 0,
+     "undecidable": 0,
+     "undecidable_conflicting": 0,
+     "undecidable_decided": 0,
+     "undecidable_no_claim": 0,
+     "undecidable_rejected": 0,
+     "wrong": 0
+    },
+    "experiments_may_belong_together": {
+     "by_tier": {},
+     "concluded": 0,
+     "conflicting": 0,
+     "correct": 0,
+     "expected": 13,
+     "groups_proposed": 0,
+     "ignored": 0,
+     "missed": 13,
+     "named_groups": 3,
+     "named_groups_matched": 0,
+     "outside": 0,
+     "precision": [
+      0,
+      0
+     ],
+     "recall": [
+      0,
+      13
+     ],
+     "rejected_right": 0,
+     "rejected_where_pair": 0,
+     "undecidable": 0,
+     "undecidable_conflicting": 0,
+     "undecidable_decided": 0,
+     "undecidable_no_claim": 0,
+     "undecidable_rejected": 0,
+     "wrong": 0
+    },
+    "group_resolution_deviation": {
+     "by_tier": {
+      "raised": {
+       "correct": 10,
+       "wrong": 0
+      }
+     },
+     "concluded": 10,
+     "conflicting": 0,
+     "correct": 10,
+     "expected": 13,
+     "groups_proposed": 1,
+     "ignored": 0,
+     "missed": 3,
+     "named_groups": 3,
+     "named_groups_matched": 1,
+     "outside": 0,
+     "precision": [
+      10,
+      10
+     ],
+     "recall": [
+      10,
+      13
+     ],
+     "rejected_right": 0,
+     "rejected_where_pair": 0,
+     "undecidable": 0,
+     "undecidable_conflicting": 0,
+     "undecidable_decided": 0,
+     "undecidable_no_claim": 0,
+     "undecidable_rejected": 0,
+     "wrong": 0
+    }
+   },
+   "name_date": {
+    "tokeniser": {
+     "by_tier": {
+      "literal": {
+       "correct": 4,
+       "wrong": 0
+      }
+     },
+     "concluded": 4,
+     "conflicting": 0,
+     "correct": 4,
+     "coverage": [
+      4,
+      4
+     ],
+     "expected": 4,
+     "ignored": 0,
+     "no_claim": 0,
+     "none_where_value": 0,
+     "outside": 9,
+     "precision": [
+      4,
+      4
+     ],
+     "recall": [
+      4,
+      4
+     ],
+     "undecidable": 2,
+     "undecidable_conflicting": 0,
+     "undecidable_decided": 2,
+     "undecidable_no_claim": 0,
+     "wrong": 0,
+     "wrong_value": 0,
+     "wrong_where_none": 0
+    }
+   },
+   "program": {
+    "installed_software_in_folder": {
+     "by_tier": {
+      "raised": {
+       "correct": 1,
+       "wrong": 0
+      }
+     },
+     "concluded": 1,
+     "conflicting": 0,
+     "correct": 1,
+     "coverage": [
+      1,
+      1
+     ],
+     "expected": 1,
+     "ignored": 0,
+     "no_claim": 0,
+     "none_where_value": 0,
+     "outside": 0,
+     "precision": [
+      1,
+      1
+     ],
+     "recall": [
+      1,
+      1
+     ],
+     "undecidable": 0,
+     "undecidable_conflicting": 0,
+     "undecidable_decided": 0,
+     "undecidable_no_claim": 0,
+     "wrong": 0,
+     "wrong_value": 0,
+     "wrong_where_none": 0
+    }
+   },
+   "reference": {
+    "references_a_mentioned_file": {
+     "by_tier": {
+      "circumstantial": {
+       "correct": 4,
+       "wrong": 0
+      }
+     },
+     "concluded": 4,
+     "conflicting": 0,
+     "correct": 4,
+     "expected": 4,
+     "ignored": 0,
+     "missed": 0,
+     "outside": 0,
+     "precision": [
+      4,
+      4
+     ],
+     "recall": [
+      4,
+      4
+     ],
+     "rejected_right": 0,
+     "rejected_where_pair": 0,
+     "undecidable": 2,
+     "undecidable_conflicting": 0,
+     "undecidable_decided": 0,
+     "undecidable_no_claim": 2,
+     "undecidable_rejected": 0,
+     "wrong": 0
+    }
+   },
+   "replicate": {
+    "every rule": {
+     "by_tier": {
+      "class": {
+       "correct": 4,
+       "wrong": 0
+      }
+     },
+     "concluded": 4,
+     "conflicting": 1,
+     "correct": 4,
+     "expected": 10,
+     "ignored": 2,
+     "missed": 6,
+     "outside": 0,
+     "precision": [
+      4,
+      4
+     ],
+     "recall": [
+      4,
+      10
+     ],
+     "rejected_right": 0,
+     "rejected_where_pair": 0,
+     "undecidable": 0,
+     "undecidable_conflicting": 0,
+     "undecidable_decided": 0,
+     "undecidable_no_claim": 0,
+     "undecidable_rejected": 0,
+     "wrong": 0
+    },
+    "replicates_of_one_condition": {
+     "by_tier": {
+      "class": {
+       "correct": 4,
+       "wrong": 0
+      }
+     },
+     "concluded": 4,
+     "conflicting": 1,
+     "correct": 4,
+     "expected": 10,
+     "ignored": 2,
+     "missed": 6,
+     "outside": 0,
+     "precision": [
+      4,
+      4
+     ],
+     "recall": [
+      4,
+      10
+     ],
+     "rejected_right": 0,
+     "rejected_where_pair": 0,
+     "undecidable": 0,
+     "undecidable_conflicting": 0,
+     "undecidable_decided": 0,
+     "undecidable_no_claim": 0,
+     "undecidable_rejected": 0,
+     "wrong": 0
+    },
+    "same_experimental_condition": {
+     "by_tier": {},
+     "concluded": 0,
+     "conflicting": 0,
+     "correct": 0,
+     "expected": 10,
+     "ignored": 0,
+     "missed": 10,
+     "outside": 0,
+     "precision": [
+      0,
+      0
+     ],
+     "recall": [
+      0,
+      10
+     ],
+     "rejected_right": 0,
+     "rejected_where_pair": 0,
+     "undecidable": 0,
+     "undecidable_conflicting": 0,
+     "undecidable_decided": 0,
+     "undecidable_no_claim": 0,
+     "undecidable_rejected": 0,
+     "wrong": 0
+    }
+   },
+   "stage": {
+    "acquisition_stage_from_format": {
+     "by_tier": {
+      "defeasible": {
+       "correct": 12,
+       "wrong": 0
+      }
+     },
+     "concluded": 12,
+     "conflicting": 0,
+     "correct": 12,
+     "coverage": [
+      12,
+      25
+     ],
+     "expected": 25,
+     "ignored": 0,
+     "no_claim": 13,
+     "none_where_value": 0,
+     "outside": 0,
+     "precision": [
+      12,
+      12
+     ],
+     "recall": [
+      12,
+      25
+     ],
+     "undecidable": 0,
+     "undecidable_conflicting": 0,
+     "undecidable_decided": 0,
+     "undecidable_no_claim": 0,
+     "wrong": 0,
+     "wrong_value": 0,
+     "wrong_where_none": 0
+    },
+    "analysis_stage_from_derived_sense": {
+     "by_tier": {},
+     "concluded": 0,
+     "conflicting": 0,
+     "correct": 0,
+     "coverage": [
+      0,
+      25
+     ],
+     "expected": 25,
+     "ignored": 0,
+     "no_claim": 25,
+     "none_where_value": 0,
+     "outside": 0,
+     "precision": [
+      0,
+      0
+     ],
+     "recall": [
+      0,
+      25
+     ],
+     "undecidable": 0,
+     "undecidable_conflicting": 0,
+     "undecidable_decided": 0,
+     "undecidable_no_claim": 0,
+     "wrong": 0,
+     "wrong_value": 0,
+     "wrong_where_none": 0
+    },
+    "every rule": {
+     "by_tier": {
+      "defeasible": {
+       "correct": 25,
+       "wrong": 0
+      }
+     },
+     "concluded": 25,
+     "conflicting": 0,
+     "correct": 25,
+     "coverage": [
+      25,
+      25
+     ],
+     "expected": 25,
+     "ignored": 0,
+     "no_claim": 0,
+     "none_where_value": 0,
+     "outside": 0,
+     "precision": [
+      25,
+      25
+     ],
+     "recall": [
+      25,
+      25
+     ],
+     "undecidable": 0,
+     "undecidable_conflicting": 0,
+     "undecidable_decided": 0,
+     "undecidable_no_claim": 0,
+     "wrong": 0,
+     "wrong_value": 0,
+     "wrong_where_none": 0
+    },
+    "export_stage_from_inner_format": {
+     "by_tier": {},
+     "concluded": 0,
+     "conflicting": 0,
+     "correct": 0,
+     "coverage": [
+      0,
+      25
+     ],
+     "expected": 25,
+     "ignored": 0,
+     "no_claim": 25,
+     "none_where_value": 0,
+     "outside": 0,
+     "precision": [
+      0,
+      0
+     ],
+     "recall": [
+      0,
+      25
+     ],
+     "undecidable": 0,
+     "undecidable_conflicting": 0,
+     "undecidable_decided": 0,
+     "undecidable_no_claim": 0,
+     "wrong": 0,
+     "wrong_value": 0,
+     "wrong_where_none": 0
+    },
+    "pipeline_stage_from_name": {
+     "by_tier": {
+      "defeasible": {
+       "correct": 13,
+       "wrong": 0
+      }
+     },
+     "concluded": 13,
+     "conflicting": 0,
+     "correct": 13,
+     "coverage": [
+      13,
+      25
+     ],
+     "expected": 25,
+     "ignored": 0,
+     "no_claim": 12,
+     "none_where_value": 0,
+     "outside": 0,
+     "precision": [
+      13,
+      13
+     ],
+     "recall": [
+      13,
+      25
+     ],
+     "undecidable": 0,
+     "undecidable_conflicting": 0,
+     "undecidable_decided": 0,
+     "undecidable_no_claim": 0,
+     "wrong": 0,
+     "wrong_value": 0,
+     "wrong_where_none": 0
+    },
+    "stage_from_name": {
+     "by_tier": {},
+     "concluded": 0,
+     "conflicting": 0,
+     "correct": 0,
+     "coverage": [
+      0,
+      25
+     ],
+     "expected": 25,
+     "ignored": 0,
+     "no_claim": 25,
+     "none_where_value": 0,
+     "outside": 0,
+     "precision": [
+      0,
+      0
+     ],
+     "recall": [
+      0,
+      25
+     ],
+     "undecidable": 0,
+     "undecidable_conflicting": 0,
+     "undecidable_decided": 0,
+     "undecidable_no_claim": 0,
+     "wrong": 0,
+     "wrong_value": 0,
+     "wrong_where_none": 0
+    },
+    "stage_from_writer_tags": {
+     "by_tier": {},
+     "concluded": 0,
+     "conflicting": 0,
+     "correct": 0,
+     "coverage": [
+      0,
+      25
+     ],
+     "expected": 25,
+     "ignored": 0,
+     "no_claim": 25,
+     "none_where_value": 0,
+     "outside": 0,
+     "precision": [
+      0,
+      0
+     ],
+     "recall": [
+      0,
+      25
+     ],
+     "undecidable": 0,
+     "undecidable_conflicting": 0,
+     "undecidable_decided": 0,
+     "undecidable_no_claim": 0,
+     "wrong": 0,
+     "wrong_value": 0,
+     "wrong_where_none": 0
+    },
+    "stage_inherited_from_folder": {
+     "by_tier": {},
+     "concluded": 0,
+     "conflicting": 0,
+     "correct": 0,
+     "coverage": [
+      0,
+      25
+     ],
+     "expected": 25,
+     "ignored": 0,
+     "no_claim": 25,
+     "none_where_value": 0,
+     "outside": 0,
+     "precision": [
+      0,
+      0
+     ],
+     "recall": [
+      0,
+      25
+     ],
+     "undecidable": 0,
+     "undecidable_conflicting": 0,
+     "undecidable_decided": 0,
+     "undecidable_no_claim": 0,
+     "wrong": 0,
+     "wrong_value": 0,
+     "wrong_where_none": 0
+    }
+   }
+  },
+  "proposals": {
+   "derivation_by_a_scripts_calls": {
+    "blocked": 0,
+    "blocked_by": {},
+    "circumstantial": 1,
+    "pairs": 6,
+    "supported": 1,
+    "within": "co_mentioned"
+   },
+   "derivation_from_source_clock": {
+    "blocked": 0,
+    "blocked_by": {},
+    "circumstantial": 0,
+    "pairs": 0,
+    "supported": 0,
+    "within": "same_source_clock"
+   },
+   "derivation_named_by_a_describing_file": {
+    "blocked": 0,
+    "blocked_by": {},
+    "circumstantial": 0,
+    "pairs": 6,
+    "supported": 0,
+    "within": "co_mentioned"
+   },
+   "derivation_named_for_an_acquisition": {
+    "blocked": 0,
+    "blocked_by": {},
+    "circumstantial": 10,
+    "pairs": 12,
+    "supported": 10,
+    "within": "named_for_an_acquisition"
+   },
+   "derivation_of_one_name_in_sibling_folders": {
+    "blocked": 0,
+    "blocked_by": {},
+    "circumstantial": 0,
+    "pairs": 0,
+    "supported": 0,
+    "within": "one_name_in_sibling_folders"
+   },
+   "derivation_summarising_a_series": {
+    "blocked": 0,
+    "blocked_by": {},
+    "circumstantial": 0,
+    "pairs": 0,
+    "supported": 0,
+    "within": "named_for_a_series"
+   },
+   "derivation_within_name_identity": {
+    "blocked": 0,
+    "blocked_by": {},
+    "circumstantial": 2,
+    "pairs": 28,
+    "supported": 2,
+    "within": "same_name_identity_within_experiment"
+   },
+   "references_a_mentioned_file": {
+    "blocked": 0,
+    "blocked_by": {},
+    "circumstantial": 4,
+    "pairs": 6,
+    "supported": 4,
+    "within": "mentioned"
+   },
+   "related_by_a_describing_file": {
+    "blocked": 0,
+    "blocked_by": {},
+    "circumstantial": 0,
+    "pairs": 6,
+    "supported": 0,
+    "within": "co_mentioned"
+   },
+   "related_by_one_name_in_sibling_folders": {
+    "blocked": 0,
+    "blocked_by": {},
+    "circumstantial": 1,
+    "pairs": 2,
+    "supported": 1,
+    "within": "one_name_in_sibling_folders"
+   },
+   "related_within_name_identity": {
+    "blocked": 0,
+    "blocked_by": {},
+    "circumstantial": 0,
+    "pairs": 28,
+    "supported": 0,
+    "within": "same_name_identity_within_experiment"
+   },
+   "same_file_later_step": {
+    "blocked": 0,
+    "blocked_by": {},
+    "circumstantial": 0,
+    "pairs": 0,
+    "supported": 0,
+    "within": "same_file_at_two_steps"
+   }
+  },
+  "questions": {
+   "asked_on_groupings": 0,
+   "by_rule": {
+    "content_contradicts_extension": 1,
+    "content_unreadable": 2,
+    "group_resolution_deviation": 1,
+    "miscellaneous_files_to_approve": 11,
+    "vocabulary_unread_in_folder_outside_programs": 1
+   },
+   "set_aside": 1,
+   "total": 16
+  }
+ }
+}

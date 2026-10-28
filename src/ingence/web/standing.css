@@ -1,0 +1,221 @@
+/* The standing views' styles (the sheet as cards, No analysis found, What changed). The person
+ * color is a magenta of this file's own, which a page's ``--human`` would replace. One job per
+ * color: magenta only where a person said so. */
+
+:root {
+  --ui-human: var(--human, #b0177c);
+  --ui-card: var(--panel);
+}
+@media (prefers-color-scheme: dark) {
+  :root { --ui-human: var(--human, #e86bbd); }
+}
+
+.ui-lead { font-weight: 600; margin: 4px 0; }
+.ui-settles-all { margin: 2px 0 8px; }
+.ui-small { font-size: 12px; color: var(--ink-soft); }
+.ui-small code, code.ui-small { font-family: var(--mono); font-size: 11.5px; }
+
+.ui-group { margin: 18px 0 8px; }
+.ui-group > h3 { margin: 0 0 8px; font-size: 15px; }
+.ui-more { margin: 4px 0 0; }
+
+/* ---------------------------------------------------------------- the sheet's cards */
+.ui-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 10px; }
+.ui-card {
+  background: var(--ui-card);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 10px 12px;
+  min-width: 0;
+}
+.ui-card.ui-answered { border: 2px solid var(--ui-human); padding: 9px 11px; }
+.ui-question { margin: 0 0 4px; font-weight: 600; overflow-wrap: anywhere; }
+.ui-settles { margin: 0 0 6px; color: var(--ink-soft); font-size: 13px; }
+.ui-examples { list-style: none; margin: 0 0 6px; padding: 0; }
+.ui-examples li { margin: 1px 0; overflow-wrap: anywhere; }
+.ui-examples code { font-family: var(--mono); font-size: 12px; color: var(--ink-soft); }
+.ui-proven, .ui-pairwise { margin: 4px 0; font-size: 13px; color: var(--ink-soft); }
+.ui-answers { margin: 6px 0 4px; }
+.ui-answers button[aria-pressed="true"] { border-color: var(--ui-human); color: var(--ui-human); }
+.ui-note-label { display: block; font-size: 12px; color: var(--ink-soft); margin: 2px 0; }
+.ui-note { width: 100%; max-width: 100%; box-sizing: border-box; font: inherit; font-size: 13px; }
+.ui-said { margin: 6px 0 0; color: var(--ui-human); font-weight: 600; font-size: 13px; }
+.ui-said-plain { margin: 6px 0 0; font-size: 13px; }
+.ui-status:empty { display: none; }
+.ui-why { margin-top: 6px; font-size: 13px; }
+.ui-why summary { cursor: pointer; color: var(--accent); }
+.ui-why-body p { margin: 4px 0; }
+
+/* ---------------------------------------------------------------- No analysis found */
+.ui-found-row {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin: 0 0 8px;
+  background: var(--panel);
+  cursor: pointer;
+}
+.ui-found-row:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.ui-found-row.ui-answered { border: 2px solid var(--ui-human); padding: 7px 11px; }
+.ui-found-row p { margin: 2px 0; }
+.ui-folder { overflow-wrap: anywhere; }
+.ui-found-counts { font-size: 13px; }
+.ui-reason { font-size: 13px; color: var(--ink-soft); }
+.ui-found-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 4px; cursor: auto; }
+.ui-found-actions .ui-note-label { flex: 1 1 220px; }
+.ui-bar {
+  display: inline-block;
+  vertical-align: middle;
+  width: 72px;
+  height: 7px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  background: var(--page);
+  margin: 0 4px;
+}
+.ui-bar-fill { display: block; height: 100%; background: var(--ink-soft); }
+.ui-thresholds { margin-top: 18px; font-size: 12px; color: var(--ink-soft); }
+
+/* ---------------------------------------------------------------- What changed */
+.ui-run { border: 1px solid var(--line); border-radius: 6px; padding: 6px 12px; margin: 0 0 8px; background: var(--panel); }
+.ui-run.current { border-color: var(--accent); }
+.ui-run summary { cursor: pointer; }
+.ui-run h4 { margin: 10px 0 4px; font-size: 13px; }
+.ui-said-list li, .ui-decisions li, .ui-withdrawals li, .ui-themes li { margin: 3px 0; overflow-wrap: anywhere; }
+.ui-human-line { border-left: 3px solid var(--ui-human); padding-left: 6px; list-style: none; }
+.ui-decisions, .ui-withdrawals { padding-left: 0; }
+
+@media (max-width: 600px) {
+  .ui-cards { grid-template-columns: 1fr; }
+}
+
+/* The quality figures of a run beside the run it is compared with. */
+.ui-quality { border-collapse: collapse; margin: 8px 0 12px; font-size: 13px; width: 100%; }
+.ui-quality caption { text-align: left; font-weight: 600; margin-bottom: 2px; }
+.ui-quality th, .ui-quality td { padding: 2px 8px 2px 0; text-align: left; vertical-align: middle; }
+.ui-quality thead th { font-weight: 400; color: var(--ink-soft); }
+.ui-quality tbody th { font-weight: 400; overflow-wrap: anywhere; }
+.ui-then { color: var(--ink-soft); }
+.ui-bar-cell { width: 90px; }
+.ui-bar-cell .ui-bar { display: block; }
+.ui-change { font-family: var(--mono); white-space: nowrap; }
+
+/* ======================================================================================
+   The Questions page (questions.js), bulk answering (review.js) and the one card.
+   One job per color: magenta (--person) only where a person said so, the accent for selection
+   and links.
+   ====================================================================================== */
+
+/* An answer in force is the person's, wherever it is shown. */
+.tag.now.person { color: var(--person); background: transparent; }
+
+.q-page { max-width: 1100px; }
+.q-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.q-head .eyebrow { margin: 0; }
+.q-counts { margin: 0; font-size: 12.5px; }
+.q-stands { margin: 2px 0 14px; font-size: 22px; line-height: 1.25; font-weight: 700; text-transform: none;
+  letter-spacing: 0; color: var(--ink); }
+/* The Questions page takes the width; its card sits beside it. */
+main.review-layout.q-wide { grid-template-columns: minmax(0, 1fr) minmax(300px, 360px); }
+
+.q-link { color: var(--accent); }
+
+.q-section { margin: 0 0 22px; }
+.q-section-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; flex-wrap: wrap; margin: 0 0 8px; }
+.q-section-head .eyebrow { margin: 0; }
+.q-lead-head { margin: 2px 0 0; font-size: 17px; line-height: 1.3; }
+.q-ranked-by { margin: 0; font-size: 12.5px; }
+.q-ranking { border-left: 3px solid var(--accent); padding: 4px 12px; margin: 0 0 8px; font-size: 13px; }
+.q-ranking ol { margin: 4px 0; padding-left: 18px; }
+.q-small { margin: 4px 0; font-size: 12px; color: var(--ink-soft); }
+
+/* The table of questions: the same wherever it appears. */
+.q-questions { width: 100%; border-collapse: collapse; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); }
+.q-questions thead th { text-align: left; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); padding: 8px 6px; border-bottom: 1px solid var(--line); }
+.q-questions td { padding: 8px 6px; vertical-align: top; border-bottom: 1px solid var(--line); }
+.q-questions tr:last-child td { border-bottom: 0; }
+.q-questions .pick { width: 32px; text-align: center; }
+.q-question { min-width: 200px; }
+.q-text { color: var(--ink); text-decoration: none; font-weight: 600; overflow-wrap: anywhere; }
+.q-text:hover { text-decoration: underline; }
+.q-reason { display: block; margin-top: 2px; font-size: 12.5px; color: var(--ink-soft); }
+.q-settles { white-space: nowrap; font-size: 13px; }
+.q-rule { font-size: 12px; min-width: 150px; }
+.q-rule .mono:first-child { white-space: nowrap; }
+.q-rule .mono { font-size: 12px; }
+.q-answer { min-width: 150px; width: 240px; }
+.q-answers { margin: 0; gap: 6px; }
+.q-questions .q-answers:not(.q-many) { flex-wrap: nowrap; }
+.q-answer .answer { min-height: 32px; padding: 4px 8px; }
+.q-said { color: var(--person); font-weight: 700; }
+.q-noted { display: block; font-size: 12px; }
+.q-change { font-size: 12px; }
+tr.q-row:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+tr.q-row.selected td { background: var(--accent-soft); }
+
+/* The bar above a table, once a row is chosen. */
+.bulk-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; background: var(--accent-soft);
+  border: 1px solid var(--line); border-radius: 8px 8px 0 0; padding: 10px 12px; margin: 0; }
+.bulk-bar[hidden] { display: none; }
+.bulk-bar + .bulk-said + table, .bulk-bar + table { margin-top: 0; }
+.bulk-count { font-size: 14px; }
+.bulk-lead { font-size: 13px; color: var(--ink-soft); }
+.bulk-buttons { display: inline-flex; flex-wrap: wrap; gap: 6px; }
+.bulk-buttons .answer { min-height: 32px; padding: 4px 12px; }
+.bulk-note { flex: 1 1 200px; min-width: 160px; }
+.bulk-recorded { font-size: 12px; color: var(--ink-soft); }
+.bulk-status { font-size: 12.5px; }
+.bulk-status.refused { color: var(--ink); border-left: 3px solid var(--problem); padding-left: 6px; }
+.bulk-said { margin: 4px 0; font-size: 12.5px; color: var(--ink-soft); }
+.bulk-said:empty { display: none; }
+.bulk-all { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; margin: 6px 0; }
+.program.row { position: relative; }
+.program.row > input[type="checkbox"] { position: absolute; top: 10px; right: 8px; }
+.program.row:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.program-answer:empty { display: none; }
+
+/* The rest, one click away. */
+.q-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 8px; }
+.q-chip { display: inline-flex; align-items: center; gap: 4px; min-height: 32px; padding: 4px 12px; font: inherit; font-size: 13.5px;
+  color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; cursor: pointer; }
+.q-chip:hover { background: var(--accent-soft); }
+.q-chip[aria-expanded="true"] { border-color: var(--accent); }
+.q-chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.q-caret { font-size: 10px; }
+.q-elsewhere { display: inline-block; color: var(--ink-soft); cursor: default; background: transparent; }
+.q-elsewhere:hover { background: transparent; }
+.q-group { margin: 8px 0; padding: 12px; }
+.q-group[hidden] { display: none; }
+.q-filters { margin-top: 0; }
+#q-nothing:empty { display: none; }
+#q-nothing { margin: 0 0 18px; }
+
+/* One card for every kind of question. */
+.q-card { padding: 16px 18px; }
+.q-card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin: 0 0 8px; }
+.q-card-title { margin: 0; font-size: 17px; line-height: 1.3; font-weight: 700; overflow-wrap: anywhere; }
+.q-kind { flex: none; border: 1px solid var(--line); border-radius: 999px; padding: 1px 9px; font-size: 11px; color: var(--ink-soft); white-space: nowrap; }
+.q-card-sentence { margin: 0 0 8px; }
+.q-examples { list-style: none; margin: 0 0 4px; padding: 0; }
+.q-examples li { margin: 1px 0; overflow-wrap: anywhere; }
+.q-examples code { font-family: var(--mono); font-size: 12.5px; color: var(--ink); }
+.q-card .q-answers { margin: 10px 0 8px; gap: 8px; }
+.q-card .q-note { width: 100%; box-sizing: border-box; margin: 4px 0; }
+.q-answered { border: 2px solid var(--person); border-radius: 8px; padding: 8px 12px; margin: 8px 0; }
+.q-answered p { margin: 2px 0; }
+.q-answered strong { color: var(--person); }
+.q-why { margin-top: 10px; font-size: 13px; }
+.q-why summary { cursor: pointer; color: var(--accent); }
+.q-status:empty { display: none; }
+
+/* The Questions tab names no count (its page says how many remain, and which lead). A section with
+   nothing waiting, Extensions among them, is hidden by app.js (showWhatWaits) unless it is open. */
+nav.sections button[data-view="review"] .count { display: none; }
+
+@media (max-width: 860px) {
+  main.review-layout.q-wide { grid-template-columns: 1fr; }
+}
+@media (max-width: 760px) {
+  .q-table { overflow-x: auto; }
+  .q-stands { font-size: 19px; }
+}

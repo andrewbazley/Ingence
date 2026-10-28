@@ -1,0 +1,170 @@
+# The vocabulary tier of the sample collection, version 1.
+#
+# The tier rewrites a set share of the collection's words into the shapes laboratories write: a
+# slip, a name run together, initials, a code made from a word, a second spelling of one condition,
+# and case and separator variants. It never adds a word: every spelling it makes is built from a
+# word of `sample_lab_words.yaml` (the shipped Dictionary and common biology) and nothing else.
+# What it may touch, what a word it does not know is taken for, and how often each shape is drawn
+# live here and not in the code.
+
+format: ingence-sample-lab-vocabulary
+version: 1
+
+# The sections of `sample_lab_words.yaml` whose words a rewrite may touch. The words of a workflow
+# (raw, processed, analysis), of a design, of a file's keeping and of the units are never touched:
+# the rules read them, and the tier is about the words of the subject matter.
+rewritable:
+  dictionary: [techniques, stains, tags, controls, treatments]
+  biology: [cell_lines, proteins_and_genes, drugs]
+
+# What a word the shipped Dictionary does not read is, as the key says it (one person's judgement):
+# the axis of the sense a person would give it. A word the Dictionary reads keeps its own axis.
+kinds:
+  cell_lines: subject
+  proteins_and_genes: reagent
+  drugs: reagent
+  tags: reagent
+  stains: reagent
+  techniques: technique
+  controls: condition
+  treatments: reagent
+
+# What the shipped Dictionary says of the words above that it reads: the term of the sense and its axis.
+# A word not listed here is one the Dictionary does not read; its axis is the section's, under `kinds`.
+# A test holds this list to the Dictionary, word for word.
+terms:
+  # techniques
+  confocal: [confocal, technique]
+  widefield: [epifluorescence, technique]
+  timelapse: [image_stack, acquisition]
+  zstack: [z_stack, acquisition]
+  tirf: [total_internal_reflection, technique]
+  brightfield: [brightfield, technique]
+  sted: [stimulated_emission_depletion, technique]
+  frap: [photobleaching_recovery, technique]
+  qpcr: [polymerase_chain_reaction, technique]
+  pcr: [polymerase_chain_reaction, technique]
+  western: [immunoblot, technique]
+  blot: [immunoblot, technique]
+  gel: [electrophoresis, technique]
+  dic: [differential_interference_contrast, technique]
+  phase: [phase_contrast, technique]
+  # stains
+  DAPI: [nuclear_stain, reagent]
+  Hoechst: [nuclear_stain, reagent]
+  phalloidin: [organelle_tracker, reagent]
+  # tags
+  GFP: [fluorescent_protein, reagent]
+  mCherry: [fluorescent_protein, reagent]
+  # controls
+  control: [control, condition]
+  ctrl: [control, condition]
+  vehicle: [vehicle, condition]
+  wildtype: [wild_type, condition]
+  mock: [control, condition]
+  untreated: [control, condition]
+  # treatments
+  rapamycin: [induction, reagent]
+  doxycycline: [induction, reagent]
+  knockdown: [knockdown, technique]
+  knockout: [knockout, technique]
+  siRNA: [knockdown, technique]
+  # cell_lines
+  HeLa: [hela, subject]
+  HEK293T: [hek293, subject]
+  U2OS: [u2os, subject]
+  COS7: [cos7, subject]
+  # drugs
+  DMSO: [dimethyl_sulfoxide, reagent]
+  nocodazole: [nocodazole, reagent]
+  thapsigargin: [thapsigargin, reagent]
+  tunicamycin: [tunicamycin, reagent]
+  cycloheximide: [cycloheximide, reagent]
+
+# Every spelling the tier could make that the shipped Dictionary reads, and so never makes (a slip, the
+# first letters of a code or of a condition, the initials or the words run together of a pair). A test
+# holds this list to the Dictionary and to `possible_spellings`, exhaustively.
+avoid:
+  - am
+  - ap
+  - at
+  - cc
+  - ch
+  - cm
+  - conf
+  - ct
+  - cv
+  - dox
+  - he
+  - hg
+  - hh
+  - hist
+  - ma
+  - mc
+  - mg
+  - ml
+  - mp
+  - mv
+  - na
+  - nl
+  - ra
+  - ua
+  - ug
+  - ul
+  - uv
+  - veh
+  - wes
+  - zst
+
+# The axis of a sense made for a name of two words ("a cell line and what it carries").
+phrase_kind: subject
+
+# The sections whose words are conditions, and so may be given a second spelling of the same
+# condition (a clipped form of the word).
+condition_sections: [controls, treatments, drugs]
+
+# How often each shape is drawn for a word, and for a name of two words. A weight of 0 turns a shape
+# off. The shapes of a name of two words are the last three.
+weights:
+  word:
+    slip: 4
+    case: 2
+    code: 3
+    condition: 3
+  phrase:
+    initials: 3
+    glued: 3
+    separator: 2
+
+# A slip: a letter dropped, doubled or two neighbors swapped, never the first or the last letter,
+# and only in a word of at least this many letters.
+slip:
+  minimum_letters: 5
+  operations: [drop, double, swap]
+
+# A code: the first letters of a word, a hyphen and a number ("the third sample of that
+# construct"). The letters must start no other rewritable word.
+code:
+  letters: 3
+  first_number: 1
+  last_number: 40
+
+# A second spelling of a condition: the first letters of a word of at least this many letters.
+condition:
+  letters: 4
+  minimum_letters: 6
+
+# The separators a name of two words may be written with.
+separators: [" ", "_", "-", "."]
+
+# Files whose text is rewritten along with their names, so that a script or a note still names the
+# files beside it. Every other kind of file keeps its bytes.
+text_kinds:
+  - csv
+  - fiji_macro
+  - matlab_script
+  - notebook
+  - python_script
+  - text_note
+  - txt_table
+  - xml_sidecar

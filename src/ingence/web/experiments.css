@@ -1,0 +1,101 @@
+/* Experiments > Experiments. Tokens only: the website's (app.css :root). One job per color: magenta
+ * (--person) only where a person said so (a pair a person confirmed, an analysis a person said is
+ * elsewhere), the accent for links and focus, and hatching for what is unknown. */
+
+/* The table takes the width the page has, at a readable measure for the words above it. */
+main.single-layout .pane > .exp-page { max-width: none; }
+.exp-page > p, .exp-page > .notice-note { max-width: 92ch; }
+.exp-page h2 { margin: 0 0 8px; }
+.exp-assumption { margin: 8px 0 12px; padding: 6px 12px; border-left: 3px solid var(--accent); background: var(--panel); border-radius: 0 6px 6px 0; }
+.exp-assumption p { margin: 4px 0; font-size: 13.5px; }
+
+/* ---- the filters ------------------------------------------------------------------------------ */
+
+.exp-filters { gap: 6px 14px; margin: 10px 0; }
+.exp-field { display: inline-flex; align-items: center; gap: 6px; color: var(--ink-soft); font-size: 13px; }
+.exp-filters select { max-width: 15rem; }
+.exp-search { min-width: 15rem; font: inherit; font-size: 14px; padding: 5px 8px; box-sizing: border-box; }
+.exp-clear { margin-left: auto; font-size: 13px; }
+
+/* ---- the table -------------------------------------------------------------------------------- */
+
+.exp-tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); }
+.exp-tablewrap:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+table.exp-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+table.exp-table th { padding: 8px 8px; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--ink-soft); white-space: normal; border-bottom: 1px solid var(--line); vertical-align: bottom; }
+table.exp-table td { padding: 8px 8px; vertical-align: top; border-bottom: 1px solid var(--line); }
+table.exp-table tbody tr:last-child td { border-bottom: 0; }
+table.exp-table tbody tr:hover { background: var(--accent-soft); }
+table.exp-table p { margin: 2px 0; }
+button.exp-sort { font: inherit; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: inherit; text-decoration: none; }
+button.exp-sort:hover, th[aria-sort="ascending"] button.exp-sort, th[aria-sort="descending"] button.exp-sort { color: var(--accent); }
+button.exp-sort:focus-visible, button.exp-open:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+td.exp-name { min-width: 9rem; max-width: 16rem; }
+button.exp-open { font-size: 14px; font-weight: 700; text-align: left; overflow-wrap: anywhere; }
+.exp-folder { font-family: var(--mono); font-size: 11.5px; color: var(--ink-soft); overflow-wrap: anywhere; }
+.exp-status:empty { display: none; }
+td.exp-found { min-width: 7rem; max-width: 10rem; color: var(--ink-soft); }
+td.exp-dates { min-width: 6rem; max-width: 9rem; }
+/* Unknown is hatched, never blank and never 0: a small hatched swatch before the words. */
+.exp-unknown { color: var(--ink-soft); }
+.exp-unknown::before { content: ''; display: inline-block; width: 10px; height: 10px; margin-right: 6px;
+  border: 1px solid var(--line); background-image: var(--hatch); vertical-align: -1px; }
+
+td.exp-files { min-width: 7rem; }
+td.exp-files details > summary { cursor: pointer; font-weight: 700; color: var(--accent); }
+td.exp-files details > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.exp-counts { color: var(--ink-soft); font-size: 12px; }
+.exp-breakdown { margin: 6px 0 4px; }
+.exp-breakdown-head { margin: 0 0 2px; font-weight: 600; font-size: 12px; }
+.exp-breakdown ul { list-style: none; margin: 0; padding: 0; font-size: 12px; }
+.exp-breakdown li { display: flex; justify-content: space-between; gap: 12px; padding: 1px 0; border-bottom: 1px dotted var(--line); }
+.exp-n { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+/* The raw files analyzed, the second column: a bar 15 px tall across the cell, the counts in bold
+ * beside it, and the engine's sentence behind "Why". */
+td.exp-followed { min-width: 10rem; max-width: 15rem; }
+.exp-meter { display: flex; align-items: center; gap: 8px; margin: 2px 0; }
+.exp-bar { display: flex; flex: 1 1 auto; min-width: 4rem; height: 15px; box-sizing: border-box; border: 1px solid var(--line); border-radius: 3px; background: var(--page); overflow: hidden; }
+.exp-bar-confirmed { display: block; height: 100%; background: var(--person); }
+.exp-bar-assumed { display: block; height: 100%; background: var(--ink-soft); }
+.exp-ratio { font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.exp-said { font-size: 12.5px; }
+.exp-pairs { font-size: 12px; }
+
+/* The one legend above the table: the bar's two shades. */
+.exp-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 16px; margin: 8px 0; font-size: 12.5px; color: var(--ink-soft); }
+.exp-legend strong { color: var(--ink); }
+.exp-key { display: inline-flex; align-items: center; gap: 6px; }
+.exp-swatch { display: inline-block; width: 14px; height: 14px; box-sizing: border-box; border: 1px solid var(--line); border-radius: 3px; }
+.exp-swatch.confirmed { background: var(--person); }
+.exp-swatch.assumed { background: var(--ink-soft); }
+td.exp-char { min-width: 7rem; max-width: 11rem; font-size: 12.5px; color: var(--ink-soft); }
+td.exp-state { min-width: 8rem; max-width: 12rem; }
+details.exp-why { font-size: 12px; margin: 4px 0; }
+details.exp-why > summary { cursor: pointer; color: var(--accent); }
+details.exp-why > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+details.exp-why p { margin: 4px 0; }
+.exp-flag { font-size: 12px; }
+.exp-flag.exp-person { color: var(--person); font-weight: 600; }
+.exp-flag.exp-person button.link { color: var(--person); }
+
+.exp-pager { margin: 10px 0; gap: 12px; }
+.exp-results[aria-busy="true"] { opacity: 0.6; }
+
+/* ---- topics: a person's own named sets, in the person's color ----------------------------- */
+
+td.exp-topics { min-width: 5rem; max-width: 10rem; }
+button.exp-chip { display: inline-block; margin: 0 4px 4px 0; padding: 1px 8px; font: inherit; font-size: 12px;
+  color: var(--person); background: transparent; border: 1px solid var(--person); border-radius: 999px;
+  cursor: pointer; overflow-wrap: anywhere; text-align: left; }
+button.exp-chip:hover { background: color-mix(in srgb, var(--person) 12%, transparent); }
+button.exp-chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ---- targets at least 24 px tall, so a narrow table keeps its controls apart ------------- */
+
+details.exp-why > summary, td.exp-files details > summary, .exp-flag button.link,
+.exp-pairs button.link, button.exp-open, button.exp-sort { display: inline-block; min-height: 24px;
+  padding-top: 4px; padding-bottom: 4px; box-sizing: border-box; }
+button.exp-chip { min-height: 24px; padding-top: 3px; padding-bottom: 3px; box-sizing: border-box; }

@@ -1,0 +1,50 @@
+# The words a question is asked with, and a name is not.
+#
+# "Does kelt change zib in vorn cells?": `does`, `change` and `in` say that a question is being
+# asked and how its parts relate. `kelt`, `zib` and `vorn` are what it is about. Bound here, a
+# question word is known to the search and dropped from a question before it is answered. It takes
+# none of the twelve words a search reads, and it is never shown as a word the run is missing. A
+# rule reads no question word as a subject, and a card shows none as a chip.
+#
+# Words that a unit, a date, a stage or a connective already spells are left out (`in`, `on`,
+# `than`, `results`, `done`). So are the words that the shipped Dictionary binds to something else
+# (`change` is a statistic's word, `experiment` a process's). A test checks that no entry here
+# collides with another section. Plain English words that stand in names (`find`, `use`, `files`)
+# are left out too, so that no reading of a name changes.
+# `binds: false`: these spellings never bind a word in a name. The section is kept aside from the
+# binder, the themes, the lattice and the design grid. Only the search reads it, so a name holding
+# `me_is_it_2024` binds nothing new.
+section: question_words
+theme_kind: question
+origin: builtin
+binds: false
+summary: The words a question is asked with, known so that a search drops them and never asks about them.
+
+entries:
+  - {term: how, surfaces: [how]}
+  - {term: does, surfaces: [does, do, did]}
+  - {term: is, surfaces: [is, are, was, were, been, being]}
+  - {term: which, surfaces: [which]}
+  - {term: what, surfaces: [what]}
+  - {term: when, surfaces: [when]}
+  - {term: where, surfaces: [where]}
+  - {term: who, surfaces: [who]}
+  - {term: why, surfaces: [why]}
+  - {term: whether, surfaces: [whether]}
+  - {term: any, surfaces: [any]}
+  - {term: there, surfaces: [there]}
+  - {term: between, surfaces: [between]}
+  - {term: effect, surfaces: [effect, effects]}
+  - {term: affect, surfaces: [affect, affects, affected]}
+  - {term: changed, surfaces: [changed, changing]}
+  - {term: compare, surfaces: [compare, compares, compared, comparing, comparison]}
+  - {term: differ, surfaces: [differ, differs, different]}
+  - {term: show, surfaces: [show, shows, showing]}
+  - {term: tell, surfaces: [tell, me]}
+  - {term: have, surfaces: [have, has, had]}
+  - {term: can, surfaces: [can, could, would, should, will]}
+  - {term: under, surfaces: [under]}
+  - {term: during, surfaces: [during]}
+  - {term: that, surfaces: [that, this, these, those]}
+  - {term: it, surfaces: [it, they, them]}
+  - {term: looking, surfaces: [looking]}

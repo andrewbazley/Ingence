@@ -1,0 +1,585 @@
+# Plain words for the Dashboard. Only the API reads this file (api/plain_words.py). Nothing in the
+# engine opens it, so nothing here enters a rule's identity, the Rulebook's digest, the
+# Dictionary's fingerprint or the exported schemas. Editing a sentence changes no record. Write for
+# a biologist: what is concluded, and from what, with no engine words.
+schema_version: "1"
+
+# What one part of a conclusion's value means, by the part's name and then its value. The claim
+# samples group conclusions whose values differ file by file by the parts they share, and say
+# what each shared part means with the sentence here.
+values:
+  source:
+    modified_before_born: >-
+      These files say they were created after their last change. This usually means they were
+      copied: a copy gets a new creation time and keeps the old change time. So Ingence takes the
+      change time as the earliest time each file is known to have existed.
+    birth: >-
+      These files were created no later than their last change. So Ingence takes the creation time
+      as the earliest time each file is known to have existed.
+    modification: >-
+      The disk recorded no creation time for these files. So Ingence takes each file’s last change
+      as the earliest time it is known to have existed.
+    instrument_clock: >-
+      The instrument wrote the time of the acquisition inside each of these files. Ingence takes
+      that time as when each file first existed.
+    document_clock: >-
+      Each of these files says inside itself when it was written. Ingence takes that time as when it
+      first existed.
+    document_last_saved: >-
+      The date inside each of these documents looks like the date of its blank template. So Ingence
+      does not use it. Each document also says when it was last saved. That date is well before any
+      date on the disk, by more than the allowance for computer clocks that disagree. So Ingence
+      takes it as when the document first existed.
+
+# Words that a sentence never carries. An identifier goes in small type behind a "Why". A rule whose
+# name in words holds one is cited by its plain sentence and its version alone.
+never_shown:
+  - claim
+  - entity
+  - entry
+  - node
+  - candidate
+  - resolution
+  - deviation
+  - token
+  - bind
+  - binding
+  - tier
+  - confidence
+  - score
+
+# The word for each level that a Years row can stand at, by the kind of root. A root is either a
+# folder read as a laboratory's (``lab``) or an archive's listing (``archive``). One component
+# draws either. The words follow the root's kind, and the page reads them from ``/api/v1/ladder``
+# and never from a literal of its own. An archive's first folder below the root is not a person's,
+# so its ladder has no person level.
+levels:
+  lab: {root: project, person: person, theme: theme, experiment: experiment, file: file}
+  archive: {root: archive, theme: theme, experiment: study, file: file}
+levels_plural:
+  lab: {root: projects, person: people, theme: themes, experiment: experiments, file: files}
+  archive: {root: archives, theme: themes, experiment: studies, file: files}
+
+# One sentence per rule: what it concludes, and from what, as a friend would say it. The sentence
+# never has the rule's name in parentheses after it, because the page shows the name and version as
+# the handle that opens the rule. A rule missing here shows its own statement.
+rules:
+  # --- What files are ------------------------------------------------------------------------
+  format_from_extension: >-
+    Ingence takes a file to be in the format its extension names, when the extension means only one
+    format. It does not when the contents begin the way another format does, including a container
+    such as HDF5 or ZIP.
+  format_from_extension_unless_contradicted: >-
+    Ingence takes a file to be in the format its extension names, when the extension means only one
+    format. It does not when the contents begin the way another format does. A container the format
+    is built on, such as HDF5 or ZIP, does not count.
+  format_from_content: >-
+    Ingence takes a file to be in the format its contents begin with, whatever its extension says.
+    A container that many formats are built on, such as HDF5 or ZIP, does not count.
+  stage_from_writer_tags: >-
+    Ingence reads the program that a file's tags name. It places the file at the recording step
+    when that program records, such as a microscope's software. It places it at the processed step
+    when the program analyzes, and calls it a figure when the program draws. This is an assumption,
+    and a step that the file's own name states comes first. When the tags name programs of two
+    kinds, Ingence gives no result.
+  export_stage_from_inner_format: >-
+    Some file names end in two extensions, such as a table named .nd2.csv. Ingence takes such a
+    file to be an export of a file of the inner kind. It does not when the inner extension is also
+    an ordinary word or a document's. Nor does it when the outer extension is an instrument's own
+    format. This is an assumption: contents that disagree with the outer extension, or a step that
+    the name states, come first.
+  stage_from_workflow: >-
+    When no rule that reads a file has placed it, Ingence places it by the workflow its experiment
+    follows. The file goes to the workflow step that lists its file type, its folder or its name.
+    This is an assumption until you turn the workflow off or change it. Ingence places no file that
+    two workflows would place at different steps.
+  same_file_at_two_steps: >-
+    Some pairs of file names differ only by a processing word, such as a table and its sorted copy.
+    Ingence takes such a pair as one file at two steps of the work.
+  same_file_later_step: >-
+    When two files are one file at two steps, Ingence suggests that the later one was made from the
+    earlier. The later one is the file whose name states more steps, or a later step. Ingence
+    suggests nothing when both reach the same step.
+  later_step_of_a_sibling: >-
+    Some files have the name of a file beside them, with words for a later step added. Ingence
+    takes such a file to be a later step of that file. It does not count the two as repeats.
+  same_source_clock: >-
+    Ingence groups the files of one experiment that carry the same recording time. The time is the
+    instrument's own clock, or a copy of it that a tool wrote into its output. Times that differ by
+    less than a set limit count as the same.
+  derivation_from_source_clock: >-
+    Some groups of files share one recording time and hold one recording with the instrument's own
+    clock. Ingence suggests that each file with only a copied time was made from that recording. It
+    suggests nothing when two recordings share the time.
+  program_from_extension: >-
+    Ingence recognizes a file as a program when its extension belongs to a programming or macro
+    language. Examples are .py, .R and ImageJ macros. If the contents say otherwise, Ingence follows
+    the contents.
+  file_role_from_name: >-
+    Ingence takes a file to serve the purpose its name states, such as a protocol, notes or a
+    figure.
+  file_role_unless_program: >-
+    Ingence takes a file to serve the purpose its name states, such as a protocol or notes. It does
+    not for a program, or for a file inside an installed program.
+  stage_from_name: >-
+    Ingence places a file at the step of the work its name states, such as raw or processed.
+  pipeline_stage_from_name: >-
+    Ingence places a file at the step of the work its name states, such as raw, processed or
+    analysis. It does not for a program, or for a file inside an installed program.
+  later_stage_from_name: >-
+    Words such as processed, filtered, stitched or merged in a name tell Ingence a file is past
+    recording. Instrument software also saves such files in its own format.
+  acquisition_stage_from_format: >-
+    Ingence places a file at the recording step when it is in an image or electrophysiology format
+    an instrument writes. It does not when the contents contradict the extension, or when the file’s
+    own name says it was processed.
+  analysis_stage_from_derived_sense: >-
+    Ingence places a file at the analysis step when its name says it holds a trajectory. A
+    trajectory is calculated from recordings. This does not apply to a program.
+  raw_data_from_acquisition_format: >-
+    Ingence takes a file to hold data as the instrument recorded it, when its format is one an
+    instrument writes. These are image, electrophysiology, mass spectrometry and sequencing formats.
+  stage_inherited_from_folder: >-
+    When a file’s name states no step of the work, the file takes the step its folder’s name states.
+  condition_inherited_from_folder: >-
+    When a file’s name states no condition, the file takes the condition its folder’s name states.
+  technique_from_name: >-
+    Ingence takes a file to be about the techniques its name mentions, when the name mentions at
+    least 2 techniques.
+  version_from_name: >-
+    Ingence takes a file whose name carries a version, such as v2, as one version of something.
+  series_member_from_index: >-
+    Ingence takes a file whose name carries a numbered label, such as cell3, as one member of a
+    series.
+  condition_from_quantities: >-
+    Ingence reads an amount in a file’s name, such as 10uM or 37C, as the condition it was made
+    under.
+  replicate_from_indexed_label: >-
+    Ingence takes a file to be the repeat its name numbers, such as rep2, unless the file is a
+    program.
+  placeholder_from_entry_kind: >-
+    Ingence takes a shortcut as standing in for contents kept somewhere else. It does the same for a
+    file that states a size but uses no space on the disk.
+  filesystem_noise_from_name: >-
+    Ingence recognizes files a computer makes on its own by their names, and sets them aside.
+    Examples are the hidden files macOS and Windows leave, editor backups and program caches.
+  filesystem_noise_from_spelling: >-
+    Ingence sets aside files a computer makes on its own, such as .DS_Store or Thumbs.db. It finds
+    them by how their names are spelled. It leaves an office program’s lock file alone, because it
+    means somebody was working. The name of such a lock file starts with ~$.
+  organising_folder_from_name: >-
+    Ingence takes a folder named for analysis, summaries, exports, loose files or in-between steps
+    as a folder that organizes work. Ingence does not read it as one piece of work.
+  area_kind_from_folder_name: >-
+    Ingence assumes what each area stands for from its folder's name. An area is a date when its
+    name holds a year or a date. It is an instrument when a whole word of its name is an
+    instrument's name. Otherwise it is a plain folder. Your answer on the area replaces the
+    assumption. An area that is an installed program stands for nothing.
+  naming_is_authored_or_emitted: >-
+    Ingence takes a name as typed by a person when it holds a word a program would not write. It
+    takes a name as made by a program when 3 or more names beside it differ only by a counter.
+  earliest_credible_time: >-
+    Ingence gives each file the earliest time it is known to have existed. This is a time written
+    inside the file, where Ingence read one. Otherwise it is the earlier of the file’s creation and
+    its last change. A copy is created after its last change. Ingence sets aside an impossible time,
+    such as a time in 1969 or after the scan that saw the file. A document’s creation date may
+    really be the date of its blank template: midnight, years before the document was saved. Ingence
+    keeps such a date but does not believe it. Ingence keeps where each time came from, and leaves
+    out stand-in files.
+  roi_archive_from_members: >-
+    Ingence recognizes a ZIP as a Fiji set of regions of interest when every item inside is a .roi
+    file. Each item must begin the way Fiji’s regions do. This does not apply when the ZIP is a
+    stand-in.
+
+  # --- Which files go together -------------------------------------------------------------
+  identical_by_content_digest: >-
+    Ingence groups files as holding the same bytes when their whole contents give the same
+    fingerprint.
+  copies_by_sampled_digest: >-
+    Ingence groups files as holding the same bytes when a quick sample of their contents gives the
+    same fingerprint. A sample is less sure than the whole contents. Ingence does not group a file
+    whose contents it could not read.
+  same_observed_metadata: >-
+    Ingence groups files that match in name, size, creation time, last change and kind as possibly
+    the same file.
+  same_observed_metadata_outside_programs: >-
+    Ingence groups files that match in name, size, last change and kind as probably copied from one
+    another. It does not do this inside an installed program. Whether they hold the same bytes is a
+    separate question.
+  same_experimental_condition: >-
+    Ingence groups files as one experimental condition when their names give the same amounts and
+    condition or reagent words.
+  same_acquisition_event: >-
+    Ingence groups files whose names share every numbered label as one recording.
+  same_name_family: >-
+    Ingence groups files as similar names when their names share every word, with 2 words or more.
+  name_family_without_stages: >-
+    Ingence groups files as similar names when their names share every word. Words for the step of
+    the work, such as raw and processed, do not count. Ingence does not group them when one is a
+    computer’s own file or a stand-in.
+  same_name_identity: >-
+    Ingence groups files in one folder as one named thing when their names match. Every word,
+    number, label, amount, date and version must match, with the numbers in the same places. Words
+    for the step of the work and for repeats do not count. Ingence does not group them when one is a
+    computer’s own file or a stand-in.
+  same_version_family: >-
+    Ingence groups folders whose names differ only by a version mark as versions of one thing.
+  same_column_schema: >-
+    Ingence groups tables as having the same columns when their column names, order and delimiter
+    match. They need 2 columns or more. This says nothing about being one experiment.
+  same_array_shape: >-
+    Ingence groups stored arrays with the same shape, element type and storage order as sharing one
+    shape. This applies to arrays of 2 dimensions or more.
+  same_composition: >-
+    Ingence counts 2 folders as alike when the kinds of things directly inside them match. Each must
+    hold at least 3.
+
+  # --- Pairs suggested for a look ----------------------------------------------------------
+  derives_from_name_family: >-
+    Ingence suggests that a file was made from another when their names are similar. The source must
+    be raw data, an image made from data, or a table. At least 2 separate kinds of evidence must
+    agree.
+  projection_derives_from_acquisition: >-
+    Ingence suggests that a file at a later step of the work was made from one at an earlier step.
+    An example is processed from raw. Their names must be similar.
+  derivation_within_name_identity: >-
+    Some files have one name in 2 folders of an experiment, apart from words for a step of the work.
+    Ingence suggests that one was made from the other, link by link, with the earlier file as the
+    source. The step each name states does not matter. Ingence never does this for 2 files of one
+    folder, or inside an installed program.
+  related_within_name_identity: >-
+    Some files have one name in 2 folders of an experiment, apart from words for a step of the work.
+    When no time puts them in order, Ingence suggests they are related. It does not know which one,
+    if either, was made from the other. Ingence never does this inside an installed program.
+  figure_renders_from_tabular_source: >-
+    Ingence suggests that a figure was drawn from a table of measurements or a summary when their
+    names are similar.
+  converted_from_sibling_format: >-
+    Ingence suggests that a file is a conversion of another with the same content in a different
+    format. Their names must be similar.
+  summary_derives_from_its_group: >-
+    Ingence suggests that a summary was made from the files of its group. The group must hold 3 or
+    more files under one condition.
+  derives_from_declared_reference: >-
+    Ingence suggests that a file was made from another when a protocol, notes or a metadata file
+    names both. The 2 files must be at most 1 step apart.
+  derivation_named_by_a_describing_file: >-
+    As shipped, this rule suggests nothing. When it is set to read the time, it suggests that the
+    later of 2 files was made from the earlier. A script, a notebook, a log, a protocol or notes
+    must mention both files.
+  related_by_a_describing_file: >-
+    When a script, a notebook, a log, a protocol or notes mention 2 files, Ingence suggests the
+    files are related. It does not know which one, if either, was made from the other. Ingence never
+    does this inside an installed program.
+  references_a_declared_output: >-
+    Ingence suggests that a file points to another when it mentions a path that leads to it.
+  references_a_mentioned_file: >-
+    Ingence suggests that a file points to another when a path it mentions leads to that file. The
+    other file may be in the same folder or elsewhere in the data. Ingence does not do this inside
+    an installed program.
+  replicates_by_design: >-
+    Ingence suggests that 2 pieces of work are repeats when their names give the same amounts and
+    words. At least 3 separate kinds of evidence must agree.
+  varies_in_one_respect: >-
+    Ingence suggests that 2 pieces of work are variations of one another. Their names share every
+    word, and they differ only in their condition. At least 2 kinds of evidence must agree.
+  succeeds_by_version_token: >-
+    Ingence puts one folder after another in a series of versions. Both names must carry a version
+    number, and both must be versions of one thing.
+  succeeds_by_series_index: >-
+    Ingence orders 2 files in a series when both repeat one condition and the second has the next
+    number. Ingence does not order repeats whose names differ in more than one part. It also does
+    not order repeats whose numbers tie or do not count, or whose clocks run against the numbers.
+    This rule is off until a project turns it on.
+  concerns_a_shared_technique: >-
+    Ingence suggests that 2 files are about the same technique when their names mention at least 2
+    techniques in common.
+
+  # --- What is raised for attention --------------------------------------------------------
+  authored_name_doubt: >-
+    Ingence flags a folder whose name has a word of doubt, such as wrong or failed, for you to look
+    at.
+  doubt_in_a_folder_name: >-
+    Ingence flags a folder as in doubt when its name has a word like wrong, failed, old, test or
+    redo. A weak word, such as questionable, counts only beside another.
+  doubt_to_confirm_in_a_folder_name: >-
+    When a folder’s name holds only weak words of doubt, such as questionable, Ingence flags it for
+    you to confirm.
+  repudiated_by_name: >-
+    Ingence flags a file whose name says not to use it, with a word such as ignore, failed or
+    contaminated.
+  content_says_do_not_analyse: >-
+    Ingence flags a file whose own text says "do not analyze" or "do not use". Somebody left a note
+    about it. Ingence skips nothing because of it.
+  content_unreadable: >-
+    Ingence flags a file whose contents it cannot read, and says why. The file may be an empty
+    output beside files that hold something. It may be empty, or empty and untouched since before a
+    set date. It may be a link the archive left in place of the file. It may be a link to a place
+    outside the data, or to something gone. Or it may not be an ordinary file. Inside an installed
+    program, empty files are ordinary, so Ingence only marks them.
+  extension_contradicts_content: >-
+    Ingence flags a file when its contents begin the way one format does and its extension names
+    another.
+  content_contradicts_extension: >-
+    Ingence flags a file when its contents begin the way one format does and its extension names
+    another. Containers that other formats are built on, such as PDF, HDF5 or ZIP, do not count.
+  format_built_on_a_container: >-
+    Ingence flags a file whose contents are a container, such as HDF5, as built on that container.
+    Ingence asks about a ZIP that has an archive’s extension, because only the lab can say what it
+    holds.
+  roi_archive_named_but_unlisted: >-
+    Ingence flags a ZIP whose name says it holds regions of interest, until a look inside lists what
+    it holds.
+  binding_is_ambiguous: >-
+    Ingence flags a file when a word in its name has 2 or more equal meanings that nothing tells
+    apart.
+  binding_is_ambiguous_outside_programs: >-
+    Ingence flags a file when a word in its name has 2 or more equal meanings that nothing tells
+    apart. Inside an installed program, names are code, so Ingence only marks the file.
+  binding_is_ambiguous_outside_programs_and_domains: >-
+    Ingence flags a file when a word in its name has 2 or more equal meanings that nothing tells
+    apart. Inside an installed program, names are code, so Ingence only marks the file. A tie
+    between 2 fields' meanings that the folder's files cannot settle stays a tie. Ingence does not
+    ask about it when fewer files than a set limit hold the word.
+  folder_domain_profile: >-
+    Ingence counts how many of a folder's files belong to each field, such as microscopy. It reads
+    this from the file types, from words only one field uses and from shared name patterns. When
+    one field leads by enough, a word that 2 fields give different meanings takes that field's
+    meaning there. Otherwise it takes the built-in meaning, as an assumption. Ingence asks nothing.
+  spelling_read_as: >-
+    Ingence reads a typo as the Dictionary word it is 1 or 2 letters away from. The word must be
+    letters only and long enough, and a set number of files or more must write it. Ingence lists
+    each such spelling, the word it reads it as and how many files write it. Ingence asks nothing.
+  stated_count_may_mark_replicates: >-
+    Ingence flags a name that states a small count, such as N=3, for you to confirm. On a program,
+    or a file past the recording step, Ingence reads it as how many things the file rests on. On a
+    recording, or where the step is unclear, Ingence reads it as which one of several the file is.
+  indexed_label_may_mark_replicates: >-
+    Ingence flags a label it has no meaning for, when the label is numbered from 1 to a small
+    number. The label must appear in 2 or more folders. You say whether it marks repeats.
+  unbound_word_in_a_kinds_place: >-
+    Ingence asks about a word it has no meaning for, once for all the places it appears. It asks
+    when the word stands in the same part of 3 or more names, written alike, in one folder. In that
+    part, Ingence knows at least 2 words of one kind. They make up at least three quarters of the
+    words it knows there. That kind is only a hint, and often wrong, so you say what the word is.
+  installed_software_in_folder: >-
+    Ingence recognizes a folder as an installed program, such as a copy of Fiji or a Python
+    environment. It knows it by the parts it holds: a name ending in .app, program-style subfolders
+    or mostly program files. Ingence still lists and reads its files, and rules about experiments
+    leave them alone.
+  copied_in_bulk: >-
+    A folder copied in all at once has 5 or more files, all created within 10 minutes. Of these, 4
+    in 5 were created after their last change. Ingence asks about such a folder only when its times
+    make a later step look older than its raw data.
+  group_incomplete_against_workflow: >-
+    Ingence flags a group as incomplete when it has nothing at one of the steps raw, processed or
+    analysis. It names the missing step.
+  replication_below_expected: >-
+    Ingence flags a group of files under one condition when it holds fewer than 3.
+  duplicate_candidate_unverified: >-
+    Ingence flags files that look like copies when it never compared their contents, so you can
+    check them. It does not flag them when every one is in an organizing folder.
+  clocks_disagree: >-
+    Ingence flags a file when 2 equally trustworthy times for it disagree by more than a day.
+  comprehension_failure_is_concentrated: >-
+    Ingence flags a folder when it could not understand 10 or more of its files, far more often than
+    elsewhere. It also flags a folder when a folder inside it could not be opened at all.
+  access_failure_is_concentrated: >-
+    Ingence flags a folder when it could not read 5 or more of its files, far more often than
+    elsewhere. It also flags a folder when a folder inside it could not be opened at all.
+  vocabulary_unread_in_folder: >-
+    Ingence flags a folder when it knows no meaning for most of the words in its files’ names. Most
+    means more than 4 in 5, of at least 20 words.
+  vocabulary_unread_in_folder_outside_programs: >-
+    Ingence flags a folder when it knows no meaning for most words in its files’ names. Most means
+    more than 4 in 5, of at least 20 words. Inside an installed program, words are code, so Ingence
+    only marks the folder.
+
+  # --- Limits every conclusion keeps to ----------------------------------------------------
+  derivation_is_acyclic: >-
+    Ingence never counts a file as made from itself, however long the chain of files in between.
+  derivation_follows_the_clock: >-
+    Ingence never counts a file as made from one written more than 1 minute after it. This holds
+    when both times are trustworthy.
+  identity_conflict_blocks_a_derivation: >-
+    Ingence never counts one file as made from another when their names give different subjects,
+    samples, conditions, cultures or sessions. Nothing else they share changes this.
+  derivation_endpoints_hold_eligible_roles: >-
+    Ingence counts a file as made from another only when both files have the right roles. The source
+    must be raw, recorded, processed, analyzed, measured or reference data. The file made from it
+    must be processed, an analysis, measurements, a summary, a report or a figure.
+  candidate_generation_is_bounded: >-
+    Ingence suggests at most 25 possible partners for any one file. It marks a file whose list was
+    cut short.
+  identity_requires_a_content_digest: >-
+    Ingence says 2 files hold the same bytes only when a fingerprint of their whole contents
+    matches. Matching names, sizes or times are never enough.
+  order_holds_within_one_series: >-
+    Ingence puts files in order only when they already belong to one series under the same
+    condition.
+
+  # --- What the walk itself records --------------------------------------------------------
+  census.filesystem_containment: >-
+    A folder holds every file and folder Ingence found directly inside it.
+  census.directory_aggregate: >-
+    A folder holds exactly the files, folders and bytes that Ingence counted inside it and below it.
+  census.object_kind: >-
+    Some things on the disk are no file, folder or shortcut, such as a pipe or a device. Ingence
+    records each one as what it is.
+  cascade.container_member: >-
+    A ZIP or other container holds only what Ingence found when it opened it. Ingence notes whether
+    opening finished, stopped at a limit or was refused. Ingence reads an archive link from its text
+    and never opens it.
+  experiment_folder_from_contents: >-
+    Ingence takes a folder as one experiment when it holds an instrument’s raw files with files
+    named after them. Examples are drift-corrected copies and results tables. No folder above it may
+    hold the same files. Ingence takes a folder that holds only raw files as one session’s raw
+    files. It takes a folder as an analysis when it holds only files named after raw files kept
+    elsewhere. It does the same for a folder of one program’s many folders side by side, one per
+    movie or cell. Each of these folders holds the same few files. Ingence does all this without
+    reading what any word means.
+  experiment_folder_from_dated_name: >-
+    Ingence takes a folder as an experiment when its name holds a date beside other words. It does
+    not when a folder above it already has such a name. It also does not when the folder is one of
+    many a program wrote, one per movie or cell.
+  replicates_of_one_condition: >-
+    Ingence takes files in one folder as repeats of one condition when their names differ only by a
+    counting number. Examples are _001 and _002. Amounts with units, such as 10mM, must match in the
+    same places. Ingence keeps a movie and its table apart.
+  experiments_may_belong_together: >-
+    Ingence suggests that experiments belong together when their folders share rare words and file
+    names. It asks one question for each suggested group. Nothing is grouped until someone says yes.
+  experiments_approved_together: >-
+    When someone approves a suggested group of experiments, Ingence groups every file beneath them
+    with the rest. So one yes covers the whole group.
+  copies_a_person_answered: >-
+    Ingence groups a set of files as copies when someone called them copies. When someone called a
+    set unrelated, Ingence no longer calls them copies.
+  claim_class_a_person_answered: >-
+    Someone may say a rule read a whole class of files wrongly: every file it gave one value.
+    Ingence then shows each of those results as in doubt, with that answer as the reason.
+  archive_link_copy_of_a_file: >-
+    An archive may leave a link in place of a file. Ingence takes the link as a copy of the file
+    with its name kept elsewhere in the folders it reads. It matches by name and by the folders the
+    link’s text names. Ingence opens nothing.
+  date_neighbourhood_of_a_file: >-
+    A date in a file’s name, or in the nearest folder name above it, says roughly when the file
+    belongs. It never says exactly when the file was made. With 2 dates, Ingence makes a span.
+  date_neighbourhood_of_a_folder: >-
+    A date in a folder’s name says roughly when what it holds belongs. With 2 dates, Ingence makes a
+    span.
+  domain_pack_would_read_this_pool: >-
+    The Dictionary has words for some subjects that you have not loaded. Ingence offers them when
+    they would read words or file types that nothing here reads. It says how many they would read.
+    Nothing loads until you say yes.
+  software_outside_the_catalogue: >-
+    Ingence asks about a folder laid out like a program’s when it matches no program Ingence knows.
+    You say whether it is a program.
+  declared_sha256_contradicted: >-
+    When a file’s bytes, read here, give a different SHA-256 than its archive declared, Ingence
+    marks the file. What Ingence read here is the fact.
+  identical_by_declared_sha256: >-
+    Ingence takes 2 files as holding the same bytes when their archives declare one SHA-256. This
+    does not hold when Ingence reads either file and finds otherwise.
+  declared_attribute_to_clarify: >-
+    Ingence asks once about each attribute an archive’s listing states on its files, by its name.
+    You say what it means. Ingence assumes nothing.
+  declared_copy_window_exceeded: >-
+    Ingence flags a folder when its archive says its files were copied in over more than a day. Then
+    you can change the copy window, which is 1 day.
+  broken_addresses_in_folder: >-
+    Ingence flags a folder once when its files have archive addresses that answered not found or
+    moved. It also counts files whose address could not be read as an address. Ingence says how
+    many, and says nothing about whether those files exist elsewhere.
+  miscellaneous_files_to_approve: >-
+    Ingence keeps a folder of files that is no experiment and holds none as it is. It offers the
+    folder as your miscellaneous files, for you to approve.
+  miscellaneous_files_approved: >-
+    When someone keeps a folder as their miscellaneous files, Ingence records it so. Ingence moves
+    nothing in it into an experiment.
+  note_written_as_a_file_name: >-
+    An empty text file whose name is a sentence is a note someone left. Its name is what it says, so
+    Ingence never counts it as an empty file.
+  group_resolved_within_experiment: >-
+    Once someone approves a word group, every experiment holding those words becomes that group.
+    Each experiment (each day) stays its own.
+  group_resolved_across_experiments: >-
+    A word group someone approves groups every experiment that holds all its words. Each experiment
+    stays its own. Ingence only asks about word groups some experiments share exactly, never a date
+    or a number.
+  group_series_across_experiments: >-
+    Once someone approves a word group, every experiment holding it stays in that group’s series
+    across the days. This holds even when the experiment also holds a more specific approved group.
+  group_resolution_deviation: >-
+    Each question is a word group that some experiments share exactly, never a date or a number. The
+    most shared comes first, then what each adds to a group you approved. When asked word by word
+    instead, each added or missing word is its own question.
+  folder_copied_in_bulk: >-
+    Some folders have files all created within minutes of one another, after their last change. Such
+    a folder was copied here whole on that day. This explains its creation times, so Ingence asks
+    nothing.
+  folder_copied_by_declared_clocks: >-
+    An archive may say it received a folder’s files together, on one day. Then the folder was copied
+    there whole that day. The archive’s time is the time of the copy, never when the files were
+    made. So Ingence puts nothing in order by it.
+  identical_by_declared_digest: >-
+    When an archive gives 2 files the same checksum, Ingence takes them as holding the same bytes.
+    This rests on what the archive says. It is less sure than reading the bytes itself. Ingence
+    takes it back when it reads them and finds otherwise.
+  declared_digest_contradicted: >-
+    Ingence reads a file’s bytes with the checksum method its archive used. When it finds a
+    different checksum, the file does not hold what the archive said.
+  empty_replicate_is_no_data_point: >-
+    An empty file among files of the same kind that hold data is no data point. An example is one
+    movie’s empty tracking table beside the full ones of the others. Ingence leaves it out when it
+    weighs an analysis.
+  same_name_identity_within_experiment: >-
+    Ingence groups files of one experiment as one named thing when their names match. Every word,
+    number, label, amount, date and version must match. Words for the step of the work and for
+    repeats do not count. This holds even when the files sit in folders for different steps, such as
+    raw, processed and analysis. It does not hold across folders named for different days or
+    repeats. Outside any experiment, it holds only within one folder.
+  named_for_an_acquisition: >-
+    Ingence groups a recording from an instrument with every file whose name contains the
+    recording’s whole name. An example is a table a tracking tool named after the movie it read.
+    Each file goes with the nearest recording of that name in its experiment. Ingence does the same
+    for a file whose whole name, ending included, appears in other files’ names. This holds even
+    when the file is no recording. An example is an image viewer’s "movie.tif - C=0.tif". Ingence
+    also groups an image with the label, mask or annotation named after it in its folder. The image
+    may be at any step. An example is "vol07_labels.nii" beside "vol07.nii".
+  derivation_named_for_an_acquisition: >-
+    Ingence suggests that a file named after a recording was made from that recording. The same
+    holds for a file named after another file’s whole name, ending included. The step its name
+    states does not matter. Ingence never suggests that one file named after a recording was made
+    from another one by time alone. It never does this inside an installed program.
+  named_for_a_series: >-
+    Ingence groups a series of numbered files in one folder, such as hela_001 to hela_010, with a
+    table beside them. The table has their shared name and a word for results or a summary, as in
+    hela_results.xlsx.
+  derivation_summarising_a_series: >-
+    Ingence suggests that a table named for a series of numbered files beside it was made from each
+    of them. It makes one link for each file. It never suggests that one file of the series was made
+    from another. It never does this inside an installed program.
+  one_name_in_sibling_folders: >-
+    Ingence groups files with exactly the same name in side-by-side folders under one folder
+    (images/a.tif and masks/a.tif). It does not when the name appears in very many side-by-side
+    folders. Then the name is only the way each folder names its files.
+  derivation_of_one_name_in_sibling_folders: >-
+    Of 2 files with the same name in side-by-side folders, Ingence suggests one as the source of the
+    other. The source is in a folder whose name means raw data, images or input. The other is in a
+    folder whose name means labels, masks, ground truth or output. Ingence never does this inside an
+    installed program.
+  related_by_one_name_in_sibling_folders: >-
+    Some files have the same name in side-by-side folders whose names do not say which came first.
+    An example is left/a.tif and right/a.tif. Ingence suggests that these files are related, and does
+    not say how. It never does this inside an installed program.
+  derivation_by_a_scripts_calls: >-
+    A script’s own lines may read one file by name and write another by name. Ingence then suggests
+    that the written file was made from the read file. This says which came first. It never does
+    this inside an installed program.
+  derivation_endpoints_hold_roles_or_a_scripts_calls: >-
+    Ingence never counts a program as made from a file, or a file as made from a program.
+  stage_disagrees_with_a_derivation: >-
+    Some files were suggested as made from other files. Their names or formats put them at an
+    earlier step than those files. Ingence raises them together, with one question for each folder
+    and pair of steps.

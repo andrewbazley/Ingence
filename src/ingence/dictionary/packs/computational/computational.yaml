@@ -1,0 +1,57 @@
+# Computational science, simulation and scientific software.
+
+# The pack's manifest. Its digest is over the words below, not the comments: a changed word
+# needs a new version and a new digest.
+pack:
+  name: computational
+  version: "2"
+  domain: computational
+  author: Ingence
+  licence: MIT
+  schema: "1.22"
+  digest: 1e16ab00630cdef0dea66b8e92461c69
+section: computational
+theme_kind: technique
+origin: builtin
+domain: computational
+# The pack's file formats are rows of the file-type table
+# (`src/ingence/dictionary/file_types.yaml`), every row naming this section. The senses are the
+# ones this file declared, term for term and spelling for spelling, so nothing made from them
+# moves. What each format is, who writes it and whether it is recorded data is the table's.
+file_types: from_table
+summary: Simulation, numerical methods, scheduling and scientific file formats.
+
+entries:
+  # -- simulation -----------------------------------------------------------
+  # sim is also structured illumination microscopy.
+  - {term: simulation, surfaces: [sim, simulation, simulated, insilico_run, synthetic_data],
+   ambiguous_with: [structured_illumination]}
+  - {term: molecular_dynamics, surfaces: [md, moleculardynamics, gromacs, amber, namd, lammps, openmm, charmm],
+   ambiguous_with: [markdown]}
+  - {term: quantum_chemistry, surfaces: [dft, abinitio, "ab-initio", hartreefock, hf_qc, gaussian_calc, orca, psi4, vasp, quantumespresso]}
+  - {term: monte_carlo, surfaces: [mc, montecarlo, "monte-carlo", metropolis, gibbs_sampling, mcmc]}
+  - {term: finite_element, surfaces: [fem, finiteelement, fenics, abaqus, comsol_run, mesh_solver]}
+  - {term: agent_based, surfaces: [abm, agentbased, "agent-based", cellularautomaton]}
+
+  # -- numerical ------------------------------------------------------------
+  - {term: mesh, surfaces: [mesh, grid, lattice, discretisation, discretization, nodes_mesh, elements_mesh], theme_kind: measurement}
+  - {term: timestep, surfaces: [dt, timestep, "time-step", stepsize_sim, integrator], theme_kind: measurement}
+  - {term: convergence, surfaces: [converged, convergence, tolerance, residual_sim, iteration_count], theme_kind: statistic}
+  - {term: boundary_condition, surfaces: [bc, boundarycondition, "boundary-condition", periodic, dirichlet, neumann], theme_kind: condition}
+  - {term: initial_condition, surfaces: [ic, initialcondition, "initial-condition", seed_state, startingconfig], theme_kind: condition}
+  - {term: ensemble, surfaces: [nvt, npt, nve, ensemble, equilibration, production_run, annealing], theme_kind: condition}
+  - {term: trajectory, surfaces: [traj, trajectory, dump_file, frames_sim, snapshot_sim], theme_kind: acquisition}
+  - {term: checkpoint, surfaces: [checkpoint, ckpt, restart, resume_state, statefile], theme_kind: file_role}
+  - {term: parameter_sweep, surfaces: [sweep, paramsweep, "parameter-sweep", gridsearch, "grid-search", scan_params], theme_kind: condition}
+
+  # -- scheduling and compute -----------------------------------------------
+  - {term: scheduler, surfaces: [slurm, sbatch, srun, pbs, torque, sge, qsub, lsf, bsub, condor], theme_kind: software}
+  - {term: compute_resource, surfaces: [node, nodes, core, cores, cpu, gpu, mpi, rank, thread, threads, walltime, partition, queue_name, jobid], theme_kind: measurement}
+  - {term: container_runtime, surfaces: [docker, singularity, apptainer, podman, conda_env, venv, module_load], theme_kind: software}
+  - {term: workflow_manager, surfaces: [snakemake, nextflow, cwl, wdl, luigi, airflow, prefect, make, cmake], theme_kind: software}
+  - {term: version_control_tool, surfaces: [git, svn_tool, mercurial, commit_ref, branch_name, tag_ref], theme_kind: software}
+
+  # -- analysis environments ------------------------------------------------
+  - {term: language, surfaces: [python, r_lang, matlab, julia, cpp, fortran, java_lang, javascript, shell_lang, perl], theme_kind: software}
+  - {term: scientific_library, surfaces: [numpy, scipy, pandas, scikit, sklearn, tensorflow, pytorch, jax, tidyverse, ggplot, bioconductor, seurat, scanpy], theme_kind: software}
+  - {term: image_software, surfaces: [imagej, fiji, ilastik_sw, cellprofiler, napari, icy, imaris, arivis, omero, qupath, huygens, nis_elements, zen_sw, metamorph, micromanager], theme_kind: software}

@@ -1,0 +1,88 @@
+# Dates, versions and iteration markers.
+#
+# The vocabulary that appears in almost every filename in almost every project,
+# and the one where a project's own habits are least visible: everybody writes
+# dates and versions, and everybody writes them differently.
+section: time_and_versions
+theme_kind: version
+origin: builtin
+summary: Date idioms, version markers and the words people use for "again".
+
+entries:
+  # -- month names, both forms ----------------------------------------------
+  - {term: january, surfaces: [jan, january], theme_kind: date, canonical: "01"}
+  - {term: february, surfaces: [feb, february], theme_kind: date, canonical: "02"}
+  - {term: march, surfaces: [mar, march], theme_kind: date, canonical: "03"}
+  - {term: april, surfaces: [apr, april], theme_kind: date, canonical: "04"}
+  - {term: may, surfaces: [may], theme_kind: date, canonical: "05"}
+  - {term: june, surfaces: [jun, june], theme_kind: date, canonical: "06"}
+  - {term: july, surfaces: [jul, july], theme_kind: date, canonical: "07"}
+  - {term: august, surfaces: [aug, august], theme_kind: date, canonical: "08"}
+  - {term: september, surfaces: [sep, sept, september], theme_kind: date, canonical: "09"}
+  - {term: october, surfaces: [oct, october], theme_kind: date, canonical: "10"}
+  - {term: november, surfaces: [nov, november], theme_kind: date, canonical: "11"}
+  - {term: december, surfaces: [dec, december], theme_kind: date, canonical: "12"}
+
+  # -- weekday names --------------------------------------------------------
+  # `weekday` is the ISO number, Monday 1. A C-library time stamp (`Tue Mar  9 14:07:45 2031`)
+  # begins with a weekday's `stamp_abbreviation`, and the tokeniser reads its date only where the
+  # calendar gives that day that weekday. The abbreviation is a property and not a surface. Alone
+  # in a name, `sat` is saturated as often as Saturday and `mon` a monomer, so only the full name
+  # binds.
+  - {term: monday, surfaces: [monday], theme_kind: date, weekday: 1, stamp_abbreviation: mon}
+  - {term: tuesday, surfaces: [tuesday], theme_kind: date, weekday: 2, stamp_abbreviation: tue}
+  - {term: wednesday, surfaces: [wednesday], theme_kind: date, weekday: 3, stamp_abbreviation: wed}
+  - {term: thursday, surfaces: [thursday], theme_kind: date, weekday: 4, stamp_abbreviation: thu}
+  - {term: friday, surfaces: [friday], theme_kind: date, weekday: 5, stamp_abbreviation: fri}
+  - {term: saturday, surfaces: [saturday], theme_kind: date, weekday: 6, stamp_abbreviation: sat}
+  - {term: sunday, surfaces: [sunday], theme_kind: date, weekday: 7, stamp_abbreviation: sun}
+
+  # -- relative time --------------------------------------------------------
+  - {term: overnight, surfaces: [overnight, "o/n", ovn], theme_kind: date}
+  - {term: today, surfaces: [today], theme_kind: date}
+  - {term: yesterday, surfaces: [yesterday], theme_kind: date}
+  - {term: morning, surfaces: [am, morning], theme_kind: date}
+  - {term: afternoon, surfaces: [pm, afternoon], theme_kind: date}
+
+  # -- version markers ------------------------------------------------------
+  - {term: version, surfaces: [v, ver, vers, version]}
+  - {term: revision, surfaces: [r, rev, revision]}
+  - {term: build, surfaces: [b, build]}
+  - {term: release, surfaces: [rel, release]}
+  - {term: draft, surfaces: [draft, drafts, wip, "work-in-progress"]}
+  - {term: final, surfaces: [final, fin, finished]}
+  - {term: latest, surfaces: [latest, current, newest, head]}
+  - {term: previous, surfaces: [prev, previous, prior, last]}
+  # `orig` is not a spelling of `original`. A file ending `.orig` is the original kept aside
+  # before an edit (`kelt_fit.py.orig`), a backup in all but name. A `source` or `master` table is
+  # compiled data and nobody's backup.
+  - {term: original, surfaces: [original, source, master]}
+  - {term: kept_original, canonical: original kept aside, surfaces: [orig]}
+  - {term: copy, surfaces: [copy, duplicate, dup, clone]}
+  # `old` is a backup spelling: `track_vorn.py.old` is a backup of the script it is named for,
+  # never a file made from it.
+  - {term: backup, surfaces: [backup, bak, bkp, bkup, "back-up", archive_copy, old]}
+
+  # -- iteration ------------------------------------------------------------
+  - {term: replicate, surfaces: [rep, reps, replicate, replicates, repeat], theme_kind: replicate}
+  - {term: technical_replicate, surfaces: [tech, technical, techrep, tr], theme_kind: replicate}
+  - {term: biological_replicate, surfaces: [bio, biological, biorep, br], theme_kind: replicate}
+  - {term: trial, surfaces: [trial, trials, attempt, attempts, take, takes], theme_kind: replicate}
+  - {term: round, surfaces: [round, rounds, pass, passes, cycle, cycles], theme_kind: replicate}
+  - {term: iteration, surfaces: [iter, iteration, iterations, epoch], theme_kind: replicate}
+  - {term: rerun, surfaces: [rerun, redo, again, retry], theme_kind: replicate}
+
+  # -- a stated count, which is not a position ------------------------------
+  # `N=3` says how many replicates something rests on. That is a cardinality, and every
+  # sense above is an ordinal: `rep2` says which repetition a file is. Putting the two on
+  # one axis would let the rule that reads a position conclude "this file is
+  # stated-replicate-count number three". It would also let the experiment identity drop a stated
+  # count as though it were a position, which destroys the comparison the count exists for.
+  # So the count sits on a kind of its own.
+  #
+  # `n` is also the statistic `count`, and that collision is real and not accidental:
+  # a sample size and a replicate count are the same notation. The two kinds differ, so
+  # an index label restricted to replicate and count reaches this one alone, and a bare
+  # `n` word reaches both and is reported as the ambiguity it is.
+  - {term: stated_replicate_count, surfaces: [n], theme_kind: count,
+     ambiguous_with: [count]}

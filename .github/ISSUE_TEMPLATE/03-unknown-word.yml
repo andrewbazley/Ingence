@@ -1,0 +1,108 @@
+name: "A word Ingence does not know"
+description: "A word that appears in file or folder names and that Ingence does not read, or reads wrongly."
+title: "[Word]: "
+labels: ["word"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A word in Ingence's Dictionary is shipped to everyone, so it must be a word many laboratories in the
+        field use. Words only your own laboratory uses belong in your own project: teach them in the
+        Dashboard, and they are kept in your project's Record. They are not shipped.
+
+        If the word is general, tell us here, and point to a public source that uses it.
+
+        Before you post, see [Reporting a problem without sharing your data](https://ingence.org/guides/reporting-a-problem.html).
+  - type: checkboxes
+    id: no-private-data
+    attributes:
+      label: Before you post
+      description: The guide above says what to leave out and what to write in its place.
+      options:
+        - label: "I have not pasted file paths, folder names, people's names or counts from my own data"
+          required: true
+  - type: input
+    id: ingence-version
+    attributes:
+      label: Ingence version
+      description: Run `ingence --version` in a terminal and paste the first line it prints.
+      placeholder: "ingence 0.4.0"
+    validations:
+      required: true
+  - type: dropdown
+    id: system
+    attributes:
+      label: Your system
+      description: The operating system you ran Ingence on.
+      options:
+        - "macOS 13 or later, Apple silicon (arm64)"
+        - "macOS 13 or later, Intel (x86_64)"
+        - "Windows 10 and 11"
+        - "Ubuntu Linux LTS releases"
+        - "Another system or an older version (say which below)"
+    validations:
+      required: true
+  - type: dropdown
+    id: python-version
+    attributes:
+      label: Python version
+      description: Run `python --version` in the environment Ingence is installed in.
+      options:
+        - "3.12"
+        - "3.13"
+        - "3.14"
+        - "Another version (say which below)"
+    validations:
+      required: true
+  - type: input
+    id: word
+    attributes:
+      label: The word and its spellings
+      description: How it is written in names, and any other spellings you know.
+      placeholder: "for example: phasecontrast, phase-contrast, ph"
+    validations:
+      required: true
+  - type: textarea
+    id: meaning
+    attributes:
+      label: What it means
+      description: In one or two sentences, as a scientist in the field would say it.
+    validations:
+      required: true
+  - type: input
+    id: field
+    attributes:
+      label: The field it belongs to
+      description: For example microscopy, sequencing, spectrometry, or "every field".
+    validations:
+      required: true
+  - type: dropdown
+    id: who-uses
+    attributes:
+      label: Who uses this word?
+      options:
+        - Many laboratories in my field
+        - Only my laboratory or group
+        - I do not know
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: A public source that uses it
+      description: A standard, a manual, a textbook, or a public web page. A link is enough.
+  - type: textarea
+    id: shape
+    attributes:
+      label: How it appears in names
+      description: >-
+        The shape only, with invented stand-ins: for example "a word between the date and the plate
+        number, as in `2024_03_07_<word>_plate2`".
+  - type: textarea
+    id: name-shapes
+    attributes:
+      label: Name shapes (optional)
+      description: >-
+        Run `ingence teach shapes -p PROJECT` and paste the table it prints. It shows the shapes of
+        your file and folder names, not the names. Read it before you post.
+      render: text

@@ -1,0 +1,455 @@
+# The format senses as the section files declared them before the file-type table existed.
+# There is one key per section, and each entry is as it was read, with comments gone and
+# vendor strings taken out of origins. The identity test builds a Dictionary from these
+# beside one from the table and compares senses and bindings to the byte.
+# Every spelling here is a file extension or a format's own name.
+biochemistry:
+- term: structure_format
+  canonical: molecular structure
+  surfaces: [pdb, cif, mmcif, ent]
+  theme_kind: format
+  extension_only: [cif]
+- term: flow_cytometry_format
+  canonical: flow cytometry data
+  surfaces: [fcs]
+  theme_kind: format
+  extension_only: [fcs]
+- term: snapgene_plasmid
+  canonical: SnapGene plasmid
+  theme_kind: format
+  surfaces: [dna, prot, clxn]
+  extension_only: [dna, prot]
+- term: flowjo_workspace
+  canonical: FlowJo workspace
+  theme_kind: format
+  surfaces: [wsp]
+- term: imagelab_scan
+  canonical: Image Lab multichannel scan
+  theme_kind: format
+  surfaces: [mscn]
+- term: mass_photometry_data
+  canonical: mass photometry data
+  theme_kind: format
+  surfaces: [mpr, mp, dmp]
+  extension_only: [mp]
+- term: pymol_session
+  canonical: PyMOL session
+  theme_kind: format
+  surfaces: [pse]
+- term: plate_reader_data
+  canonical: plate reader data
+  theme_kind: format
+  surfaces: [pda]
+- term: prism_project
+  canonical: GraphPad Prism project
+  theme_kind: format
+  surfaces: [pzfx, prism]
+  extension_only: [prism]
+  product: true
+- term: chromatogram_export
+  canonical: chromatogram ASCII export
+  theme_kind: format
+  surfaces: [asc]
+  extension_only: [asc]
+- term: ape_plasmid
+  canonical: ApE plasmid
+  theme_kind: format
+  surfaces: [ape]
+  extension_only: [ape]
+- term: plate_imager_experiment
+  canonical: plate imager experiment
+  theme_kind: format
+  surfaces: [xpt]
+clinical:
+- term: imaging_format
+  surfaces: [dicom, dcm, nifti, nii, analyze_format, minc, par_rec]
+  theme_kind: format
+computational:
+- term: array_format
+  surfaces: [npy, npz, hdf5, h5, nc, netcdf, zarr, mat, n5]
+  theme_kind: format
+  extension_only: [mat, nc, netcdf, n5]
+- term: matlab_figure
+  canonical: MATLAB figure
+  theme_kind: format
+  surfaces: [fig]
+  extension_only: [fig]
+- term: rstudio_project
+  canonical: RStudio project
+  theme_kind: format
+  surfaces: [rproj]
+- term: trained_classifier
+  canonical: trained classifier
+  theme_kind: format
+  surfaces: [model]
+  extension_only: [model]
+electrophysiology:
+- term: ephys_format
+  surfaces: [abf, atf, wcp, ibw, smr, nev, ns5, plx, nwb, dat_ephys]
+  theme_kind: format
+microscopy:
+- term: em_density_format
+  canonical: electron density map
+  surfaces: [mrc, ccp4]
+  theme_kind: format
+- term: image_format
+  extends: true
+  theme_kind: format
+  surfaces: [nd2, czi, lif, oib, oif, lsm, ims, vsi, scn, ndpi, svs, dv, stk, fli, lifext, cr2]
+  extension_only: [lsm]
+  origins:
+    nd2: {written_by: instrument, accepts_pack: true}
+    czi: {written_by: instrument}
+    lsm: {written_by: instrument}
+    lif: {written_by: instrument}
+    lifext: {written_by: instrument}
+    scn: {written_by: instrument}
+    svs: {written_by: instrument}
+    oib: {written_by: instrument}
+    oif: {written_by: instrument}
+    vsi: {written_by: instrument}
+    ndpi: {written_by: instrument}
+    dv: {written_by: instrument}
+    stk: {written_by: instrument}
+    fli: {written_by: instrument}
+    ims: {written_by: software}
+    cr2: {written_by: instrument}
+- term: imagej_roi
+  canonical: ImageJ region of interest
+  theme_kind: format
+  surfaces: [roi]
+  extension_only: [roi]
+- term: fiji_roi_zip
+  canonical: Fiji ROI archive
+  theme_kind: format
+  surfaces: [fiji_roi_zip]
+  extension_only: true
+- term: mitograph_output
+  canonical: MitoGraph output
+  theme_kind: format
+  surfaces: [coo, gnet, mitograph]
+  extension_only: true
+- term: zeiss_zen_graphics
+  canonical: Zeiss ZEN graphics export
+  theme_kind: format
+  surfaces: [cz]
+  extension_only: [cz]
+- term: zeiss_lsm_overlay
+  canonical: Zeiss LSM overlay
+  theme_kind: format
+  surfaces: [ovl]
+- term: evos_acquisition
+  canonical: EVOS acquisition record
+  theme_kind: format
+  surfaces: [timelapse, routine]
+  extension_only: [timelapse, routine]
+sequencing:
+- term: read_format
+  surfaces: [fastq, fq, fasta, fa, fna, faa, fsa, sra]
+  theme_kind: format
+- term: multiple_alignment_format
+  surfaces: [aln, msa, sto, stockholm]
+  theme_kind: format
+- term: alignment_format
+  surfaces: [sam, bam, cram, bai, crai]
+  theme_kind: format
+- term: interval_format
+  surfaces: [bed, bedgraph, bigwig, bw, wig, narrowpeak, broadpeak]
+  theme_kind: format
+- term: annotation_format
+  surfaces: [gtf, gff, gff3, genbank, gb, gbk, embl]
+  theme_kind: format
+  extension_only: [gb]
+- term: variant_format
+  surfaces: [vcf, bcf, gvcf, maf]
+  theme_kind: format
+- term: matrix_format
+  surfaces: [mtx, h5ad, loom, rds_matrix, anndata]
+  theme_kind: format
+- term: capillary_trace
+  canonical: capillary sequencing trace
+  theme_kind: format
+  surfaces: [ab1]
+- term: sequence_text
+  canonical: provider sequence text
+  theme_kind: format
+  surfaces: [seq]
+  extension_only: [seq]
+spectrometry:
+- term: ms_format
+  surfaces: [raw_ms, mzml, mzxml, mgf, mzid, wiff, d_folder, pepxml, protxml]
+  theme_kind: format
+- term: plate_reader_protocol
+  canonical: plate reader protocol (Gen5)
+  theme_kind: format
+  surfaces: [prt]
+  extension_only: true
+  origins:
+    prt: {written_by: software}
+formats:
+- term: plain_text
+  canonical: plain text
+  surfaces: [txt, text]
+- term: markdown
+  canonical: markdown
+  surfaces: [md, markdown, mdown]
+  ambiguous_with: [molecular_dynamics]
+  extension_only: [md]
+- term: restructured_text
+  canonical: reStructuredText
+  surfaces: [rst]
+- term: latex_source
+  canonical: LaTeX source
+  surfaces: [tex, latex]
+- term: rich_document
+  canonical: word processor document
+  surfaces: [docx, doc, odt, rtf]
+- term: slide_deck_format
+  canonical: presentation
+  surfaces: [pptx, ppt, odp]
+  product: true
+- term: portable_document
+  canonical: PDF
+  surfaces: [pdf]
+- term: tabular_format
+  surfaces: [csv, tsv, parquet, feather, arrow, xlsx, xls, ods]
+  extension_only: [arrow, feather]
+- term: structured_format
+  surfaces: [json, yaml_format, toml_format, xml_format, ini_format, protobuf]
+- term: video_format
+  surfaces: [avi, mp4, mov, mkv, webm, wmv]
+- term: image_format
+  surfaces: [tif, tiff, ometiff, ome-tiff, ome.tif, ome.tiff, png, jpg, jpeg, jp2, bmp, gif, svg, eps,
+    pdf_image, heic, heif, webp, emf, wmf, pgm, pbm, tga]
+  extension_only: [tga]
+  origins: {}
+- term: markup_document
+  canonical: markup
+  surfaces: [html, htm, xhtml]
+- term: xml_document
+  canonical: XML
+  surfaces: [xml, xsd, xsl]
+- term: yaml_document
+  canonical: YAML
+  surfaces: [yaml, yml]
+- term: toml_document
+  canonical: TOML
+  surfaces: [toml]
+- term: ini_document
+  canonical: INI
+  surfaces: [ini]
+- term: python_source
+  canonical: Python source
+  surfaces: [py, pyi, pyx]
+  program: true
+- term: notebook_format
+  canonical: notebook
+  surfaces: [ipynb]
+  program: true
+- term: shell_script
+  canonical: shell script
+  surfaces: [sh, bash, zsh]
+  program: true
+- term: sql_source
+  canonical: SQL
+  surfaces: [sql]
+  program: true
+- term: python_wheel
+  canonical: wheel
+  surfaces: [whl]
+  program: true
+- term: executable_format
+  canonical: executable
+  surfaces: [exe, dll, dylib, so, cpl]
+  extension_only: [cpl]
+  program: true
+- term: imagej_macro
+  canonical: ImageJ macro
+  surfaces: [ijm]
+  program: true
+- term: beanshell_script
+  canonical: BeanShell script
+  surfaces: [bsh]
+  program: true
+- term: clojure_source
+  canonical: Clojure source
+  surfaces: [clj]
+  program: true
+- term: ruby_source
+  canonical: Ruby source
+  surfaces: [rb]
+  extension_only: [rb]
+  program: true
+- term: groovy_script
+  canonical: Groovy script
+  surfaces: [groovy]
+  extension_only: [groovy]
+  program: true
+- term: matlab_source
+  canonical: MATLAB source
+  surfaces: [m]
+  extension_only: [m]
+  program: true
+- term: archive_format
+  canonical: archive
+  surfaces: [zip, tar, 7z, rar]
+- term: compression_format
+  canonical: compressed stream
+  surfaces: [gz, bz2, zst, lz4]
+  ambiguous_with: [orthogonal_view]
+  wraps: true
+- term: compressed_archive
+  canonical: compressed archive
+  surfaces: [tar.gz, tar.bz2, tar.xz, tar.zst, tgz, tbz2]
+- term: embedded_database
+  canonical: embedded database
+  surfaces: [sqlite, duckdb, db]
+- term: error_stream
+  canonical: error output
+  surfaces: [err, stderr]
+  extension_only: [stderr]
+- term: generic_binary
+  canonical: binary data
+  surfaces: [dat, raw, bin]
+  extension_only: [bin, raw]
+- term: icon_format
+  canonical: icon
+  surfaces: [ico, icns]
+- term: environment_file
+  canonical: environment
+  surfaces: [env, envrc]
+- term: c_source
+  canonical: C or C++ source
+  surfaces: [c, cc, cpp, cxx]
+  extension_only: [c, cc, cpp]
+  program: true
+- term: c_header
+  canonical: C or C++ header
+  surfaces: [h, hh, hpp, hxx]
+  extension_only: [h]
+  program: true
+- term: javascript_source
+  canonical: JavaScript
+  surfaces: [js, mjs, cjs]
+  program: true
+- term: perl_source
+  canonical: Perl
+  surfaces: [pl, pm]
+  extension_only: [pl, pm]
+  program: true
+- term: r_source
+  canonical: R source
+  surfaces: [r]
+  extension_only: [r]
+  program: true
+- term: r_markdown
+  canonical: R Markdown
+  surfaces: [rmd, rmarkdown]
+  program: true
+- term: r_workspace
+  canonical: R workspace
+  surfaces: [rds, rdata]
+  extension_only: [rdata]
+- term: java_source
+  canonical: Java source
+  surfaces: [java, src]
+  extension_only: [java, src]
+  program: true
+- term: java_bytecode
+  canonical: Java bytecode
+  surfaces: [class, jar]
+  extension_only: [class, jar]
+  program: true
+- term: python_bytecode
+  canonical: Python bytecode
+  surfaces: [pyc, pyo]
+  program: true
+- term: fortran_module
+  canonical: Fortran module
+  surfaces: [mod]
+  extension_only: [mod]
+  program: true
+- term: log_file
+  canonical: log file
+  surfaces: [log]
+  extension_only: [log]
+- term: configuration_file
+  canonical: configuration file
+  surfaces: [conf, cnf, cfg, config, properties, plist]
+  extension_only: [cfg, conf, config, properties, plist]
+- term: temporary_file
+  canonical: temporary file
+  surfaces: [tmp]
+  extension_only: [tmp]
+- term: program_output
+  canonical: program output
+  surfaces: [out]
+  extension_only: [out]
+- term: certificate_format
+  canonical: certificate
+  surfaces: [pem, crt, cer]
+- term: audio_format
+  canonical: audio
+  surfaces: [m4a, mp3, wav, flac, aac, aiff]
+- term: playlist_format
+  canonical: playlist
+  surfaces: [m3u, m3u8, pls]
+- term: font_format
+  canonical: font
+  surfaces: [ttf, otf, woff, woff2]
+- term: citation_format
+  canonical: citation records
+  surfaces: [ris, nbib, bibtex, enw]
+- term: reference_library
+  canonical: reference manager library
+  surfaces: [enl]
+- term: database_table_file
+  canonical: database table file
+  surfaces: [frm, myd, myi, opt]
+  extension_only: [frm, myd, myi, opt]
+- term: web_shortcut
+  canonical: web shortcut
+  surfaces: [webloc]
+- term: text_clipping
+  canonical: text clipping
+  surfaces: [textclipping]
+- term: lookup_table
+  canonical: lookup table
+  surfaces: [lut]
+  extension_only: [lut]
+- term: package_relationship_part
+  canonical: package relationship part
+  surfaces: [rels]
+- term: mesh_format
+  canonical: 3D mesh
+  surfaces: [stl, obj, ply]
+  extension_only: [obj, stl, ply]
+- term: vtk_data
+  canonical: VTK data
+  surfaces: [vtk]
+  extension_only: true
+- term: cad_exchange_format
+  canonical: CAD exchange
+  surfaces: [igs, iges, stp, step]
+  extension_only: [stp, step]
+- term: illustrator_document
+  canonical: Illustrator document
+  surfaces: [ai]
+  extension_only: [ai]
+  product: true
+- term: affinity_document
+  canonical: Affinity document
+  surfaces: [afdesign, afphoto]
+  product: true
+- term: cad_drawing
+  canonical: CAD drawing
+  surfaces: [dwg]
+- term: iwork_document
+  canonical: iWork document
+  surfaces: [iwa, key, pages, numbers]
+  extension_only: [key, pages, numbers]
+  product: true
+- term: lock_file
+  canonical: lock file
+  surfaces: [lck, lock]
+  extension_only: [lock]

@@ -1,0 +1,1571 @@
+# Revision 1: interpretive rules, declared.
+#
+# The interpretations here classify files by extension and prefix, inherit context from folders,
+# link provenance across pipeline stages, group experiments into replicates and variants, score
+# candidate derivations on a vector of named components, block a candidate on a conflicting
+# identity term, order version series, and raise folders whose names say somebody was unsure.
+# Every one of those is an interpretive rule, so each is declared as a rule and not buried as a
+# constant, a threshold inside a boolean expression, or a weight summed into a score.
+#
+# Declaring them means anybody can read a rule, argue with it, switch it off, or find out which
+# rule licensed a conclusion they disagree with. That is the whole claim of the project, and a
+# rule buried in a comparison operator does not satisfy it.
+#
+# WHAT IS DECLARED AND WHAT IS NOT
+#
+# The shape of a rule, never one laboratory's contents. No cell lines, reporter constructs, named
+# tracking tool, named plotting package, instrument extensions or project treatment vocabulary
+# appear here. Where a rule needs vocabulary it names a *sense*, and which spellings reach that
+# sense is the Dictionary's business, so a laboratory with different instruments edits no rule.
+#
+# Three things are deliberately absent.
+#
+# Confidence numbers. No rule here carries one. Tiers decide here and scores only break ties, so
+# each rule declares a tier. A number that looks like a probability invites a threshold, and a
+# threshold over evidence of mixed kinds is the thing that makes an engine's conclusions
+# unarguable.
+#
+# Negative weights. A score cannot express impossibility: a large enough pile of weak support
+# outvotes any finite penalty, and clamping the sum into the unit interval would turn a conflict
+# plus enough weak agreement into zero rather than a refusal. Every such case here is a
+# constraint, and a constraint removes the option.
+#
+# Combined figures. Completeness is not one number folding workflow coverage, replicate count and
+# a penalty for a folder whose name signaled doubt. Nothing can be read back out of such a number
+# and the three call for different actions, so they are three rules.
+#
+# LEVELS
+#
+# Rules declare `file`, `folder` or `group`. The first two are entries the census
+# produces. `group` names a level coarser than an entry. No phase of inference hands a group to
+# a proposing or flagging predicate, so most of the rules at that level are not evaluable.
+#
+# REVISIONS ARE APPEND-ONLY
+#
+# Nothing in revision 0 is edited by this file. A later revision adds a rule,
+# supersedes one, or raises a rule's version with different parameters, and the
+# earlier text stays readable so that any past run replays exactly.
+
+revision: 1
+summary: >-
+  The interpretations the predecessor engines applied as constants, thresholds
+  and weights, declared as rules with their vocabulary held in the Dictionary.
+
+rules:
+  # =====================================================================
+  # CONSTRAINTS
+  #
+  # A constraint expresses impossibility, which a score cannot. Each of
+  # these removes an option from the decoder rather than making it less
+  # attractive, and each records the rule that refused so that a user
+  # asking why two files were not linked gets a sentence rather than a
+  # number they cannot interpret.
+  # =====================================================================
+
+  - id: derivation_follows_the_clock
+    version: "1"
+    predicate: relation_follows_the_clock
+    effect: constraint
+    primitive: derives
+    tier: defeasible
+    level: file
+    statement: >-
+      Nothing is derived from a file written after it, where both carry a clock
+      at level {minimum_clock_tier} or better and the gap exceeds
+      {tolerance_seconds} seconds.
+    rationale: >-
+      A source that postdates its output cannot have produced it, but a
+      filesystem clock moves when a file is copied, so the refusal is restricted
+      to clocks that travel with the bytes and abstains entirely where either
+      side lacks one; refusing on a missing clock would turn an absence into an
+      impossibility.
+    parameters:
+      - name: minimum_clock_tier
+        type: enum
+        default: document
+        choices: [instrument, document, name]
+        description: >-
+          The weakest clock rung either endpoint may carry before the refusal
+          applies. The ladder orders by copy-robustness rather than by accuracy,
+          because a filesystem clock can be exact to the nanosecond and still
+          record when somebody moved a folder.
+      - name: tolerance_seconds
+        type: duration
+        default: 60
+        minimum: 0
+        maximum: 86400
+        description: >-
+          How far a source may postdate its output before the pair is refused.
+          A pipeline holding its input open while writing, a filesystem with
+          one-second resolution and a document stamped before its last page was
+          rendered all produce small real inversions.
+
+  - id: identity_conflict_blocks_a_derivation
+    version: "1"
+    predicate: components_do_not_conflict
+    effect: constraint
+    primitive: derives
+    tier: entailed
+    level: file
+    statement: >-
+      Two items naming different values on any of {identity_bearing_kinds} are
+      not derived from one another, whatever else they share.
+    rationale: >-
+      A file about one subject is not a projection of a file about another
+      however alike the two names are, and this is a refusal rather than a
+      penalty because a penalty large enough to be decisive is one a verbose
+      enough filename can still outweigh.
+    parameters:
+      - name: identity_bearing_kinds
+        type: string_list
+        default: [subject, sample, condition, culture, session]
+        description: >-
+          The axes on which disagreement is disqualifying rather than
+          incidental. Which axes identify what was measured, rather than how it
+          was processed, is a fact about a corpus that the engine cannot know
+          from outside, so it is stated here and a user changes it. Silence on
+          one side is not disagreement.
+
+  - id: derivation_endpoints_hold_eligible_roles
+    version: "1"
+    predicate: endpoint_holds_an_eligible_role
+    effect: constraint
+    primitive: derives
+    tier: entailed
+    level: file
+    statement: >-
+      A derivation is considered only where the source holds one of
+      {source_roles} and the target holds one of {target_roles}.
+    rationale: >-
+      A figure is not derived from a license file, and stating which kinds of
+      thing may stand at each end limits the pairs proposed to a few, instead of
+      comparing every file with every other; an endpoint nothing classified is
+      ineligible rather than wrong, which routes the fix to coverage.
+    parameters:
+      - name: source_roles
+        type: string_list
+        default: [raw, acquisition, processed, tabular, reference_data]
+        description: >-
+          What the file a pair is made from may be. Narrow by design: this list limits
+          the pairs proposed, and widening it widens the sweep.
+      - name: target_roles
+        type: string_list
+        default: [processed, analysis, quantification, summary, report, figure]
+        description: >-
+          What the file made from it may be. A raw acquisition is never made from
+          another file, which is the asymmetry that keeps the relation directed.
+
+  - id: candidate_generation_is_bounded
+    version: "1"
+    predicate: candidates_are_bounded_per_subject
+    effect: constraint
+    tier: entailed
+    level: file
+    statement: >-
+      The pairs proposed for one subject may not outnumber
+      {maximum_candidates}, and a subject whose pairs were cut is recorded
+      as truncated.
+    rationale: >-
+      Pairs come from shared-key lookups, so a key that turns out to be
+      common on some corpus yields a bucket of thousands and a comparison of every
+      file in it with every other; the cap makes that a truncated answer rather than a run that
+      never finishes, and recording the truncation keeps a bounded result
+      distinguishable from a complete one.
+    parameters:
+      - name: maximum_candidates
+        type: integer
+        default: 25
+        minimum: 1
+        maximum: 1000
+        description: >-
+          How many pairs one subject may be proposed. A corpus where this
+          fires constantly is a corpus whose indexes need narrowing, which is a
+          finding rather than a number to raise.
+
+  - id: identity_requires_a_content_digest
+    version: "1"
+    predicate: substitution_rests_on_content
+    effect: constraint
+    primitive: identical
+    tier: entailed
+    level: file
+    statement: >-
+      Byte equality is asserted only from a digest produced by one of
+      {permitted_methods}, and never from agreement of name, size or timestamps.
+    rationale: >-
+      Identity is the only substitutive relation, so everything that treats one
+      file as a stand-in for another rests on it, and a digest over sampled
+      regions is a test for change rather than a proof of equality however
+      convenient it would be to promote one.
+    parameters:
+      - name: permitted_methods
+        type: string_list
+        default: [content_full]
+        description: >-
+          Which identity methods may license an identity conclusion. The paired
+          fingerprints the reuse model computes are deliberately absent: they
+          read part of a file and were built to detect change.
+
+  - id: order_holds_within_one_series
+    version: "1"
+    predicate: succession_stays_within_one_series
+    effect: constraint
+    primitive: succeeds
+    tier: entailed
+    level: file
+    statement: >-
+      Two items are ordered only where an equivalence in respect
+      {series_equivalence} already places them in one series.
+    rationale: >-
+      Order is total within a series and undefined across two, so an engine
+      ordering every indexed file against every other produces one long sequence
+      through unrelated work, and because order is transitive that sequence then
+      licenses statements about its two ends that nothing supports.
+    parameters:
+      - name: series_equivalence
+        type: string
+        default: experimental_condition
+        description: >-
+          The respect whose equivalence classes are the series. Naming it is
+          what keeps transitivity honest: the second replicate of one condition
+          does not come after the first replicate of another.
+
+  # =====================================================================
+  # CLASSIFICATIONS
+  #
+  # What one thing is, never what it relates to. A classifying rule reads
+  # one entry's own records and returns a label or abstains, which is what
+  # keeps it out of the pairwise machinery entirely and what makes most of
+  # these evaluable against records the census already produces.
+  #
+  # There is deliberately no rule reading a date out of a filename. The
+  # census already does it and fills the event clock at the naming tier,
+  # and declaring it again here would be two implementations of one
+  # property, which is the drift this project avoids elsewhere.
+  # =====================================================================
+
+  - id: file_role_from_name
+    version: "1"
+    predicate: sense_from_name_tokens
+    effect: classifies
+    tier: defeasible
+    level: file
+    statement: >-
+      A file serves the purpose its name states, where the name's free words
+      reach {minimum_senses} or more distinct senses of kind {theme_kind}.
+    rationale: >-
+      A PDF may be a manuscript, a protocol, a figure or a receipt and the
+      format says nothing about which, so the name is the only evidence short of
+      reading the content; it stays weak because a word in the middle of a
+      filename may be somebody's initials colliding with a real term.
+    parameters:
+      - name: theme_kind
+        type: string
+        default: file_role
+        description: >-
+          The axis to read. Stated rather than assumed so that the same
+          mechanism serves every axis and the difference between two rules using
+          it is visible in their sentences.
+      - name: minimum_senses
+        type: integer
+        default: 1
+        minimum: 1
+        maximum: 10
+        description: >-
+          How many distinct senses on this axis a name needs. Distinct senses,
+          never distinct spellings: two words reaching one sense is one fact
+          written twice.
+
+  - id: stage_from_name
+    version: "1"
+    predicate: sense_from_name_tokens
+    effect: classifies
+    tier: defeasible
+    level: file
+    statement: >-
+      A file sits at the pipeline stage its name states, where the name's free
+      words reach {minimum_senses} or more distinct senses of kind
+      {theme_kind}.
+    rationale: >-
+      Every field that produces data has a raw form, an intermediate form and a
+      result, and the words for those are shared across all of them, which makes
+      stage the most portable thing a filename says and the input the
+      derivation rules need most.
+    parameters:
+      - name: theme_kind
+        type: string
+        default: stage
+        description: The axis to read.
+      - name: minimum_senses
+        type: integer
+        default: 1
+        minimum: 1
+        maximum: 10
+        description: >-
+          How many distinct stage senses a name needs. One is enough because a
+          stage word in a filename is rarely accidental.
+
+  - id: technique_from_name
+    version: "1"
+    predicate: sense_from_name_tokens
+    effect: classifies
+    tier: defeasible
+    level: file
+    statement: >-
+      A file concerns the techniques its name states, where the name's free
+      words reach {minimum_senses} or more distinct senses of kind
+      {theme_kind}.
+    rationale: >-
+      Technique vocabulary is the densest domain signal a filename carries and
+      the one most likely to be abbreviated, so two distinct senses are required
+      rather than one: a single short technique abbreviation collides with
+      ordinary words far more often than a pair of them does.
+    parameters:
+      - name: theme_kind
+        type: string
+        default: technique
+        description: The axis to read.
+      - name: minimum_senses
+        type: integer
+        default: 2
+        minimum: 1
+        maximum: 10
+        description: >-
+          How many distinct technique senses a name needs. Two, because one
+          short abbreviation is weak evidence and the parameter is where that
+          judgment belongs rather than inside the matcher.
+
+  - id: raw_data_from_acquisition_format
+    version: "2"
+    predicate: class_from_format_origin
+    effect: classifies
+    tier: defeasible
+    level: file
+    statement: >-
+      A file written in one of {senses}, matched at quality
+      {minimum_match_quality} or better, in a spelling the Dictionary declares is
+      written by {written_by} (or of a sense that declares no origins), holds data
+      as an instrument produced it.
+    rationale: >-
+      An instrument's own format is the strongest single statement a filesystem
+      makes about provenance, because nothing writes one except the thing that
+      acquired the data or a converter preserving it, and this is the conclusion the
+      Dictionary does not make: it knows the format and who writes each spelling,
+      not what that implies. It reads the spelling's origin rather than a
+      vendor bucket, because images are one type and only some of their spellings
+      are an instrument's.
+    parameters:
+      - name: senses
+        type: string_list
+        default: [image_format, ephys_format, ms_format, read_format]
+        description: >-
+          The format senses that can mean acquisition. Named as senses rather than
+          as extensions, so a laboratory whose instruments write something else
+          extends the Dictionary and touches no rule.
+      - name: written_by
+        type: string_list
+        default: [instrument]
+        description: >-
+          Who must write a spelling for it to mean acquisition, where its sense
+          declares origins. An instrument writes as it acquires; software writes
+          afterwards, so a converter's format is not raw data.
+      - name: minimum_match_quality
+        type: enum
+        default: exact
+        choices: [exact, case_folded, loose]
+        description: >-
+          How firmly the extension must have matched. Exact, because a format's
+          spelling is a symbol rather than a word and stripping punctuation to
+          reach one is a guess; nM and nm differ by nine orders of magnitude for
+          the same reason.
+
+  - id: filesystem_noise_from_name
+    version: "1"
+    predicate: class_from_bound_sense
+    effect: classifies
+    tier: defeasible
+    level: file
+    statement: >-
+      An item matching one of {senses} at match quality
+      {minimum_match_quality} or better was made by a tool rather than by a
+      person and is set aside.
+    rationale: >-
+      Operating systems, editors and sync clients scatter these through every
+      data pool; naming them lets the engine set them aside once rather than
+      having every rule trip over them separately, and listing them here rather
+      than in code is what lets a user who genuinely indexes a cache say so.
+    parameters:
+      - name: senses
+        type: string_list
+        default:
+          - macos_metadata
+          - windows_metadata
+          - linux_metadata
+          - editor_backup
+          - version_control
+          - language_cache
+          - sync_artifact
+          - archive_helper
+        description: >-
+          The senses that mean nobody chose to make this file. Editable, because
+          the judgment is the rule's and not the Dictionary's: a repository
+          being indexed as a subject of study makes version-control metadata
+          data rather than noise.
+      - name: minimum_match_quality
+        type: enum
+        default: exact
+        choices: [exact, case_folded, loose]
+        description: >-
+          How firmly a word must have matched. Exact, because every surface here
+          owes its specificity to punctuation: stripped of it, the suffix a
+          partial download carries becomes the ordinary English word part, and on
+          a real tree that classified seventy-seven data shards as interrupted
+          downloads. Words fold freely and symbols must not.
+
+  - id: organising_folder_from_name
+    version: "1"
+    predicate: class_from_bound_sense
+    effect: classifies
+    tier: defeasible
+    level: folder
+    statement: >-
+      A folder whose own name states one of {senses} organizes work rather than
+      holding a unit of it.
+    rationale: >-
+      A folder called outputs is a place things were put, not an experiment, and
+      an engine treating it as one produces a second duplicate unit of work
+      beside the real one; the predecessor engine needed exactly this distinction
+      to stop an analysis subfolder becoming an experiment in its own right.
+    parameters:
+      - name: senses
+        type: string_list
+        default: [analysis, summary, export, unaffiliated, intermediate]
+        description: >-
+          The stage senses that mark a folder as organizational. A folder may be
+          both: work happens inside an analysis folder, and this says only that
+          the folder is not itself the unit.
+
+  - id: version_from_name
+    version: "1"
+    predicate: structure_from_component_kind
+    effect: classifies
+    tier: defeasible
+    level: file
+    statement: >-
+      An item whose name carries a component of kind {component_kinds} is one
+      version of something rather than the whole of it.
+    rationale: >-
+      A version marker is established by the grammar of the string rather than by
+      the Dictionary, so the reading holds in any field and in any language that
+      writes numbers, which is a far firmer footing than any rule reading a sense.
+    parameters:
+      - name: component_kinds
+        type: string_list
+        default: [version]
+        description: >-
+          The structural kinds that mark a version. A list rather than a single
+          value because a project may normalize revision markers into a kind of
+          their own.
+
+  - id: series_member_from_index
+    version: "1"
+    predicate: structure_from_component_kind
+    effect: classifies
+    tier: defeasible
+    level: file
+    statement: >-
+      An item whose name carries a component of kind {component_kinds} is one
+      member of a series rather than a thing on its own.
+    rationale: >-
+      A short label with a trailing number is a replicate, a well or a position
+      in every laboratory that has ever existed, and reading it as a labeled
+      index rather than as a word and a bare number is what lets the label say
+      which series and the number say where in it.
+    parameters:
+      - name: component_kinds
+        type: string_list
+        default: [indexed]
+        description: >-
+          The structural kinds that mark series membership. A bare number is
+          deliberately absent: it is usually an index and sometimes a
+          concentration, and promoting it here would assert the first.
+
+  - id: condition_from_quantities
+    version: "1"
+    predicate: structure_from_component_kind
+    effect: classifies
+    tier: defeasible
+    level: file
+    statement: >-
+      An item whose name carries a component of kind {component_kinds} records
+      the condition it was produced under.
+    rationale: >-
+      A quantity in a filename is almost never decorative: somebody wrote the
+      dose, the duration or the temperature because it was what distinguished
+      this file from its neighbors, and the normalizer has already reduced it to
+      a dimension and a base magnitude so that two spellings of one condition
+      compare equal.
+    parameters:
+      - name: component_kinds
+        type: string_list
+        default: [quantity]
+        description: >-
+          The structural kinds that state a condition. Compared on the
+          normalized magnitude and dimension, never on the spelling, which is
+          how forty minutes and two thousand four hundred seconds become one
+          condition without anybody being asked to type differently.
+
+  - id: placeholder_from_entry_kind
+    version: "1"
+    predicate: placeholder_from_entry_kind
+    effect: classifies
+    tier: defeasible
+    level: file
+    statement: >-
+      An item is a placeholder for content held elsewhere when it is a symbolic
+      link, or, where stub detection is {detect_stubs}, when the bytes it
+      declares number {minimum_declared_bytes} or more while it occupies none.
+    rationale: >-
+      A link and an archival stub both report a name and a size and neither holds
+      the bytes, so an engine reading them as ordinary files records a
+      comprehension failure where the honest answer is that the content is
+      elsewhere and could be fetched.
+    parameters:
+      - name: detect_stubs
+        type: boolean
+        default: true
+        description: >-
+          Whether to read a file occupying no blocks as a stub. The link half is
+          what the filesystem says and needs no setting; this half is a
+          heuristic and is separable from it.
+      - name: minimum_declared_bytes
+        type: integer
+        default: 1
+        minimum: 1
+        maximum: 1099511627776
+        description: >-
+          How much a file must claim before occupying nothing is read as a stub
+          rather than as an ordinary empty file.
+
+  - id: stage_inherited_from_folder
+    version: "1"
+    predicate: class_from_enclosing_folder
+    effect: classifies
+    tier: defeasible
+    level: file
+    statement: >-
+      A file that states no stage of its own takes the stage its enclosing
+      folder states, across at most {maximum_hops} level of containment, on axis
+      {theme_kind}.
+    rationale: >-
+      People put the distinguishing part in the filename and the shared part in
+      the folder above it, so inheriting one hop is reading the convention rather
+      than guessing; the bound is hard because containment is transitive while
+      the inference is not, and a walk two levels up hands an attribute to
+      branches nobody was looking at.
+    parameters:
+      - name: theme_kind
+        type: string
+        default: stage
+        description: The axis inherited.
+      - name: maximum_hops
+        type: integer
+        default: 1
+        minimum: 1
+        maximum: 1
+        description: >-
+          How far up the inheritance reaches. Bounded at one and bounded in the
+          declaration, because a tunable depth is an invitation to set it to
+          three and a decaying weight is the same invitation written as a curve.
+
+  - id: condition_inherited_from_folder
+    version: "1"
+    predicate: class_from_enclosing_folder
+    effect: classifies
+    tier: defeasible
+    level: file
+    statement: >-
+      A file that states no condition of its own takes the condition its
+      enclosing folder states, across at most {maximum_hops} level of
+      containment, on axis {theme_kind}.
+    rationale: >-
+      A folder named for a treatment and a dose says so once for everything
+      inside it, which is the commonest reason a file's own name looks
+      uninformative; what the containment means is supplied by the folder's organizing scheme, so this
+      stays weak until a folder's organizational scheme is established.
+    parameters:
+      - name: theme_kind
+        type: string
+        default: condition
+        description: The axis inherited.
+      - name: maximum_hops
+        type: integer
+        default: 1
+        minimum: 1
+        maximum: 1
+        description: How far up the inheritance reaches.
+
+  - id: naming_is_authored_or_emitted
+    version: "1"
+    predicate: naming_is_authored_or_emitted
+    effect: classifies
+    tier: defeasible
+    level: folder
+    statement: >-
+      A name reads as authored where it carries a term a machine would not emit,
+      and as emitted where its siblings sharing one fixed prefix and differing
+      only in a counter number {minimum_siblings} or more.
+    rationale: >-
+      Whether a person made a decision when naming something changes what every
+      other signal is worth, because a word in a chosen name is evidence about
+      intent and the same word in an emitted name is evidence about firmware;
+      a name that is neither is not half-authored, it simply carries no signal.
+    parameters:
+      - name: minimum_siblings
+        type: integer
+        default: 3
+        minimum: 2
+        maximum: 1000
+        description: >-
+          How many siblings must share a template before it reads as emitted.
+          Two files agreeing is a coincidence available in any folder.
+
+  # =====================================================================
+  # GROUPINGS
+  #
+  # Every grouping states its respect, because "these are the same"
+  # without saying in what respect is the generic relation the engine
+  # refuses to have. Each rule here says whether two things stand in a
+  # relation. Turning that into classes is the quotient (`grouping/quotient.py`).
+  # =====================================================================
+
+  - id: identical_by_content_digest
+    version: "1"
+    predicate: same_content_digest
+    effect: groups
+    primitive: identical
+    tier: entailed
+    level: file
+    statement: >-
+      Two items hold the same bytes when their {digest_algorithm} digests over
+      the whole content agree.
+    rationale: >-
+      The only substitutive relation the engine has, so everything that counts a
+      pool's real size or treats one file as a stand-in for another rests on it;
+      agreement on a full digest is a fact rather than an inference, which is
+      why this is the one grouping at the entailed level.
+    parameters:
+      - name: digest_algorithm
+        type: string
+        default: blake2b
+        description: >-
+          Which digest settles it. Recorded on the conclusion rather than assumed,
+          so that a pool hashed under one algorithm and compared under another
+          is a detectable state rather than a silent mismatch.
+
+  - id: same_observed_metadata
+    version: "1"
+    predicate: same_observed_metadata
+    effect: groups
+    primitive: equivalent
+    respect: observed_metadata
+    tier: defeasible
+    level: file
+    statement: >-
+      Two items are equivalent in respect observed metadata when they agree on
+      all of {compared_facts}.
+    rationale: >-
+      This is what a copy looks like from outside, and saying so without reading
+      a byte narrows ten thousand suspected duplicates to the few hundred worth
+      hashing; it is emphatically not identity, and keeping the two as different
+      relations is what stops a consumer forgetting to check which one it has.
+    parameters:
+      - name: compared_facts
+        type: string_list
+        default: [name, size_bytes, created_ns, modified_ns, entry_type]
+        description: >-
+          The filesystem facts that must agree. Name is compared as the
+          filesystem stores it, folded only where the filesystem is known to be
+          case-insensitive.
+
+  - id: same_experimental_condition
+    version: "1"
+    predicate: same_component_values
+    effect: groups
+    primitive: equivalent
+    specialization: same_condition_as
+    tier: defeasible
+    level: file
+    statement: >-
+      Two items are the same condition when they agree on every component of
+      kind {component_kinds} and each carries {minimum_components} or more of
+      them.
+    rationale: >-
+      The condition is what distinguishes one file from its neighbors, and
+      comparing normalized magnitudes rather than spellings is what lets two
+      people in one laboratory write the same dose differently and still reach
+      one group; the floor exists because two files naming no condition are not
+      thereby in the same condition.
+    parameters:
+      - name: component_kinds
+        type: string_list
+        default: [quantity, word]
+        description: >-
+          Which components carry the condition. Quantities for the dose and the
+          duration, words for the agent and the status term beside them.
+      - name: minimum_components
+        type: integer
+        default: 1
+        minimum: 1
+        maximum: 20
+        description: >-
+          How many such components each side must carry. Without a floor the
+          empty key becomes the largest group in the pool, and it would hold
+          every file whose name says nothing.
+
+  - id: same_acquisition_event
+    version: "1"
+    predicate: same_component_values
+    effect: groups
+    primitive: equivalent
+    specialization: same_acquisition_as
+    tier: defeasible
+    level: file
+    statement: >-
+      Two items record one acquisition when they agree on every component of
+      kind {component_kinds} and each carries {minimum_components} or more of
+      them.
+    rationale: >-
+      One acquisition commonly produces several files at once, in different
+      channels or formats, sharing an index the instrument assigned; grouping
+      them is what lets the engine say that a channel is missing rather than
+      that a file is unexplained.
+    parameters:
+      - name: component_kinds
+        type: string_list
+        default: [indexed]
+        description: >-
+          Which components identify the acquisition. The indexed label carries
+          both which series and which position, which is exactly the identity an
+          acquisition needs.
+      - name: minimum_components
+        type: integer
+        default: 1
+        minimum: 1
+        maximum: 20
+        description: How many such components each side must carry.
+
+  - id: same_name_family
+    version: "1"
+    predicate: same_component_values
+    effect: groups
+    primitive: equivalent
+    respect: name_family
+    tier: defeasible
+    level: file
+    statement: >-
+      Two items share a name family when they agree on every component of kind
+      {component_kinds} and each carries {minimum_components} or more of them.
+    rationale: >-
+      The stem that survives stripping markers, stages and extensions is what a
+      projection and its acquisition have in common, and it is the index that
+      keeps the pairs proposed for provenance to a few, rather than every pair.
+    parameters:
+      - name: component_kinds
+        type: string_list
+        default: [word]
+        description: >-
+          Which components form the family. Words only: a version marker, an
+          index or a stage word is exactly what a family must survive.
+      - name: minimum_components
+        type: integer
+        default: 2
+        minimum: 1
+        maximum: 20
+        description: >-
+          How many words must agree. Two rather than one, because a single
+          shared common word puts half a pool in one family and a family that
+          large stops bounding anything.
+
+  - id: same_version_family
+    version: "1"
+    predicate: same_component_values
+    effect: groups
+    primitive: equivalent
+    respect: version_family
+    tier: defeasible
+    level: folder
+    statement: >-
+      Two folders belong to one version family when they agree on every
+      component of kind {component_kinds} and each carries {minimum_components}
+      or more of them.
+    rationale: >-
+      A folder whose name matches a sibling's except for a version marker is the
+      same work done again, which is the shape behind every analysis rerun; the
+      family is what a version series is ordered within, and ordering across two
+      families would sequence unrelated work.
+    parameters:
+      - name: component_kinds
+        type: string_list
+        default: [word]
+        description: >-
+          Which components form the family. The version marker is what the two
+          differ in, so it is what the family must exclude.
+      - name: minimum_components
+        type: integer
+        default: 1
+        minimum: 1
+        maximum: 20
+        description: How many components must agree.
+
+  - id: same_column_schema
+    version: "1"
+    predicate: same_extracted_shape
+    effect: groups
+    primitive: equivalent
+    specialization: same_schema_as
+    tier: defeasible
+    level: file
+    statement: >-
+      Two tables share a column layout when their normalized column names and guessed
+      types agree and each table's column count reaches {minimum_columns}.
+    rationale: >-
+      Structure is independent of every naming convention, which makes it the
+      one respect worth trusting across a corpus boundary and the one that will
+      still mean something on a pool whose vocabulary the Dictionary has never
+      seen; two tables sharing a column layout were almost always produced by one
+      process.
+    parameters:
+      - name: minimum_columns
+        type: integer
+        default: 2
+        minimum: 1
+        maximum: 1000
+        description: >-
+          How many columns a table needs before its column layout is treated as a
+          signal. A single-column table matches many tables by accident.
+
+  - id: same_array_shape
+    version: "1"
+    predicate: same_extracted_shape
+    effect: groups
+    primitive: equivalent
+    specialization: same_shape_as
+    tier: defeasible
+    level: file
+    statement: >-
+      Two files share an array shape when their element types agree and their
+      agreeing dimension count reaches {minimum_dimensions}.
+    rationale: >-
+      A shared shape and element type is strong evidence of a shared acquisition
+      setting or a shared processing step, and it is the only grouping in the
+      engine that survives a file being renamed by somebody who had no idea what
+      it was.
+    parameters:
+      - name: minimum_dimensions
+        type: integer
+        default: 2
+        minimum: 1
+        maximum: 16
+        description: >-
+          How many dimensions must agree. Two, because agreement on a single
+          length is a coincidence rather than a shape.
+
+  # =====================================================================
+  # PROPOSALS
+  #
+  # A proposing rule contributes positive support for an edge, so what it
+  # is allowed to score on decides whether the engine's conclusions mean
+  # anything. None of these scores on a window or a burst: two unrelated
+  # projects running in parallel overlap perfectly, and every laboratory
+  # has months where three unconnected efforts were active. The loader
+  # refuses the violation rather than leaving it to review.
+  # =====================================================================
+
+  - id: derives_from_declared_reference
+    version: "1"
+    predicate: derives_from_declared_reference
+    effect: proposes
+    primitive: derives
+    specialization: generated_by
+    tier: defeasible
+    level: file
+    statement: >-
+      A file is proposed as produced by a process where something of kind
+      {describing_roles} names both it and a possible input, and the described
+      steps separating the two number {maximum_separation} or fewer.
+    rationale: >-
+      This is the only provenance evidence the engine has that is testimony
+      rather than reconstruction, written at the time by the thing that did the
+      work, and it is worth more than everything inferred from appearances; it
+      still proposes rather than asserts, because a script states its intent and
+      not its outcome.
+    parameters:
+      - name: describing_roles
+        type: string_list
+        default: [protocol, metadata, notes]
+        description: >-
+          What kind of file counts as an account of a process. A configuration
+          file listing twenty inputs derives nothing from any of them, so this
+          is narrow: co-mention is a reference and only a described process
+          makes it a derivation.
+      - name: maximum_separation
+        type: integer
+        default: 1
+        minimum: 1
+        maximum: 8
+        description: >-
+          How many described steps may lie between the two. One means the
+          account names them as direct input and direct output.
+
+  - id: projection_derives_from_acquisition
+    version: "1"
+    predicate: derives_from_stage_transition
+    effect: proposes
+    primitive: derives
+    specialization: processed_from
+    tier: defeasible
+    level: file
+    statement: >-
+      A file at a later stage is proposed as processed from one at an earlier
+      stage, where the pair appears in {stage_transitions} and they already
+      share a name family.
+    rationale: >-
+      The stage pair supplies the direction, which a name family cannot: a
+      family says two files are related and says nothing about which produced
+      which, and reversing a derivation is not a weaker conclusion but a wrong one.
+    parameters:
+      - name: stage_transitions
+        type: mapping
+        default:
+          raw: processed
+          acquisition: processed
+          processed: analysis
+          analysis: quantification
+          quantification: summary
+        description: >-
+          Which stage may follow which. The stage words are the Dictionary's and
+          domain-neutral; which follows which is an interpretation of how a kind
+          of work flows and is exactly what differs between two fields that
+          share every word. A pair on one rung is absent, which is what refuses
+          two siblings from a common source being read as a chain.
+
+  - id: figure_renders_from_tabular_source
+    version: "1"
+    predicate: derives_from_stage_transition
+    effect: proposes
+    primitive: derives
+    specialization: rendered_from
+    tier: defeasible
+    level: file
+    statement: >-
+      A figure is proposed as rendered from a table, where the pair appears in
+      {stage_transitions} and they already share a name family.
+    rationale: >-
+      A plot and the numbers behind it are the pair a reader most often wants to
+      walk between, and they are also the pair least likely to share a stage
+      word, because a figure is usually named for what it shows rather than for
+      what made it.
+    parameters:
+      - name: stage_transitions
+        type: mapping
+        # The default has no `analysis` to `figure` transition. Earlier versions of this rule read
+        # a narrow `analysis_output` stage, which the Dictionary does not have. `analysis` is a far
+        # larger class, and almost anything can be plotted, so the path would propose a figure
+        # derived from every table in every analysis folder. That is the sweep this parameter's own
+        # description warns against, and it would spend a person's attention on candidates nobody
+        # wants.
+        default:
+          quantification: figure
+          summary: figure
+        description: >-
+          Which stage a rendering may come from. Narrow on purpose: almost
+          anything can be plotted, and a wide list would propose a figure
+          derived from every table in its folder.
+
+  - id: converted_from_sibling_format
+    version: "1"
+    predicate: derives_from_stage_transition
+    effect: proposes
+    primitive: derives
+    specialization: converted_from
+    tier: defeasible
+    level: file
+    statement: >-
+      A file is proposed as converted from another holding the same content in a
+      different format, where the pair appears in {stage_transitions} and they
+      already share a name family.
+    rationale: >-
+      Format conversion is the one derivation that changes nothing but the
+      container, so an open format beside a proprietary one with the same stem
+      is almost always the same data written twice, and recording it stops the
+      pair being reported as a duplication problem.
+    parameters:
+      - name: stage_transitions
+        type: mapping
+        default:
+          acquisition: raw
+          raw: processed
+        description: >-
+          Which stage a conversion may come from. Conversion preserves content,
+          so the pair sits close on the ladder or on one rung of it.
+
+  - id: summary_derives_from_its_group
+    version: "1"
+    predicate: derives_from_aggregation
+    effect: proposes
+    primitive: derives
+    specialization: summarized_from
+    tier: defeasible
+    level: group
+    statement: >-
+      A file is proposed as summarized from the members of the group it sits in,
+      where that group's members, equivalent in respect {member_respect}, number
+      {minimum_members} or more.
+    rationale: >-
+      One file made from many is a different shape from one file made from one,
+      and a rule scoring pairs would either bury the real relation in twenty weak
+      edges or assert that a summary came from whichever single input scored
+      highest.
+    parameters:
+      - name: member_respect
+        type: string
+        default: experimental_condition
+        description: >-
+          The respect whose equivalence class is the member set. An equivalence
+          rather than a folder walk, because every file below here reaches an
+          arbitrary distance and would make a top-level report derive from the
+          whole pool.
+      - name: minimum_members
+        type: integer
+        default: 3
+        minimum: 2
+        maximum: 10000
+        description: >-
+          How many members make an aggregation. Two is a pair, and a pair is
+          already served by the rules that propose one-to-one derivations.
+
+  - id: replicates_by_design
+    version: "1"
+    predicate: equivalent_by_multi_signal_design
+    effect: proposes
+    primitive: equivalent
+    specialization: replicate_of
+    tier: defeasible
+    level: group
+    statement: >-
+      Two units of work are proposed as replicates when they agree on every
+      component of kind {agreeing_kinds}, the independent families of evidence
+      that agree number {minimum_support} or more, and an explicit repeat marker
+      is required: {requires_repeat_marker}.
+    rationale: >-
+      Two runs of one design is the conclusion users care about most, because it is
+      what licenses asking whether the results agree, and requiring independent
+      families of evidence stops one shared name counting three times through
+      three views of itself.
+    parameters:
+      - name: agreeing_kinds
+        type: string_list
+        default: [quantity, word]
+        description: >-
+          Which components must match for the designs to be the same. A
+          replicate repeats the condition exactly; anything that differs makes
+          it a variant instead.
+      - name: minimum_support
+        type: integer
+        default: 3
+        minimum: 1
+        maximum: 8
+        description: >-
+          How many distinct support families must agree. The parameter a sweep
+          would vary, and the curve it produces reports coverage against
+          conflict rather than a single objective, because a rule that never
+          fires has a perfect failure rate.
+      - name: requires_repeat_marker
+        type: boolean
+        default: false
+        description: >-
+          Whether an explicit repeat marker must be present. False by default
+          because most replicates are distinguished by date rather than by a
+          marker, and true is the setting for a corpus where the convention
+          holds.
+
+  - id: varies_in_one_respect
+    version: "1"
+    predicate: equivalent_by_multi_signal_design
+    effect: proposes
+    primitive: equivalent
+    specialization: variant_of
+    tier: defeasible
+    level: group
+    statement: >-
+      Two units of work are proposed as variants when they agree on every
+      component of kind {agreeing_kinds}, differ only in respect
+      {varying_respect}, and the independent families of evidence that agree
+      number {minimum_support} or more.
+    rationale: >-
+      A variant answers what changing one thing did, so the dimension that
+      differs has to be named rather than counted: differs in one thing is not a
+      conclusion anybody can check, and differs in respect concentration while
+      agreeing on everything else is.
+    parameters:
+      - name: agreeing_kinds
+        type: string_list
+        default: [word]
+        description: >-
+          Which components must match. Narrower than for a replicate, because a
+          variant is permitted to differ on the axis it varies.
+      - name: varying_respect
+        type: string
+        default: experimental_condition
+        description: >-
+          The dimension allowed to differ. Named, because the answer to what
+          changing this did has to say what was changed.
+      - name: minimum_support
+        type: integer
+        default: 2
+        minimum: 1
+        maximum: 8
+        description: >-
+          How many distinct support families must agree. Lower than for a
+          replicate: a variant claims less, so it needs less.
+
+  - id: succeeds_by_version_token
+    version: "1"
+    predicate: succeeds_by_ordered_token
+    effect: proposes
+    primitive: succeeds
+    specialization: version_of
+    tier: defeasible
+    level: folder
+    statement: >-
+      One folder follows another in a version series when both carry a component
+      of kind {ordering_kind}, the values compare numerically, and both belong
+      to one family in respect {series_equivalence}.
+    rationale: >-
+      The word supplies the order and the engine supplies nothing, which makes
+      this the one proposing rule with no evidence to weigh; the comparison must
+      be numeric because sorted as text, version ten precedes version nine and
+      the error appears only on the tenth iteration of something.
+    parameters:
+      - name: ordering_kind
+        type: string
+        default: version
+        description: >-
+          The component kind that carries the order. Where its value does not
+          parse as a number the rule abstains rather than falling back to text
+          order, because a wrong order looks exactly like a right one.
+      - name: series_equivalence
+        type: string
+        default: version_family
+        description: >-
+          The respect whose classes are the series. Two version markers in
+          unrelated folders are not comparable at all.
+
+  - id: succeeds_by_series_index
+    version: "1"
+    predicate: succeeds_by_ordered_token
+    effect: proposes
+    primitive: succeeds
+    tier: defeasible
+    level: file
+    statement: >-
+      One item follows another in a series when both carry a component of kind
+      {ordering_kind}, the values compare numerically, and both belong to one
+      series in respect {series_equivalence}.
+    rationale: >-
+      An index is somebody counting, and the count is the order; recording it as
+      succession rather than as derivation matters because the second replicate
+      is not made from the first, and putting that in the provenance chain would
+      corrupt the thing users trust most.
+    parameters:
+      - name: ordering_kind
+        type: string
+        default: indexed
+        description: >-
+          The component kind that carries the order. The indexed label holds
+          both which series and which position, so the label is checked before
+          the number is compared.
+      - name: series_equivalence
+        type: string
+        default: experimental_condition
+        description: The respect whose classes are the series.
+
+  - id: references_a_declared_output
+    version: "1"
+    predicate: references_by_declared_path
+    effect: proposes
+    primitive: references
+    specialization: declares_output
+    tier: defeasible
+    level: file
+    statement: >-
+      A file references another when it mentions a path that resolves to it, at
+      resolution {minimum_resolution} or better.
+    rationale: >-
+      Recording a mention separately from any reading of it is what lets the same
+      observation later support a derivation, a configuration relation or nothing
+      at all; a mentioned path naming a file absent from the pool is evidence the
+      pool is incomplete, which is more useful than the edge would have been.
+    parameters:
+      - name: minimum_resolution
+        type: enum
+        default: unique_suffix
+        choices: [exact, unique_suffix, unique_basename, ambiguous]
+        description: >-
+          How firmly a mentioned path must resolve. An ambiguous resolution
+          names several possible files and settles none, so admitting it would
+          create an edge to whichever of them was visited first.
+
+  - id: concerns_a_shared_technique
+    version: "1"
+    predicate: concerns_by_found_sense
+    effect: proposes
+    primitive: concerns
+    specialization: about_technique
+    tier: defeasible
+    level: file
+    statement: >-
+      Two items concern one technique when the distinct senses of kind
+      {theme_kind} they share number {minimum_shared_senses} or more.
+    rationale: >-
+      Sharing a subject is real and weak, and it is never a grouping: the
+      relation is symmetric and never transitive, so composing two hops would
+      connect every file in the pool through four or five intermediate subjects.
+    parameters:
+      - name: theme_kind
+        type: string
+        default: technique
+        description: >-
+          The axis the sharing is on. Named, so that sharing a format never
+          compounds with sharing a subject.
+      - name: minimum_shared_senses
+        type: integer
+        default: 2
+        minimum: 1
+        maximum: 10
+        description: >-
+          How many distinct senses must be shared. Two, because both naming one
+          common technique is almost no evidence and both naming three is
+          something real.
+
+  # =====================================================================
+  # FLAGS
+  #
+  # A flagging rule concludes nothing. It says look at this, which is a
+  # different speech act from this is that, and keeping them apart is what
+  # stops a review queue filling with assertions nobody made.
+  #
+  # Four of these raise facts about the engine rather than about the data.
+  # Those are the ones that keep the rest honest: a rule starved of inputs
+  # and a rule that is wrong look identical in any report that does not
+  # separate them.
+  # =====================================================================
+
+  - id: repudiated_by_name
+    version: "1"
+    predicate: authored_name_doubt
+    effect: flags
+    tier: defeasible
+    level: folder
+    statement: >-
+      An item is raised as repudiated when its own name carries
+      {minimum_terms} or more of {senses}.
+    rationale: >-
+      Somebody writing do not use on a folder is the most direct statement about
+      provenance anybody in this system will ever make, and it is a different
+      speech act from losing track of versions: one says the contents are wrong
+      and the other says the naming got away from them.
+    parameters:
+      - name: senses
+        type: string_list
+        default: [do_not_use, ignore, deprecated, delete, wrong, broken, failed, contaminated]
+        description: >-
+          The terms that repudiate rather than merely doubt. Terms the lexicon
+          marks as ordinary vocabulary somewhere are absent: a file about a test
+          statistic is not a test file, and a control is not doubtful.
+      - name: minimum_terms
+        type: integer
+        default: 1
+        minimum: 1
+        maximum: 10
+        description: >-
+          How many such terms a name needs. One, because nobody writes any of
+          these by accident.
+
+  - id: group_incomplete_against_workflow
+    version: "1"
+    predicate: group_incomplete_against_workflow
+    effect: flags
+    tier: defeasible
+    level: group
+    statement: >-
+      A group is raised as incomplete when it holds no member at one of
+      {required_stages}, and the stage it is missing is named.
+    rationale: >-
+      An absence conclusion is only as good as the definition of what should have
+      been there, so the expected set is declared and never induced; naming what
+      is missing tells somebody where to look, where a percentage tells them
+      nothing they can act on and invites a threshold.
+    parameters:
+      - name: required_stages
+        type: string_list
+        default: [raw, processed, analysis]
+        description: >-
+          The stages every group is expected to hold. Entirely the user's
+          definition: a field where acquisition and analysis are separate
+          efforts will remove one, and the engine has no opinion.
+
+  - id: replication_below_expected
+    version: "1"
+    predicate: group_below_expected_size
+    effect: flags
+    tier: defeasible
+    level: group
+    statement: >-
+      A group is raised when its members, equivalent in respect
+      {member_respect}, number fewer than {expected_members}.
+    rationale: >-
+      What counts as enough repetition is a question about a field's conventions
+      and sometimes about one reviewer's opinion, so the number is the user's and
+      the engine holds none of its own; this is a prompt and not a gate, because
+      a pilot with one replicate is a real thing.
+    parameters:
+      - name: expected_members
+        type: integer
+        default: 3
+        minimum: 1
+        maximum: 1000
+        description: >-
+          How many members are expected. No defensible default exists, and three
+          is a convention in several fields rather than a conclusion by the engine.
+      - name: member_respect
+        type: string
+        default: experimental_condition
+        description: >-
+          The respect the members are equivalent in. Fewer members is a
+          different finding from members missing a stage, which is why the two
+          are separate rules rather than one figure.
+
+  - id: duplicate_candidate_unverified
+    version: "1"
+    predicate: unverified_substitution_candidate
+    effect: flags
+    tier: defeasible
+    level: file
+    statement: >-
+      A group equivalent in respect {member_respect} is raised for verification
+      when its members whose content has never been compared number
+      {minimum_members} or more, unless every member sits under a folder
+      classified as organizing, which is ignored: {ignore_organising_folders}.
+    rationale: >-
+      Metadata agreement produces plausible copies and only a digest settles it,
+      so the useful output is a short list of comparisons worth making rather
+      than a verdict; a pool where one analysis ran three times holds three
+      copies of many outputs by design, and reporting those as waste buries the
+      real finding.
+    parameters:
+      - name: member_respect
+        type: string
+        default: observed_metadata
+        description: The respect the unverified group is equivalent in.
+      - name: minimum_members
+        type: integer
+        default: 2
+        minimum: 2
+        maximum: 10000
+        description: How many members make the comparison worth raising.
+      - name: ignore_organising_folders
+        type: boolean
+        default: true
+        description: >-
+          Whether copies inside folders classified as organizing are treated as
+          expected rather than raised. An expected repetition is not a
+          duplicate, and the distinction is what keeps this list short enough to
+          read.
+
+  - id: clocks_disagree
+    version: "1"
+    predicate: readings_conflict
+    effect: flags
+    tier: defeasible
+    level: file
+    statement: >-
+      An item is raised when two readings of {reading} at one level disagree by
+      more than {tolerance_seconds} seconds.
+    rationale: >-
+      The engine has already done the right thing by abstaining and abstention is
+      invisible, so this is what makes it visible; a file named in March whose
+      document was made in January is a real event somebody can explain, and it
+      is only visible because both readings were kept.
+    parameters:
+      - name: reading
+        type: string
+        default: event_time
+        description: >-
+          Which reading is compared. Only readings at one level are compared: a
+          better level displacing a worse one is the ladder working rather than a
+          conflict.
+      - name: tolerance_seconds
+        type: duration
+        default: 86400
+        minimum: 0
+        maximum: 31536000
+        description: >-
+          How far two readings may differ before the disagreement is raised. A
+          day, because a clock short of a day abstains upstream rather than
+          asserting a time nobody wrote.
+
+  - id: binding_is_ambiguous
+    version: "1"
+    predicate: readings_conflict
+    effect: flags
+    tier: defeasible
+    level: file
+    statement: >-
+      An item is raised when a reading of {reading} found
+      {minimum_alternatives} or more senses standing equal with nothing to
+      separate them.
+    rationale: >-
+      The Dictionary holding a word twice is a fact a person can act on, either
+      by declaring which sense applies in their project or by dropping the weaker
+      surface, and recording it as the same absence as a word nobody has heard
+      of throws away the one piece of information that distinguishes them.
+    parameters:
+      - name: reading
+        type: string
+        default: dictionary_binding
+        description: Which reading is compared.
+      - name: minimum_alternatives
+        type: integer
+        default: 2
+        minimum: 2
+        maximum: 100
+        description: >-
+          How many senses must stand equal. Two is the minimum a conflict can
+          have, and raising it hides exactly the cases that are easiest to fix.
+
+  - id: comprehension_failure_is_concentrated
+    version: "2"
+    predicate: failure_concentrated_in_scope
+    effect: flags
+    tier: defeasible
+    level: folder
+    statement: >-
+      A folder is raised when its items failing with class {failure_class}
+      number {minimum_failures} or more and its rate exceeds the pool's by a
+      factor of {concentration_factor}, or when a folder in it could not be
+      entered at all, whose failure is total whatever it held.
+    rationale: >-
+      A rule failing constantly in a folder whose failures are almost all
+      comprehension is being starved of inputs rather than being wrong, and
+      loosening it would compensate for missing data by degrading something
+      correct, which is the commonest way rule tuning makes a system worse.
+    parameters:
+      - name: failure_class
+        type: enum
+        default: comprehension
+        choices: [access, comprehension, interpretation]
+        description: >-
+          Which class concentrates. The class names the remedy: comprehension
+          sends somebody to an extractor or the Dictionary and never to a rule.
+      - name: minimum_failures
+        type: integer
+        default: 10
+        minimum: 1
+        maximum: 100000
+        description: >-
+          How many failures before a folder is worth raising at all. A floor
+          under the ratio, so that two failures out of three do not outrank two
+          hundred out of a thousand.
+      - name: concentration_factor
+        type: real
+        default: 5.0
+        minimum: 1.0
+        maximum: 1000.0
+        description: >-
+          How far above the pool's own rate the folder must sit. Comparing
+          against the pool rather than against a fixed rate is what turns a long
+          list into a short one.
+
+  - id: access_failure_is_concentrated
+    version: "2"
+    predicate: failure_concentrated_in_scope
+    effect: flags
+    tier: defeasible
+    level: folder
+    statement: >-
+      A folder is raised when its items failing with class {failure_class}
+      number {minimum_failures} or more and its rate exceeds the pool's by a
+      factor of {concentration_factor}, or when a folder in it could not be
+      entered at all, whose failure is total whatever it held.
+    rationale: >-
+      A folder failing entirely on access is a mount that is not mounted or a
+      permission nobody granted, which is one finding rather than a hundred and
+      is fixed in the environment; it must never reach a rule, and separating it
+      from comprehension at the point of reporting is what guarantees that.
+    parameters:
+      - name: failure_class
+        type: enum
+        default: access
+        choices: [access, comprehension, interpretation]
+        description: Which class concentrates.
+      - name: minimum_failures
+        type: integer
+        default: 5
+        minimum: 1
+        maximum: 100000
+        description: >-
+          How many failures before a folder is worth raising. Lower than for
+          comprehension, because an access failure is rarely isolated and never
+          the file's fault.
+      - name: concentration_factor
+        type: real
+        default: 3.0
+        minimum: 1.0
+        maximum: 1000.0
+        description: How far above the pool's own rate the folder must sit.
+
+  - id: vocabulary_unread_in_folder
+    version: "1"
+    predicate: vocabulary_unread_in_scope
+    effect: flags
+    tier: defeasible
+    level: folder
+    statement: >-
+      A folder is raised when the share of its occurrences counted over
+      {denominator} that reached no sense exceeds {maximum_unbound_share}, and
+      those occurrences number {minimum_occurrences} or more.
+    rationale: >-
+      A pool-wide coverage figure is a number nobody can act on, and the same
+      figure per folder points at the two folders holding a vocabulary nobody has
+      taught the engine, which is where an hour of a person's attention buys the
+      most; it is a discovery surface and not a defect report.
+    parameters:
+      - name: denominator
+        type: enum
+        default: word_occurrences
+        choices: [word_occurrences, all_kinds]
+        description: >-
+          What the share is computed over. Counting every kind also counts
+          dates, numbers and versions, which are structurally understood while
+          intentionally lacking a match, so a folder of well-dated files would
+          read as illegible.
+      - name: maximum_unbound_share
+        type: real
+        default: 0.8
+        minimum: 0.0
+        maximum: 1.0
+        description: >-
+          The share above which a folder is raised. High, because an unbound
+          word is the normal state of any corpus the shipped Dictionary has
+          never seen and the interesting case is a folder that is almost
+          entirely unreadable.
+      - name: minimum_occurrences
+        type: integer
+        default: 20
+        minimum: 1
+        maximum: 1000000
+        description: >-
+          How many occurrences a folder needs before its share means anything.
+          Four unknown words out of five is not a finding.

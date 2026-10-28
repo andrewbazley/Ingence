@@ -1,0 +1,112 @@
+/* The Overview, the quick checks and Checks (overview.js). One column at a readable measure. The
+   tokens are app.css's, so the dark scheme follows. Nothing moves where a person asked for less
+   motion. */
+
+.ov-page, .ck-page { display: grid; gap: 14px; max-width: 880px; }
+.ov-page h2, .ck-page h2 { margin: 0; }
+.ov-page h3, .ck-page h3 { margin: 0 0 6px; font-size: 15px; }
+.ov-page h4 { margin: 6px 0 2px; font-size: 13px; color: var(--ink-soft); }
+.ov-title:focus, .ck-title:focus, #all-assumptions:focus { outline: none; }
+
+/* 1. Ask: the large box. */
+.ov-ask { display: flex; gap: 8px; align-items: stretch; flex-wrap: wrap; }
+.ov-ask-input { flex: 1 1 320px; min-width: 0; font: inherit; font-size: 17px; padding: 10px 14px;
+  border: 1px solid var(--line); border-radius: 8px; background: var(--panel); color: var(--ink); }
+.ov-ask .answer { justify-content: center; }
+
+/* 2. The goals' answer cards lead. */
+.ov-goals { display: grid; gap: 10px; }
+.ov-goal, .ov-goal-panel { border: 1px solid var(--accent); border-radius: 8px; background: var(--panel);
+  padding: 12px 16px; }
+.ov-goal-panel { margin: 0 0 12px; }
+.ov-goal h3, .ov-goal-panel h3 { margin: 0 0 4px; }
+.ov-goal-line { margin: 0 0 4px; font-size: 14px; }
+.ov-tier ul { margin: 0 0 4px; padding-left: 18px; font-size: 13px; }
+.ov-goal-panel h4 { margin: 6px 0 2px; font-size: 13px; color: var(--ink-soft); }
+.ov-goal-panel p { margin: 0 0 4px; }
+.ov-goal p:last-child { margin: 8px 0 0; }
+
+/* 3. The sentence. */
+.ov-sentence { margin: 0; font-size: 16px; line-height: 1.45; }
+
+/* The parts beneath, each a quiet box. */
+.ov-part { border-top: 1px solid var(--line); padding-top: 10px; }
+.ov-part p { margin: 0 0 6px; font-size: 14px; }
+
+/* 4. The areas. */
+.ov-areas { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font-size: 14px; }
+.ov-kind { font-family: var(--mono); font-size: 12px; padding: 1px 6px; border: 1px solid var(--line);
+  border-radius: 4px; }
+.ov-assumed { font-size: 12px; color: var(--later); }
+.ov-area select { font: inherit; font-size: 13px; margin-left: 4px; }
+.ov-said { font-size: 12.5px; color: var(--ink-soft); }
+
+/* 5. The completeness bar. */
+.ov-meter { height: 10px; max-width: 420px; border-radius: 5px; background: var(--code-bg);
+  border: 1px solid var(--line); overflow: hidden; margin: 2px 0 8px; }
+.ov-meter-fill { display: block; height: 100%; background: var(--acquisition); }
+
+/* 7. The themes. */
+.ov-themes { display: flex; flex-wrap: wrap; gap: 6px; }
+
+/* 8. What Ingence assumed, and Checks' lists of it. */
+.ov-assumptions { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.ov-assumption p { margin: 0 0 4px; }
+.ov-assumption-text { font-size: 14px; }
+.ov-examples { margin: 0 0 4px; padding-left: 18px; font-size: 12px; }
+.ov-examples code { word-break: break-all; }
+.ov-line-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+button.ov-example { text-align: left; font-size: 12px; min-height: 24px; padding: 3px 0; }
+button.ov-example[aria-expanded="true"] code { background: var(--accent-soft); }
+.ov-inspect { border: 1px solid var(--line); border-radius: 8px; background: var(--panel); padding: 8px 12px;
+  margin: 4px 0 6px; max-height: 420px; overflow: auto; font-size: 13px; }
+.ov-kind-group { margin: 0 0 10px; }
+.ck-page h4.ov-kind-heading { margin: 10px 0 6px; font-size: 13px; color: var(--ink-soft); }
+.ov-rejected .ov-assumption-text { color: var(--ink-soft); }
+.ov-rejected .ov-said { color: var(--person); font-weight: 600; }
+
+/* 9. The checks, as a short list. */
+.ov-check-list { margin: 0; padding-left: 20px; font-size: 14px; }
+.ov-check-list li { margin: 0 0 4px; }
+.ov-check-list button.link { text-align: left; }
+
+/* 10. The job, with Stop. */
+.ov-job { border: 1px solid var(--accent); border-radius: 8px; padding: 8px 12px; background: var(--accent-soft); }
+.ov-job-line { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 0; }
+
+/* A check, one at a time: the quick checks before the Overview, and the card of Checks. */
+.ck-card { border: 1px solid var(--line); border-radius: 10px; background: var(--panel); padding: 16px 18px;
+  max-width: 760px; display: grid; gap: 8px; }
+.ck-quick { border-color: var(--accent); }
+.ck-card .eyebrow { margin: 0; }
+.ck-title { margin: 0; font-size: 19px; text-transform: none; letter-spacing: normal; color: var(--ink); }
+.ck-text { margin: 0; font-size: 14px; }
+.ck-guess { margin: 0; font-size: 15px; }
+.ck-none strong { color: var(--later); }
+.ck-actions, .ck-options { display: flex; flex-wrap: wrap; gap: 8px; }
+.ck-actions[hidden], .ck-options[hidden] { display: none; }
+.ck-options .ck-current { border-color: var(--accent); }
+.ck-said { margin: 0; font-size: 13px; color: var(--person); }
+.ck-said:empty { display: none; }
+.ck-note, .ck-settles { margin: 0; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .ck-card { animation: ck-arrive 160ms ease-out; }
+  @keyframes ck-arrive { from { opacity: 0.4; } to { opacity: 1; } }
+}
+
+/* The Ask view: the question above the results. */
+.ask-question { text-transform: none; letter-spacing: normal; color: var(--ink); font-size: 16px; }
+
+/* A pressed button keeps the focus while it is held (aria-disabled), and looks it. */
+.answer[aria-disabled="true"] { opacity: 0.6; cursor: default; }
+
+/* A goal's experiment opens its story under it (Experiments' goal panel). */
+.ov-goal-open { text-align: left; }
+.ov-goal-story { margin: 6px 0 10px; }
+
+/* The rule's full statement, behind Why under an assumption's one sentence. */
+.ov-why { margin: 0.1rem 0 0.3rem; }
+.ov-why summary { cursor: pointer; color: var(--muted, inherit); font-size: 0.9em; }
+.ov-why p { margin: 0.25rem 0 0; }
+.ov-check-list li[data-no-guess] { margin-bottom: 0.6rem; }

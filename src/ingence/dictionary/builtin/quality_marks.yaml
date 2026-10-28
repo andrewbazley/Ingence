@@ -1,0 +1,25 @@
+# Words a person writes to say a piece of work came out well.
+#
+# The negative lexicon is the other half of the quality kind: words signalling doubt. This section
+# holds what the doubt words cannot say, which is the opposite mark. It is kept in a section of its
+# own on purpose. The doubt rules count only the terms they name, and the byte scan reads only the
+# sections a setting names. So a word here raises nothing and is looked for in no file's content.
+# It is read from a folder's own name, where a person put it, and search ranks a unit carrying one
+# above an otherwise equal unit.
+#
+# `mark: good` records what the name says and no more. Ingence never concludes that an analysis is
+# good. It can say that a person wrote `good` in the folder's name. Deleting this file removes the
+# marks and nothing else.
+section: quality_marks
+theme_kind: quality
+origin: builtin
+summary: Words a person writes to mark work as having come out well; read from names only.
+
+entries:
+  # `negated_by`: a word standing directly before the mark cancels it (`not good`, `no good`). "no"
+  # is quoted, because YAML reads an unquoted no as false.
+  - {term: good, canonical: marked good, surfaces: [good], mark: good, negated_by: [not, "no"]}
+  # The other direction is a mark and never an exclusion. A person writing that the cells are sick
+  # flags the work's quality, and the mark is never a reason to leave data out. The mark is read as
+  # `good` is. Nothing leaves a file out for it, and the doubt rules do not count it.
+  - {term: looks_unwell, canonical: marked unwell, surfaces: [sick, unhealthy, unwell], mark: poor, negated_by: [not, "no"]}

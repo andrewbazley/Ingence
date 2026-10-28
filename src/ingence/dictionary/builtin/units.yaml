@@ -1,0 +1,187 @@
+# Units and dimensions.
+#
+# Two consumers read this file. The Dictionary learns that "nM" denotes a
+# concentration; the normaliser learns that it is 1e-9 of the base unit, so that
+# "500nM", "500 nM" and "0.5 uM" reduce to one comparable quantity. Keeping both
+# in one file means a unit cannot be known to one and unknown to the other.
+#
+# `factor` converts to the dimension's base unit, named in `base`. Where a unit
+# is not a simple multiple, `offset` applies after scaling, which is what
+# temperature needs and nothing else does.
+#
+# Exhaustiveness is free here. An entry that never fires costs a few bytes and
+# is never seen; an entry that is missing costs a quantity nobody can compare.
+section: units
+theme_kind: unit
+origin: builtin
+summary: SI and common non-SI units, with the conversions that make them comparable.
+
+entries:
+  # -- length ---------------------------------------------------------------
+  - {term: metre, surfaces: [m, metre, metres, meter, meters], dimension: length, base: metre, factor: 1.0, ucum: m}
+  - {term: kilometre, surfaces: [km, kilometre, kilometer], dimension: length, base: metre, factor: 1000.0, ucum: km}
+  - {term: centimetre, surfaces: [cm, centimetre, centimeter], dimension: length, base: metre, factor: 0.01, ucum: cm}
+  - {term: millimetre, surfaces: [mm, millimetre, millimeter], dimension: length, base: metre, factor: 0.001, ucum: mm}
+  - {term: micrometre, surfaces: [um, µm, μm, micron, microns, micrometre, micrometer], dimension: length, base: metre, factor: 1.0e-6, ucum: um}
+  - {term: nanometre, surfaces: [nm, nanometre, nanometer], dimension: length, base: metre, factor: 1.0e-9, ucum: nm}
+  - {term: picometre, surfaces: [pm, picometre, picometer], dimension: length, base: metre, factor: 1.0e-12, ucum: pm}
+  # Bare A dropped: it is also the ampere, and the angstrom has its own symbol.
+  - {term: angstrom, surfaces: [Å, angstrom, angstroms], dimension: length, base: metre, factor: 1.0e-10, ucum: Ao}
+  - {term: inch, surfaces: [in, inch, inches, '"'], dimension: length, base: metre, factor: 0.0254, ucum: '[in_i]'}
+  - {term: foot, surfaces: [ft, foot, feet], dimension: length, base: metre, factor: 0.3048, ucum: '[ft_i]'}
+
+  # -- mass -----------------------------------------------------------------
+  - {term: gram, surfaces: [g, gram, grams, gm], dimension: mass, base: gram, factor: 1.0, ucum: g}
+  - {term: kilogram, surfaces: [kg, kilogram, kilograms], dimension: mass, base: gram, factor: 1000.0, ucum: kg}
+  - {term: milligram, surfaces: [mg, milligram, milligrams], dimension: mass, base: gram, factor: 0.001, ucum: mg}
+  - {term: microgram, surfaces: [ug, µg, μg, mcg, microgram, micrograms], dimension: mass, base: gram, factor: 1.0e-6, ucum: ug}
+  - {term: nanogram, surfaces: [ng, nanogram, nanograms], dimension: mass, base: gram, factor: 1.0e-9, ucum: ng}
+  - {term: picogram, surfaces: [pg, picogram, picograms], dimension: mass, base: gram, factor: 1.0e-12, ucum: pg}
+  - {term: femtogram, surfaces: [fg, femtogram], dimension: mass, base: gram, factor: 1.0e-15, ucum: fg}
+  - {term: dalton, surfaces: [Da, dalton, daltons, amu], dimension: molecular_mass, base: dalton, factor: 1.0, ucum: u}
+  - {term: kilodalton, surfaces: [kDa, kilodalton], dimension: molecular_mass, base: dalton, factor: 1000.0, ucum: ku}
+  - {term: megadalton, surfaces: [MDa, megadalton], dimension: molecular_mass, base: dalton, factor: 1.0e6, ucum: Mu}
+
+  # -- volume ---------------------------------------------------------------
+  - {term: litre, surfaces: [L, l, litre, litres, liter, liters], dimension: volume, base: litre, factor: 1.0, ucum: L}
+  - {term: millilitre, surfaces: [mL, ml, millilitre, milliliter, cc], dimension: volume, base: litre, factor: 0.001, ucum: mL}
+  - {term: microlitre, surfaces: [uL, ul, µL, µl, μL, microlitre, microliter], dimension: volume, base: litre, factor: 1.0e-6, ucum: uL}
+  - {term: nanolitre, surfaces: [nL, nl, nanolitre, nanoliter], dimension: volume, base: litre, factor: 1.0e-9, ucum: nL}
+  - {term: picolitre, surfaces: [pL, pl, picolitre, picoliter], dimension: volume, base: litre, factor: 1.0e-12, ucum: pL}
+
+  # -- time -----------------------------------------------------------------
+  - {term: second, surfaces: [s, sec, secs, second, seconds], dimension: time, base: second, factor: 1.0, ucum: s}
+  - {term: millisecond, surfaces: [ms, msec, millisecond, milliseconds], dimension: time, base: second, factor: 0.001, ucum: ms}
+  - {term: microsecond, surfaces: [us, µs, μs, usec, microsecond], dimension: time, base: second, factor: 1.0e-6, ucum: us}
+  - {term: nanosecond, surfaces: [ns, nsec, nanosecond], dimension: time, base: second, factor: 1.0e-9, ucum: ns}
+  - {term: minute, surfaces: [min, mins, minute, minutes], dimension: time, base: second, factor: 60.0, ucum: min}
+  - {term: hour, surfaces: [h, hr, hrs, hour, hours], dimension: time, base: second, factor: 3600.0, ucum: h}
+  # dpi and dpf are days post infection and days post fertilisation. They also
+  # spell dots per inch, and nothing about the token distinguishes them.
+  - {term: day, surfaces: [d, day, days, dpi, dpf], dimension: time, base: second, factor: 86400.0,
+   ambiguous_with: [dots_per_inch], ucum: d}
+  - {term: week, surfaces: [wk, week, weeks], dimension: time, base: second, factor: 604800.0, ucum: wk}
+  - {term: month, surfaces: [mo, month, months], dimension: time, base: second, factor: 2629800.0, ucum: mo}
+  - {term: year, surfaces: [y, yr, year, years], dimension: time, base: second, factor: 31557600.0, ucum: a}
+
+  # -- temperature ----------------------------------------------------------
+  # The only dimension needing an offset, which is why the field exists.
+  - {term: celsius, surfaces: [C, degC, '°C', celsius, centigrade], dimension: temperature, base: kelvin, factor: 1.0, offset: 273.15, ucum: Cel}
+  - {term: kelvin, surfaces: [K, kelvin], dimension: temperature, base: kelvin, factor: 1.0, ucum: K}
+  # Bare F dropped: the farad owns that symbol unambiguously.
+  - {term: fahrenheit, surfaces: [degF, '°F', fahrenheit], dimension: temperature, base: kelvin, factor: 0.5555555555555556, offset: 255.3722222222222, ucum: '[degF]'}
+
+  # -- amount of substance --------------------------------------------------
+  - {term: mole, surfaces: [mol, mole, moles], dimension: amount, base: mole, factor: 1.0, ucum: mol}
+  - {term: millimole, surfaces: [mmol, millimole], dimension: amount, base: mole, factor: 0.001, ucum: mmol}
+  - {term: micromole, surfaces: [umol, µmol, μmol, micromole], dimension: amount, base: mole, factor: 1.0e-6, ucum: umol}
+  - {term: nanomole, surfaces: [nmol, nanomole], dimension: amount, base: mole, factor: 1.0e-9, ucum: nmol}
+  - {term: picomole, surfaces: [pmol, picomole], dimension: amount, base: mole, factor: 1.0e-12, ucum: pmol}
+  - {term: femtomole, surfaces: [fmol, femtomole], dimension: amount, base: mole, factor: 1.0e-15, ucum: fmol}
+
+  # -- concentration --------------------------------------------------------
+  # The dimension that appears most often in a filename, and the one where
+  # inconsistent spelling costs the most.
+  - {term: molar, surfaces: [M, molar, mol/L, mol/l], dimension: concentration, base: molar, factor: 1.0, ucum: mol/L}
+  - {term: millimolar, surfaces: [mM, millimolar, mmol/L], dimension: concentration, base: molar, factor: 0.001, ucum: mmol/L}
+  - {term: micromolar, surfaces: [uM, µM, μM, micromolar, umol/L], dimension: concentration, base: molar, factor: 1.0e-6, ucum: umol/L}
+  - {term: nanomolar, surfaces: [nM, nanomolar, nmol/L], dimension: concentration, base: molar, factor: 1.0e-9, ucum: nmol/L}
+  - {term: picomolar, surfaces: [pM, picomolar, pmol/L], dimension: concentration, base: molar, factor: 1.0e-12, ucum: pmol/L}
+  - {term: femtomolar, surfaces: [fM, femtomolar], dimension: concentration, base: molar, factor: 1.0e-15, ucum: fmol/L}
+  - {term: milligram_per_millilitre, surfaces: [mg/mL, mg/ml, mgml, mgpermL], dimension: mass_concentration, base: gram_per_litre, factor: 1.0, ucum: mg/mL}
+  - {term: microgram_per_millilitre, surfaces: [ug/mL, µg/mL, μg/mL, ugml, ugperml], dimension: mass_concentration, base: gram_per_litre, factor: 0.001, ucum: ug/mL}
+  - {term: nanogram_per_millilitre, surfaces: [ng/mL, ng/ml, ngml, ngperml], dimension: mass_concentration, base: gram_per_litre, factor: 1.0e-6, ucum: ng/mL}
+  - {term: microgram_per_microlitre, surfaces: [ug/uL, µg/µL, ugul], dimension: mass_concentration, base: gram_per_litre, factor: 1.0, ucum: ug/uL}
+  - {term: percent, surfaces: ['%', pct, percent], dimension: fraction, base: fraction, factor: 0.01, ucum: '%'}
+  - {term: percent_weight_volume, surfaces: ['%w/v', 'wv', 'w/v'], dimension: fraction, base: fraction, factor: 0.01}
+  - {term: percent_volume_volume, surfaces: ['%v/v', 'vv', 'v/v'], dimension: fraction, base: fraction, factor: 0.01}
+  - {term: parts_per_million, surfaces: [ppm], dimension: fraction, base: fraction, factor: 1.0e-6, ucum: '[ppm]'}
+  - {term: parts_per_billion, surfaces: [ppb], dimension: fraction, base: fraction, factor: 1.0e-9, ucum: '[ppb]'}
+  # "10x" is ten-fold or ten times magnification, and only context decides.
+  - {term: fold, surfaces: [x, X, fold, '-fold'], dimension: multiple, base: fold, factor: 1.0,
+   ambiguous_with: [magnification]}
+
+  # -- pressure -------------------------------------------------------------
+  - {term: pascal, surfaces: [Pa, pascal], dimension: pressure, base: pascal, factor: 1.0, ucum: Pa}
+  - {term: kilopascal, surfaces: [kPa, kilopascal], dimension: pressure, base: pascal, factor: 1000.0, ucum: kPa}
+  - {term: megapascal, surfaces: [MPa, megapascal], dimension: pressure, base: pascal, factor: 1.0e6, ucum: MPa}
+  - {term: bar, surfaces: [bar], dimension: pressure, base: pascal, factor: 100000.0, ucum: bar}
+  - {term: millibar, surfaces: [mbar, millibar], dimension: pressure, base: pascal, factor: 100.0, ucum: mbar}
+  - {term: atmosphere, surfaces: [atm, atmosphere], dimension: pressure, base: pascal, factor: 101325.0, ucum: atm}
+  - {term: torr, surfaces: [Torr, torr, mmHg], dimension: pressure, base: pascal, factor: 133.322, ucum: 'mm[Hg]'}
+  - {term: psi, surfaces: [psi], dimension: pressure, base: pascal, factor: 6894.757, ucum: '[psi]'}
+
+  # -- energy and power -----------------------------------------------------
+  - {term: joule, surfaces: [J, joule, joules], dimension: energy, base: joule, factor: 1.0, ucum: J}
+  - {term: kilojoule, surfaces: [kJ, kilojoule], dimension: energy, base: joule, factor: 1000.0, ucum: kJ}
+  - {term: calorie, surfaces: [cal, calorie], dimension: energy, base: joule, factor: 4.184, ucum: cal}
+  - {term: kilocalorie, surfaces: [kcal, kilocalorie, Cal], dimension: energy, base: joule, factor: 4184.0, ucum: kcal}
+  - {term: electronvolt, surfaces: [eV, electronvolt], dimension: energy, base: joule, factor: 1.602176634e-19, ucum: eV}
+  - {term: kiloelectronvolt, surfaces: [keV], dimension: energy, base: joule, factor: 1.602176634e-16, ucum: keV}
+  - {term: megaelectronvolt, surfaces: [MeV], dimension: energy, base: joule, factor: 1.602176634e-13, ucum: MeV}
+  - {term: watt, surfaces: [W, watt, watts], dimension: power, base: watt, factor: 1.0, ucum: W}
+  - {term: milliwatt, surfaces: [mW, milliwatt], dimension: power, base: watt, factor: 0.001, ucum: mW}
+  - {term: microwatt, surfaces: [uW, µW, μW, microwatt], dimension: power, base: watt, factor: 1.0e-6, ucum: uW}
+
+  # -- frequency and rotation -----------------------------------------------
+  - {term: hertz, surfaces: [Hz, hertz], dimension: frequency, base: hertz, factor: 1.0, ucum: Hz}
+  - {term: kilohertz, surfaces: [kHz, kilohertz], dimension: frequency, base: hertz, factor: 1000.0, ucum: kHz}
+  - {term: megahertz, surfaces: [MHz, megahertz], dimension: frequency, base: hertz, factor: 1.0e6, ucum: MHz}
+  - {term: gigahertz, surfaces: [GHz, gigahertz], dimension: frequency, base: hertz, factor: 1.0e9, ucum: GHz}
+  - {term: revolutions_per_minute, surfaces: [rpm, RPM], dimension: rotation, base: rpm, factor: 1.0}
+  - {term: relative_centrifugal_force, surfaces: [rcf, xg, 'x g', RCF], dimension: acceleration, base: rcf, factor: 1.0}
+
+  # -- electrical -----------------------------------------------------------
+  - {term: volt, surfaces: [V, volt, volts], dimension: voltage, base: volt, factor: 1.0, ucum: V}
+  - {term: millivolt, surfaces: [mV, millivolt], dimension: voltage, base: volt, factor: 0.001, ucum: mV}
+  - {term: microvolt, surfaces: [uV, µV, μV, microvolt], dimension: voltage, base: volt, factor: 1.0e-6, ucum: uV}
+  - {term: ampere, surfaces: [A, amp, ampere, amps], dimension: current, base: ampere, factor: 1.0, ucum: A}
+  - {term: milliampere, surfaces: [mA, milliamp], dimension: current, base: ampere, factor: 0.001, ucum: mA}
+  - {term: microampere, surfaces: [uA, µA, μA, microamp], dimension: current, base: ampere, factor: 1.0e-6, ucum: uA}
+  - {term: nanoampere, surfaces: [nA, nanoamp], dimension: current, base: ampere, factor: 1.0e-9, ucum: nA}
+  - {term: picoampere, surfaces: [pA, picoamp], dimension: current, base: ampere, factor: 1.0e-12, ucum: pA}
+  - {term: ohm, surfaces: [ohm, ohms, Ω], dimension: resistance, base: ohm, factor: 1.0, ucum: Ohm}
+  - {term: megaohm, surfaces: [Mohm, MΩ, megaohm], dimension: resistance, base: ohm, factor: 1.0e6, ucum: MOhm}
+  - {term: gigaohm, surfaces: [Gohm, GΩ, gigaohm], dimension: resistance, base: ohm, factor: 1.0e9, ucum: GOhm}
+  - {term: farad, surfaces: [F, farad], dimension: capacitance, base: farad, factor: 1.0, ucum: F}
+  - {term: picofarad, surfaces: [pF, picofarad], dimension: capacitance, base: farad, factor: 1.0e-12, ucum: pF}
+  - {term: siemens, surfaces: [S, siemens], dimension: conductance, base: siemens, factor: 1.0, ucum: S}
+  - {term: nanosiemens, surfaces: [nS, nanosiemens], dimension: conductance, base: siemens, factor: 1.0e-9, ucum: nS}
+
+  # -- radioactivity and dose -----------------------------------------------
+  - {term: becquerel, surfaces: [Bq, becquerel], dimension: radioactivity, base: becquerel, factor: 1.0, ucum: Bq}
+  - {term: curie, surfaces: [Ci, curie], dimension: radioactivity, base: becquerel, factor: 3.7e10, ucum: Ci}
+  - {term: gray, surfaces: [Gy, gray], dimension: absorbed_dose, base: gray, factor: 1.0, ucum: Gy}
+  - {term: sievert, surfaces: [Sv, sievert], dimension: equivalent_dose, base: sievert, factor: 1.0, ucum: Sv}
+
+  # -- light and imaging ----------------------------------------------------
+  - {term: lux, surfaces: [lx, lux], dimension: illuminance, base: lux, factor: 1.0, ucum: lx}
+  - {term: numerical_aperture, surfaces: [NA], dimension: numerical_aperture, base: numerical_aperture, factor: 1.0}
+  # Tagged microscopy: where a folder's files lean to microscopy, "100x" reads as a magnification
+  # rather than a fold. Nowhere else does the tag change a reading.
+  - {term: magnification, surfaces: [x, X], dimension: magnification, base: magnification, factor: 1.0,
+   ambiguous_with: [fold], domains: [microscopy]}
+  - {term: pixel, surfaces: [px, pixel, pixels], dimension: pixels, base: pixel, factor: 1.0}
+  - {term: voxel, surfaces: [voxel, voxels], dimension: voxels, base: voxel, factor: 1.0}
+  - {term: dots_per_inch, surfaces: [dpi, DPI, ppi], dimension: resolution, base: dpi, factor: 1.0,
+   ambiguous_with: [day]}
+  - {term: frames_per_second, surfaces: [fps, FPS], dimension: frame_rate, base: fps, factor: 1.0}
+
+  # -- angle ----------------------------------------------------------------
+  - {term: degree, surfaces: [deg, '°', degree, degrees], dimension: angle, base: degree, factor: 1.0, ucum: deg}
+  - {term: radian, surfaces: [rad, radian, radians], dimension: angle, base: degree, factor: 57.29577951308232, ucum: rad}
+
+  # -- digital storage ------------------------------------------------------
+  # Decimal and binary both, because both are used and they differ by enough to
+  # matter: a "1 TB" drive and a "1 TiB" volume are not the same size.
+  - {term: byte, surfaces: [B, byte, bytes], dimension: digital_size, base: byte, factor: 1.0, ucum: By}
+  - {term: kilobyte, surfaces: [KB, kB, kilobyte], dimension: digital_size, base: byte, factor: 1000.0, ucum: kBy}
+  - {term: megabyte, surfaces: [MB, megabyte], dimension: digital_size, base: byte, factor: 1.0e6, ucum: MBy}
+  - {term: gigabyte, surfaces: [GB, gigabyte], dimension: digital_size, base: byte, factor: 1.0e9, ucum: GBy}
+  - {term: terabyte, surfaces: [TB, terabyte], dimension: digital_size, base: byte, factor: 1.0e12, ucum: TBy}
+  - {term: petabyte, surfaces: [PB, petabyte], dimension: digital_size, base: byte, factor: 1.0e15, ucum: PBy}
+  - {term: kibibyte, surfaces: [KiB, kibibyte], dimension: digital_size, base: byte, factor: 1024.0, ucum: KiBy}
+  - {term: mebibyte, surfaces: [MiB, mebibyte], dimension: digital_size, base: byte, factor: 1048576.0, ucum: MiBy}
+  - {term: gibibyte, surfaces: [GiB, gibibyte], dimension: digital_size, base: byte, factor: 1073741824.0, ucum: GiBy}
+  - {term: tebibyte, surfaces: [TiB, tebibyte], dimension: digital_size, base: byte, factor: 1099511627776.0, ucum: TiBy}
+  - {term: bit, surfaces: [bit, bits], dimension: digital_size, base: byte, factor: 0.125, ucum: bit}

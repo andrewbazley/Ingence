@@ -1,0 +1,43 @@
+# Versions of the tools whose output is compared with files in this repository.
+#
+# The committed schemas, the lint and the type check were made with the versions below. A newer
+# release of one of these tools can write a different file or find a different fault with no change
+# to this repository. To get the same results, install for development with
+# `-c tools/ci-constraints.txt`, which holds each of them at the version the committed files were
+# made with. A person who only installs Ingence is not affected: the package's own requirements
+# (pyproject.toml) are not pinned.
+#
+# To move to newer versions: install them in a clean environment, run
+# `python tools/export_schemas.py`, `ruff format .` and `mypy src/ingence`, commit what changed, and
+# change the versions here in the same commit.
+
+# --- the JSON Schemas under schemas/ ---------------------------------------------------------
+pydantic==2.13.5            # writes the schemas; a newer release writes different files
+pydantic_core==2.46.5       # pydantic's engine; each pydantic release needs its own
+annotated-types==0.8.0      # its constraint words (minimum, maximum) appear in the schemas
+typing_extensions==4.16.0   # the typing names pydantic and mypy read
+typing-inspection==0.4.4    # how pydantic reads a field's annotation
+pyarrow==25.0.1             # the storage tables the exported storage document describes
+
+# --- the command line and the files the engine reads ------------------------------------------
+typer==0.27.2               # builds the command tree
+rich==15.0.0                # typer's help layout
+PyYAML==6.0.3               # reads the rules and the Dictionary
+
+# --- the type check: mypy src/ingence ----------------------------------------------------------
+mypy==2.3.1                 # a newer release finds different things
+mypy_extensions==1.1.0      # mypy's own runtime
+pathspec==1.1.1             # mypy's file matching
+librt==0.15.0               # mypy's compiled helpers
+ast_serialize==0.11.1       # mypy's parser
+types-PyYAML==6.0.12.20260906  # the type information mypy reads for PyYAML
+numpy==2.5.3                # numpy's own type information is read by mypy
+duckdb==1.5.5               # ships type information (py.typed) that mypy reads
+blake3==1.0.9               # ships type information (py.typed) that mypy reads
+pypdf==6.18.1               # ships type information (py.typed) that mypy reads
+annotated-doc==0.0.5        # typer's, and ships type information that mypy reads
+markdown-it-py==4.2.0       # rich's, and ships type information that mypy reads
+mdurl==0.1.2                # markdown-it-py's, and ships type information that mypy reads
+
+# --- style: ruff check and ruff format --check -------------------------------------------------
+ruff==0.16.6                # a newer release adds rules and changes formatting

@@ -1,0 +1,8 @@
+/* The Dashboard's two faces, shipped inside the package (each vendor folder's VENDOR.md says where
+   from) and served by the Dashboard itself; nothing is fetched from a network. Both are under the SIL
+   Open Font License 1.1. */
+@font-face { font-family: "Atkinson Hyperlegible"; font-style: normal; font-weight: 400; font-display: swap; src: url("/vendor/atkinson-hyperlegible/AtkinsonHyperlegible-Regular.woff2") format("woff2"); }
+@font-face { font-family: "Atkinson Hyperlegible"; font-style: italic; font-weight: 400; font-display: swap; src: url("/vendor/atkinson-hyperlegible/AtkinsonHyperlegible-Italic.woff2") format("woff2"); }
+@font-face { font-family: "Atkinson Hyperlegible"; font-style: normal; font-weight: 700; font-display: swap; src: url("/vendor/atkinson-hyperlegible/AtkinsonHyperlegible-Bold.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 400; font-display: swap; src: url("/vendor/ibm-plex-mono/IBMPlexMono-Regular.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 500; font-display: swap; src: url("/vendor/ibm-plex-mono/IBMPlexMono-Medium.woff2") format("woff2"); }

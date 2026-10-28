@@ -1,0 +1,124 @@
+/* Engine > Rules and the Dictionary beside it. Tokens only: the website's (app.css :root). One job
+ * per color: magenta (--person) only where a person said so, the accent for the chosen row and for
+ * links. Hatching is not used here. */
+
+/* ---- the page ------------------------------------------------------------------------------- */
+
+.rules-title { margin: 0 0 12px; font-size: 20px; line-height: 1.3; font-weight: 700; color: var(--ink); }
+.rules-find { display: flex; align-items: center; gap: 12px; margin: 0 0 6px; }
+.rules-find input.rules-search { flex: 1 1 auto; max-width: 36rem; }
+.rules-count { flex: none; font-family: var(--mono); font-size: 12.5px; color: var(--ink-soft); white-space: nowrap; }
+.rules-help { margin: 0 0 12px; font-size: 13px; }
+.rules-search-note { margin: 0 0 8px; min-height: 0; }
+.rules-search-note:empty { display: none; }
+
+/* ---- the groups ----------------------------------------------------------------------------- */
+
+.rules-groups { margin: 0 0 14px; }
+.rules-group { border: 1px solid var(--line); border-radius: 8px; background: var(--panel); margin: 0 0 8px; overflow: hidden; }
+.rules-group-title { margin: 0; font-size: inherit; letter-spacing: 0; text-transform: none; color: inherit; font-weight: inherit; }
+.rules-group-head { display: flex; align-items: baseline; gap: 10px; width: 100%; padding: 10px 14px; margin: 0;
+  border: 0; border-radius: 0; background: var(--panel); color: var(--ink); font: inherit; text-align: left; cursor: pointer; }
+.rules-group-head:hover { background: var(--accent-soft); }
+.rules-group.open > .rules-group-title > .rules-group-head { border-bottom: 1px solid var(--line); }
+.rules-group-name { font-weight: 700; font-size: 15px; }
+.rules-group-counts { color: var(--ink-soft); font-size: 14px; }
+.rules-twist { flex: none; display: inline-block; width: 0; height: 0; margin-right: 2px; align-self: center;
+  border-style: solid; border-width: 5px 0 5px 8px; border-color: transparent transparent transparent var(--ink-soft); }
+.rules-group.open .rules-twist { border-width: 8px 5px 0 5px; border-color: var(--ink-soft) transparent transparent transparent; }
+.rules-group-head:focus-visible, tr.rules-row:focus-visible, .rules-chip:focus-visible, .rules-help button.link:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 2px; }
+.rules-group-head:focus-visible, tr.rules-row:focus-visible { outline-offset: -2px; }
+
+/* ---- the rows ------------------------------------------------------------------------------- */
+
+table.rules-table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 14px; }
+table.rules-table th { padding: 8px 10px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--ink-soft); white-space: normal; border-bottom: 1px solid var(--line); text-align: left; }
+table.rules-table th.rules-run-head { text-align: right; }
+table.rules-table th:first-child { padding-left: 14px; width: 42%; }
+table.rules-table th:nth-child(2) { width: 17%; }
+table.rules-table th:nth-child(3) { width: 29%; }
+table.rules-table th:nth-child(4) { width: 12%; }
+tr.rules-row { cursor: pointer; border-left: 3px solid transparent; }
+tr.rules-row td { padding: 9px 10px; vertical-align: top; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+tr.rules-row:last-child td { border-bottom: 0; }
+tr.rules-row td:first-child { padding-left: 11px; }
+tr.rules-row:hover td { background: var(--accent-soft); }
+tr.rules-row.selected td { background: var(--accent-soft); }
+tr.rules-row.selected { box-shadow: inset 3px 0 0 var(--accent); }
+tr.rules-row.arrived td { animation: rules-arrived 1.6s ease-out; }
+@keyframes rules-arrived { from { background: var(--accent-soft); } to { background: transparent; } }
+td.rule-plain { line-height: 1.45; }
+tr.rules-row.off td.rule-plain { color: var(--ink-soft); }
+td.rules-run { text-align: right; }
+td.rules-run.mono { font-family: var(--mono); font-size: 14px; color: var(--ink); }
+td.rules-run.soft { color: var(--ink-soft); font-size: 13px; }
+td.rules-name .mono { font-family: var(--mono); font-size: 12px; color: var(--ink-soft); overflow-wrap: anywhere; }
+td.rules-force { font-weight: 700; }
+td.rules-force.off { color: var(--ink-soft); }
+td.rules-force.person { color: var(--person); }
+
+details.rules-inactive { margin: 0 0 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); }
+details.rules-inactive > summary { cursor: pointer; padding: 10px 14px; font-weight: 700; font-size: 15px; }
+details.rules-inactive[open] > summary { border-bottom: 1px solid var(--line); }
+
+/* ---- the card ------------------------------------------------------------------------------- */
+
+/* Beside the table (the window is 1241 pixels wide or more), the card stays in view under the header. */
+@media (min-width: 1241px) {
+  #detail.rules-pane { position: sticky; top: var(--rules-card-top, 0); align-self: start;
+    max-height: calc(100vh - var(--rules-card-top, 0px)); overflow-y: auto; }
+}
+.rule-card h3.rule-card-sentence { margin: 0 0 6px; font-size: 17px; line-height: 1.35; font-weight: 700; }
+.rule-card .card-id { margin: 0 0 10px; font-size: 12px; }
+.rule-card .rule-statement { margin: 0 0 12px; font-size: 14px; line-height: 1.5; }
+dl.rule-facts { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 6px 14px; margin: 0 0 14px; font-size: 14px; }
+dl.rule-facts dt { color: var(--ink-soft); }
+dl.rule-facts dd { margin: 0; overflow-wrap: anywhere; }
+.rule-card .rule-card-settings { margin: 14px 0 6px; }
+.rule-setting { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+.rule-setting:last-child { border-bottom: 0; }
+.rule-setting-name code { font-family: var(--mono); font-size: 12.5px; color: var(--ink); overflow-wrap: anywhere; }
+.rules-copy-why { margin: 0 0 8px; font-size: 13px; }
+.rule-setting-name .purpose, .rule-setting-name .faint { font-size: 12.5px; color: var(--ink-soft); }
+.rule-setting-value { text-align: right; max-width: 15rem; }
+.rule-setting-value input[type="number"], .rule-setting-value input[type="text"], .rule-setting-value select {
+  width: 100%; max-width: 14rem; font-family: var(--mono); font-size: 13px; text-align: right; padding: 3px 6px;
+  border: 1px solid var(--line); border-radius: 6px; background: var(--panel); color: var(--ink); }
+.rule-setting-value textarea { width: 100%; min-width: 11rem; box-sizing: border-box; font-family: var(--mono); font-size: 12px; text-align: left; }
+.rule-setting-value .draft-note, .rule-setting-value .changed-mark { display: block; font-size: 12px; color: var(--ink-soft); }
+.rule-setting-value .draft-error { color: var(--problem); }
+.rule-setting-used { grid-column: 1 / -1; font-size: 12.5px; }
+.rule-setting.changed .rule-setting-name code { font-weight: 700; }
+@media (max-width: 520px) { .rule-setting { grid-template-columns: 1fr; } .rule-setting-value { text-align: left; max-width: none; } }
+
+.rules-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 12px; }
+.rules-chip { font: inherit; font-size: 14px; padding: 6px 12px; min-height: 32px; border: 1px solid var(--line);
+  border-radius: 6px; background: var(--panel); color: var(--ink); cursor: pointer; }
+.rules-chip:hover:not([disabled]) { border-color: var(--accent); color: var(--accent); }
+.rules-chip[disabled] { color: var(--ink-soft); cursor: default; opacity: 0.7; }
+.rules-chip[data-copied] { border-color: var(--accent); color: var(--accent); }
+.rules-waits { margin: 0; font-size: 13px; }
+pre.rules-yaml { margin: 8px 0 12px; padding: 10px 12px; background: var(--code-bg); border: 1px solid var(--line);
+  border-radius: 6px; font-family: var(--mono); font-size: 12.5px; white-space: pre-wrap; overflow-wrap: anywhere; }
+dialog.rules-switch-off { max-width: min(36rem, 92vw); }
+
+/* ---- the Dictionary, aligned with the rules ------------------------------------------------ */
+
+.person-dot::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--person); margin-right: 6px; vertical-align: 0.05em; }
+table.dictionary td.taught { white-space: normal; }
+table.dictionary td.taught .person-name { color: var(--ink); font-weight: 600; }
+table.dictionary td.taught .faint { display: block; font-size: 12px; }
+table.dictionary td.sense strong { overflow-wrap: anywhere; }
+table.dictionary td.kind .tag { white-space: normal; }
+.word-card h2.word-card-sentence { margin: 0 0 6px; font-size: 20px; line-height: 1.3; letter-spacing: 0; text-transform: none;
+  color: var(--ink); font-weight: 700; overflow-wrap: anywhere; }
+.word-card .card-id { margin: 0 0 10px; font-size: 12px; }
+.word-card h3 { margin: 16px 0 6px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+dl.word-facts { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 6px 14px; margin: 0 0 8px; font-size: 14px; }
+dl.word-facts dt { color: var(--ink-soft); }
+dl.word-facts dd { margin: 0; overflow-wrap: anywhere; }
+.word-card ol.word-meanings { margin: 0; padding-left: 1.2rem; display: grid; gap: 4px; font-size: 14px; }
+.word-card .ambiguous { color: var(--doubt); font-weight: 700; }

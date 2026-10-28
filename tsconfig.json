@@ -1,0 +1,38 @@
+{
+  "//": "The type check of the Dashboard's typed JavaScript. tsc checks and never emits: the page ships as written. A file joins 'files' when it gains // @ts-check.",
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ES2022",
+    "moduleResolution": "Bundler",
+    "types": [],
+    "skipLibCheck": false
+  },
+  "files": [
+    "src/ingence/web/types/globals.d.ts",
+    "src/ingence/web/types/api.d.ts",
+    "src/ingence/web/types/topics.d.ts",
+    "src/ingence/web/topic_kit.js",
+    "src/ingence/web/topics.js",
+    "src/ingence/web/dialogs.js",
+    "src/ingence/web/scan.js",
+    "src/ingence/web/landing.js",
+    "src/ingence/web/inspector.js",
+    "src/ingence/web/graph.js",
+    "src/ingence/web/footer.js",
+    "src/ingence/web/report.js",
+    "src/ingence/web/keys.js",
+    "src/ingence/web/stability.js",
+    "src/ingence/web/ring.js",
+    "src/ingence/web/experiments.js",
+    "src/ingence/web/words.js"
+  ]
+}

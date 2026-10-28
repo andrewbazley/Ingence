@@ -1,0 +1,59 @@
+# Clinical and human-subject research.
+#
+# This section exists partly so the engine can recognise identifiers rather
+# than merely index them. A file whose columns include a medical record number
+# or a date of birth is a file that needs handling differently, and a rule cannot
+# flag what the Dictionary cannot name. Entries marked `sensitive` are exactly
+# those a flagging rule should read.
+#
+# Nothing here is an instruction to extract identifiers. The engine records that
+# a field *looks like* one, which is a fact about the file worth surfacing to the
+# person responsible for it.
+
+# The pack's manifest. Its digest is over the words below, not the comments: a changed word
+# needs a new version and a new digest.
+pack:
+  name: clinical
+  version: "2"
+  domain: clinical
+  author: Ingence
+  licence: MIT
+  schema: "1.22"
+  digest: 10af0ef7e3a07a9101632cc95885bef8
+section: clinical
+theme_kind: technique
+origin: builtin
+domain: clinical
+# The pack's file formats are rows of the file-type table
+# (`src/ingence/dictionary/file_types.yaml`), every row naming this section. The senses are the
+# ones this file declared, term for term and spelling for spelling, so nothing made from them
+# moves. What each format is, who writes it and whether it is recorded data is the table's.
+file_types: from_table
+summary: Study design, specimens, imaging modalities, and identifier vocabulary.
+
+entries:
+  # -- study design ---------------------------------------------------------
+  - {term: trial_phase, surfaces: [phase1, phase2, phase3, phase4, "phase-i", "phase-ii", "phase-iii", pilot, feasibility]}
+  - {term: randomisation, surfaces: [randomised, randomized, rct, blinded, doubleblind, "double-blind", openlabel, crossover, parallel_arm]}
+  - {term: study_arm, surfaces: [placebo, comparator, activearm, standardofcare, soc, intervention], theme_kind: condition}
+  - {term: visit, surfaces: [visit, screening, enrollment, enrolment, baseline_visit, followup, "follow-up", endofstudy, eos, unscheduled], theme_kind: timepoint}
+  - {term: outcome, surfaces: [endpoint, primaryendpoint, secondaryendpoint, outcome, response, progression, survival, os_survival, pfs], theme_kind: statistic}
+  - {term: safety, surfaces: [adverse, ae_event, sae, toxicity, grade_tox, dlt, safetyreport], theme_kind: statistic}
+  - {term: governance, surfaces: [consent, icf, irb, ethics, protocol_approval, amendment, deviation, monitoring], theme_kind: file_role}
+
+  # -- specimens ------------------------------------------------------------
+  - {term: blood_product, surfaces: [serum, plasma, wholeblood, "whole-blood", buffycoat, pbmc, dbs], theme_kind: sample}
+  - {term: fluid_specimen, surfaces: [urine, csf, saliva, sputum, bal, ascites, synovial, stool, faecal, fecal], theme_kind: sample}
+  - {term: tissue_specimen, surfaces: [biopsy, resection, ffpe, frozensection, "fresh-frozen", oct_embedded, tma, autopsy], theme_kind: sample}
+  - {term: histology, surfaces: [he_stain, "h&e", ihc_clinical, ish, fish, trichrome, pas_stain, giemsa, papanicolaou]}
+
+  # -- imaging --------------------------------------------------------------
+  # "x-ray ct" is also the microscopy pack's X-ray tomography: a clinical scan and a
+  # specimen's tomography are written alike, so the two packs tie on it and a person decides.
+  - {term: clinical_imaging, surfaces: [ct, mri, fmri, pet, spect, ultrasound, us_imaging, xray, "x-ray", "x-ray ct", radiograph, mammogram, dexa, oct_imaging],
+   ambiguous_with: [x_ray_tomography]}
+  - {term: imaging_sequence, surfaces: [t1, t2, flair, dwi, adc_map, dti, bold, contrast_enhanced, gadolinium]}
+  - {term: participant_identifier, surfaces: [subjectid, "subject-id", patientid, participantid, studyid, screeningnumber, randomisationnumber], theme_kind: identifier, sensitive: true}
+  - {term: record_identifier, surfaces: [mrn, "medical-record-number", nhsnumber, ssn, insuranceid, accession, accessionnumber], theme_kind: identifier, sensitive: true}
+  - {term: direct_identifier, surfaces: [name_field, surname, forename, dob, dateofbirth, "date-of-birth", address, postcode, zipcode, phone, email_field], theme_kind: identifier, sensitive: true}
+  - {term: deidentified, surfaces: [deidentified, "de-identified", anonymised, anonymized, pseudonymised, pseudonymized, coded, scrubbed, redacted], theme_kind: quality}

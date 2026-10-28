@@ -1,0 +1,87 @@
+# Ingence engine settings.
+#
+# These govern how the engine runs, never what it concludes. The test is:
+# does changing this alter what the engine believes, or only how fast it
+# gets there? Interpretive commitments live in the Rulebook instead.
+#
+# Edit freely. Delete this file and the engine falls back to defaults.
+
+depth: standard
+dictionary:
+  bind_terms: true
+  burst_gap_factor: 4.0
+  burst_gap_window: 9
+  characterise_organisation: true
+  domain_packs: all
+  domain_packs_named: []
+  glued_runs: letter_led
+  packs: []
+  plausible_years:
+  - 1990
+  - 2035
+  record_name_shapes: true
+  tokenise_names: true
+extraction:
+  adapters: []
+  beneath_programs: read_last
+  byte_scan_sections: []
+  deepening_budget_seconds: null
+  enabled: false
+  exclude_extensions: []
+  include_extensions: []
+  max_expansion_depth: 4
+  max_expansion_members: 10000
+  max_expansion_ratio: 100.0
+  max_file_bytes: null
+  max_sample_bytes: 4194304
+  max_text_chars: 200000
+  metadata_first: true
+  promote_container_members: true
+  spend_order: family_round_robin
+  subprocess_memory_bytes: 1073741824
+  subprocess_timeout_per_gigabyte_seconds: 120.0
+  subprocess_timeout_seconds: 60.0
+  supervise_in_process_above_bytes: 262144
+  text_sketch_bytes: 262144
+  use_subprocess_isolation: true
+hash:
+  algorithm: blake3
+  chunk_bytes: 1048576
+  exclude_extensions: []
+  full_hash_max_bytes: 2147483648
+  include_extensions: []
+  max_file_bytes: null
+  mode: none
+  skip_remote_filesystems: true
+journal:
+  enabled: true
+  per_entry: true
+  timings: true
+listing:
+  declared_links: withheld
+  pause_seconds: 0.5
+  read_archive_clocks: false
+  user_agent: Ingence listing ingest (research pilot; local, read-only)
+scan:
+  exclude_globs:
+  - .git
+  - .svn
+  - .hg
+  - __pycache__
+  - node_modules
+  - .Trash
+  - .Trashes
+  - $RECYCLE.BIN
+  - System Volume Information
+  - .ingence-case-probe
+  flush_every_records: 4096
+  flush_every_seconds: 30.0
+  follow_symlinks: false
+  include_hidden: false
+  index_recognised_outputs: false
+  keep_dive_readings: true
+  max_depth: null
+  one_file_system: true
+  resolve_symlinks: true
+  workers: 8
+schema_version: '1.21'

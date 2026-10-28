@@ -1,0 +1,169 @@
+/* The Graph page: a toolbar on the left, the drawing and its list in the middle, and the ladders
+   and the inspector on the right. On a narrow screen they sit below one another. Colors come from
+   app.css's variables, and every color is paired with words or a line style.
+
+   The ladders' colors are one categorical palette in a fixed order, the center's ladder first. Each
+   is told apart by its name beside it, so a color repeated past six is not a lone signal. The
+   colors bind to ladders and to nothing else on the page. */
+
+:root {
+  --ladder-1: #1f5fa8;
+  --ladder-2: #0b6b57;
+  --ladder-3: #5a4fcf;
+  --ladder-4: #2a7f9e;
+  --ladder-5: #7a6a00;
+  --ladder-6: #8a4a10;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ladder-1: #79b0ee;
+    --ladder-2: #58c9ab;
+    --ladder-3: #a79ff0;
+    --ladder-4: #5fc0df;
+    --ladder-5: #cdbd4a;
+    --ladder-6: #e0a469;
+  }
+}
+
+main.single-layout .pane > .graph-page { max-width: none; }
+
+/* The page is a grid of named areas, so the Ladders list at the right starts level with the plot
+   and not with the title above it: the tools at the left, the heading, the plot and the list in
+   the middle, the ladders and the inspector at the right. */
+.graph-page {
+  display: grid;
+  grid-template-columns: minmax(180px, 200px) minmax(0, 1fr) minmax(250px, 290px);
+  grid-template-areas:
+    "tools head head"
+    "tools plot side"
+    "tools list side";
+  grid-template-rows: auto auto 1fr;
+  gap: 10px 18px;
+  align-items: start;
+}
+.graph-middle { display: contents; }
+.graph-tools { grid-area: tools; }
+.graph-head { grid-area: head; min-width: 0; }
+[data-graph="canvas-wrap"] { grid-area: plot; min-width: 0; }
+[data-graph="list"] { grid-area: list; min-width: 0; }
+.graph-side { grid-area: side; }
+
+.graph-page.choosing {
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 340px);
+  grid-template-areas: "head side";
+  grid-template-rows: auto;
+}
+.graph-page.choosing .graph-tools { display: none; }
+
+.graph-tools, .graph-inspector {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel);
+  padding: 12px 14px;
+}
+
+.graph-tools fieldset { border: 0; margin: 0 0 12px; padding: 0; }
+.graph-tools legend { font-weight: 600; margin-bottom: 4px; }
+.graph-tools label { display: block; margin: 3px 0; }
+
+.graph-side {
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; align-content: start; min-width: 0;
+  position: sticky; top: 150px; max-height: calc(100vh - 170px); overflow: auto;
+}
+.graph-inspector h3 { margin-top: 0; word-break: break-word; }
+
+/* The Ladders list: one card per ladder, its color a 4 px edge on the left. */
+.graph-ladders {
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; align-content: start; min-width: 0;
+  max-height: 46vh; overflow: auto;
+}
+.graph-ladders .eyebrow { margin: 0; }
+.graph-ladders .card + .card { margin-top: 0; }
+.graph-ladder { border-left: 4px solid var(--ladder, var(--line)); padding: 10px 12px; display: grid; gap: 3px; }
+.graph-ladder h4 { margin: 0; font-size: 15px; overflow-wrap: anywhere; }
+.graph-ladder p { margin: 0; font-size: 13px; overflow-wrap: anywhere; }
+.graph-ladder .graph-ladder-path { font-size: 12px; }
+.graph-ladder button.link { justify-self: start; font-size: 13px; text-decoration: underline; cursor: pointer; }
+.graph-ladders-more { font-size: 13px; margin: 0; }
+.ladder-dot {
+  display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px;
+  background: var(--ladder, var(--ink-soft)); border: 1px solid var(--ladder, var(--ink-soft));
+  vertical-align: baseline;
+}
+.graph-ladder-cell { white-space: nowrap; }
+
+.graph-keys { font-size: 13px; margin: 4px 0 0; }
+[data-graph="lone"] { margin-bottom: 10px; }
+
+.graph-canvas:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.graph-canvas {
+  height: 58vh;
+  min-height: 360px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--page);
+}
+
+.graph-legend { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 8px 0; font-size: 13px; }
+.graph-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.graph-legend svg { width: 44px; height: 12px; flex: none; }
+.graph-legend .line-contains { stroke: var(--ink-soft); stroke-width: 1.5; }
+.graph-legend .line-published { stroke: var(--acquisition); stroke-width: 3.5; }
+.graph-legend .line-proposed { stroke: var(--later); stroke-width: 2; stroke-dasharray: 7 5; }
+.graph-legend .shape { fill: var(--panel); stroke: var(--ink-soft); stroke-width: 1.5; }
+.graph-legend .shape.center { stroke: var(--accent); stroke-width: 3; }
+.graph-legend .band { fill: var(--ladder-1); fill-opacity: 0.16; stroke: var(--ladder-1); stroke-opacity: 0.5; stroke-width: 1; }
+
+.graph-kind { font-size: 12px; padding: 1px 6px; border-radius: 3px; border: 1px solid var(--line); }
+.graph-kind.published_assertion { border: 2px solid var(--acquisition); }
+.graph-kind.proposed_candidate { border: 1px dashed var(--later); }
+
+.graph-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 14px; }
+.graph-table caption { text-align: left; color: var(--ink-soft); padding: 4px 0; }
+.graph-table th, .graph-table td { text-align: left; padding: 3px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.graph-table td.faint { word-break: break-all; }
+.graph-table tr.picked { background: color-mix(in srgb, var(--accent) 14%, transparent); }
+.graph-table button.graph-pick {
+  background: none; border: 0; padding: 0; color: var(--accent); cursor: pointer; font: inherit;
+  text-align: left; text-decoration: underline;
+}
+.graph-table button.graph-pick:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.graph-facts { display: grid; grid-template-columns: max-content 1fr; gap: 2px 10px; font-size: 13px; }
+.graph-facts dt { color: var(--ink-soft); }
+.graph-facts dd { margin: 0; word-break: break-word; }
+
+.graph-results { list-style: none; padding: 0; }
+.graph-results li { margin: 4px 0; }
+.graph-page .pinned { border-left: 3px solid var(--later); padding-left: 8px; }
+
+@media (max-width: 1100px) {
+  .graph-page {
+    grid-template-columns: minmax(0, 1fr) minmax(240px, 300px);
+    grid-template-areas:
+      "tools tools"
+      "head head"
+      "plot side"
+      "list side";
+    grid-template-rows: auto auto auto 1fr;
+  }
+}
+
+/* A narrow screen: one column; the ladders and the inspector below the drawing, not beside it. */
+@media (max-width: 760px) {
+  .graph-page, .graph-page.choosing {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "tools" "head" "plot" "side" "list";
+    grid-template-rows: auto;
+  }
+  .graph-page.choosing { grid-template-areas: "head" "side"; grid-template-rows: auto; }
+  .graph-side { position: static; max-height: none; overflow: visible; }
+  .graph-canvas { height: 46vh; min-height: 280px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .graph-page * { transition: none !important; animation: none !important; }
+}
+.graph-ladders:empty { display: none; }

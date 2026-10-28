@@ -1,0 +1,24 @@
+# File formats, spelled the way a filesystem actually spells them.
+#
+# The entries are the file-type table's (`src/ingence/dictionary/file_types.yaml`): every row
+# of the table that names no domain is one of this section's formats, one sense per family, with its
+# spellings in the rows' order. The table is the one place where a kind of file is declared. Type
+# detection and the content readers read it too. This file keeps the section's name, its kind and
+# its summary, so every term identifier, binding, answer and `file_type:` scope made from this
+# section stays the same.
+#
+# These surfaces are reached through the extension slot, where a token may bind only to a sense of
+# this kind. That is what lets `md` mean markdown in `NOTES.md` and molecular dynamics in a folder
+# called `System_MD`, without either reading being a guess. A collision that survives outside the
+# extension slot is declared in the table (`ambiguous_with`) and in the section that owns the other
+# sense, so a rule sees both readings and not one arbitrary winner. A spelling that is also an
+# ordinary word binds after a dot only (the table's `also_a_word`), so shipping `log` as a format
+# does not make the word `log` in a name tie with it. `md` is markdown after a dot and molecular
+# dynamics before one. `ome.tif` is a compound spelling and still a TIFF. One image type holds
+# every image, and a proprietary spelling limits its origins and not its type.
+section: formats
+theme_kind: format
+origin: builtin
+summary: File formats named by the extension a filesystem carries.
+file_types: from_table
+entries: []

@@ -1,0 +1,82 @@
+# ---------------------------------------------------------------------------
+# Paths that do not belong in this repository.
+#
+# Design records, planning notes, session notes and test data are kept outside it. The
+# entries below are a second line of defence: a file recreated at one of these paths is
+# ignored rather than committed.
+# ---------------------------------------------------------------------------
+# Markdown is kept only at the named documents in the root, under .github/, LICENSES/,
+# manuscript/README.md and in vendor/ folders. Any other Markdown file, or a copy of one, is
+# ignored: a note, a tool's instruction file, or its outputs. This block comes first, and each
+# exception names Markdown files only, so the rules for the design record and session files
+# below still apply inside those places.
+*.md
+*.md.*
+*.mdc
+*.markdown
+!/README.md
+!/INSTALL.md
+!/GETTING_STARTED.md
+!/CONTRIBUTING.md
+!/COMMUNITY.md
+!/CODE_OF_CONDUCT.md
+!/SECURITY.md
+!/GOVERNANCE.md
+!/SUPPORT.md
+!/.github/**/*.md
+!/LICENSES/**/*.md
+!/manuscript/README.md
+!**/vendor/**/*.md
+
+# The line after docs/ lets the documentation generators in tools/docs/ be tracked.
+docs/
+!/tools/docs/
+experiments/
+Test_Data/
+Notes and planning/
+Former Codebases/
+*_PLANNING.md
+*_PROMPT.md
+*KICKOFF.md
+*HANDOFF.md
+SESSION*.md
+DECISIONS.md
+GLOSSARY.md
+
+# Hidden folders hold one tool's or one person's settings, worktrees and caches. The
+# project's only hidden folder is .github, which is kept.
+.*/
+!.github/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.env
+
+# Tooling caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+coverage.xml
+
+# Editors and platforms
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Ingence project artifacts produced by a run
+/runs/
+/.tmp/
+/CURRENT
+
+# The explorer's build tools; its built output under src/ingence/web/explorer/ is committed
+node_modules/

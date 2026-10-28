@@ -1,0 +1,120 @@
+/* Topics: the colors, the chooser, the pick bar, the "also in" chips, and the Collections section
+   of Experiments.
+
+   A topic's color is a person's, so it comes from the magenta family (the Dashboard's --person:
+   "a person said so"). The engine's own lines keep theirs. There are six shades, one per topic in the
+   order the topics were made, and then they repeat. The name beside every mark says which topic it
+   is. Light and dark are stepped, not inverted. Hues stay between 290 and 340, and each shade stays
+   clear of --problem (a test measures it). A topic's chip carries a dot and a border, which is the
+   problem marker's own form. A pick in progress is a selection, so it is drawn in the accent. A
+   topic's magenta marks only what is recorded. */
+
+:root {
+  --topic-1: hsl(334, 76%, 38%);
+  --topic-2: hsl(300, 55%, 38%);
+  --topic-3: hsl(318, 70%, 50%);
+  --topic-4: hsl(324, 60%, 26%);
+  --topic-5: hsl(308, 80%, 58%);
+  --topic-6: hsl(290, 38%, 54%);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --topic-1: hsl(330, 70%, 66%);
+    --topic-2: hsl(300, 52%, 66%);
+    --topic-3: hsl(316, 74%, 70%);
+    --topic-4: hsl(324, 56%, 54%);
+    --topic-5: hsl(306, 86%, 78%);
+    --topic-6: hsl(290, 44%, 74%);
+  }
+}
+
+/* ---------- the bar a view shows while things are picked: a selection, so the accent's */
+.topic-pickbar { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin: 6px 0 10px;
+  padding: 6px 10px; border: 1px solid var(--accent); border-radius: 8px;
+  background: var(--accent-soft); font-size: 13px; }
+.topic-pickbar .answer { padding: 4px 10px; }
+
+/* ---------- the chooser */
+dialog.topic-chooser select { width: 100%; font: inherit; padding: 5px 6px; }
+dialog.topic-chooser .topic-naming[hidden] { display: none; }
+dialog.topic-chooser .actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 12px; }
+
+/* ---------- a topic named on a row or a card */
+.topic-chips { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 4px; font-size: 11.5px;
+  color: var(--ink-soft); }
+.topic-chip { display: inline-flex; align-items: center; gap: 5px; font: inherit; font-size: 11.5px;
+  padding: 1px 8px; border-radius: 999px; border: 1px solid var(--t, var(--person)); color: var(--ink);
+  background: color-mix(in srgb, var(--t, var(--person)) 10%, var(--panel)); cursor: pointer;
+  max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.topic-chip:hover { background: color-mix(in srgb, var(--t, var(--person)) 22%, var(--panel)); }
+.topic-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--t, var(--person)); flex: none; }
+
+/* ---------- the quiet line at the foot of the page */
+.topic-say { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); z-index: 40;
+  max-width: min(640px, calc(100% - 32px)); padding: 8px 14px; border: 1px solid var(--line);
+  border-left: 3px solid var(--person); border-radius: 8px; background: var(--panel); font-size: 13px; }
+.topic-say[hidden] { display: none; }
+
+/* ---------- a box to pick with: a stack, a row, a result (a selection: the accent's) */
+.topic-pick { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; color: var(--ink-soft);
+  cursor: pointer; }
+.topic-pick input { margin: 0; accent-color: var(--accent); }
+.topic-picked { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+/* ---------- Experiments > Collections */
+.topics-page { max-width: 62rem; }
+.topics-page h2 { margin-top: 0; }
+.topics-intro { color: var(--ink-soft); font-size: 13.5px; max-width: 70ch; }
+.topic-list { list-style: none; margin: 12px 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.topic-row { display: block; width: 100%; text-align: left; font: inherit; color: inherit; cursor: pointer;
+  padding: 10px 12px; border: 1px solid var(--line); border-left: 4px solid var(--t, var(--person));
+  border-radius: 8px; background: var(--panel); }
+.topic-row:hover { border-color: var(--t, var(--person)); }
+.topic-row[aria-current="true"] { background: color-mix(in srgb, var(--t, var(--person)) 8%, var(--panel));
+  border-color: var(--t, var(--person)); }
+.topic-row .topic-name { display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 700; }
+.topic-row .topic-name .topic-dot { width: 10px; height: 10px; }
+.topic-row .topic-sub { margin: 3px 0 0; font-size: 12.5px; color: var(--ink-soft); }
+.topic-row .topic-flags { margin-top: 5px; }
+.topic-card { padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); }
+.topic-card + .topic-card { margin-top: 12px; }
+.topic-card h2 { display: flex; align-items: center; gap: 8px; margin: 0 0 4px; font-size: 20px; }
+.topic-card h3 { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--ink-soft); margin: 14px 0 4px; }
+.topic-card .topic-actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 0; }
+.topic-card .topic-said { margin: 4px 0; }
+.topic-members td.state-nothing, .topic-members td.state-not_computed { color: var(--ink-soft); }
+/* Hatching is unknown or not in the data: a member that resolves to nothing, or could not be read. */
+.topic-nothing { background: var(--hatch); background-size: auto; padding: 1px 6px; border-radius: 3px;
+  color: var(--ink); }
+.topic-members tr.is-nothing td:first-child { border-left: 3px dashed var(--ink-soft); padding-left: 8px; }
+.topic-drift ul { margin: 4px 0 8px; padding-left: 18px; font-size: 13px; }
+.topic-more { margin-top: 6px; }
+.topic-suggest { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
+
+/* ---------- Years: the lens, the picked rows, the "also in" chips, the Wheel's band */
+.years .ychips { margin-top: 3px; }
+.years .ypickbox { margin: 0 6px 0 0; accent-color: var(--accent); vertical-align: middle; }
+.years .yrow.topic-picked { box-shadow: inset 3px 0 0 var(--accent); background: var(--accent-soft); }
+.years select.ylens { font: inherit; font-size: 12.5px; padding: 2px 6px; max-width: 260px; }
+.ywheel path.wtopic { stroke: none; cursor: pointer; }
+.ywheel path.wtopic:hover { opacity: 0.75; }
+.ywheeltopics .ytopickey { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 2px 0; }
+.topic-card h2 { text-transform: none; letter-spacing: 0; font-weight: 400; font-size: 22px; }
+.topic-members td.topic-comes { min-width: 11em; }
+
+/* ---------- the Map: dots picked (a selection: the accent's), and the legend's switches */
+.map-svg .map-dot.topic-picked { stroke: var(--accent); stroke-width: 3; opacity: 1; }
+.map-topic-legend { align-items: center; }
+.map-topic-key { display: inline-flex; align-items: center; gap: 5px; cursor: pointer; }
+.map-topic-key input { margin: 0; accent-color: var(--person); }
+
+/* ---------- the Graph neighborhood: the legend's halo */
+.graph-legend .topic-halo { fill: color-mix(in srgb, var(--topic-1) 34%, transparent); stroke: var(--topic-1); stroke-width: 1; }
+
+/* ---------- Topics: what the saved file says about itself */
+.topic-export-notes { margin: 10px 0 0; padding: 8px 12px; border-left: 3px solid var(--accent); background: var(--accent-soft); font-size: 13px; }
+.topic-export-notes[hidden] { display: none; }
+.topic-export-notes p.eyebrow { margin: 0 0 4px; }
+.topic-note-list { margin: 0; padding-left: 18px; }

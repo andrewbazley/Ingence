@@ -1,0 +1,265 @@
+# The retired rules file as one version of it stood in git, with its words removed: no
+# statement, rationale, description or summary. Recognition of the file and the choices kept
+# from it read none of these.
+project_revision: 1
+changes:
+- supersede: stage_from_name
+- supersede: file_role_from_name
+- supersede: same_name_family
+- supersede: filesystem_noise_from_name
+- supersede: raw_data_from_acquisition_format
+- supersede: projection_derives_from_acquisition
+rules:
+- id: program_from_extension
+  version: '1'
+  predicate: class_from_bound_sense
+  effect: classifies
+  tier: defeasible
+  level: file
+  defeated_by:
+  - extension_contradicts_content
+  parameters:
+  - name: senses
+    type: string_list
+    default:
+    - python_source
+    - shell_script
+    - sql_source
+    - notebook_format
+  - name: minimum_match_quality
+    type: enum
+    choices:
+    - exact
+    - case_folded
+    - loose
+    default: exact
+- id: pipeline_stage_from_name
+  version: '1'
+  predicate: sense_from_name_tokens
+  effect: classifies
+  tier: defeasible
+  level: file
+  defeated_by:
+  - program_from_extension
+  parameters:
+  - name: theme_kind
+    type: string
+    default: stage
+  - name: senses
+    type: string_list
+    default:
+    - raw
+    - acquisition
+    - preprocessed
+    - intermediate
+    - processed
+    - analysis
+    - analysis_output
+    - quantification
+    - summary
+    - report
+    - export
+  - name: minimum_senses
+    type: integer
+    default: 1
+    minimum: 1
+    maximum: 10
+- id: file_role_unless_program
+  version: '1'
+  predicate: sense_from_name_tokens
+  effect: classifies
+  tier: defeasible
+  level: file
+  defeated_by:
+  - program_from_extension
+  parameters:
+  - name: theme_kind
+    type: string
+    default: file_role
+  - name: minimum_senses
+    type: integer
+    default: 1
+    minimum: 1
+    maximum: 10
+- id: name_family_without_stages
+  version: '1'
+  predicate: same_component_values
+  effect: groups
+  primitive: equivalent
+  respect: name_family
+  tier: defeasible
+  level: file
+  defeated_by:
+  - filesystem_noise_from_spelling
+  - placeholder_from_entry_kind
+  parameters:
+  - name: component_kinds
+    type: string_list
+    default:
+    - word
+  - name: ignored_theme_kinds
+    type: string_list
+    default:
+    - stage
+  - name: minimum_components
+    type: integer
+    default: 2
+    minimum: 1
+    maximum: 20
+- id: same_name_identity
+  version: '1'
+  predicate: same_component_values
+  effect: groups
+  primitive: equivalent
+  respect: name_identity
+  tier: defeasible
+  level: file
+  defeated_by:
+  - filesystem_noise_from_spelling
+  - placeholder_from_entry_kind
+  parameters:
+  - name: compared_within
+    type: enum
+    default: folder
+    choices:
+    - pool
+    - folder
+  - name: component_kinds
+    type: string_list
+    default:
+    - word
+    - number
+    - indexed
+    - quantity
+    - date
+    - version
+  - name: ignored_theme_kinds
+    type: string_list
+    default:
+    - stage
+  - name: minimum_components
+    type: integer
+    default: 2
+    minimum: 1
+    maximum: 20
+- id: filesystem_noise_from_spelling
+  version: '1'
+  predicate: sense_from_name_spelling
+  effect: classifies
+  tier: defeasible
+  level: file
+  parameters:
+  - name: senses
+    type: string_list
+    default:
+    - macos_metadata
+    - windows_metadata
+    - linux_metadata
+    - editor_backup
+    - version_control
+    - language_cache
+    - sync_artifact
+    - archive_helper
+  - name: positions
+    type: string_list
+    default:
+    - whole
+    - prefix
+    - suffix
+  - name: excluded_surfaces
+    type: string_list
+    default:
+    - ~$
+- id: acquisition_stage_from_format
+  version: '1'
+  predicate: class_from_bound_sense
+  effect: classifies
+  tier: defeasible
+  level: file
+  defeated_by:
+  - extension_contradicts_content
+  - later_stage_from_name
+  parameters:
+  - name: senses
+    type: string_list
+    default:
+    - vendor_image_format
+    - ephys_format
+  - name: concludes
+    type: string
+    default: acquisition
+  - name: minimum_match_quality
+    type: enum
+    choices:
+    - exact
+    - case_folded
+    - loose
+    default: exact
+- id: later_stage_from_name
+  version: '1'
+  predicate: sense_from_name_tokens
+  effect: classifies
+  tier: defeasible
+  level: file
+  parameters:
+  - name: theme_kind
+    type: string
+    default: stage
+  - name: senses
+    type: string_list
+    default:
+    - preprocessed
+    - intermediate
+    - processed
+    - analysis
+    - analysis_output
+    - quantification
+    - summary
+    - report
+    - export
+    - normalised
+    - aligned
+    - filtered
+    - smoothed
+    - denoised
+    - deconvolved
+    - segmented
+    - stitched
+    - cropped
+    - resized
+    - downsampled
+    - upsampled
+    - projected
+    - merged
+    - masked
+    - thresholded
+  - name: minimum_senses
+    type: integer
+    default: 1
+    minimum: 1
+    maximum: 10
+  - name: minimum_match_quality
+    type: enum
+    choices:
+    - exact
+    - case_folded
+    - loose
+    default: case_folded
+- id: derivation_within_name_identity
+  version: '1'
+  predicate: derives_from_stage_transition
+  effect: proposes
+  primitive: derives
+  specialization: processed_from
+  tier: defeasible
+  level: file
+  candidates_within: same_name_identity
+  parameters:
+  - name: stage_transitions
+    type: mapping
+    default:
+      raw: processed
+      acquisition: processed
+      processed: analysis
+      analysis: quantification
+      quantification: summary

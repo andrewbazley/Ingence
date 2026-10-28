@@ -1,0 +1,138 @@
+# The process and workflow vocabulary: what was done to a thing, and where it
+# sits in a pipeline.
+#
+# Entirely domain-neutral. Every field that produces data has a raw form, an
+# intermediate form and a result, and the words for those are shared across all
+# of them. This is the section that does the most work on an unfamiliar corpus,
+# because it is the part of a filename that is not about the science.
+section: process
+theme_kind: stage
+origin: builtin
+summary: Pipeline stages, transformations, run status and organising units.
+
+entries:
+  # -- pipeline stage -------------------------------------------------------
+  # `rawimages` and `rawdata` name a dataset's folder of raw images or raw data, written as one
+  # word, which the tokeniser keeps whole.
+  - {term: raw, surfaces: [raw, unprocessed, untouched, asacquired, "as-acquired", original_data, rawimages, rawdata]}
+  - {term: acquisition, surfaces: [acq, acquisition, acquired, capture, captured, recording, recorded]}
+  # `pre` does not belong to this sense. In a laboratory's names it denotes a pre-treatment
+  # (`preDrugA`, `pre DrugB`). It means preprocessing only where the word is spelled out.
+  - {term: preprocessed, surfaces: [prep, prepped, preprocessed, preprocessing, "pre-processed"]}
+  - {term: intermediate, surfaces: [intermediate, interim, working, scratch_stage, staging]}
+  - {term: processed, surfaces: [processed, processing, proc]}
+  # One general analysis category covers both a file somebody analysed and a file an analysis
+  # wrote. A separate `analysis_output` sense claimed many files on a laboratory's census, and few
+  # of those files also claimed `analysis`. One category keeps those files staged rather than
+  # leaving them unstaged. It also stops the engine spending a person's attention on which of two
+  # stages a `results` folder is. The stage assignment is not a central aspect of a file's
+  # identity.
+  - {term: analysis,
+     surfaces: [analysis, analyses, analysed, analyzed, analytic,
+                track, tracked, tracking, tracks, trajectories,
+                output, outputs, out, result, results, res, derived]}
+  # An analysis that rests on several independent replicates, which is a different thing from
+  # an image or a table that several files were merged into.
+  # `final` and `AAA` are listed here although another sense already spells each of them: `final`
+  # by a version and `AAA` by a keyboard mash. Listing them lets real data show how they perform.
+  - {term: pooled,
+     surfaces: [pooled, pooling, metaanalysis, "meta-analysis", meta_analysis, combined, merged,
+                final, AAA],
+     ambiguous_with: [merged, final]}
+  - {term: quantification, surfaces: [quant, quantified, quantification, measurements, measured]}
+  - {term: summary, surfaces: [summary, summaries, summarised, summarized, aggregate, aggregated, rollup]}
+  - {term: report, surfaces: [report, reports, writeup, "write-up", manuscript, paper, poster, slides, deck]}
+  - {term: export, surfaces: [export, exported, exports, published, shared, delivery, deliverable]}
+  - {term: unaffiliated, surfaces: [misc, miscellaneous, other, unsorted, unfiled, inbox, dump]}
+
+  # -- transformations ------------------------------------------------------
+  - {term: normalised, surfaces: [norm, normalised, normalized, normalisation, normalization]}
+  - {term: corrected, surfaces: [corr, corrected, correction, adjusted]}
+  - {term: calibrated, surfaces: [cal, calib, calibrated, calibration]}
+  - {term: aligned, surfaces: [aligned, alignment, registered, registration, coregistered]}
+  - {term: filtered, surfaces: [filt, filtered, filtering]}
+  - {term: smoothed, surfaces: [smooth, smoothed, smoothing]}
+  - {term: denoised, surfaces: [denoised, denoise, denoising, noisereduced]}
+  - {term: deconvolved, surfaces: [decon, deconv, deconvolved, deconvolution]}
+  - {term: segmented, surfaces: [seg, segmented, segmentation]}
+  - {term: stitched, surfaces: [stitch, stitched, stitching, mosaic]}
+  - {term: cropped, surfaces: [crop, cropped, cropping, trimmed]}
+  - {term: resized, surfaces: [resize, resized, rescaled, scaled]}
+  - {term: downsampled, surfaces: [downsampled, downsample, decimated, subsampled]}
+  - {term: upsampled, surfaces: [upsampled, upsample, interpolated]}
+  - {term: binned, surfaces: [bin, binned, binning]}
+  - {term: projected, surfaces: [proj, projected, projection]}
+  - {term: merged, surfaces: [merge, merged, combined, joined, concatenated, concat],
+     ambiguous_with: [pooled]}
+  - {term: subset, surfaces: [subset, selection, selected, filtered_subset]}
+  - {term: converted, surfaces: [conv, converted, conversion, transcoded, reformatted]}
+  - {term: compressed, surfaces: [compressed, zipped, gzipped, packed]}
+  - {term: annotated, surfaces: [annotated, annotation, labelled, labeled, curated]}
+  # `masks` names a dataset's folder of masks, and a mask named for its image.
+  - {term: masked, surfaces: [mask, masks, masked, masking]}
+  - {term: thresholded, surfaces: [thresh, threshold, thresholded, binarised, binarized]}
+
+  # -- run and execution ----------------------------------------------------
+  - {term: run, surfaces: [run, runs, execution, exec], theme_kind: process}
+  - {term: batch, surfaces: [batch, batches, bulk], theme_kind: process}
+  - {term: job, surfaces: [job, jobs, task, tasks], theme_kind: process}
+  - {term: pipeline, surfaces: [pipeline, workflow, flow, dag], theme_kind: process}
+  - {term: script, surfaces: [script, scripts, macro, macros, code], theme_kind: process}
+  - {term: notebook, surfaces: [notebook, notebooks, nb], theme_kind: process}
+  - {term: configuration, surfaces: [config, cfg, conf, settings, params, parameters, options, opts], theme_kind: process}
+  - {term: log, surfaces: [log, logs, logfile, stdout, stderr, trace, journal], theme_kind: process}
+  - {term: manifest, surfaces: [manifest, index, inventory, listing, catalog, catalogue], theme_kind: process}
+  - {term: checksum, surfaces: [checksum, md5, sha1, sha256, hash, digest], theme_kind: process}
+
+  # -- run status -----------------------------------------------------------
+  - {term: complete, surfaces: [complete, completed, done, finished, success, ok, passed], theme_kind: status}
+  - {term: pending, surfaces: [pending, queued, waiting, todo, scheduled], theme_kind: status}
+  - {term: running, surfaces: [running, active, inprogress, "in-progress"], theme_kind: status}
+  # The term is `failed_run` and not `failed`. The negative lexicon's doubt sense is `failed`, and
+  # a term's identifier is its term, scope and origin, so two senses called `failed` would share
+  # one key. The spellings that both senses wrote (failed, failure, fail, crashed) stay the doubt
+  # word's alone. If both senses held them, they would read as conflicting and a doubt rule would
+  # stop seeing them.
+  - {term: failed_run, surfaces: [error, errored], theme_kind: status}
+  - {term: aborted, surfaces: [aborted, cancelled, canceled, stopped, killed, interrupted], theme_kind: status}
+  - {term: skipped, surfaces: [skipped, skip, bypassed, excluded], theme_kind: status}
+  - {term: partial, surfaces: [partial, incomplete, truncated, unfinished], theme_kind: status}
+
+  # -- organising units -----------------------------------------------------
+  - {term: project, surfaces: [project, proj, programme, program], theme_kind: project}
+  - {term: experiment, surfaces: [exp, expt, experiment, experiments], theme_kind: experiment}
+  - {term: study, surfaces: [study, studies, investigation], theme_kind: experiment}
+  - {term: session, surfaces: [session, sessions, sitting], theme_kind: session}
+  - {term: dataset, surfaces: [dataset, datasets, data, ds], theme_kind: dataset}
+  - {term: sample, surfaces: [sample, samples, spec, specimen, specimens], theme_kind: sample}
+  - {term: subject, surfaces: [subject, subjects, animal, animals, donor, donors], theme_kind: subject}
+  - {term: condition, surfaces: [cond, condition, conditions], theme_kind: condition}
+  - {term: treatment, surfaces: [treat, treated, treatment, treatments, dosed], theme_kind: condition}
+  - {term: control, surfaces: [ctrl, ctl, control, controls, untreated, mock, sham], theme_kind: condition}
+  # Wild type is an experimental condition. It is the reference that an experiment compares its
+  # variants against, as a control is. It does not belong to the biochemistry pack's genotypes,
+  # where it would be a subject.
+  - {term: wild_type, canonical: wild type, surfaces: [wildtype, "wild-type", wt], theme_kind: condition}
+  - {term: vehicle, surfaces: [veh, vehicle, dmso_control, carrier], theme_kind: condition}
+  # A pre-treatment is a condition of its own. It is a treatment given before another
+  # (`preDrugA`), which is not the time before any treatment. The word `pre` denotes it.
+  - {term: pretreatment, canonical: pre-treatment, surfaces: [pre, pretreatment, "pre-treatment", pretreated, "pre-treated"], theme_kind: condition}
+  - {term: baseline, surfaces: [baseline, t0, timezero], theme_kind: condition}
+  - {term: group, surfaces: [group, groups, arm, arms, cohort, cohorts], theme_kind: condition}
+  - {term: timepoint, surfaces: [tp, timepoint, timepoints, "time-point", timecourse, timeseries], theme_kind: timepoint}
+  - {term: plate, surfaces: [plate, plates, wellplate, microplate], theme_kind: vessel}
+  - {term: well, surfaces: [well, wells], theme_kind: vessel}
+  - {term: slide, surfaces: [slide, slides, coverslip, chamber, dish, flask, tube, vial], theme_kind: vessel}
+  - {term: position, surfaces: [pos, position, positions, site, sites, fov, "field-of-view"], theme_kind: position}
+  # A frame and a segment are plain words for a part of something larger: an image of any series,
+  # a piece of a track, a trace or an outline. The Dictionary knows them so that a counter glued to
+  # one splits off (`frame0001`, `segment3`), as after any word it knows. They are a kind of their
+  # own, so that no method reads them as a time series or a protocol step.
+  - {term: frame, surfaces: [frame, frames], theme_kind: part}
+  - {term: segment, surfaces: [segment, segments], theme_kind: part}
+  # The word `single` says how many and never what. Alone, or before a word it forms no phrase
+  # with (`single molecule` written apart), it names no subject and must not stand in a theme's
+  # label. It is a kind of its own, which theme labels leave out and grouping still reads, so
+  # `mouse_single_KO` and `mouse_double_KO` stay apart. Its phrases (`single particle`,
+  # `single-end`, `single-cell RNA-seq`) still win.
+  - {term: single, surfaces: [single], theme_kind: quantifier}

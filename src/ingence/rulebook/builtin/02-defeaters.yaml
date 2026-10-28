@@ -1,0 +1,93 @@
+# Revision 2: what would retract a claim, declared as rules.
+#
+# A defeasible conclusion follows by default and is retractable when a conflicting
+# fact arrives, and the record refuses a defeasible claim that names nothing which
+# would retract it. Every classifying rule in revisions 0 and 1 is defeasible and
+# none of them said what would defeat it, so none of them could license a claim.
+#
+# A DEFEAT CONDITION IS A RULE
+#
+# Not a reason written beside the rule it defeats. A defeater named here is a rule
+# of its own, with a sentence, a predicate, a version and parameters, so a claim
+# that is retracted names something a person can open and read, exactly as a claim
+# that stands does. A rule names its defeaters in `defeated_by`, and the claim pass
+# evaluates each on the same entry: where one concludes, the claim is published
+# with that defeater fired and its standing marked as conflicting.
+#
+# ONE RULE, BECAUSE ONE DEFEAT CONDITION IS ALREADY IN THE INDEX
+#
+# Type detection records whether a file's extension agrees with what its content
+# says it is, and it decides that two ways. Where the bytes carry a signature, the
+# extension is compared against the extensions that format declares, and a
+# disagreement is a misnamed or renamed file. Everywhere else a media type is
+# compared as a string against a hint read from the extension, and a disagreement
+# there is usually two vocabularies spelling one format. Only the first retracts a
+# format read from an extension, and it is the one defeat condition this revision
+# declares. This revision gives the other ten classifying rules that can run no defeat
+# condition, so under it they cannot license claims, and the claim pass says so for
+# each rather than inventing one. Later revisions declare more defeaters.
+#
+# REVISIONS ARE APPEND-ONLY
+#
+# Revisions 0 and 1 are not edited. `format_from_extension` is declared again here
+# at version 2, which supersedes version 1 from this revision forward and leaves
+# version 1 readable, so a run recorded against revision 1 still resolves to the
+# rule it ran.
+
+revision: 2
+summary: >-
+  What would retract a claim, declared as rules, beginning with the one defeat
+  condition the Index already records.
+
+rules:
+  - id: extension_contradicts_content
+    version: "1"
+    predicate: extension_contradicts_content
+    effect: flags
+    tier: defeasible
+    level: file
+    statement: >-
+      A file is raised when the {detector} its bytes carry belongs to a format
+      whose extensions do not include the one it is named with.
+    rationale: >-
+      An extension is what somebody wrote when naming a file and a signature is
+      fixed by the format's own specification, so a disagreement between them
+      means the file was misnamed or renamed, either of which a person would
+      want to know, and it is exactly the fact that retracts a format read from
+      the extension.
+    parameters:
+      - name: detector
+        type: string
+        default: signature
+        description: >-
+          The type detector whose opinion must stand behind a disagreement for it
+          to count as a contradiction. A signature is compared against the
+          extensions its format declares. Any other detector's opinion is
+          compared with the extension as a media type string, and two
+          vocabularies spell one format differently often enough that such a
+          disagreement says more about the spelling than about the file.
+
+  - id: format_from_extension
+    version: "2"
+    predicate: format_from_extension
+    effect: classifies
+    tier: defeasible
+    level: file
+    defeated_by: [extension_contradicts_content]
+    statement: >-
+      A file is of the format its extension names, where that extension binds
+      cleanly to a single sense of kind {theme_kind}, unless the file's own
+      content contradicts the extension.
+    rationale: >-
+      An extension is what a filesystem carries and a format's spelling is its
+      extension, so the match is nearly direct; it stays defeasible because an
+      extension is a conclusion the writer made and any file can be misnamed, which is
+      why a content signature disagreeing with it retracts the conclusion.
+    parameters:
+      - name: theme_kind
+        type: string
+        default: format
+        description: >-
+          The theme kind an extension may match. Constrains what may match
+          rather than guessing what probably means what, which is why md in an
+          extension slot is markdown and md in a folder name is still ambiguous.

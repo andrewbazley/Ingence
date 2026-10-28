@@ -1,0 +1,84 @@
+# Scientific programs a laboratory keeps installed beside its data, each recognised by the parts
+# its installation always holds side by side.
+#
+# Common scientific programs have a file suite that the engine can recognise as a group. Such
+# programs are often kept on a server for cross-system analysis consistency. A copy of a program
+# kept on a server is one thing, a program, and nothing inside it is an experiment's data. Every
+# rule defers beneath the folder these layouts raise, and a dive reads its files last.
+#
+# This is a pack of brand names, so a person can switch it off (`dictionary.domain_packs: named`,
+# not naming `programs`): the packaging conventions in the core's `program_layouts.yaml` still
+# recognise a package, an environment, an application bundle or a folder of libraries, and only
+# the names go. Every layout names at least two parts, each from the program's own packaging and
+# the same on every machine; a program is never recognised by its name alone. A program that
+# installs as a macOS application is recognised by its bundle's own name (`.app`) wherever no
+# layout here names it.
+#
+# The grammar is the core file's: a part is a name or a list of names any one of which will do,
+# `*` any run of characters, a trailing `/` a folder.
+
+# The pack's manifest. Its digest is over the words below, not the comments: a changed word
+# needs a new version and a new digest.
+pack:
+  name: programs
+  version: "1"
+  domain: programs
+  author: Ingence
+  licence: MIT
+  schema: "1.22"
+  digest: 13de379a9a70526946c54af42ba64aab
+section: programs
+domain: programs
+theme_kind: software
+summary: Named scientific suites, recognised by the parts their installations hold side by side.
+
+# A program named in a file's name: the files it wrote, or a person's note of where they came
+# from. A name is never how an installation is recognised; the layouts below do
+# that.
+entries:
+  - {term: trackmate, canonical: TrackMate, surfaces: [trackmate]}
+
+layouts:
+  # -- image analysis -------------------------------------------------------
+  # Fiji keeps its libraries in `jars`, its plugins in `plugins` and its lookup tables in `luts`,
+  # on every platform, whatever the folder is called.
+  - program: Fiji
+    holds: [jars/, plugins/, luts/]
+  # ImageJ 1.x: the one jar the program is, beside its plugins folder.
+  - program: ImageJ
+    holds: [ij.jar, plugins/]
+  # Micro-Manager installs ImageJ with its own device, plugin and autofocus folders beside it.
+  - program: Micro-Manager
+    holds: [mmplugins/, mmautofocus/]
+  # Icy: the program's jar beside its plugins.
+  - program: Icy
+    holds: [icy.jar, plugins/]
+  # QuPath, as its Windows installer lays it out: the launcher beside the application and the Java
+  # runtime it carries.
+  - program: QuPath
+    holds: ["qupath*.exe", app/, runtime/]
+  # The Bio-Formats command-line tools: the library jar beside its converter.
+  - program: Bio-Formats tools
+    holds: [bioformats_package.jar, ["bfconvert", "bfconvert.bat"]]
+
+  # -- numerical and statistical environments -------------------------------
+  # MATLAB's installation root: its launchers, its toolboxes and the file naming its release.
+  - program: MATLAB
+    holds: [bin/, toolbox/, VersionInfo.xml]
+  # R's installation root: launchers, the library of installed packages, its modules and its
+  # configuration, on macOS (inside the framework) and on Windows alike.
+  - program: R
+    holds: [bin/, library/, modules/, etc/]
+  # RStudio's desktop installation: its launcher beside its resources.
+  - program: RStudio
+    holds: [[rstudio.exe, rstudio], resources/]
+  # Python as its Windows installer lays it out: the interpreter beside its standard library and
+  # its extension modules. (A Python built for macOS or Linux is a folder of `bin`, `lib` and
+  # `include`, which the core already reads as an installed program's layout.)
+  - program: Python
+    holds: [python.exe, Lib/, DLLs/]
+
+  # -- workflow environments ------------------------------------------------
+  # KNIME, an Eclipse application: its configuration file beside its plugins and features.
+  - program: KNIME
+    holds: [knime.ini, plugins/, features/]

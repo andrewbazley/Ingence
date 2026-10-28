@@ -1,0 +1,130 @@
+# The words of the sample collection, version 2.
+#
+# Every word a person can read in a name of the collection (a folder, a file, a person) is in this
+# file, and nowhere else. There are no invented words. Sections:
+#
+#   people      ordinary made-up names (a first name and a family name). A test checks that none of
+#               them is a word the Dictionary reads.
+#   dictionary  words the shipped Dictionary already reads. A test checks that each one is read by
+#               the core and the packs named under `packs`, which are the ones a new project
+#               (and `ingence demo`) loads, and by no fewer.
+#   packs       for the dictionary words the core alone does not read, the one pack that reads
+#               them. A test checks that the core alone does not read them and the pack does.
+#   biology     common biology words: cell lines, genes and proteins, drugs. Most are not words
+#               the Dictionary reads. The packs read the public ones named in the test (HeLa,
+#               DMSO and the like), which stay here because the generator picks them by their
+#               place in the list. A test pins which of them are read.
+#   everyday    plain English words of folder and file names that the Dictionary does not read
+#               (a test checks that it does not).
+#   files       the extensions of files and the names programs give their own files. The
+#               Dictionary reads some of them; nothing is claimed about the rest.
+#
+# A word with a capital letter is written that way in names where the habit allows it. Matching
+# ignores case. A phrase of two words ("western blot") is two words in a name.
+
+format: ingence-sample-lab-words
+version: 2
+
+people:
+  first:
+    - Maria
+    - Ben
+    - Priya
+    - Tom
+    - Ana
+    - Jin
+    - Elena
+    - Omar
+    - Lucas
+    - Hannah
+    - Daniel
+    - Sofia
+    - Ravi
+    - Grace
+    - Marcus
+    - Nadia
+    - Peter
+    - Yuki
+    - Leah
+    - Victor
+    - Amara
+    - Henry
+    - Chloe
+    - Diego
+  family:
+    - Chen
+    - Okafor
+    - Iyer
+    - Becker
+    - Souza
+    - Park
+    - Rossi
+    - Haddad
+    - Meyer
+    - Cohen
+    - Mwangi
+    - Lindqvist
+    - Nowak
+    - Ferreira
+    - Tanaka
+    - Brennan
+    - Kowalski
+    - Ibrahim
+    - Larsen
+    - Moreau
+    - Dubois
+    - Singh
+    - Vargas
+    - Whitfield
+
+dictionary:
+  # How the specimen is looked at, and how an experiment is carried out.
+  techniques: [confocal, widefield, timelapse, zstack, tirf, brightfield, sted, frap, qpcr, pcr, western, blot, gel, dic, phase]
+  # Stains and fluorescent tags.
+  stains: [DAPI, Hoechst, phalloidin]
+  tags: [GFP, mCherry]
+  # What a condition is called when nothing was done to the cells.
+  controls: [control, ctrl, vehicle, wildtype, mock, untreated]
+  # Treatments the Dictionary reads.
+  treatments: [rapamycin, doxycycline, knockdown, knockout, siRNA]
+  # Doses and times. Each is a number and a unit the Dictionary reads.
+  doses: [10uM, 50nM, 2mM, 100ng, 5uM, 100nM, 1uM, 20uM]
+  times: [30min, 2h, 24h, 48h]
+  # Parts of a design, of a workflow and of an analysis.
+  design: [test, titration, timecourse, repeat, again, redo, replicate, rep, take]
+  stages: [raw, processed, proc, analysis, results, out, data, images, tifs, figs, figure, figures, summary, report, panel, quant]
+  # Folders and files that people keep.
+  keeping: [fixed, backup, old, copy, done, notes, readme, latest, current, shared, protocol, protocols, logs, example, license, plot, fit, export, untitled, tmp, image, img, stack, tile, merge, mask, count, counts, intensity, channel, segmentation, matlab, final, log]
+  # The units that follow a number.
+  units: [um, nm, mm, ng, sec, hr, day, week, min]
+  # Temperatures and lengths written with their symbols, in a few names of the largest tier.
+  symbols: [37°C, 25°C, 10µm, 20µm]
+  # The words of a well plate, and of a sequencing run.
+  plates: [plate, well, wells]
+  sequencing: [forward, reverse, plasmid]
+  # Plain words and month names that the Dictionary reads all the same.
+  plain: [frame, scripts, master, of, for, to, and, the, from, in, tests, sample, misc, plots, tables, slides, papers, drafts, v, r, run, fits]
+  months: [jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec]
+  # Words of the names of programs inside data folders.
+  program_words: [intensity, mask, channel, count, plot, fit, merge, export, segmentation, tile, stack, summary, quant]
+
+biology:
+  cell_lines: [HeLa, HEK293T, U2OS, COS7, NIH3T3, MCF7, A549, RPE1, CHO, Jurkat, HepG2, MDCK]
+  proteins_and_genes: [actin, tubulin, p53, histone, H2B, lamin, vimentin, myosin, kinesin, EGFR, ERK, Akt, mTOR, GAPDH, HSP90, CTCF, Rab5, LC3, paxillin, cofilin]
+  drugs: [DMSO, nocodazole, taxol, thapsigargin, tunicamycin, cycloheximide, brefeldin, cytochalasin, latrunculin, staurosporine]
+
+everyday:
+  # Words of folders and files in plain English that the Dictionary does not read.
+  words: [new, edit, archive, lab, alumni, link, folder, meeting, instrument, series, reanalysis, analyze, process, downloads, tools, toolbox, utils, load, defaults, store, go, my, is, was, were, are, a, s, contents, screen, desktop, sort, later, thesis, sequencing, app]
+
+files:
+  # Extensions, written as the files carry them.
+  extensions: [csv, txt, xml, json, tif, tiff, nd, czi, lif, oib, mat, png, jpg, gif, pdf, doc, docx, xls, xlsx, ppt, pptx, zip, py, m, ipynb, ijm, md, toml, jar, lut, ab, dna, seq, fcs, avi, svg, pzfx, db, ds]
+  # The names programs give the files they install or write.
+  software: [fiji, ij, commons, math, io, pyproject, jars, plugins, luts, macros, startupmacros, montage, cell, counter, colocalization, threshold, particles, sorter, fire, grays, green, red, thumbs]
+
+packs:
+  microscopy: [confocal, widefield, timelapse, zstack, tirf, brightfield, sted, frap, dic, phase, DAPI, Hoechst, phalloidin, GFP, mCherry, stack, tile, intensity, channel]
+  biochemistry: [qpcr, pcr, western, blot, gel, rapamycin, doxycycline, knockdown, knockout, siRNA, titration, fixed, plasmid]
+  computational: [matlab]
+  sequencing: [forward, reverse]

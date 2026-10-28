@@ -1,0 +1,48 @@
+# Electrophysiology and neuroscience recording.
+
+# The pack's manifest. Its digest is over the words below, not the comments: a changed word
+# needs a new version and a new digest.
+pack:
+  name: electrophysiology
+  version: "2"
+  domain: electrophysiology
+  author: Ingence
+  licence: MIT
+  schema: "1.22"
+  digest: cbb247bbe55c761484c8762ebcc5128d
+section: electrophysiology
+theme_kind: technique
+origin: builtin
+domain: electrophysiology
+# The pack's file formats are rows of the file-type table
+# (`src/ingence/dictionary/file_types.yaml`), every row naming this section. The senses are the
+# ones this file declared, term for term and spelling for spelling, so nothing made from them
+# moves. What each format is, who writes it and whether it is recorded data is the table's.
+file_types: from_table
+summary: Recording configurations, protocols, measured quantities and formats.
+
+entries:
+  - {term: patch_clamp, surfaces: [patch, patchclamp, "patch-clamp", wholecell, "whole-cell", cellattached, "cell-attached", insideout, outsideout, perforated]}
+  - {term: clamp_mode, surfaces: [voltageclamp, "voltage-clamp", vc, currentclamp, "current-clamp", cc, iclamp, vclamp]}
+  - {term: extracellular, surfaces: [extracellular, lfp, "local-field-potential", mua, sua, spikesorting, tetrode, silicon_probe, neuropixels_class]}
+  - {term: array_recording, surfaces: [mea, "multi-electrode-array", multielectrode, hdmea, grid_array]}
+  - {term: surface_recording, surfaces: [eeg, ecog, emg, ecg, ekg, meg]}
+  - {term: stimulation, surfaces: [stim, stimulation, stimulus, pulse_train, paired_pulse, tetanus, optogenetic, chr2_class, dbs]}
+
+  # `segment` alone is an ordinary noun of any file's name (a track's segments, an outline's), and
+  # the tokeniser folds its plural onto it, so the protocol step keeps it only in its phrases
+  # (otherwise a tracking file's `segments` would read as this step wherever the pack loaded).
+  - {term: protocol_step, surfaces: [sweep, sweeps, episode, trace, traces, "sweep segment", "protocol segment", run_protocol, ramp, step_protocol, iv_protocol, "i-v"], theme_kind: acquisition}
+  - {term: holding, surfaces: [holding, holdingpotential, vhold, ihold, restingpotential, vrest], theme_kind: measurement}
+  - {term: access, surfaces: [ra, rs, seriesresistance, "series-resistance", accessresistance, gigaseal, sealtest, sealresistance], theme_kind: measurement}
+  - {term: input_resistance, surfaces: [rin, inputresistance, "input-resistance"], theme_kind: measurement}
+  - {term: capacitance_measure, surfaces: [cm, membranecapacitance, wholecellcap], theme_kind: measurement}
+  - {term: leak, surfaces: [leak, leaksubtraction, "leak-subtracted", pn_subtraction], theme_kind: measurement}
+
+  - {term: synaptic_current, surfaces: [epsc, ipsc, mepsc, mipsc, sepsc, sipsc, psc, evoked, spontaneous, miniature], theme_kind: measurement}
+  - {term: synaptic_potential, surfaces: [epsp, ipsp, psp], theme_kind: measurement}
+  - {term: action_potential, surfaces: [ap, actionpotential, "action-potential", spike, spikes, firing, firingrate, burst, bursting, isi, "inter-spike-interval"], theme_kind: measurement}
+  - {term: kinetics, surfaces: [risetime, "rise-time", decaytime, "decay-time", tau, halfwidth, amplitude_ephys, latency], theme_kind: measurement}
+  - {term: plasticity, surfaces: [ltp, ltd, stp, ppr, "paired-pulse-ratio", facilitation, depression_synaptic], theme_kind: measurement}
+
+  - {term: ephys_software, surfaces: [clampex, clampfit, pclamp, axograph, igor, spike2, plexon, kilosort, phy, mountainsort], theme_kind: software}

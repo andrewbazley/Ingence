@@ -1,0 +1,719 @@
+# What every version of the retired rules file held, frozen at the fold. The record holds the rules
+# the file declared, the changes it made, the exceptions of its deferral, each rule's shape (its
+# declaration less its words and values, as a digest written in letters) and every value it gave a
+# parameter, as canonical JSON. The file is rulebook/01-revision-4.yaml, which earlier versions of
+# Ingence kept in each project. Its rules are now the engine's own. The record was generated once,
+# at the fold, from every version of the declaration that git holds. No version is written after
+# it, so it is complete. src/ingence/rulebook/retired.py reads it.
+rules:
+- acquisition_stage_from_format
+- analysis_stage_from_derived_sense
+- archive_link_copy_of_a_file
+- binding_is_ambiguous_outside_programs
+- content_contradicts_extension
+- content_says_do_not_analyse
+- content_unreadable
+- copied_in_bulk
+- copies_by_sampled_digest
+- date_neighbourhood_of_a_file
+- date_neighbourhood_of_a_folder
+- declared_attribute_to_clarify
+- declared_copy_window_exceeded
+- declared_digest_contradicted
+- declared_sha256_contradicted
+- derivation_by_a_scripts_calls
+- derivation_endpoints_hold_roles_or_a_scripts_calls
+- derivation_named_by_a_describing_file
+- derivation_named_for_an_acquisition
+- derivation_within_name_identity
+- domain_pack_would_read_this_pool
+- doubt_in_a_folder_name
+- doubt_to_confirm_in_a_folder_name
+- earliest_credible_time
+- empty_and_untouched
+- empty_replicate_is_no_data_point
+- experiment_folder_from_contents
+- experiment_folder_from_dated_name
+- experiments_approved_together
+- experiments_may_belong_together
+- file_role_unless_program
+- filesystem_noise_from_spelling
+- folder_copied_by_declared_clocks
+- folder_copied_in_bulk
+- format_built_on_a_container
+- format_from_extension_unless_contradicted
+- group_resolution_deviation
+- group_resolved_across_experiments
+- group_resolved_within_experiment
+- group_series_across_experiments
+- identical_by_declared_digest
+- identical_by_declared_sha256
+- indexed_label_may_mark_replicates
+- installed_software_in_folder
+- later_stage_from_name
+- miscellaneous_files_approved
+- miscellaneous_files_to_approve
+- name_family_without_stages
+- named_for_an_acquisition
+- note_written_as_a_file_name
+- pipeline_stage_from_name
+- program_from_extension
+- references_a_mentioned_file
+- replicate_from_indexed_label
+- replicates_of_one_condition
+- roi_archive_from_members
+- roi_archive_named_but_unlisted
+- same_name_identity
+- same_name_identity_within_experiment
+- same_observed_metadata_outside_programs
+- software_outside_the_catalogue
+- stated_count_may_mark_replicates
+- unbound_word_in_a_kinds_place
+- vocabulary_unread_in_folder_outside_programs
+changes:
+- '{"override":"identical_by_content_digest","parameters":{"digest_algorithm":"blake3_whole"}}'
+- '{"supersede":"authored_name_doubt"}'
+- '{"supersede":"binding_is_ambiguous"}'
+- '{"supersede":"derivation_endpoints_hold_eligible_roles"}'
+- '{"supersede":"derives_from_declared_reference"}'
+- '{"supersede":"extension_contradicts_content"}'
+- '{"supersede":"file_role_from_name"}'
+- '{"supersede":"filesystem_noise_from_name"}'
+- '{"supersede":"format_from_extension"}'
+- '{"supersede":"projection_derives_from_acquisition"}'
+- '{"supersede":"raw_data_from_acquisition_format"}'
+- '{"supersede":"references_a_declared_output"}'
+- '{"supersede":"same_name_family"}'
+- '{"supersede":"same_observed_metadata"}'
+- '{"supersede":"stage_from_name"}'
+- '{"supersede":"vocabulary_unread_in_folder"}'
+exceptions:
+- '{"except":["access_failure_is_concentrated","comprehension_failure_is_concentrated","copies_by_sampled_digest","earliest_credible_time","filesystem_noise_from_spelling","format_from_extension_unless_contradicted","identical_by_content_digest","placeholder_from_entry_kind","program_from_extension","same_array_shape","same_column_schema"],"scope":"installed_software_in_folder"}'
+- '{"except":["access_failure_is_concentrated","comprehension_failure_is_concentrated","copies_by_sampled_digest","filesystem_noise_from_spelling","format_from_extension_unless_contradicted","identical_by_content_digest","placeholder_from_entry_kind","program_from_extension","same_array_shape","same_column_schema"],"scope":"installed_software_in_folder"}'
+shapes:
+  acquisition_stage_from_format:
+  - cbpkbafajhihkmnc
+  - ggodfdnimckoeona
+  - pjbdnpldcofhmjop
+  - pppcagnnjjfleeak
+  analysis_stage_from_derived_sense:
+  - aobopmnhlbpofoln
+  archive_link_copy_of_a_file:
+  - denejoepcegkjadn
+  - oipkfgfafibdhgmd
+  binding_is_ambiguous_outside_programs:
+  - jhemokdceocnpala
+  content_contradicts_extension:
+  - dicclmifapepihcj
+  content_says_do_not_analyse:
+  - ahdgljgjnfphbfib
+  content_unreadable:
+  - abamaeacaliolnep
+  - giibceiibeddeimi
+  - habgdnlfkaflomjh
+  - heilmbfcepabkkef
+  - icdegdbkgegoaebb
+  - kfkcoaepeenhnoai
+  - mgnmbcaghoogfoej
+  copied_in_bulk:
+  - fhnpmglkdkhchdml
+  - kejiilljmfnjfngj
+  copies_by_sampled_digest:
+  - kpfcfccllgngehdc
+  date_neighbourhood_of_a_file:
+  - ehbfchmfegphliph
+  date_neighbourhood_of_a_folder:
+  - cpbbogdlimfanjck
+  declared_attribute_to_clarify:
+  - jbfggicbomdccock
+  declared_copy_window_exceeded:
+  - odpcgpekihncmdaf
+  declared_digest_contradicted:
+  - kckifmgmipohakcj
+  declared_sha256_contradicted:
+  - kckifmgmipohakcj
+  derivation_by_a_scripts_calls:
+  - heoabppichgbcmne
+  derivation_endpoints_hold_roles_or_a_scripts_calls:
+  - mjgjhjmjfhbgccce
+  derivation_named_by_a_describing_file:
+  - goachljppfenjjmj
+  - nmceceojdcmbhnjb
+  derivation_named_for_an_acquisition:
+  - bofohleeillfneke
+  - oinjmlakimcekiml
+  derivation_within_name_identity:
+  - bikcbilmdbadonoi
+  - cmpcmeoakbeekbnc
+  - cokdjmenehklejmn
+  - dfbikekmnibbbcce
+  - fflfkgebhndajlga
+  - jhgfffijaaalleeo
+  domain_pack_would_read_this_pool:
+  - oadfgmgmdocibabe
+  doubt_in_a_folder_name:
+  - pooinneplhikildb
+  doubt_to_confirm_in_a_folder_name:
+  - pooinneplhikildb
+  earliest_credible_time:
+  - lnoocmfdjdhcjgog
+  - mgjilmfoalddldpm
+  empty_and_untouched:
+  - jmokalnmffpdnkpm
+  - ofphaiicfabhgojo
+  empty_replicate_is_no_data_point:
+  - cjcclapijkeophke
+  - eklmpphlbdmkiocm
+  - kbppcghlmnjdmfch
+  experiment_folder_from_contents:
+  - egjhkepmpdcainin
+  - omjniohbmbaphiab
+  experiment_folder_from_dated_name:
+  - pchpdmpabalbgnol
+  experiments_approved_together:
+  - jmnndokgehfpideb
+  experiments_may_belong_together:
+  - bolkojmbbbpeaphl
+  - dijibmdmnejakghl
+  - gpmlelnajkpehlln
+  - hljdigflnhnibbbg
+  - ioabapcoojajegnn
+  file_role_unless_program:
+  - bakiiijinacbiocf
+  - hoiiklbfjfpfmejo
+  filesystem_noise_from_spelling:
+  - ghojaiickbfojijj
+  folder_copied_by_declared_clocks:
+  - kaooljaefgedgjch
+  folder_copied_in_bulk:
+  - fohjnlldehmmecca
+  format_built_on_a_container:
+  - dicclmifapepihcj
+  - fpkbmbaaeohkielp
+  format_from_extension_unless_contradicted:
+  - eipidbnfkonpleip
+  group_resolution_deviation:
+  - ahjnmlmdgplelpeh
+  - klljmibbcbgbaedm
+  group_resolved_across_experiments:
+  - eckfljibbgacpkmf
+  - ekpcmgooloonloem
+  - jccaidbplmkilhgf
+  - opojpjoocnmgffhn
+  - pbmeabgpmdiioenj
+  group_resolved_within_experiment:
+  - fldejjgddfdinaal
+  - nlcffcgcgojedhjn
+  group_series_across_experiments:
+  - labjliokcnacgech
+  identical_by_declared_digest:
+  - icmlldbcjjbfmmng
+  identical_by_declared_sha256:
+  - cdenochedpfenpaj
+  - obedopffpaigfgbo
+  indexed_label_may_mark_replicates:
+  - ekaimbijfbedngjn
+  installed_software_in_folder:
+  - bnekmedicgplkmja
+  - lihomcmimjaapjpd
+  - onbfoeokhnjfoegk
+  later_stage_from_name:
+  - jgakijcegpoclgae
+  miscellaneous_files_approved:
+  - cclnnhbdnadcjmon
+  miscellaneous_files_to_approve:
+  - cjaooiefmonclekc
+  - hkgflkddlnppjcib
+  - jakpppbpmcphlgpj
+  name_family_without_stages:
+  - ilejjnlaafikcjgf
+  named_for_an_acquisition:
+  - egnbmmpabjmjhpij
+  note_written_as_a_file_name:
+  - ajgelmcepmaniogk
+  pipeline_stage_from_name:
+  - cblodfdfdgjcbomg
+  - gcbplodlgegcpmap
+  program_from_extension:
+  - cccmkojjjgbmphfc
+  - haabchfjhfipdakg
+  - jechodaagcgjabic
+  - jjoakaelhnfkegdk
+  references_a_mentioned_file:
+  - flboadoilpjigmfj
+  replicate_from_indexed_label:
+  - nfbhccfmgehjjfam
+  replicates_of_one_condition:
+  - gjcfadlmaolonehh
+  roi_archive_from_members:
+  - pkliceblihaddjfa
+  roi_archive_named_but_unlisted:
+  - ocbckanfbedfglbg
+  same_name_identity:
+  - bnjdoogfnojoppil
+  - cifpiddhonhaiglo
+  - dhamkmngnbddgpde
+  - hbidmcbgogldfkfp
+  same_name_identity_within_experiment:
+  - pcbngknmkefcmflp
+  same_observed_metadata_outside_programs:
+  - amkhfcooomdpmklf
+  - hobbehlealbdfafo
+  software_outside_the_catalogue:
+  - igdepajpjkcklbph
+  stated_count_may_mark_replicates:
+  - eaigagnhcmhcphni
+  - kdedhgjobflbdogo
+  unbound_word_in_a_kinds_place:
+  - hpbflmlmhjojocfj
+  vocabulary_unread_in_folder_outside_programs:
+  - domkljdfhpledigj
+values:
+  acquisition_stage_from_format:
+    concludes:
+    - '"acquisition"'
+    minimum_match_quality:
+    - '"exact"'
+    senses:
+    - '["image_format","ephys_format"]'
+    - '["vendor_image_format","ephys_format"]'
+    slot:
+    - '"extension"'
+    written_by:
+    - '["instrument"]'
+  analysis_stage_from_derived_sense:
+    concludes:
+    - '"analysis"'
+    minimum_match_quality:
+    - '"case_folded"'
+    senses:
+    - '["trajectory"]'
+    slot:
+    - '"name"'
+  binding_is_ambiguous_outside_programs:
+    minimum_alternatives:
+    - '2'
+    reading:
+    - '"dictionary_binding"'
+  content_contradicts_extension:
+    container_media_types:
+    - '["application/gzip","application/pdf","application/x-hdf5","application/x-ole-storage","application/x-tar","application/x-xz","application/x-bzip2","application/vnd.sqlite3","application/x-iso9660-image","application/x-elf","application/x-mach-binary","video/mp4","video/quicktime"]'
+    detector:
+    - '"signature"'
+    raises:
+    - '"contradiction"'
+    unclear_media_types:
+    - '["application/zip"]'
+  content_says_do_not_analyse:
+    phrases:
+    - '["donotanalyse","do-not-analyse","do_not_analyse","donotanalyze","do-not-analyze","do_not_analyze","notforanalysis","excludefromanalysis","donotuse","do-not-use","do_not_use"]'
+  content_unreadable:
+    minimum_words:
+    - '4'
+    note_extensions:
+    - '["txt","text","md","(none)"]'
+    notes_as_names:
+    - 'true'
+    written_before:
+    - '"2025-09-16T00:00:00Z"'
+  copied_in_bulk:
+    burst_window_seconds:
+    - '600'
+    entry_stages:
+    - '["raw","acquisition"]'
+    minimum_files:
+    - '5'
+    minimum_share:
+    - '0.8'
+    stage_rules:
+    - '["acquisition_stage_from_format","pipeline_stage_from_name","analysis_stage_from_derived_sense"]'
+    time_rule:
+    - '"earliest_credible_time"'
+  copies_by_sampled_digest:
+    digest_algorithm:
+    - '"blake3_quick"'
+  date_neighbourhood_of_a_file:
+    inherit_from_folders:
+    - 'true'
+  date_neighbourhood_of_a_folder:
+    inherit_from_folders:
+    - 'false'
+  declared_copy_window_exceeded:
+    burst_window_seconds:
+    - '86400'
+    minimum_files:
+    - '2'
+    minimum_share:
+    - '0.8'
+  declared_digest_contradicted:
+    digest_algorithm:
+    - '"md5"'
+  declared_sha256_contradicted:
+    digest_algorithm:
+    - '"sha256"'
+  derivation_by_a_scripts_calls:
+    describing_formats:
+    - '["python_source","matlab_source","imagej_macro"]'
+    minimum_resolution:
+    - '"unique_basename"'
+  derivation_endpoints_hold_roles_or_a_scripts_calls:
+    script_calls_are_roles:
+    - 'true'
+    source_roles:
+    - '["raw","acquisition","processed","analysis","quantification","reference_data"]'
+    target_roles:
+    - '["processed","analysis","quantification","summary","report","figure"]'
+  derivation_named_by_a_describing_file:
+    describing_formats:
+    - '["python_source","r_source","r_markdown","matlab_source","shell_script","perl_source","notebook_format","imagej_macro","flowjo_workspace","log_file"]'
+    describing_roles:
+    - '["protocol","notes"]'
+    minimum_resolution:
+    - '"unique_suffix"'
+    stage_transitions:
+    - '{"acquisition":"processed","analysis":"quantification","processed":"analysis","quantification":"summary","raw":"processed"}'
+  derivation_named_for_an_acquisition:
+    maximum_rungs_skipped:
+    - '1'
+    refuse_siblings_on_one_rung:
+    - 'true'
+    stage_transitions:
+    - '{"acquisition":"processed","analysis":"quantification","processed":"analysis","quantification":"summary","raw":"processed"}'
+    unless_sharing:
+    - '"same_name_identity_within_experiment"'
+  derivation_within_name_identity:
+    maximum_rungs_skipped:
+    - '1'
+    refuse_siblings_on_one_rung:
+    - 'true'
+    stage_transitions:
+    - '{"acquisition":"processed","analysis":"quantification","processed":"analysis","quantification":"summary","raw":"processed"}'
+    unless_sharing:
+    - '"named_for_an_acquisition"'
+  domain_pack_would_read_this_pool:
+    minimum_share:
+    - '0.02'
+    minimum_spellings:
+    - '3'
+  doubt_in_a_folder_name:
+    low_strength_senses:
+    - '["keyboard_mash","questionable","quarantine"]'
+    minimum_terms:
+    - '1'
+    raises:
+    - '"doubt"'
+    senses:
+    - '["wrong","bad","broken","invalid","failed","contaminated","do_not_use","ignore","deprecated","obsolete","delete","archive_only","temporary","scratch","test_artifact","debug","dummy","example","final_final","use_this_one","version_soup","emphatic","untitled","default_name","new_folder","keyboard_mash","questionable","unsure","check","fixme","todo","redo","recovered","conflicted","duplicate","excluded","quarantine","superseded_by"]'
+  doubt_to_confirm_in_a_folder_name:
+    low_strength_senses:
+    - '["keyboard_mash","questionable","quarantine"]'
+    minimum_terms:
+    - '1'
+    raises:
+    - '"confirmation"'
+    senses:
+    - '["wrong","bad","broken","invalid","failed","contaminated","do_not_use","ignore","deprecated","obsolete","delete","archive_only","temporary","scratch","test_artifact","debug","dummy","example","final_final","use_this_one","version_soup","emphatic","untitled","default_name","new_folder","keyboard_mash","questionable","unsure","check","fixme","todo","redo","recovered","conflicted","duplicate","excluded","quarantine","superseded_by"]'
+  earliest_credible_time:
+    earliest_credible_year:
+    - '1990'
+    future_tolerance_seconds:
+    - '86400'
+  empty_and_untouched:
+    maximum_bytes:
+    - '0'
+    written_before:
+    - '"2025-09-16T00:00:00Z"'
+  empty_replicate_is_no_data_point:
+    minimum_words:
+    - '4'
+    note_extensions:
+    - '["txt","text","md","(none)"]'
+    notes_as_names:
+    - 'true'
+  experiment_folder_from_contents:
+    minimum_items:
+    - '5'
+    minimum_key_characters:
+    - '6'
+  experiments_approved_together:
+    proposal_rule:
+    - '"experiments_may_belong_together"'
+  experiments_may_belong_together:
+    common_share:
+    - '0.25'
+    experiment_rules:
+    - '["experiment_folder_from_contents","experiment_folder_from_dated_name"]'
+    ignored_theme_kinds:
+    - '["stage","replicate","connective"]'
+    - '["stage","replicate"]'
+    maximum_group_size:
+    - '8'
+    maximum_groups:
+    - '0'
+    - '50'
+    minimum_shared:
+    - '2'
+    minimum_similarity:
+    - '0.2'
+    neighbours:
+    - '3'
+    policy:
+    - '"name_first"'
+    - '"outermost_evidence"'
+  file_role_unless_program:
+    minimum_senses:
+    - '1'
+    theme_kind:
+    - '"file_role"'
+  filesystem_noise_from_spelling:
+    excluded_surfaces:
+    - '["~$"]'
+    positions:
+    - '["whole","prefix","suffix"]'
+    senses:
+    - '["macos_metadata","windows_metadata","linux_metadata","editor_backup","version_control","language_cache","sync_artifact","archive_helper"]'
+  folder_copied_by_declared_clocks:
+    burst_window_seconds:
+    - '86400'
+    minimum_files:
+    - '1'
+    minimum_share:
+    - '0.8'
+  folder_copied_in_bulk:
+    burst_window_seconds:
+    - '600'
+    minimum_files:
+    - '5'
+    minimum_share:
+    - '0.8'
+  format_built_on_a_container:
+    archive_types:
+    - '["archive_format","compressed_archive","compression_format"]'
+    container_media_types:
+    - '["application/gzip","application/pdf","application/x-hdf5","application/x-ole-storage","application/x-tar","application/x-xz","application/x-bzip2","application/vnd.sqlite3","application/x-iso9660-image","application/x-elf","application/x-mach-binary","video/mp4","video/quicktime"]'
+    detector:
+    - '"signature"'
+    raises:
+    - '"container"'
+    unclear_media_types:
+    - '["application/zip"]'
+  format_from_extension_unless_contradicted:
+    theme_kind:
+    - '"format"'
+  group_resolution_deviation:
+    asked_first:
+    - 'true'
+  group_resolved_across_experiments:
+    acquisition_rules:
+    - '["acquisition_stage_from_format"]'
+    derivations:
+    - '"lattice"'
+    ignored_theme_kinds:
+    - '["stage","replicate","connective"]'
+    - '["stage","replicate"]'
+    maximum_concepts:
+    - '5000'
+    maximum_deviations:
+    - '2'
+    minimum_core_terms:
+    - '2'
+    minimum_experiments:
+    - '2'
+    minimum_word_characters:
+    - '2'
+    proposal_rule:
+    - '"experiments_may_belong_together"'
+    term_source:
+    - '"folder_and_acquisitions"'
+    - '"folder_and_files"'
+  group_series_across_experiments:
+    scale:
+    - '"most_general"'
+  identical_by_content_digest:
+    digest_algorithm:
+    - '"blake3_whole"'
+  identical_by_declared_digest:
+    digest_algorithm:
+    - '"md5"'
+  identical_by_declared_sha256:
+    digest_algorithm:
+    - '"sha256"'
+  indexed_label_may_mark_replicates:
+    maximum_index:
+    - '9'
+    minimum_folders:
+    - '2'
+  installed_software_in_folder:
+    archive_suffixes:
+    - '[".zip",".tar.gz",".tgz",".tar.bz2",".tar.xz",".tar"]'
+    bundle_name_suffixes:
+    - '[".app"]'
+    layout_folder_names:
+    - '["bin","sbin","lib","lib64","libexec","include","share","site-packages","dist-packages","Frameworks","__pycache__","node_modules"]'
+    manifest_names:
+    - '["setup.py","setup.cfg","pyproject.toml","package.json","CMakeLists.txt","Makefile","configure","Cargo.toml"]'
+    minimum_code_share:
+    - '0.5'
+    minimum_layout_folders:
+    - '2'
+    minimum_program_files:
+    - '20'
+    minimum_program_share:
+    - '0.5'
+    program_extensions:
+    - '["h","hpp","so","dylib","dll","a","o","lib","pyc","pyd","class","jar","exe"]'
+    program_signatures:
+    - '{"Fiji":"jars, plugins, luts","ImageJ":"ij.jar, plugins","Java runtime":"bin, lib, release","Python
+      environment":"pyvenv.cfg","R package":"DESCRIPTION, NAMESPACE","conda environment":"conda-meta"}'
+  later_stage_from_name:
+    minimum_match_quality:
+    - '"case_folded"'
+    minimum_senses:
+    - '1'
+    senses:
+    - '["preprocessed","intermediate","processed","analysis","analysis_output","pooled","quantification","summary","report","export","normalised","aligned","filtered","smoothed","denoised","deconvolved","segmented","stitched","cropped","resized","downsampled","upsampled","projected","merged","masked","thresholded","binned","converted","corrected","subset","annotated"]'
+    - '["preprocessed","intermediate","processed","analysis","analysis_output","quantification","summary","report","export","normalised","aligned","filtered","smoothed","denoised","deconvolved","segmented","stitched","cropped","resized","downsampled","upsampled","projected","merged","masked","thresholded"]'
+    - '["preprocessed","intermediate","processed","analysis","pooled","quantification","summary","report","export","normalised","aligned","filtered","smoothed","denoised","deconvolved","segmented","stitched","cropped","resized","downsampled","upsampled","projected","merged","masked","thresholded","binned","converted","corrected","subset","annotated"]'
+    theme_kind:
+    - '"stage"'
+  miscellaneous_files_to_approve:
+    experiment_rules:
+    - '["experiment_folder_from_contents","experiment_folder_from_dated_name"]'
+    minimum_experiments_held:
+    - '2'
+    minimum_files:
+    - '2'
+    minimum_outside_share:
+    - '0.5'
+    organising_folders:
+    - 'false'
+  name_family_without_stages:
+    component_kinds:
+    - '["word"]'
+    ignored_theme_kinds:
+    - '["stage","replicate"]'
+    - '["stage"]'
+    minimum_components:
+    - '2'
+  named_for_an_acquisition:
+    minimum_key_characters:
+    - '6'
+  note_written_as_a_file_name:
+    minimum_words:
+    - '4'
+    note_extensions:
+    - '["txt","text","md","(none)"]'
+  pipeline_stage_from_name:
+    minimum_senses:
+    - '1'
+    senses:
+    - '["raw","acquisition","preprocessed","intermediate","processed","analysis","analysis_output","pooled","quantification","summary","report","export"]'
+    - '["raw","acquisition","preprocessed","intermediate","processed","analysis","analysis_output","quantification","summary","report","export"]'
+    - '["raw","acquisition","preprocessed","intermediate","processed","analysis","pooled","quantification","summary","report","export"]'
+    theme_kind:
+    - '"stage"'
+  program_from_extension:
+    minimum_match_quality:
+    - '"exact"'
+    senses:
+    - '["python_source","notebook_format","shell_script","sql_source","python_wheel","python_bytecode","executable_format","c_source","c_header","javascript_source","perl_source","r_source","r_markdown","java_source","java_bytecode","fortran_module","matlab_source","imagej_macro","beanshell_script","clojure_source","ruby_source","groovy_script"]'
+    - '["python_source","shell_script","sql_source","notebook_format"]'
+    slot:
+    - '"extension"'
+  references_a_mentioned_file:
+    minimum_resolution:
+    - '"unique_suffix"'
+  replicate_from_indexed_label:
+    minimum_match_quality:
+    - '"exact"'
+    theme_kind:
+    - '"replicate"'
+  replicates_of_one_condition:
+    compared_within:
+    - '"folder"'
+    component_kinds:
+    - '["word","indexed","quantity","date","version","extension"]'
+    ignored_theme_kinds:
+    - '["stage","replicate"]'
+    minimum_components:
+    - '2'
+    ordered_component_kinds:
+    - '["quantity"]'
+  roi_archive_from_members:
+    format:
+    - '"fiji_roi_zip"'
+    header_observation:
+    - '"archive.imagej_roi_headers"'
+    member_extensions:
+    - '["roi"]'
+  roi_archive_named_but_unlisted:
+    archive_senses:
+    - '["archive_format"]'
+    named_senses:
+    - '["region_of_interest"]'
+  same_name_identity:
+    compared_within:
+    - '"folder"'
+    component_kinds:
+    - '["word","number","indexed","quantity","date","version"]'
+    ignored_theme_kinds:
+    - '["stage","replicate"]'
+    - '["stage"]'
+    minimum_components:
+    - '2'
+    ordered_component_kinds:
+    - '["number","quantity"]'
+    - '["number"]'
+  same_name_identity_within_experiment:
+    compared_within:
+    - '"experiment"'
+    component_kinds:
+    - '["word","number","indexed","quantity","date","version"]'
+    ignored_subfolder_theme_kinds:
+    - '["stage"]'
+    ignored_theme_kinds:
+    - '["stage","replicate"]'
+    minimum_components:
+    - '2'
+    ordered_component_kinds:
+    - '["number","quantity"]'
+  same_observed_metadata_outside_programs:
+    compared_facts:
+    - '["name","size_bytes","created_ns","modified_ns","entry_type"]'
+    - '["name","size_bytes","modified_ns","entry_type"]'
+  software_outside_the_catalogue:
+    bundle_name_suffixes:
+    - '[".app"]'
+    layout_folder_names:
+    - '["bin","sbin","lib","lib64","libexec","include","plugins","jars","Frameworks","site-packages"]'
+    marker_names:
+    - '["license","licence","copying","version","changelog"]'
+    minimum_evidence:
+    - '2'
+    program_extensions:
+    - '["so","dylib","dll","a","o","lib","pyd","class","jar","exe","h","hpp"]'
+  stated_count_may_mark_replicates:
+    derivation_rules:
+    - '["program_from_extension"]'
+    maximum_count:
+    - '9'
+    observation_rules:
+    - '["acquisition_stage_from_format"]'
+    stage_rules:
+    - '["pipeline_stage_from_name","acquisition_stage_from_format","analysis_stage_from_derived_sense"]'
+    theme_kind:
+    - '"count"'
+  unbound_word_in_a_kinds_place:
+    agreement:
+    - '0.75'
+    minimum_bound:
+    - '2'
+    minimum_names:
+    - '3'
+  vocabulary_unread_in_folder_outside_programs:
+    denominator:
+    - '"word_occurrences"'
+    maximum_unbound_share:
+    - '0.8'
+    minimum_occurrences:
+    - '20'

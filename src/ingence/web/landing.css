@@ -1,0 +1,360 @@
+/* The landing page, shown before a project exists or before its first run. It is built on the
+   Dashboard's own tokens (app.css: --ink --ink-soft --line --page --panel --accent --on-accent
+   --acquisition --problem --mono --text) and its .card and .eyebrow. Every class of its own is
+   prefixed ui-. The page is light unless the system is dark, with no switch of its own. One job per
+   color: the accent for links and what is selected, red only as a border or a dot beside words, and
+   green for a folder that can be read. Nothing here is loaded from anywhere else. */
+
+body.ui-landing {
+  background: var(--page);
+  color: var(--ink);
+  font: 15px/1.5 var(--text);
+}
+
+/* The header: the brand at the left; the version, the one link that leaves this computer, and the
+   way back at the right. app.css gives every page's header a sticky bar and an uppercase h1, so
+   each property the landing page relies on is set here, not inherited. */
+body.ui-landing > header.ui-header {
+  position: static;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 56px;
+  padding: 6px 16px;
+  background: var(--page);
+  border-bottom: 1px solid var(--line);
+}
+body.ui-landing h1.ui-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font: 700 18px/1.2 var(--text);
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink);
+}
+.ui-mark { flex: none; }
+.ui-mark .files { stroke: var(--ink); }
+.ui-mark .made { fill: var(--accent); }
+.ui-header-end { display: flex; align-items: center; flex-wrap: wrap; justify-content: flex-end; gap: 12px; }
+.ui-version {
+  font: 13px/1.5 var(--mono);
+  color: var(--ink-soft);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 1px 9px;
+}
+body.ui-landing a { color: var(--accent); }
+body.ui-landing a:focus-visible,
+body.ui-landing button:focus-visible,
+body.ui-landing input:focus-visible,
+body.ui-landing summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* The page: one column, and two from 900 pixels (the paragraph and the projects at the left, the
+   card at the right). */
+body.ui-landing main.ui-main {
+  display: block;
+  grid-template-columns: none;
+  min-height: 0;
+  max-width: 1276px;
+  margin: 0 auto;
+  padding: 24px 16px 56px;
+  background: var(--page);
+  overflow-wrap: anywhere;
+}
+.ui-columns { display: grid; grid-template-columns: minmax(0, 1fr); gap: 32px 64px; align-items: start; }
+.ui-left, .ui-right { display: grid; gap: 28px; align-content: start; min-width: 0; }
+@media (min-width: 900px) {
+  body.ui-landing > header.ui-header { padding: 0 24px; }
+  body.ui-landing main.ui-main { padding: 40px 48px 56px; }
+  .ui-columns { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); }
+}
+
+.ui-lead { margin: 0; font-size: 17px; line-height: 1.5; text-wrap: pretty; }
+
+/* Projects on this computer: a head, a card each, one sentence about who decides. */
+.ui-recent { display: grid; gap: 10px; }
+.ui-section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 6px;
+}
+.ui-section-head h2 { margin: 0; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.ui-count { font-size: 13px; color: var(--ink-soft); }
+.ui-projects { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+body.ui-landing .ui-projects > li.ui-project { margin: 0; }
+.ui-project {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 4px 16px;
+  align-items: start;
+}
+/* Open stands at the left of the card, level with its middle; everything else is in the second
+   column. A project that is gone has no Open, and its words take the whole card. */
+.ui-project > :not(.ui-open) { grid-column: 2; }
+.ui-project.ui-gone > * { grid-column: 1 / -1; }
+.ui-project .ui-open { grid-column: 1; grid-row: 1 / span 5; align-self: center; }
+.ui-project h3 { margin: 0; font-size: 16px; line-height: 1.4; }
+.ui-project .ui-aside { font-weight: 400; font-size: 14px; color: var(--ink-soft); }
+.ui-project p { margin: 0; }
+.ui-project .ui-reads { font: 13px/1.5 var(--mono); color: var(--ink-soft); overflow-wrap: anywhere; }
+.ui-project .ui-runs, .ui-project .ui-words { font-size: 14px; color: var(--ink-soft); }
+.ui-project .ui-words[hidden] { display: none; }
+.ui-project.ui-gone h3 { color: var(--ink-soft); }
+.ui-project .ui-status { grid-column: 2; }
+
+/* Buttons and fields. */
+.ui-button {
+  display: inline-block;
+  font: inherit;
+  font-weight: 700;
+  padding: 7px 14px;
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--accent);
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+}
+body.ui-landing a.ui-button { color: var(--accent); }
+.ui-button:hover { background: var(--accent-soft); }
+.ui-button:disabled { opacity: 0.5; cursor: default; }
+.ui-button.ui-primary,
+body.ui-landing a.ui-button.ui-primary {
+  min-height: 44px;
+  padding: 10px 18px;
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.ui-button.ui-primary:hover { background: var(--accent); filter: brightness(1.08); }
+
+.ui-card { padding: 14px 16px; }
+.ui-form { display: grid; gap: 18px; align-content: start; padding: 24px 24px 26px; border-radius: 10px; }
+.ui-form h2 { margin: 0; font-size: 20px; font-weight: 700; letter-spacing: 0; text-transform: none; color: var(--ink); }
+.ui-form .eyebrow { margin: 0 0 4px; }
+.ui-field { display: grid; gap: 6px; min-width: 0; }
+.ui-field > label, .ui-field > .ui-label { font-weight: 700; font-size: 14px; }
+.ui-help { margin: 0; font-size: 13px; color: var(--ink-soft); }
+.ui-form input[type="text"],
+.ui-form input[type="number"] {
+  width: 100%;
+  min-width: 0;
+  font: inherit;
+  font-size: 15px;
+  padding: 9px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--page);
+  color: var(--ink);
+}
+.ui-form input.ui-path { font: 14px/1.4 var(--mono); }
+.ui-form input::placeholder { color: var(--ink-soft); opacity: 1; }
+.ui-row { display: flex; gap: 8px; align-items: stretch; }
+.ui-row input { flex: 1; min-width: 0; }
+.ui-two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; }
+.ui-years { display: flex; align-items: center; gap: 8px; }
+.ui-years input { font: 14px/1.4 var(--mono); }
+@media (max-width: 520px) { .ui-two { grid-template-columns: 1fr; } }
+
+/* The Check result: a note with a dot, green for a folder that can be read, red for the engine's
+   sentence when it cannot. */
+.ui-check:empty { display: none; }
+.ui-note {
+  display: grid;
+  gap: 6px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--page);
+  font-size: 14px;
+}
+.ui-note p { margin: 0; }
+.ui-note .ui-quiet { color: var(--ink-soft); }
+.ui-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 8px;
+  vertical-align: middle;
+  border-radius: 50%;
+  background: var(--problem);
+}
+.ui-dot.ui-ok { background: var(--acquisition); }
+
+/* A sentence that something is wrong: a red border and a dot beside the words. */
+.ui-problem {
+  border-left: 3px solid var(--problem);
+  padding: 6px 12px;
+  margin: 4px 0;
+  font-size: 14px;
+}
+.ui-problem p { margin: 0; }
+
+/* The reading depth and the words to bring in, under a rule. */
+.ui-settings { display: grid; gap: 14px; border-top: 1px solid var(--line); padding-top: 16px; }
+.ui-setting { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+.ui-setting.ui-center { align-items: center; }
+.ui-setting-name { font-weight: 700; font-size: 14px; margin: 0; }
+.ui-setting-text { min-width: 0; }
+.ui-setting-text .ui-help { margin-top: 2px; }
+.ui-setting input[type="text"] { width: 220px; max-width: 45%; padding: 7px 12px; font-size: 14px; }
+@media (max-width: 520px) { .ui-setting input[type="text"] { max-width: 100%; width: 100%; } .ui-setting.ui-center { flex-wrap: wrap; } }
+
+/* Reading depth: Quick, Standard or Deep, a radio each with its one line. */
+fieldset.ui-depth { margin: 0; padding: 16px 0 0; border: 0; border-top: 1px solid var(--line); min-width: 0; }
+fieldset.ui-depth > legend { float: left; width: 100%; padding: 0; margin: 0 0 10px; }
+.ui-depth-choice { clear: left; display: flex; align-items: flex-start; gap: 10px; margin: 0 0 8px; }
+.ui-depth-choice input { margin: 3px 0 0; width: 18px; height: 18px; accent-color: var(--accent); flex: none; }
+.ui-depth-choice label { display: grid; gap: 1px; cursor: pointer; }
+.ui-depth-name { font-weight: 700; font-size: 14px; }
+.ui-depth-choice input:disabled + label { opacity: 0.55; cursor: default; }
+
+/* The questions box: before Start scan, and again while it scans with each question's matches. */
+.ui-form textarea.ui-goals {
+  width: 100%;
+  min-width: 0;
+  font: inherit;
+  font-size: 15px;
+  padding: 9px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--page);
+  color: var(--ink);
+  resize: vertical;
+}
+.ui-goals-said { margin: 0; font-size: 13px; color: var(--ink-soft); }
+.ui-goal-results { display: grid; gap: 12px; }
+.ui-goal-results:empty { display: none; }
+.ui-goal { border-left: 3px solid var(--accent); padding: 2px 0 2px 12px; }
+.ui-goal p { margin: 0; font-size: 14px; }
+.ui-goal .ui-goal-text { font-weight: 700; }
+.ui-goal .ui-goal-said { color: var(--ink-soft); }
+.ui-goal-card { display: grid; gap: 2px; margin: 4px 0 0; }
+.ui-goal-matches { margin: 6px 0 0; padding-left: 18px; font-size: 14px; }
+.ui-goal-matches .ui-aside { color: var(--ink-soft); }
+
+/* The top folders: the guess in one sentence, then a list per folder. */
+.ui-areas[hidden] { display: none; }
+.ui-areas-guess { margin: 0; font-size: 14px; }
+.ui-area-list { display: grid; gap: 8px; }
+.ui-area { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; align-items: center; font-size: 14px; }
+.ui-area label { font: 13px/1.4 var(--mono); overflow-wrap: anywhere; }
+.ui-area select { font: inherit; padding: 5px 8px; border: 1px solid var(--line); border-radius: 6px;
+  background: var(--page); color: var(--ink); }
+.ui-area .ui-area-said { grid-column: 1 / -1; font-size: 13px; color: var(--ink-soft); }
+.ui-area .ui-area-said:empty { display: none; }
+.ui-area-more > summary { cursor: pointer; font-size: 14px; margin: 4px 0 8px; }
+
+/* Stop, under the progress lines; the question before it opens under this row (scan.css). */
+.ui-stop-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+.ui-stop-row [hidden] { display: none; }
+.ui-scan-line { color: var(--ink); }
+.ui-progress-said { display: grid; gap: 6px; }
+
+/* What to look at first, while it scans: three panels under the counters. */
+.ui-first { grid-column: 1 / -1; display: grid; gap: 10px; }
+.ui-first h2 { margin: 0; font-size: 16px; font-weight: 700; letter-spacing: 0; text-transform: none; color: var(--ink); }
+.ui-first-row { display: grid; grid-template-columns: 1fr; gap: 14px; }
+@media (min-width: 900px) { .ui-first-row { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+body.ui-landing .ui-first-row > .ui-first-card { margin: 0; padding: 12px 14px; }
+.ui-first-card h3 { margin: 0 0 4px; font-size: 15px; }
+.ui-first-card p { margin: 0; font-size: 14px; color: var(--ink-soft); }
+
+/* The words to bring in: the projects to choose among, one to a line under their switch. */
+.ui-carry-list { list-style: none; margin: 0; padding: 0 0 0 4px; display: grid; gap: 8px; font-size: 14px; }
+.ui-carry-list[hidden] { display: none; }
+.ui-carry-list label { cursor: pointer; }
+
+/* The switch: 44 by 24, off at the left. A checkbox underneath, so Space turns it and a screen
+   reader says it is on or off. */
+input.ui-switch {
+  appearance: none;
+  -webkit-appearance: none;
+  position: relative;
+  flex: none;
+  width: 44px;
+  height: 24px;
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel);
+  cursor: pointer;
+}
+input.ui-switch::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--ink-soft);
+  transition: transform 0.12s;
+}
+input.ui-switch:checked { background: var(--accent); border-color: var(--accent); }
+input.ui-switch:checked::before { background: var(--on-accent); transform: translateX(20px); }
+input.ui-switch:disabled { opacity: 0.5; cursor: default; }
+@media (prefers-reduced-motion: reduce) { input.ui-switch::before { transition: none; } }
+
+.ui-go { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 4px; }
+.ui-status { min-width: 0; }
+.ui-status:empty { display: none; }
+.ui-where-said:empty { display: none; }
+
+.ui-rename { display: flex; align-items: center; gap: 8px; margin: 6px 0 0; }
+.ui-rename[hidden] { display: none; }
+.ui-rename input {
+  flex: 1;
+  min-width: 0;
+  font: inherit;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--page);
+  color: var(--ink);
+}
+body.ui-landing button.link { font: inherit; }
+
+/* A project made and not read, or a reading that did not finish: the same card, the folder it
+   reads named in mono. */
+.ui-reads-line { font: 13px/1.5 var(--mono); color: var(--ink-soft); margin: 0; overflow-wrap: anywhere; }
+.ui-elsewhere > summary { cursor: pointer; font-weight: 700; margin: 0 0 14px; }
+
+/* While it scans: the progress lines (a bar where the total is known, scan.css) and four counts,
+   never a percentage. */
+.ui-progress { display: grid; gap: 14px; align-content: start; }
+.ui-progress h2 { margin: 0; font-size: 20px; font-weight: 700; letter-spacing: 0; text-transform: none; color: var(--ink); }
+/* The four counters are one row across the page, under both columns: four equal cells from 900
+   pixels, two by two below. The shared rule that spaces one card from the next (a margin above each
+   card after the first) is taken off, so the four stand level. */
+.ui-counters { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+@media (min-width: 900px) { .ui-counters { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+body.ui-landing .ui-counters > .ui-counter { margin: 0; padding: 12px 14px; }
+.ui-counter .eyebrow { margin: 0 0 2px; font-size: 12px; letter-spacing: 0.06em; }
+.ui-figure { margin: 0; font: 500 24px/1.3 var(--mono); overflow-wrap: anywhere; }
+.ui-figure .ui-of { font-size: 15px; color: var(--ink-soft); }
+.ui-counter .ui-after { margin: 0; font-size: 12px; color: var(--ink-soft); }
+.ui-reading-line { margin: 0; font-size: 14px; color: var(--ink-soft); }
+.ui-reading-line code { font-family: var(--mono); font-size: 13px; color: var(--ink); }
+.ui-commands {
+  font-family: var(--mono);
+  font-size: 12px;
+  background: var(--code-bg);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 8px 10px;
+  overflow-x: auto;
+  white-space: pre;
+}
+.ui-why { margin: 4px 0 8px; font-size: 12px; color: var(--ink-soft); }
+.ui-why summary { cursor: pointer; }
+.ui-why p { margin: 4px 0 0 14px; }

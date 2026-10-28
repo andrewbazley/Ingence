@@ -1,0 +1,87 @@
+# Sequencing and genomics.
+#
+# Filenames in this field are unusually structured, because the tools that write
+# them are standardised: read pairs, lanes and barcodes appear in a small number
+# of conventional forms, and recognising them recovers most of a run's design
+# without opening anything.
+
+# The pack's manifest. Its digest is over the words below, not the comments: a changed word
+# needs a new version and a new digest.
+pack:
+  name: sequencing
+  version: "2"
+  domain: sequencing
+  author: Ingence
+  licence: MIT
+  schema: "1.22"
+  digest: b9dfa061ac8cf88a78bd2215560972a1
+section: sequencing
+theme_kind: technique
+origin: builtin
+domain: sequencing
+# The pack's file formats are rows of the file-type table
+# (`src/ingence/dictionary/file_types.yaml`), every row naming this section. The senses are the
+# ones this file declared, term for term and spelling for spelling, so nothing made from them
+# moves. What each format is, who writes it and whether it is recorded data is the table's.
+file_types: from_table
+summary: Library types, platforms, read structure, processing steps and measures.
+
+entries:
+  # -- assay ----------------------------------------------------------------
+  - {term: rna_sequencing, surfaces: [rnaseq, "rna-seq", mrnaseq, totalrna, polya_seq]}
+  # `single cell` alone does not mean sequencing: a single cell is imaged, sorted and tracked as
+  # often; only the sequencing's own phrases are.
+  - {term: single_cell_rna, surfaces: [scrnaseq, "sc-rna-seq", snrnaseq, "single-cell rna sequencing", "single-cell rna-seq", "single-cell transcriptomics", tenx, "10x", dropseq, smartseq]}
+  - {term: spatial_transcriptomics, surfaces: [spatial, visium, merfish, seqfish, xenium_class, slideseq]}
+  - {term: dna_sequencing, surfaces: [dnaseq, wgs, wes, exome, targeted, amplicon, panel_seq]}
+  - {term: chromatin, surfaces: [chipseq, "chip-seq", cutandrun, "cut-and-run", cutandtag, atacseq, "atac-seq", faireseq, dnase]}
+  - {term: conformation, surfaces: [hic, "hi-c", "4c", "5c", capturec, micro_c]}
+  - {term: methylation, surfaces: [methylseq, bisulfite, wgbs, rrbs, emseq, methylation_array]}
+  - {term: ribosome_profiling, surfaces: [riboseq, "ribo-seq", tracking_ribosome]}
+  - {term: crosslinking, surfaces: [clipseq, "clip-seq", parclip, iclip, eclip, ripseq]}
+  - {term: metagenomics, surfaces: [metagenome, metagenomics, 16s, its, shotgun_meta, amplicon_16s]}
+
+  # -- platform -------------------------------------------------------------
+  - {term: short_read_platform, surfaces: [illumina, miseq, nextseq, novaseq, hiseq, iseq, nextera], theme_kind: instrument}
+  - {term: long_read_platform, surfaces: [nanopore, ont, minion, promethion, gridion, pacbio, hifi, revio], theme_kind: instrument}
+  - {term: other_platform, surfaces: [iontorrent, "ion-torrent", bgi, mgi, element_bio, ultima], theme_kind: instrument}
+
+  # -- read structure -------------------------------------------------------
+  - {term: read_one, surfaces: ["_1", read1, forward, fwd], theme_kind: read_structure}
+  - {term: read_two, surfaces: ["_2", read2, reverse, rev_read], theme_kind: read_structure}
+  # `R1` and `R2` are read one and read two in a file of reads: a sequencer writes them so.
+  # Anywhere else a letter r and a number is a round or a replicate a laboratory counts, an indexed
+  # label bound through no sense, so these two spellings are declared for the read format alone
+  # (`file_type`, a scope given as data).
+  - {term: read_one, surfaces: [r1], theme_kind: read_structure, file_type: read_format}
+  - {term: read_two, surfaces: [r2], theme_kind: read_structure, file_type: read_format}
+  - {term: index_read, surfaces: [i1, i2, index_read, barcode_read], theme_kind: read_structure}
+  - {term: paired_end, surfaces: [pe, paired, pairedend, "paired-end"], theme_kind: read_structure}
+  # `single` alone does not mean a single-end read: a single cell, molecule or particle is written
+  # so as often, so the read structure keeps its own spellings only.
+  - {term: single_end, surfaces: [se, singleend, "single-end"], theme_kind: read_structure}
+  - {term: lane, surfaces: [l001, l002, l003, l004, lane, lanes], theme_kind: read_structure}
+  - {term: flowcell, surfaces: [flowcell, fc, cell_id, runid, run_folder], theme_kind: read_structure}
+  - {term: barcode, surfaces: [barcode, index_seq, i7, i5, dualindex, umi, "unique-molecular-identifier"], theme_kind: read_structure}
+  - {term: demultiplexed, surfaces: [demux, demultiplexed, split_by_sample, bcl2fastq, bclconvert]}
+
+  # -- processing -----------------------------------------------------------
+  - {term: quality_control, surfaces: [fastqc, multiqc, qc_report, qualimap, picard_metrics]}
+  - {term: trimming, surfaces: [trim, trimmed, trimmomatic, cutadapt, fastp, adapterremoval, clipped]}
+  # tophat is also the top-hat morphological filter used in image processing.
+  - {term: alignment, surfaces: [align, aligned, bwa, bowtie, bowtie2, star_aligner, hisat, hisat2, minimap, minimap2, salmon, kallisto, tophat],
+   ambiguous_with: [background_subtraction]}
+  - {term: deduplication, surfaces: [dedup, deduplicated, markdup, rmdup, umi_dedup]}
+  - {term: variant_calling, surfaces: [variants, gatk, freebayes, bcftools_call, mutect, strelka, deepvariant, haplotypecaller]}
+  - {term: peak_calling, surfaces: [peaks, macs, macs2, macs3, seacr, homer_peaks, genrich]}
+  - {term: quantification_tool, surfaces: [featurecounts, htseq, rsem, stringtie, cufflinks]}
+  - {term: differential_expression, surfaces: [deseq, deseq2, edger, limma, voom, sleuth, degs, diffexpr, diffexp]}
+  - {term: assembly, surfaces: [assembly, assembled, spades, megahit, flye, canu, contig, contigs, scaffold]}
+  - {term: annotation_tool, surfaces: [annotate, snpeff, vep, annovar, prokka, augustus]}
+
+  # -- measures -------------------------------------------------------------
+  - {term: read_count, surfaces: [readcount, rawcounts, countmatrix], theme_kind: statistic}
+  - {term: normalised_expression, surfaces: [tpm, fpkm, rpkm, cpm, vst, rlog, deseq_norm], theme_kind: statistic}
+  - {term: coverage, surfaces: [coverage, depth, meandepth, breadth, "x-coverage"], theme_kind: statistic}
+  - {term: mapping_rate, surfaces: [mappingrate, "mapping-rate", alignmentrate, uniquelymapped, multimapped], theme_kind: statistic}
+  - {term: quality_score, surfaces: [phred, q20, q30, mapq, basequality], theme_kind: statistic}

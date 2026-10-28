@@ -1,0 +1,13 @@
+{
+  "//": "Development only (nothing here is bundled, installed for the page, or shipped; the page ships as written). typescript is the Dashboard's type check; `npm run typecheck` runs it at the pinned version. axe-core is the accessibility checker the browser tests read from node_modules/axe-core/axe.min.js (or the file INGENCE_AXE_JS names); those tests are skipped where it is not installed.",
+  "name": "ingence-dashboard-typecheck",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "devDependencies": {
+    "axe-core": "4.13.0",
+    "typescript": "5.9.3"
+  }
+}

@@ -1,0 +1,15 @@
+# Reagents that a filesystem in any wet-laboratory field carries, admitted one by one.
+#
+# The core Dictionary admits a word when a filesystem in any field carries it. ATP, ADP and TCEP
+# meet that test, so the core Dictionary holds them. Insulin does not, so it is not here. Each is a
+# sense of its own, so a name holding ATP and one holding ADP stay two conditions. A laboratory's
+# own reagents belong to its pack or its answers, never to the core.
+section: reagents
+theme_kind: reagent
+origin: builtin
+summary: Universal reagents, each its own sense, admitted one by one on a person's word.
+
+entries:
+  - {term: adenosine_triphosphate, surfaces: [atp]}
+  - {term: adenosine_diphosphate, surfaces: [adp]}
+  - {term: tris_carboxyethyl_phosphine, surfaces: [tcep]}

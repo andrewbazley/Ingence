@@ -1,0 +1,274 @@
+# The quality figures every run carries, each with its one-line method, written once.
+#
+# Read by `ingence.quality.catalogue` and by nothing else; a test holds it complete: every figure
+# the core summary writes is named here, and every figure named here is one it can write. The
+# manifest, the History page and the export take their labels, units and methods from this file
+# and repeat none of them by hand.
+#
+# A figure is a count with the whole it is part of (`total`), or a duration. A share is never
+# stored: a reader shows the count and the whole.
+#
+#   label       the figure in a few words, as a heading
+#   unit        what is counted, in the plural, as a sentence says it
+#   known_from  the first pass that can state it: census, dive or infer. A run written by an
+#               earlier pass states it as "not run", never as zero
+#   total       what the count is out of, in words; absent where the figure has no whole
+#   method      how it is counted, in one line
+#   facets      the breakdown, as `identifier: words`; the identifiers sum to the count they
+#               divide, unless `method` says otherwise
+#   facet_form  for a breakdown whose identifiers are open (relations and tiers): how one is
+#               written
+sections:
+  found: "Found"
+  read: "Read"
+  names: "Names"
+  conclusions: "Conclusions"
+  cost: "Cost"
+  versions: "Versions"
+figures:
+  found.entries:
+    section: found
+    label: "Entries found"
+    unit: entries
+    known_from: census
+    total: "all entries found"
+    method: "Entries of the Index that are on the file system and not deleted, by kind, out of all of them."
+    facets:
+      files: "files"
+      folders: "folders"
+      links: "links"
+      other: "other kinds"
+  found.bytes:
+    section: found
+    label: "Bytes found"
+    unit: bytes
+    known_from: census
+    method: "The sum of the sizes the census recorded for the files found; a file with no recorded size adds nothing and is counted below."
+  found.sizes_missing:
+    section: found
+    label: "Files with no recorded size"
+    unit: files
+    known_from: census
+    total: "files found"
+    method: "Files found whose size the census could not record, out of the files found."
+  found.left_out:
+    section: found
+    label: "Names left out on purpose"
+    unit: names
+    known_from: census
+    total: "names the walk met"
+    method: "Names the census left out and counted, by reason, out of the entries found plus the names left out plus the names recognised as the engine's own; a folder left out is one name and what it holds is not counted."
+    facets:
+      hidden: "hidden names"
+      exclude_glob: "names matching an exclusion pattern"
+      max_depth: "names below the depth limit"
+  found.own_files:
+    section: found
+    label: "Names recognised as the engine's own and left out"
+    unit: names
+    known_from: census
+    total: "names the walk met"
+    method: "Paths the census recognised by their layout as the engine's installation, a project or a run and did not index, out of the same names the walk met."
+    facets:
+      installation: "the engine's installation"
+      project: "another project"
+      run: "a run"
+      this_project: "this project"
+  found.folders_not_listed:
+    section: found
+    label: "Folders that could not be listed"
+    unit: folders
+    known_from: census
+    total: "folders found"
+    method: "Folders found whose contents the census could not list, from the errors it recorded; no count of what such a folder holds is stated."
+  found.folders_counted:
+    section: found
+    label: "Folders whose contents were counted"
+    unit: folders
+    known_from: census
+    total: "folders found"
+    method: "Folders for which the census stated a direct file count, which it does only where listing the folder finished."
+  found.parts:
+    section: found
+    label: "Parts found inside files"
+    unit: parts
+    known_from: dive
+    method: "Entries a dive recovered from inside container files and recorded as parts."
+  read.files_read:
+    section: read
+    label: "Files a dive opened and read"
+    unit: files
+    known_from: dive
+    total: "files found"
+    method: "Files found whose content was read, by the preferred reader or a fallback, out of the files found."
+  read.files_not_read:
+    section: read
+    label: "Files not read"
+    unit: files
+    known_from: dive
+    total: "files found"
+    method: "Files found whose content was not read, by the reason stored on each, out of the files found."
+    facets:
+      budget: "the budget ran out"
+      policy: "the content cannot be read: no bytes"
+      settings: "a setting set the file aside"
+      unreadable: "the content could not be read"
+      changed: "the file changed while it was read"
+      not_reached: "no dive has reached it"
+  read.digests:
+    section: read
+    label: "Files with a digest of their bytes"
+    unit: files
+    known_from: dive
+    total: "files found"
+    method: "Files found by the digest stored for each: a whole digest, a sampled digest only, or neither, out of the files found."
+    facets:
+      whole: "a whole digest"
+      sampled: "a sampled digest only"
+      none: "no digest"
+  read.files_with_parts:
+    section: read
+    label: "Files with parts recovered from inside"
+    unit: files
+    known_from: dive
+    total: "files found"
+    method: "Files found that have at least one part recorded inside them, out of the files found."
+  read.errors:
+    section: read
+    label: "Files with a recorded error"
+    unit: files
+    known_from: dive
+    total: "files found"
+    method: "Files found with at least one scan error of the class, out of the files found; a file with errors of both classes is counted in both."
+    facets:
+      access: "access: the file could not be reached"
+      comprehension: "comprehension: no reader, or the reader failed"
+  names.parts:
+    section: names
+    label: "Parts of names read"
+    unit: parts
+    known_from: census
+    total: "parts of names in all"
+    method: "Parts of file and folder names the census read, by kind, counting a part once for each time a name writes it."
+    facets:
+      word: "words"
+      number: "numbers"
+      indexed: "replicate or index labels"
+      version: "versions"
+      date: "dates"
+      quantity: "quantities with a unit"
+      identifier: "identifiers"
+      extension: "extensions"
+      other: "other kinds"
+  names.words:
+    section: names
+    label: "Words in names"
+    unit: words
+    known_from: census
+    total: "words read"
+    method: "Words read in names by what the Dictionary made of each: understood (bound to a sense), unknown (looked up and held by no sense), contested (two senses or more stand level) or not looked up."
+    facets:
+      understood: "understood"
+      unknown: "unknown"
+      contested: "contested"
+      not_looked_up: "not looked up"
+  conclusions.claims:
+    section: conclusions
+    label: "Claims concluded by the rules"
+    unit: claims
+    known_from: infer
+    total: "claims concluded"
+    method: "Claims in the run that a Rulebook rule concluded (the census's own counts of folders are left out), by the relation the rule concerns, or the kind of rule where it concerns none, and by the tier of reasoning."
+    facet_form: "relation or kind of rule, a slash, then the tier (equivalent/defeasible, classifies/defeasible)"
+  conclusions.claims_standing:
+    section: conclusions
+    label: "Claims by standing"
+    unit: claims
+    known_from: infer
+    total: "claims concluded"
+    method: "The same claims by whether a defeater fired: resolved, or conflicting."
+    facets:
+      resolved: "resolved"
+      conflicting: "conflicting"
+  conclusions.candidates:
+    section: conclusions
+    label: "Pairs proposed"
+    unit: pairs
+    known_from: infer
+    total: "pairs proposed"
+    method: "Candidate pairs the proposing rules made, by the relation and the decision tier."
+    facet_form: "relation, a slash, then the decision tier (concerns/circumstantial)"
+  conclusions.abstentions:
+    section: conclusions
+    label: "Outcomes of rule evaluations"
+    unit: evaluations
+    known_from: infer
+    total: "evaluations"
+    method: "Evaluations of a rule on one subject, as the pass counted them: concluded, or an abstention kept in its own state, out of all evaluations; unknown is examined with no evidence, unexamined is not looked at, conflicting is evidence both ways, and starved is an input present and unreadable."
+    facets:
+      concluded: "concluded"
+      unknown: "unknown"
+      unexamined: "unexamined"
+      conflicting: "conflicting"
+      starved: "starved"
+  conclusions.findings:
+    section: conclusions
+    label: "Findings raised"
+    unit: findings
+    known_from: infer
+    total: "findings raised"
+    method: "Findings the flagging rules raised, by what each is about."
+    facets:
+      entry: "a file or folder"
+      group: "a group"
+      scope: "a region of the pool"
+  conclusions.questions:
+    section: conclusions
+    label: "Questions raised"
+    unit: questions
+    known_from: infer
+    method: "Different things the flagging rules raised for a person to answer: distinct pairs of a rule and what it raised."
+  cost.wall_time:
+    section: cost
+    label: "Wall time of the run"
+    unit: seconds
+    known_from: census
+    method: "The seconds from the run's start to the point its record was written, from the two stamps on the run record; whole seconds, and publishing is not in it."
+  cost.dive_budget:
+    section: cost
+    label: "Dive budget"
+    unit: seconds
+    known_from: dive
+    method: "The seconds of content work granted and the seconds spent, as the run record states them."
+    facets:
+      granted: "granted"
+      spent: "spent"
+  cost.peak_memory:
+    section: cost
+    label: "Peak resident memory"
+    unit: bytes
+    known_from: census
+    method: "Peak resident memory of the engine's own process up to the end of this run, not counting its extraction subprocesses. In one command that runs several passes, a later pass's figure includes the earlier passes' peak."
+  cost.quality_time:
+    section: cost
+    label: "Time to state the quality figures"
+    unit: seconds
+    known_from: census
+    method: "The seconds each registered summary took to state its figures as the run was written, one row for each summary; this time is after the run's wall time was stamped and is not in it. A run's figures stated again from its tables are not timed."
+    facet_form: "the summary's name (themes)"
+  quality.summaries_not_recorded:
+    section: cost
+    label: "Quality summaries that could not be recorded"
+    unit: summaries
+    known_from: census
+    method: "Registered summaries whose figures could not be stated because their catalogue could not be read, one row for each, with the reason."
+# The versions that wrote a run stay on the run record. They are referred to here and never
+# copied into the figures; an export joins them from the record.
+versions:
+  engine_version: "the engine's version"
+  engine_commit: "the engine's commit"
+  schema_version: "the schema of the records"
+  normalizer_version: "the name reader (tokeniser)"
+  rulebook_hash: "the Rulebook's digest"
+  dictionary_hash: "the Dictionary's digest"
+  packs: "the packs loaded"

@@ -1,0 +1,835 @@
+# The file-type table: the one place a kind of file is declared.
+#
+# Without this file, an extension would be declared in at least five places that drift apart: the
+# core's formats section, each domain pack's format senses, the detector's signature table and
+# extension hints, each content reader's own extension set, and the census's suffix grammar. All of
+# them read this table instead. The Dictionary generates its format senses from the rows (the
+# section files say `file_types: from_table` where the rows belong), type detection takes its
+# signatures and extension hints from here, and a test holds every content reader's extension set
+# to these rows.
+#
+# A row is one format, in plain words. Its columns:
+#
+# - `name`: the format's plain name ("TIFF image", "CSV table"), for a page to show.
+# - `family`: the Dictionary term the row's extensions bind to (`image_format`,
+#   `tabular_format`, ...). Several rows share a family; the family's sense carries every row's
+#   extensions in row order. A row with no family is recognised by detection and by the readers
+#   and binds to no term yet; giving it one is a vocabulary change. The families' terms, their
+#   spellings and their order never move, because term identifiers, stored bindings, answers
+#   and `file_type:` scopes are made from them. The identity test holds the generated senses to
+#   the ones that the section files declared before this table existed, to the byte.
+# - `extensions`: the spellings, lower-case, without a dot, compounds included (`ome.tif`).
+# - `category`: instrument (an instrument writes it as it acquires), general (anything writes
+#   it), program (code a program runs), container (a general-purpose structure a format is
+#   written on), archive (a bundle or a compressed stream), document (prose for a person).
+# - `can_be_raw`: `yes` (a file of this kind is recorded data), `no` (it never is), `evidence`
+#   (only the file's own content or tags can say: a TIFF is written by a microscope and by an
+#   image editor alike). Read by the stage rules. It is separate from `written_by` below, which
+#   is the origins map that the acquisition rules read and stays exactly as the packs declared it.
+# - `media_type`: the type detection reports for the extension where nothing stronger spoke.
+# - `signatures`: the magic bytes that mark the format, each `{label, magic (hex), offset}`.
+# - `built_on`: the key of the container the format is written on (`zip`, `ole`, `hdf5`, `tif`):
+#   its bytes carry that container's signature, which contradicts nothing. A key is a row's
+#   first extension, or a `containers` entry's `key`.
+# - `domains`: the field the format belongs to; the first is the pack whose section declares
+#   the family. No domain: the core's, every laboratory's.
+# - `writers`: the programs that write it, from the `writers` section below.
+# - `also_a_word`: the extensions that are ordinary words too, bound after a dot only (`log`,
+#   `key`); `all` for every extension of the row. This is the sense's `extension_only` list under
+#   a plain name.
+# - `wraps`: true for a compression written after another format's own suffix (`.nii.gz`).
+# - `written_by`, `vendor`, `accepts_pack`: the origins map a pack declared for an instrument's
+#   spellings, kept as the packs declared it so that the acquisition rule reads the same map.
+#
+# The `families` map holds what belongs to the sense and not to one format: the canonical name
+# the Dictionary shows, a declared ambiguity, and whether every file of the family is a program
+# or a product of a program. `writers`, `instruments` and `identifiers` are lists that rules and
+# routes read through `dictionary/file_types.py`. They are never part of the word Dictionary.
+
+families:
+  # -- the core's, every laboratory's ---------------------------------------------------------
+  plain_text: {canonical: plain text}
+  # `md` is markdown after a dot and molecular dynamics before one.
+  markdown: {canonical: markdown, ambiguous_with: [molecular_dynamics]}
+  restructured_text: {canonical: reStructuredText}
+  latex_source: {canonical: LaTeX source}
+  rich_document: {canonical: word processor document}
+  slide_deck_format: {canonical: presentation, product: true}
+  portable_document: {canonical: PDF}
+  tabular_format: {}
+  structured_format: {}
+  video_format: {}
+  # One image type: a proprietary spelling limits its origins, not its type. The core's
+  # half declares origins and names no writer (anything writes a TIFF); the microscopy pack's
+  # rows add the instruments' spellings and who writes each.
+  image_format: {declares_origins: true}
+  markup_document: {canonical: markup}
+  xml_document: {canonical: XML}
+  yaml_document: {canonical: YAML}
+  toml_document: {canonical: TOML}
+  ini_document: {canonical: INI}
+  python_source: {canonical: Python source, program: true}
+  notebook_format: {canonical: notebook, program: true}
+  shell_script: {canonical: shell script, program: true}
+  sql_source: {canonical: SQL, program: true}
+  python_wheel: {canonical: wheel, program: true}
+  executable_format: {canonical: executable, program: true}
+  imagej_macro: {canonical: ImageJ macro, program: true}
+  beanshell_script: {canonical: BeanShell script, program: true}
+  clojure_source: {canonical: Clojure source, program: true}
+  ruby_source: {canonical: Ruby source, program: true}
+  groovy_script: {canonical: Groovy script, program: true}
+  matlab_source: {canonical: MATLAB source, program: true}
+  archive_format: {canonical: archive}
+  compression_format: {canonical: compressed stream, ambiguous_with: [orthogonal_view]}
+  compressed_archive: {canonical: compressed archive}
+  embedded_database: {canonical: embedded database}
+  error_stream: {canonical: error output}
+  generic_binary: {canonical: binary data}
+  icon_format: {canonical: icon}
+  environment_file: {canonical: environment}
+  c_source: {canonical: C or C++ source, program: true}
+  c_header: {canonical: C or C++ header, program: true}
+  javascript_source: {canonical: JavaScript, program: true}
+  perl_source: {canonical: Perl, program: true}
+  r_source: {canonical: R source, program: true}
+  r_markdown: {canonical: R Markdown, program: true}
+  r_workspace: {canonical: R workspace}
+  java_source: {canonical: Java source, program: true}
+  java_bytecode: {canonical: Java bytecode, program: true}
+  python_bytecode: {canonical: Python bytecode, program: true}
+  fortran_module: {canonical: Fortran module, program: true}
+  log_file: {canonical: log file}
+  configuration_file: {canonical: configuration file}
+  temporary_file: {canonical: temporary file}
+  program_output: {canonical: program output}
+  certificate_format: {canonical: certificate}
+  audio_format: {canonical: audio}
+  playlist_format: {canonical: playlist}
+  font_format: {canonical: font}
+  citation_format: {canonical: citation records}
+  reference_library: {canonical: reference manager library}
+  database_table_file: {canonical: database table file}
+  web_shortcut: {canonical: web shortcut}
+  text_clipping: {canonical: text clipping}
+  lookup_table: {canonical: lookup table}
+  package_relationship_part: {canonical: package relationship part}
+  mesh_format: {canonical: 3D mesh}
+  vtk_data: {canonical: VTK data}
+  cad_exchange_format: {canonical: CAD exchange}
+  illustrator_document: {canonical: Illustrator document, product: true}
+  affinity_document: {canonical: Affinity document, product: true}
+  cad_drawing: {canonical: CAD drawing}
+  iwork_document: {canonical: iWork document, product: true}
+  lock_file: {canonical: lock file}
+  # -- the packs' -----------------------------------------------------------------------------
+  structure_format: {canonical: molecular structure}
+  flow_cytometry_format: {canonical: flow cytometry data}
+  snapgene_plasmid: {canonical: SnapGene plasmid}
+  flowjo_workspace: {canonical: FlowJo workspace}
+  imagelab_scan: {canonical: Image Lab multichannel scan}
+  mass_photometry_data: {canonical: mass photometry data}
+  pymol_session: {canonical: PyMOL session}
+  plate_reader_data: {canonical: plate reader data}
+  prism_project: {canonical: GraphPad Prism project, product: true}
+  chromatogram_export: {canonical: chromatogram ASCII export}
+  ape_plasmid: {canonical: ApE plasmid}
+  plate_imager_experiment: {canonical: plate imager experiment}
+  imaging_format: {}
+  # The sense's after-a-dot list has `mat` first, before the NetCDF spellings, where the rows'
+  # order gives the NetCDF spellings first. A family's own list keeps the sense's order.
+  array_format: {also_a_word: [mat, nc, netcdf, n5]}
+  matlab_figure: {canonical: MATLAB figure}
+  rstudio_project: {canonical: RStudio project}
+  trained_classifier: {canonical: trained classifier}
+  ephys_format: {}
+  em_density_format: {canonical: electron density map}
+  imagej_roi: {canonical: ImageJ region of interest}
+  fiji_roi_zip: {canonical: Fiji ROI archive}
+  mitograph_output: {canonical: MitoGraph output}
+  zeiss_zen_graphics: {canonical: Zeiss ZEN graphics export}
+  zeiss_lsm_overlay: {canonical: Zeiss LSM overlay}
+  evos_acquisition: {canonical: EVOS acquisition record}
+  read_format: {}
+  multiple_alignment_format: {}
+  alignment_format: {}
+  interval_format: {}
+  annotation_format: {}
+  variant_format: {}
+  matrix_format: {}
+  capillary_trace: {canonical: capillary sequencing trace}
+  sequence_text: {canonical: provider sequence text}
+  ms_format: {}
+  plate_reader_protocol: {canonical: plate reader protocol (Gen5)}
+
+# General-purpose containers that no format of their own is named for: a row says it is
+# `built_on` one of these by its key.
+containers:
+  - {key: ole, name: OLE compound storage, media_type: application/x-ole-storage,
+     signatures: [{label: ole_compound, magic: D0CF11E0A1B11AE1}]}
+  - {key: riff, name: RIFF container, media_type: application/x-riff,
+     signatures: [{label: riff, magic: "52494646"}]}
+  - {key: isobmff, name: ISO base media container, media_type: video/mp4,
+     signatures: [{label: iso_base_media, magic: "66747970", offset: 4}]}
+
+formats:
+  # ---------------------------------------------------------------------------------------
+  # Text and documents.
+  # ---------------------------------------------------------------------------------------
+  - {name: plain text, family: plain_text, extensions: [txt, text], category: document,
+     can_be_raw: evidence, media_type: text/plain}
+  - {name: Markdown text, family: markdown, extensions: [md, markdown, mdown], category: document,
+     can_be_raw: no, media_type: text/markdown, also_a_word: [md]}
+  - {name: reStructuredText, family: restructured_text, extensions: [rst], category: document,
+     can_be_raw: no, media_type: text/x-rst}
+  - {name: LaTeX source, family: latex_source, extensions: [tex, latex], category: document,
+     can_be_raw: no, media_type: text/x-tex}
+  - {name: Word document, family: rich_document, extensions: [docx], category: document,
+     can_be_raw: no, built_on: zip,
+     media_type: application/vnd.openxmlformats-officedocument.wordprocessingml.document}
+  - {name: legacy Word document, family: rich_document, extensions: [doc], category: document,
+     can_be_raw: no, built_on: ole, media_type: application/msword}
+  - {name: OpenDocument text, family: rich_document, extensions: [odt], category: document,
+     can_be_raw: no, built_on: zip, media_type: application/vnd.oasis.opendocument.text}
+  - {name: rich text, family: rich_document, extensions: [rtf], category: document,
+     can_be_raw: no, media_type: application/rtf,
+     signatures: [{label: rtf, magic: 7B5C727466}]}
+  - {name: PowerPoint presentation, family: slide_deck_format, extensions: [pptx],
+     category: document, can_be_raw: no, built_on: zip,
+     media_type: application/vnd.openxmlformats-officedocument.presentationml.presentation}
+  - {name: legacy PowerPoint presentation, family: slide_deck_format, extensions: [ppt],
+     category: document, can_be_raw: no, built_on: ole, media_type: application/vnd.ms-powerpoint}
+  - {name: OpenDocument presentation, family: slide_deck_format, extensions: [odp],
+     category: document, can_be_raw: no, built_on: zip,
+     media_type: application/vnd.oasis.opendocument.presentation}
+  - {name: PDF document, family: portable_document, extensions: [pdf], category: document,
+     can_be_raw: no, media_type: application/pdf, signatures: [{label: pdf, magic: 255044462D}]}
+
+  # ---------------------------------------------------------------------------------------
+  # Tables, structured text and video: every laboratory's.
+  # ---------------------------------------------------------------------------------------
+  - {name: CSV table, family: tabular_format, extensions: [csv], category: general,
+     can_be_raw: evidence, media_type: text/csv}
+  - {name: TSV table, family: tabular_format, extensions: [tsv], category: general,
+     can_be_raw: evidence, media_type: text/tab-separated-values}
+  - {name: Parquet table, family: tabular_format, extensions: [parquet], category: general,
+     can_be_raw: no, media_type: application/vnd.apache.parquet}
+  # The sense's `extension_only` list has `arrow` before `feather`, and the table keeps that order.
+  - {name: Arrow table, family: tabular_format, extensions: [feather, arrow], category: general,
+     can_be_raw: no, also_a_word: [arrow, feather]}
+  - {name: Excel workbook, family: tabular_format, extensions: [xlsx], category: general,
+     can_be_raw: evidence, built_on: zip,
+     media_type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet}
+  - {name: legacy Excel workbook, family: tabular_format, extensions: [xls], category: general,
+     can_be_raw: evidence, built_on: ole, media_type: application/vnd.ms-excel}
+  - {name: OpenDocument spreadsheet, family: tabular_format, extensions: [ods], category: general,
+     can_be_raw: evidence, built_on: zip, media_type: application/vnd.oasis.opendocument.spreadsheet}
+  - {name: JSON data, family: structured_format, extensions: [json], category: general,
+     can_be_raw: evidence, media_type: application/json}
+  # Four placeholder spellings no filename carries (`yaml_format` and the like). They stay because
+  # they are the sense's spellings. The spellings a filesystem writes are the documents' below.
+  - {name: structured text placeholders, family: structured_format,
+     extensions: [yaml_format, toml_format, xml_format, ini_format], category: general,
+     can_be_raw: no}
+  - {name: protocol buffer, family: structured_format, extensions: [protobuf], category: general,
+     can_be_raw: no}
+  - {name: AVI video, family: video_format, extensions: [avi], category: general,
+     can_be_raw: evidence, built_on: riff, media_type: video/x-msvideo}
+  - {name: MP4 video, family: video_format, extensions: [mp4], category: general,
+     can_be_raw: evidence, built_on: isobmff, media_type: video/mp4}
+  - {name: QuickTime video, family: video_format, extensions: [mov], category: general,
+     can_be_raw: evidence, built_on: isobmff, media_type: video/quicktime}
+  - {name: Matroska video, family: video_format, extensions: [mkv, webm], category: general,
+     can_be_raw: evidence, media_type: video/x-matroska,
+     signatures: [{label: matroska, magic: 1A45DFA3}]}
+  - {name: Windows Media video, family: video_format, extensions: [wmv], category: general,
+     can_be_raw: evidence, media_type: video/x-ms-wmv}
+
+  # ---------------------------------------------------------------------------------------
+  # Images: one type. The core's rows are the spellings anything writes; the microscopy
+  # pack's rows (further down, `domains: [microscopy]`) are the instruments' own.
+  # ---------------------------------------------------------------------------------------
+  # A TIFF is written by a microscope, by an image editor and by every program between: only
+  # its tags can say (`can_be_raw: evidence`, the TIFF reader's v2 tags). `ome.tif` and
+  # `ome.tiff` are OME-TIFF's two-part spellings and still a TIFF.
+  - {name: TIFF image, family: image_format,
+     extensions: [tif, tiff, ometiff, ome-tiff, ome.tif, ome.tiff], category: general,
+     can_be_raw: evidence, media_type: image/tiff,
+     writers: [NIS-Elements, ZEN, LAS X, Micro-Manager, MetaMorph, cellSens, FluoView, Gen5,
+               ImageJ, Fiji, Photoshop],
+     signatures: [{label: tiff_little_endian, magic: 49492A00},
+                  {label: tiff_big_endian, magic: 4D4D002A},
+                  {label: big_tiff, magic: 49492B00}]}
+  - {name: PNG image, family: image_format, extensions: [png], category: general, can_be_raw: no,
+     media_type: image/png, writers: [ImageJ, Fiji, Photoshop],
+     signatures: [{label: png, magic: 89504E470D0A1A0A}]}
+  - {name: JPEG image, family: image_format, extensions: [jpg, jpeg], category: general,
+     can_be_raw: evidence, media_type: image/jpeg, writers: [Photoshop],
+     signatures: [{label: jpeg, magic: FFD8FF}]}
+  - {name: JPEG 2000 image, family: image_format, extensions: [jp2], category: general,
+     can_be_raw: no, media_type: image/jp2}
+  - {name: bitmap image, family: image_format, extensions: [bmp], category: general,
+     can_be_raw: no, media_type: image/bmp, signatures: [{label: bmp, magic: 424D}]}
+  - {name: GIF image, family: image_format, extensions: [gif], category: general, can_be_raw: no,
+     media_type: image/gif,
+     signatures: [{label: gif, magic: "474946383761"}, {label: gif, magic: "474946383961"}]}
+  - {name: SVG drawing, family: image_format, extensions: [svg], category: general,
+     can_be_raw: no, media_type: image/svg+xml, writers: [Illustrator]}
+  - {name: EPS drawing, family: image_format, extensions: [eps], category: general,
+     can_be_raw: no, media_type: application/postscript, writers: [Illustrator]}
+  # A placeholder spelling no filename carries, kept because it is the sense's.
+  - {name: PDF as an image, family: image_format, extensions: [pdf_image], category: general,
+     can_be_raw: no}
+  - {name: HEIF image, family: image_format, extensions: [heic, heif], category: general,
+     can_be_raw: evidence, media_type: image/heif}
+  - {name: WebP image, family: image_format, extensions: [webp], category: general,
+     can_be_raw: no, media_type: image/webp}
+  - {name: Windows metafile, family: image_format, extensions: [emf, wmf], category: general,
+     can_be_raw: no}
+  - {name: portable bitmap, family: image_format, extensions: [pgm, pbm], category: general,
+     can_be_raw: no}
+  - {name: Targa image, family: image_format, extensions: [tga], category: general,
+     can_be_raw: no, also_a_word: [tga]}
+
+  # ---------------------------------------------------------------------------------------
+  # Markup and configuration.
+  # ---------------------------------------------------------------------------------------
+  - {name: HTML page, family: markup_document, extensions: [html, htm, xhtml], category: document,
+     can_be_raw: no, media_type: text/html}
+  - {name: XML document, family: xml_document, extensions: [xml, xsd, xsl], category: general,
+     can_be_raw: evidence, media_type: application/xml}
+  - {name: YAML document, family: yaml_document, extensions: [yaml, yml], category: general,
+     can_be_raw: no, media_type: application/yaml}
+  - {name: TOML document, family: toml_document, extensions: [toml], category: general,
+     can_be_raw: no, media_type: application/toml}
+  - {name: INI document, family: ini_document, extensions: [ini], category: general,
+     can_be_raw: no, media_type: text/plain}
+
+  # ---------------------------------------------------------------------------------------
+  # Programs: source, scripts, macros, bytecode and executables.
+  # ---------------------------------------------------------------------------------------
+  - {name: Python source, family: python_source, extensions: [py, pyi, pyx], category: program,
+     can_be_raw: no, media_type: text/x-python}
+  - {name: Jupyter notebook, family: notebook_format, extensions: [ipynb], category: program,
+     can_be_raw: no, media_type: application/x-ipynb+json}
+  - {name: shell script, family: shell_script, extensions: [sh, bash, zsh], category: program,
+     can_be_raw: no, media_type: application/x-shellscript}
+  - {name: SQL script, family: sql_source, extensions: [sql], category: program, can_be_raw: no,
+     media_type: application/sql}
+  - {name: Python wheel, family: python_wheel, extensions: [whl], category: program,
+     can_be_raw: no, built_on: zip}
+  - {name: Windows executable, family: executable_format, extensions: [exe, dll],
+     category: program, can_be_raw: no,
+     media_type: application/vnd.microsoft.portable-executable,
+     signatures: [{label: pe, magic: 4D5A}]}
+  - {name: Mach-O library, family: executable_format, extensions: [dylib], category: program,
+     can_be_raw: no, media_type: application/x-mach-binary,
+     signatures: [{label: mach_o_64, magic: CFFAEDFE}]}
+  - {name: shared object, family: executable_format, extensions: [so], category: program,
+     can_be_raw: no, media_type: application/x-elf, signatures: [{label: elf, magic: 7F454C46}]}
+  - {name: control panel applet, family: executable_format, extensions: [cpl], category: program,
+     can_be_raw: no, also_a_word: [cpl]}
+  - {name: ImageJ macro, family: imagej_macro, extensions: [ijm], category: program,
+     can_be_raw: no, media_type: text/x-imagej-macro}
+  - {name: BeanShell script, family: beanshell_script, extensions: [bsh], category: program,
+     can_be_raw: no, media_type: text/x-beanshell}
+  - {name: Clojure source, family: clojure_source, extensions: [clj], category: program,
+     can_be_raw: no, media_type: text/x-clojure}
+  - {name: Ruby source, family: ruby_source, extensions: [rb], category: program, can_be_raw: no,
+     media_type: text/x-ruby, also_a_word: [rb]}
+  - {name: Groovy script, family: groovy_script, extensions: [groovy], category: program,
+     can_be_raw: no, media_type: text/x-groovy, also_a_word: [groovy]}
+  - {name: MATLAB source, family: matlab_source, extensions: [m], category: program,
+     can_be_raw: no, media_type: text/x-matlab, also_a_word: [m]}
+
+  # ---------------------------------------------------------------------------------------
+  # Archives and compression.
+  # ---------------------------------------------------------------------------------------
+  - {name: ZIP archive, family: archive_format, extensions: [zip], category: archive,
+     can_be_raw: no, media_type: application/zip,
+     signatures: [{label: zip, magic: 504B0304}, {label: zip_empty, magic: 504B0506}]}
+  - {name: tar archive, family: archive_format, extensions: [tar], category: archive,
+     can_be_raw: no, media_type: application/x-tar,
+     signatures: [{label: tar, magic: "7573746172", offset: 257}]}
+  - {name: 7-Zip archive, family: archive_format, extensions: [7z], category: archive,
+     can_be_raw: no, media_type: application/x-7z-compressed,
+     signatures: [{label: 7z, magic: 377ABCAF271C}]}
+  - {name: RAR archive, family: archive_format, extensions: [rar], category: archive,
+     can_be_raw: no, media_type: application/vnd.rar,
+     signatures: [{label: rar, magic: 526172211A07}]}
+  # A compression after another format's own suffix is that format, compressed (`wraps`).
+  - {name: gzip stream, family: compression_format, extensions: [gz], category: archive,
+     can_be_raw: no, media_type: application/gzip, wraps: true,
+     signatures: [{label: gzip, magic: 1F8B}]}
+  - {name: bzip2 stream, family: compression_format, extensions: [bz2], category: archive,
+     can_be_raw: no, media_type: application/x-bzip2, wraps: true,
+     signatures: [{label: bzip2, magic: "425A68"}]}
+  - {name: Zstandard stream, family: compression_format, extensions: [zst], category: archive,
+     can_be_raw: no, media_type: application/zstd, wraps: true,
+     signatures: [{label: zstd, magic: 28B52FFD}]}
+  - {name: LZ4 stream, family: compression_format, extensions: [lz4], category: archive,
+     can_be_raw: no, media_type: application/x-lz4, wraps: true}
+  # A compound declared whole is read as declared: one spelling, two steps of work.
+  - {name: gzip-compressed tar, family: compressed_archive, extensions: [tar.gz],
+     category: archive, can_be_raw: no, built_on: gz}
+  - {name: bzip2-compressed tar, family: compressed_archive, extensions: [tar.bz2],
+     category: archive, can_be_raw: no, built_on: bz2}
+  - {name: xz-compressed tar, family: compressed_archive, extensions: [tar.xz],
+     category: archive, can_be_raw: no, built_on: xz}
+  - {name: Zstandard-compressed tar, family: compressed_archive, extensions: [tar.zst],
+     category: archive, can_be_raw: no, built_on: zst}
+  - {name: gzip-compressed tar (short spelling), family: compressed_archive, extensions: [tgz],
+     category: archive, can_be_raw: no, built_on: gz}
+  - {name: bzip2-compressed tar (short spelling), family: compressed_archive,
+     extensions: [tbz2], category: archive, can_be_raw: no, built_on: bz2}
+
+  # ---------------------------------------------------------------------------------------
+  # Databases, logs, generic and opaque.
+  # ---------------------------------------------------------------------------------------
+  - {name: SQLite database, family: embedded_database, extensions: [sqlite], category: container,
+     can_be_raw: no, media_type: application/vnd.sqlite3,
+     signatures: [{label: sqlite, magic: 53514C69746520666F726D6174203300}]}
+  - {name: DuckDB database, family: embedded_database, extensions: [duckdb], category: container,
+     can_be_raw: no}
+  - {name: database file, family: embedded_database, extensions: [db], category: container,
+     can_be_raw: no, built_on: sqlite}
+  - {name: error output, family: error_stream, extensions: [err, stderr], category: general,
+     can_be_raw: no, media_type: text/plain, also_a_word: [stderr]}
+  # A bare `.raw` is a blob; a spectrometer's `.raw` is its pack's to say. No media type, so
+  # detection invents nothing for bytes nobody recognises.
+  - {name: binary data, family: generic_binary, extensions: [dat, raw, bin], category: general,
+     can_be_raw: evidence, also_a_word: [bin, raw]}
+  - {name: icon, family: icon_format, extensions: [ico, icns], category: general, can_be_raw: no}
+  # No media type: an environment file holds secrets, and nothing should sample its text.
+  - {name: environment file, family: environment_file, extensions: [env, envrc],
+     category: general, can_be_raw: no}
+
+  # ---------------------------------------------------------------------------------------
+  # More source, build artefacts and headers.
+  # ---------------------------------------------------------------------------------------
+  - {name: C or C++ source, family: c_source, extensions: [c, cc, cpp, cxx], category: program,
+     can_be_raw: no, media_type: text/x-c, also_a_word: [c, cc, cpp]}
+  - {name: C or C++ header, family: c_header, extensions: [h, hh, hpp, hxx], category: program,
+     can_be_raw: no, media_type: text/x-c, also_a_word: [h]}
+  - {name: JavaScript source, family: javascript_source, extensions: [js, mjs, cjs],
+     category: program, can_be_raw: no, media_type: text/javascript}
+  - {name: Perl source, family: perl_source, extensions: [pl, pm], category: program,
+     can_be_raw: no, media_type: text/x-perl, also_a_word: [pl, pm]}
+  - {name: R source, family: r_source, extensions: [r], category: program, can_be_raw: no,
+     media_type: text/x-r, also_a_word: [r]}
+  - {name: R Markdown, family: r_markdown, extensions: [rmd, rmarkdown], category: program,
+     can_be_raw: no, media_type: text/x-r-markdown}
+  - {name: R workspace, family: r_workspace, extensions: [rds, rdata], category: general,
+     can_be_raw: no, also_a_word: [rdata]}
+  - {name: Java source, family: java_source, extensions: [java, src], category: program,
+     can_be_raw: no, media_type: text/x-java, also_a_word: [java, src]}
+  - {name: Java class, family: java_bytecode, extensions: [class], category: program,
+     can_be_raw: no, media_type: application/java-vm, also_a_word: [class],
+     signatures: [{label: java_class_or_fat_macho, magic: CAFEBABE}]}
+  - {name: Java archive, family: java_bytecode, extensions: [jar], category: program,
+     can_be_raw: no, built_on: zip, also_a_word: [jar]}
+  - {name: Python bytecode, family: python_bytecode, extensions: [pyc, pyo], category: program,
+     can_be_raw: no}
+  - {name: Fortran module, family: fortran_module, extensions: [mod], category: program,
+     can_be_raw: no, also_a_word: [mod]}
+  - {name: log file, family: log_file, extensions: [log], category: general, can_be_raw: no,
+     media_type: text/plain, also_a_word: [log]}
+  # The sense's `extension_only` list has `cfg` before `conf`, and the table keeps that order.
+  - {name: configuration file, family: configuration_file,
+     extensions: [conf, cnf, cfg, config, properties, plist], category: general, can_be_raw: no,
+     media_type: text/plain, also_a_word: [cfg, conf, config, properties, plist]}
+  - {name: temporary file, family: temporary_file, extensions: [tmp], category: general,
+     can_be_raw: no, also_a_word: [tmp]}
+  - {name: program output, family: program_output, extensions: [out], category: general,
+     can_be_raw: no, media_type: text/plain, also_a_word: [out]}
+  - {name: certificate, family: certificate_format, extensions: [pem, crt, cer],
+     category: general, can_be_raw: no}
+
+  # ---------------------------------------------------------------------------------------
+  # Media, fonts and references.
+  # ---------------------------------------------------------------------------------------
+  - {name: MPEG-4 audio, family: audio_format, extensions: [m4a], category: general,
+     can_be_raw: no, built_on: isobmff, media_type: audio/mp4}
+  - {name: MP3 audio, family: audio_format, extensions: [mp3], category: general, can_be_raw: no,
+     media_type: audio/mpeg}
+  - {name: WAV audio, family: audio_format, extensions: [wav], category: general,
+     can_be_raw: evidence, built_on: riff, media_type: audio/x-wav}
+  - {name: FLAC audio, family: audio_format, extensions: [flac], category: general,
+     can_be_raw: no, media_type: audio/flac, signatures: [{label: flac, magic: 664C6143}]}
+  - {name: AAC audio, family: audio_format, extensions: [aac], category: general, can_be_raw: no,
+     media_type: audio/aac}
+  - {name: AIFF audio, family: audio_format, extensions: [aiff], category: general,
+     can_be_raw: no, media_type: audio/aiff}
+  - {name: playlist, family: playlist_format, extensions: [m3u, m3u8, pls], category: general,
+     can_be_raw: no}
+  - {name: font, family: font_format, extensions: [ttf, otf, woff, woff2], category: general,
+     can_be_raw: no}
+  - {name: citation records, family: citation_format, extensions: [ris, nbib, bibtex, enw],
+     category: document, can_be_raw: no, media_type: text/plain}
+  - {name: reference manager library, family: reference_library, extensions: [enl],
+     category: general, can_be_raw: no}
+  - {name: database table file, family: database_table_file, extensions: [frm, myd, myi, opt],
+     category: general, can_be_raw: no, also_a_word: [frm, myd, myi, opt]}
+  - {name: web shortcut, family: web_shortcut, extensions: [webloc], category: general,
+     can_be_raw: no}
+  - {name: text clipping, family: text_clipping, extensions: [textclipping], category: general,
+     can_be_raw: no}
+  - {name: lookup table, family: lookup_table, extensions: [lut], category: general,
+     can_be_raw: no, also_a_word: [lut]}
+  - {name: package relationship part, family: package_relationship_part, extensions: [rels],
+     category: general, can_be_raw: no, media_type: application/xml}
+
+  # ---------------------------------------------------------------------------------------
+  # Geometry, CAD and vendor documents.
+  # ---------------------------------------------------------------------------------------
+  - {name: 3D mesh, family: mesh_format, extensions: [stl, obj, ply], category: general,
+     can_be_raw: no, also_a_word: [obj, stl, ply]}
+  - {name: VTK data, family: vtk_data, extensions: [vtk], category: general, can_be_raw: no,
+     also_a_word: all}
+  - {name: CAD exchange file, family: cad_exchange_format, extensions: [igs, iges, stp, step],
+     category: general, can_be_raw: no, also_a_word: [stp, step]}
+  - {name: Illustrator document, family: illustrator_document, extensions: [ai],
+     category: document, can_be_raw: no, writers: [Illustrator], also_a_word: [ai]}
+  - {name: Affinity document, family: affinity_document, extensions: [afdesign, afphoto],
+     category: document, can_be_raw: no}
+  - {name: CAD drawing, family: cad_drawing, extensions: [dwg], category: general, can_be_raw: no}
+  - {name: iWork document, family: iwork_document, extensions: [iwa, key, pages, numbers],
+     category: document, can_be_raw: no, also_a_word: [key, pages, numbers]}
+  - {name: lock file, family: lock_file, extensions: [lck, lock], category: general,
+     can_be_raw: no, also_a_word: [lock]}
+
+  # ---------------------------------------------------------------------------------------
+  # Recognised by detection and by a reader, with no Dictionary term yet: these bind to no
+  # sense. Each names its container or signature.
+  # ---------------------------------------------------------------------------------------
+  - {name: Windows batch script, extensions: [bat], category: program, can_be_raw: no,
+     media_type: text/x-msdos-batch}
+  - {name: PowerShell script, extensions: [ps1], category: program, can_be_raw: no,
+     media_type: text/x-powershell}
+  - {name: JPEG image (jpe spelling), extensions: [jpe], category: general, can_be_raw: evidence,
+     built_on: jpg, media_type: image/jpeg}
+  - {name: tab-separated table (tab spelling), extensions: [tab], category: general,
+     can_be_raw: evidence, media_type: text/tab-separated-values}
+  - {name: Excel macro workbook, extensions: [xlsm], category: general, can_be_raw: evidence,
+     built_on: zip, media_type: application/vnd.ms-excel.sheet.macroenabled.12}
+  - {name: Excel template, extensions: [xltx], category: general, can_be_raw: no, built_on: zip,
+     media_type: application/vnd.openxmlformats-officedocument.spreadsheetml.template}
+  - {name: Word macro document, extensions: [docm], category: document, can_be_raw: no,
+     built_on: zip, media_type: application/vnd.ms-word.document.macroenabled.12}
+  - {name: Word template, extensions: [dotx, dotm], category: document, can_be_raw: no,
+     built_on: zip}
+  - {name: PowerPoint macro presentation, extensions: [pptm], category: document,
+     can_be_raw: no, built_on: zip}
+  - {name: PowerPoint template, extensions: [potx, potm], category: document, can_be_raw: no,
+     built_on: zip}
+  - {name: PowerPoint slide show, extensions: [ppsx, ppsm], category: document, can_be_raw: no,
+     built_on: zip}
+  - {name: EPUB book, extensions: [epub], category: document, can_be_raw: no, built_on: zip,
+     media_type: application/epub+zip}
+  - {name: Mathematica notebook, extensions: [nb], category: program, can_be_raw: no,
+     built_on: zip}
+  - {name: Outlook message, extensions: [msg], category: document, can_be_raw: no, built_on: ole}
+  - {name: xz stream, extensions: [xz], category: archive, can_be_raw: no,
+     media_type: application/x-xz, wraps: true, signatures: [{label: xz, magic: FD377A585A00}]}
+  - {name: xz-compressed tar (short spelling), extensions: [txz], category: archive,
+     can_be_raw: no, built_on: xz}
+  - {name: LZMA stream, extensions: [lzma], category: archive, can_be_raw: no,
+     media_type: application/x-lzma, wraps: true}
+  - {name: SQLite database (sqlite3 spelling), extensions: [sqlite3], category: container,
+     can_be_raw: no, built_on: sqlite}
+  - {name: NeXus data, extensions: [nxs], category: container, can_be_raw: evidence,
+     built_on: hdf5}
+  - {name: BigTIFF image, extensions: [btf], category: general, can_be_raw: evidence,
+     built_on: tif, media_type: image/tiff}
+  - {name: object file, extensions: [o], category: program, can_be_raw: no, built_on: so}
+  - {name: Ogg media, extensions: [ogg, oga, ogv], category: general, can_be_raw: no,
+     media_type: application/ogg, signatures: [{label: ogg, magic: 4F676753}]}
+  - {name: Zeiss ZVI image, extensions: [zvi], category: instrument, can_be_raw: yes,
+     built_on: ole, media_type: application/x-zeiss-zvi, domains: [microscopy], writers: [ZEN]}
+
+  # ---------------------------------------------------------------------------------------
+  # Biochemistry: structures, cytometry, plasmids, plate readers.
+  # ---------------------------------------------------------------------------------------
+  - {name: molecular structure, family: structure_format, extensions: [pdb, cif, mmcif, ent],
+     category: general, can_be_raw: no, domains: [biochemistry], also_a_word: [cif],
+     media_type: text/plain}
+  - {name: flow cytometry data, family: flow_cytometry_format, extensions: [fcs],
+     category: instrument, can_be_raw: yes, domains: [biochemistry], also_a_word: [fcs],
+     media_type: application/vnd.isac.fcs}
+  - {name: SnapGene plasmid, family: snapgene_plasmid, extensions: [dna, prot, clxn],
+     category: general, can_be_raw: no, domains: [biochemistry], also_a_word: [dna, prot]}
+  - {name: FlowJo workspace, family: flowjo_workspace, extensions: [wsp], category: general,
+     can_be_raw: no, domains: [biochemistry], media_type: application/xml}
+  - {name: Image Lab multichannel scan, family: imagelab_scan, extensions: [mscn],
+     category: instrument, can_be_raw: yes, domains: [biochemistry]}
+  - {name: mass photometry data, family: mass_photometry_data, extensions: [mpr, mp, dmp],
+     category: instrument, can_be_raw: yes, domains: [biochemistry], also_a_word: [mp]}
+  - {name: PyMOL session, family: pymol_session, extensions: [pse], category: general,
+     can_be_raw: no, domains: [biochemistry]}
+  - {name: plate reader data, family: plate_reader_data, extensions: [pda], category: instrument,
+     can_be_raw: yes, domains: [biochemistry]}
+  - {name: GraphPad Prism project, family: prism_project, extensions: [pzfx, prism],
+     category: general, can_be_raw: no, domains: [biochemistry], also_a_word: [prism]}
+  - {name: chromatogram ASCII export, family: chromatogram_export, extensions: [asc],
+     category: general, can_be_raw: evidence, domains: [biochemistry], also_a_word: [asc],
+     media_type: text/plain}
+  - {name: ApE plasmid, family: ape_plasmid, extensions: [ape], category: general,
+     can_be_raw: no, domains: [biochemistry], also_a_word: [ape]}
+  - {name: plate imager experiment, family: plate_imager_experiment, extensions: [xpt],
+     category: instrument, can_be_raw: yes, domains: [biochemistry], writers: [Gen5]}
+
+  # ---------------------------------------------------------------------------------------
+  # Clinical imaging.
+  # ---------------------------------------------------------------------------------------
+  - {name: DICOM image, family: imaging_format, extensions: [dicom, dcm], category: instrument,
+     can_be_raw: yes, domains: [clinical], media_type: application/dicom}
+  - {name: NIfTI volume, family: imaging_format, extensions: [nifti, nii], category: general,
+     can_be_raw: evidence, domains: [clinical]}
+  - {name: other clinical volumes, family: imaging_format,
+     extensions: [analyze_format, minc, par_rec], category: general, can_be_raw: evidence,
+     domains: [clinical]}
+
+  # ---------------------------------------------------------------------------------------
+  # Computational: arrays and program projects.
+  # ---------------------------------------------------------------------------------------
+  - {name: NumPy array, family: array_format, extensions: [npy], category: general,
+     can_be_raw: no, domains: [computational], media_type: application/x-npy,
+     signatures: [{label: numpy_array, magic: 934E554D5059}]}
+  - {name: NumPy archive, family: array_format, extensions: [npz], category: general,
+     can_be_raw: no, domains: [computational], built_on: zip}
+  - {name: HDF5 file, family: array_format, extensions: [hdf5, h5], category: container,
+     can_be_raw: evidence, domains: [computational], media_type: application/x-hdf5,
+     signatures: [{label: hdf5, magic: 894844460D0A1A0A}]}
+  - {name: NetCDF file, family: array_format, extensions: [nc, netcdf], category: container,
+     can_be_raw: evidence, domains: [computational], media_type: application/x-netcdf,
+     also_a_word: [nc, netcdf], signatures: [{label: netcdf_classic, magic: "43444601"}]}
+  - {name: Zarr store, family: array_format, extensions: [zarr], category: container,
+     can_be_raw: evidence, domains: [computational]}
+  - {name: MATLAB data, family: array_format, extensions: [mat], category: general,
+     can_be_raw: evidence, domains: [computational], built_on: hdf5, also_a_word: [mat]}
+  - {name: N5 store, family: array_format, extensions: [n5], category: container,
+     can_be_raw: evidence, domains: [computational], also_a_word: [n5]}
+  - {name: MATLAB figure, family: matlab_figure, extensions: [fig], category: general,
+     can_be_raw: no, domains: [computational], also_a_word: [fig]}
+  - {name: RStudio project, family: rstudio_project, extensions: [rproj], category: general,
+     can_be_raw: no, domains: [computational], media_type: text/plain}
+  - {name: trained classifier, family: trained_classifier, extensions: [model],
+     category: general, can_be_raw: no, domains: [computational], also_a_word: [model]}
+
+  # ---------------------------------------------------------------------------------------
+  # Electrophysiology: an instrument's own formats throughout.
+  # ---------------------------------------------------------------------------------------
+  - {name: Axon binary file, family: ephys_format, extensions: [abf], category: instrument,
+     can_be_raw: yes, domains: [electrophysiology], writers: [pCLAMP]}
+  - {name: Axon text file, family: ephys_format, extensions: [atf], category: general,
+     can_be_raw: evidence, domains: [electrophysiology], media_type: text/plain}
+  - {name: WinWCP recording, family: ephys_format, extensions: [wcp], category: instrument,
+     can_be_raw: yes, domains: [electrophysiology]}
+  - {name: Igor binary wave, family: ephys_format, extensions: [ibw], category: general,
+     can_be_raw: evidence, domains: [electrophysiology]}
+  - {name: Spike2 recording, family: ephys_format, extensions: [smr], category: instrument,
+     can_be_raw: yes, domains: [electrophysiology]}
+  - {name: Blackrock recording, family: ephys_format, extensions: [nev, ns5],
+     category: instrument, can_be_raw: yes, domains: [electrophysiology]}
+  - {name: Plexon recording, family: ephys_format, extensions: [plx], category: instrument,
+     can_be_raw: yes, domains: [electrophysiology]}
+  - {name: NWB file, family: ephys_format, extensions: [nwb], category: container,
+     can_be_raw: evidence, domains: [electrophysiology], built_on: hdf5}
+  # A placeholder spelling no filename carries, kept because it is the sense's.
+  - {name: electrophysiology binary placeholder, family: ephys_format, extensions: [dat_ephys],
+     category: instrument, can_be_raw: yes, domains: [electrophysiology]}
+
+  # ---------------------------------------------------------------------------------------
+  # Microscopy: density maps, the instruments' image spellings, regions and vendor records.
+  # ---------------------------------------------------------------------------------------
+  - {name: electron density map, family: em_density_format, extensions: [mrc, ccp4],
+     category: general, can_be_raw: evidence, domains: [microscopy]}
+  # The instruments' spellings of the one image type, and who writes each. `written_by` and
+  # `vendor` are the origins the pack declared. `accepts_pack` says that several ND2 files make a
+  # pool accept this pack by default.
+  - {name: Nikon ND2 image, family: image_format, extensions: [nd2], category: instrument,
+     can_be_raw: yes, domains: [microscopy], media_type: application/x-nikon-nd2,
+     writers: [NIS-Elements], written_by: instrument, vendor: Nikon, accepts_pack: true,
+     signatures: [{label: nd2, magic: DACEBE0A}]}
+  - {name: Zeiss CZI image, family: image_format, extensions: [czi], category: instrument,
+     can_be_raw: yes, domains: [microscopy], media_type: application/x-zeiss-czi, writers: [ZEN],
+     written_by: instrument, vendor: Zeiss}
+  - {name: Leica LIF image, family: image_format, extensions: [lif], category: instrument,
+     can_be_raw: yes, domains: [microscopy], media_type: application/x-leica-lif,
+     writers: [LAS X], written_by: instrument, vendor: Leica}
+  - {name: Olympus OIB image, family: image_format, extensions: [oib], category: instrument,
+     can_be_raw: yes, domains: [microscopy], media_type: application/x-olympus-oib,
+     built_on: ole, writers: [FluoView], written_by: instrument, vendor: Olympus}
+  - {name: Olympus OIF image, family: image_format, extensions: [oif], category: instrument,
+     can_be_raw: yes, domains: [microscopy], writers: [FluoView], written_by: instrument,
+     vendor: Olympus}
+  # `lsm` binds after a dot only, because before one it is a confocal microscope.
+  - {name: Zeiss LSM image, family: image_format, extensions: [lsm], category: instrument,
+     can_be_raw: yes, domains: [microscopy], built_on: tif, writers: [ZEN], also_a_word: [lsm],
+     written_by: instrument, vendor: Zeiss}
+  # Imaris's converter writes `ims` at least as often as an instrument does: software.
+  - {name: Imaris image, family: image_format, extensions: [ims], category: general,
+     can_be_raw: evidence, domains: [microscopy], built_on: hdf5, writers: [Imaris],
+     written_by: software, vendor: Oxford Instruments Imaris}
+  - {name: Olympus VSI image, family: image_format, extensions: [vsi], category: instrument,
+     can_be_raw: yes, domains: [microscopy], writers: [cellSens], written_by: instrument,
+     vendor: Olympus}
+  - {name: slide scanner image, family: image_format, extensions: [scn], category: instrument,
+     can_be_raw: yes, domains: [microscopy], written_by: instrument, vendor: Leica or Bio-Rad}
+  - {name: Hamamatsu NDPI image, family: image_format, extensions: [ndpi], category: instrument,
+     can_be_raw: yes, domains: [microscopy], written_by: instrument, vendor: Hamamatsu}
+  - {name: Aperio SVS image, family: image_format, extensions: [svs], category: instrument,
+     can_be_raw: yes, domains: [microscopy], written_by: instrument, vendor: Leica Aperio}
+  - {name: DeltaVision image, family: image_format, extensions: [dv], category: instrument,
+     can_be_raw: yes, domains: [microscopy], written_by: instrument,
+     vendor: Applied Precision DeltaVision}
+  - {name: MetaMorph stack, family: image_format, extensions: [stk], category: instrument,
+     can_be_raw: yes, domains: [microscopy], built_on: tif, writers: [MetaMorph],
+     written_by: instrument, vendor: Molecular Devices MetaMorph}
+  - {name: LI-FLIM image, family: image_format, extensions: [fli], category: instrument,
+     can_be_raw: yes, domains: [microscopy], media_type: application/x-lambert-flim,
+     written_by: instrument, vendor: Lambert Instruments,
+     signatures: [{label: li_flim, magic: 7B464C494D494D4147457D}]}
+  - {name: Leica LIF extension, family: image_format, extensions: [lifext], category: instrument,
+     can_be_raw: yes, domains: [microscopy], media_type: application/x-leica-lifext,
+     writers: [LAS X], written_by: instrument, vendor: Leica}
+  - {name: Canon raw photograph, family: image_format, extensions: [cr2], category: instrument,
+     can_be_raw: yes, domains: [microscopy], built_on: tif, written_by: instrument, vendor: Canon}
+  - {name: ImageJ region of interest, family: imagej_roi, extensions: [roi], category: general,
+     can_be_raw: no, domains: [microscopy], writers: [ImageJ, Fiji], also_a_word: [roi]}
+  # A Fiji ROI archive is a `.zip`; this spelling binds no name and is concluded by a dive.
+  - {name: Fiji ROI archive, family: fiji_roi_zip, extensions: [fiji_roi_zip], category: general,
+     can_be_raw: no, domains: [microscopy], writers: [Fiji], also_a_word: all}
+  - {name: MitoGraph output, family: mitograph_output, extensions: [coo, gnet, mitograph],
+     category: general, can_be_raw: no, domains: [microscopy], also_a_word: all}
+  - {name: Zeiss ZEN graphics export, family: zeiss_zen_graphics, extensions: [cz],
+     category: general, can_be_raw: no, domains: [microscopy], writers: [ZEN], also_a_word: [cz]}
+  - {name: Zeiss LSM overlay, family: zeiss_lsm_overlay, extensions: [ovl], category: general,
+     can_be_raw: no, domains: [microscopy], writers: [ZEN]}
+  - {name: EVOS acquisition record, family: evos_acquisition, extensions: [timelapse, routine],
+     category: instrument, can_be_raw: yes, domains: [microscopy],
+     also_a_word: [timelapse, routine]}
+
+  # ---------------------------------------------------------------------------------------
+  # Sequencing. FASTQ is the sequencer's own output and counts as recorded data; FASTA holds
+  # references and assemblies as often as reads.
+  # ---------------------------------------------------------------------------------------
+  - {name: FASTQ reads, family: read_format, extensions: [fastq, fq], category: instrument,
+     can_be_raw: yes, domains: [sequencing], media_type: text/x-fastq}
+  - {name: FASTA sequences, family: read_format, extensions: [fasta, fa, fna, faa, fsa],
+     category: general, can_be_raw: no, domains: [sequencing], media_type: text/x-fasta}
+  - {name: SRA run archive, family: read_format, extensions: [sra], category: container,
+     can_be_raw: evidence, domains: [sequencing]}
+  - {name: multiple alignment, family: multiple_alignment_format,
+     extensions: [aln, msa, sto, stockholm], category: general, can_be_raw: no,
+     domains: [sequencing], media_type: text/plain}
+  - {name: SAM alignment, family: alignment_format, extensions: [sam], category: general,
+     can_be_raw: no, domains: [sequencing], media_type: text/plain}
+  - {name: BAM alignment, family: alignment_format, extensions: [bam], category: general,
+     can_be_raw: no, domains: [sequencing], built_on: gz}
+  - {name: CRAM alignment, family: alignment_format, extensions: [cram], category: general,
+     can_be_raw: no, domains: [sequencing]}
+  - {name: alignment index, family: alignment_format, extensions: [bai, crai], category: general,
+     can_be_raw: no, domains: [sequencing]}
+  - {name: genomic intervals, family: interval_format,
+     extensions: [bed, bedgraph, bigwig, bw, wig, narrowpeak, broadpeak], category: general,
+     can_be_raw: no, domains: [sequencing]}
+  - {name: genome annotation, family: annotation_format, extensions: [gtf, gff, gff3],
+     category: general, can_be_raw: no, domains: [sequencing], media_type: text/plain}
+  - {name: GenBank record, family: annotation_format, extensions: [genbank, gb, gbk],
+     category: general, can_be_raw: no, domains: [sequencing], media_type: text/x-genbank,
+     also_a_word: [gb]}
+  - {name: EMBL record, family: annotation_format, extensions: [embl], category: general,
+     can_be_raw: no, domains: [sequencing], media_type: text/plain}
+  - {name: variant calls, family: variant_format, extensions: [vcf, bcf, gvcf, maf],
+     category: general, can_be_raw: no, domains: [sequencing]}
+  - {name: expression matrix, family: matrix_format,
+     extensions: [mtx, h5ad, loom, rds_matrix, anndata], category: general, can_be_raw: no,
+     domains: [sequencing]}
+  - {name: capillary sequencing trace, family: capillary_trace, extensions: [ab1],
+     category: instrument, can_be_raw: yes, domains: [sequencing]}
+  - {name: provider sequence text, family: sequence_text, extensions: [seq], category: general,
+     can_be_raw: no, domains: [sequencing], media_type: text/plain, also_a_word: [seq]}
+
+  # ---------------------------------------------------------------------------------------
+  # Spectrometry and plate readers.
+  # ---------------------------------------------------------------------------------------
+  # `raw_ms` is a placeholder spelling (a bare `.raw` is the core's binary data); `d_folder`
+  # stands for a vendor's `.d` folder, which the census reads as a folder.
+  - {name: mass spectrometer data, family: ms_format, extensions: [raw_ms], category: instrument,
+     can_be_raw: yes, domains: [spectrometry]}
+  - {name: open mass spectrometry data, family: ms_format, extensions: [mzml, mzxml],
+     category: general, can_be_raw: evidence, domains: [spectrometry], media_type: application/xml}
+  - {name: peak list, family: ms_format, extensions: [mgf], category: general,
+     can_be_raw: evidence, domains: [spectrometry], media_type: text/plain}
+  - {name: identification results, family: ms_format, extensions: [mzid], category: general,
+     can_be_raw: no, domains: [spectrometry], media_type: application/xml}
+  - {name: SCIEX data, family: ms_format, extensions: [wiff], category: instrument,
+     can_be_raw: yes, domains: [spectrometry]}
+  - {name: vendor data folder placeholder, family: ms_format, extensions: [d_folder],
+     category: instrument, can_be_raw: yes, domains: [spectrometry]}
+  - {name: search results, family: ms_format, extensions: [pepxml, protxml], category: general,
+     can_be_raw: no, domains: [spectrometry], media_type: application/xml}
+  # Gen5's protocol file, after a dot only (`.prt` is a CAD part file elsewhere); written by
+  # the software, not by the reader as it reads.
+  - {name: plate reader protocol, family: plate_reader_protocol, extensions: [prt],
+     category: general, can_be_raw: no, domains: [spectrometry], writers: [Gen5],
+     also_a_word: all, written_by: software, vendor: Agilent BioTek Gen5}
+
+# ---------------------------------------------------------------------------------------
+# Writers: the programs found in a file's tags or headers (a TIFF's Software tag, an OME
+# Creator, an ImageJ description), each marked acquisition (the file is recorded data),
+# analysis (derived from something) or figure. `spellings` are how the program names itself
+# in a tag, matched without regard to case.
+# ---------------------------------------------------------------------------------------
+writers:
+  - {name: NIS-Elements, kind: acquisition, vendor: Nikon, spellings: [nis-elements, nis elements]}
+  # `lsm` is the name the TIFF reader gives Zeiss's LSM private tag: the acquisition software's.
+  - {name: ZEN, kind: acquisition, vendor: Zeiss, spellings: [zen, zen blue, zen black, lsm]}
+  - {name: LAS X, kind: acquisition, vendor: Leica, spellings: [las x, lasx, las af]}
+  - {name: Gen5, kind: acquisition, vendor: Agilent BioTek, spellings: [gen5]}
+  - {name: Micro-Manager, kind: acquisition, spellings: [micro-manager, micromanager]}
+  - {name: MetaMorph, kind: acquisition, vendor: Molecular Devices, spellings: [metamorph]}
+  - {name: cellSens, kind: acquisition, vendor: Olympus, spellings: [cellsens]}
+  - {name: FluoView, kind: acquisition, vendor: Olympus, spellings: [fluoview, fv10, fv31]}
+  - {name: pCLAMP, kind: acquisition, vendor: Molecular Devices, spellings: [pclamp, clampex]}
+  - {name: Imaris, kind: analysis, vendor: Oxford Instruments, spellings: [imaris]}
+  - {name: ImageJ, kind: analysis, spellings: [imagej]}
+  - {name: Fiji, kind: analysis, spellings: [fiji]}
+  - {name: Photoshop, kind: figure, vendor: Adobe, spellings: [photoshop]}
+  - {name: Illustrator, kind: figure, vendor: Adobe, spellings: [illustrator]}
+
+# ---------------------------------------------------------------------------------------
+# Instruments: names a laboratory folder is called after. Read only to guess that an area
+# is named for an instrument (the areas page's kind); never a word of the Dictionary.
+# ---------------------------------------------------------------------------------------
+instruments:
+  - {name: Cytation, vendor: Agilent BioTek, kind: plate imager, spellings: [cytation]}
+  - {name: EVOS, vendor: Thermo Fisher, kind: microscope, spellings: [evos]}
+  - {name: Nikon, kind: microscope, spellings: [nikon]}
+  - {name: Zeiss, kind: microscope, spellings: [zeiss]}
+  - {name: Leica, kind: microscope, spellings: [leica]}
+  - {name: Olympus, kind: microscope, spellings: [olympus]}
+  - {name: Keyence, kind: microscope, spellings: [keyence]}
+  - {name: Incucyte, vendor: Sartorius, kind: live-cell imager, spellings: [incucyte]}
+  - {name: Hamamatsu, kind: slide scanner, spellings: [hamamatsu]}
+  - {name: Aperio, vendor: Leica, kind: slide scanner, spellings: [aperio]}
+  - {name: DeltaVision, vendor: Applied Precision, kind: microscope, spellings: [deltavision]}
+  # `ambiguous`: a spelling that is also an ordinary word; a folder named that word alone is
+  # not the instrument's.
+  - {name: Axon, vendor: Molecular Devices, kind: amplifier, spellings: [axon, digidata],
+     ambiguous: true}
+
+# ---------------------------------------------------------------------------------------
+# Identifiers: public archives' accessions, kept whole by the tokeniser and never asked about
+# as words. Each pattern matches a whole chunk of a name; a hyphen inside a pattern is the
+# identifier's own and does not divide it.
+# ---------------------------------------------------------------------------------------
+identifiers:
+  - {name: ENCODE accession, pattern: 'ENC[A-Z]{2}\d{3}[A-Z]{3}'}
+  - {name: GEO series or sample, pattern: 'GS[EM]\d+'}
+  - {name: GEO platform, pattern: 'GPL\d+'}
+  - {name: "SRA or ENA run, experiment, sample or study", pattern: '[SED]R[RXSP]\d+'}
+  - {name: BioProject, pattern: 'PRJ[NED][A-Z]\d+'}
+  - {name: EMPIAR entry, pattern: 'EMPIAR-\d+'}
+  - {name: BioImage Archive study, pattern: 'S-BIAD\d+'}

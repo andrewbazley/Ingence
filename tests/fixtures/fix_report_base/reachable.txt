@@ -1,0 +1,20 @@
+Project {PROJECT}
+  data format {SCHEMA}, created by {ENGINE}
+  2 data folders
+  current run run_20310101T000003Z_333333333333, updated {TIME}
+    roots: {N}
+    {N} items
+    observations: {N}
+    components: {N}
+    name_shapes: {N}
+    dictionary_bindings: {N}
+    results: {N}
+    assertions: {N}
+    dictionary_entries: {N}
+    journal_events: {N}
+    quality_figures: {N}
+    run: {N}
+  file list run_20310101T000003Z_333333333333 left out, on purpose:
+    left out, $RECYCLE.BIN: 1 folder (folders not opened)
+    left out, *_Jane_*: 1 folder (folders not opened)
+    left out, hidden names: 1 file

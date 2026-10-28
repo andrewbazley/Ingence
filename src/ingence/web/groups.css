@@ -1,0 +1,207 @@
+/* The cascade of shared word sets on the Groupings page (groups.js loads it).
+ *
+ * Each most general set is a stack: the core at its base, as wide as the experiments holding it.
+ * Each set adds a block one row above what it adds to, as wide as its share of the core's
+ * experiments (--f, from 0 to 1), so a stack reads as a pyramid at any width. A block's state is
+ * its color: asked glows, approved is solid, waiting is dashed, declined is faded. */
+
+.cascades { list-style: none; margin: 10px 0 14px; padding: 0; display: grid; gap: 16px; }
+
+.cascade {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+  padding: 12px 12px 6px;
+}
+.cascade.has-asked { border-color: color-mix(in srgb, var(--doubt) 40%, var(--line)); }
+
+.cascade-blocks { display: flex; flex-direction: column; gap: 4px; }
+/* One row per step from the core: the deepest additions on top, the core at the base. */
+.cascade-row {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  /* Each block rests on the row below, as tall as its own words. */
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.cascade-block {
+  --f: 1;
+  flex: 0 1 auto;
+  width: max(11rem, calc(var(--f) * 100% - 4px));
+  max-width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 6px 10px;
+  background: color-mix(in srgb, var(--accent) 5%, var(--panel));
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+/* The core: the base the additions stand on. */
+.cascade-blocks > .cascade-row:last-child .cascade-block {
+  border-width: 1px 1px 3px;
+  border-bottom-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, var(--panel));
+}
+
+.cascade-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; }
+.cascade-line.faint { font-size: 12.5px; }
+.cascade-line details.lattice-experiments summary { cursor: pointer; }
+.cascade-also { flex-basis: 100%; display: none; }
+/* What an addition adds to, said on pointing or focus: the stacking already shows it. */
+.cascade-block:hover .cascade-also,
+.cascade-block:focus-within .cascade-also { display: block; }
+.cascade-fold > summary { cursor: pointer; color: var(--ink-soft); text-align: center; padding: 2px 0; }
+.cascade-fold[open] { display: flex; flex-direction: column; gap: 4px; }
+.cascade-block .answers { display: inline-flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+
+.cascade-words { display: inline-flex; flex-wrap: wrap; gap: 4px; }
+.cascade-word {
+  padding: 0 6px;
+  border-radius: 999px;
+  color: var(--ink-soft);
+  border: 1px solid transparent;
+}
+.cascade-word.added {
+  color: var(--ink);
+  font-weight: 600;
+  border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+  background: color-mix(in srgb, var(--accent) 9%, transparent);
+}
+.cascade-blocks > .cascade-row:last-child .cascade-word { color: var(--ink); font-weight: 600; }
+
+/* A state outranks the core's own look: an approved core is green like any approved set. */
+.cascade-row .cascade-block.state-asked {
+  /* Wide enough for its two answers side by side. */
+  min-width: min(100%, 18rem);
+  border: 2px solid var(--doubt);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--doubt) 14%, transparent);
+}
+.cascade-row .cascade-block.state-approved {
+  border-color: var(--acquisition);
+  background: color-mix(in srgb, var(--acquisition) 14%, var(--panel));
+}
+.cascade-row .cascade-block.state-waiting { border-style: dashed; opacity: 0.8; }
+.cascade-row .cascade-block.state-declined,
+.cascade-row .cascade-block.state-declined_above { opacity: 0.55; }
+.cascade-block.state-declined .cascade-word { text-decoration: line-through; }
+
+/* A set just answered settles into its place. */
+.cascade-block.settling { animation: cascade-settle 0.45s ease-out; }
+@keyframes cascade-settle {
+  0% { transform: translateY(-10px) scale(1.02); box-shadow: 0 6px 16px color-mix(in srgb, var(--acquisition) 30%, transparent); }
+  100% { transform: none; }
+}
+.cascade-block.state-asked:hover { transform: translateY(-1px); }
+/* What a pointed-at block adds to. */
+.cascade-row .cascade-block.lit { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cascade-block, .cascade-block.settling { animation: none; transition: none; }
+}
+
+.cascade-score { display: flex; align-items: center; gap: 8px; margin: 8px 0 0; font-size: 12.5px; }
+.cascade-meter {
+  flex: 0 0 7rem;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--line);
+  overflow: hidden;
+}
+.cascade-fill { display: block; height: 100%; background: var(--acquisition); }
+.cascade-more { list-style: none; }
+
+.cascade-unasked summary { cursor: pointer; color: var(--ink-soft); }
+.cascade-unasked ul { margin: 6px 0 0; }
+
+/* Narrow: the pyramid keeps its shape, every block wide enough to read. */
+@media (max-width: 560px) {
+  .cascade { padding: 10px 8px 6px; }
+  .cascade-block { width: max(62%, calc(var(--f) * 100% - 4px)); }
+}
+
+/* ---- How to read this, compare, and the way to the map ---- */
+
+.groups-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; }
+.groups-head h3 { margin: 0; }
+
+/* The explanation of a view, opened in place: the picture with its numbered marks, then what each
+   mark means. */
+.howto { border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 8px;
+  background: var(--panel); padding: 12px 14px; margin: 8px 0 12px; display: grid; gap: 8px; }
+.howto[hidden] { display: none; }
+.howto .eyebrow, .howto p { margin: 0; }
+.howto-title { margin: 0; font-size: 16px; }
+.howto-body { display: grid; gap: 12px; }
+.howto-figure { position: relative; margin: 0; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; line-height: 0;
+  width: max-content; max-width: 100%; }
+.howto-figure img { display: block; width: auto; max-width: 100%; height: auto; }
+.howto-mark { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px;
+  border-radius: 50%; background: var(--ink); color: var(--panel); font: 700 12px/1 var(--text); }
+.howto-mark { position: absolute; transform: translate(-50%, -50%); box-shadow: 0 0 0 2px var(--panel); }
+.howto-list { margin: 0; padding-left: 0; list-style: none; columns: 2 20rem; column-gap: 28px; font-size: 13.5px; counter-reset: howto; }
+.howto-list li { position: relative; padding-left: 28px; margin: 0 0 8px; counter-increment: howto; break-inside: avoid; }
+.howto-list li::before { content: counter(howto); position: absolute; left: 0; top: 0; display: inline-flex; align-items: center;
+  justify-content: center; width: 20px; height: 20px; border-radius: 50%; background: var(--ink); color: var(--panel);
+  font: 700 12px/1 var(--text); }
+.howto-note { font-size: 12.5px; }
+
+/* A stack's own line: how many experiments, and the way to the map. */
+.cascade-tools { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; font-size: 12.5px; margin-bottom: 6px; }
+/* The set the Map's "Show the stack" opened. */
+.cascade.revealed, li.revealed { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 10px; }
+
+.compare-box { display: inline-flex; align-items: center; gap: 4px; font-size: 12.5px; cursor: pointer; }
+.compare-box input { margin: 0; }
+
+.compare-tray { position: sticky; top: 0; z-index: 2; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px;
+  border: 1px solid var(--line); border-radius: 8px; background: var(--panel); padding: 8px 10px; margin: 8px 0; }
+.compare-tray[hidden] { display: none; }
+.compare-chip, .compare-key { --o: var(--map-o0); border: 2px solid var(--o); border-radius: 6px; padding: 2px 8px; }
+.o1.compare-chip, .o1.compare-key { --o: var(--map-o1); border-style: dashed; }
+.o2.compare-chip, .o2.compare-key { --o: var(--map-o2); border-style: dotted; }
+/* The fourth dash is dash and dot, as the outline's on the map (10 4 2 4): the box's four edges are
+   gradients of that pattern, which a border cannot draw. */
+.o3.compare-chip, .o3.compare-key {
+  --o: var(--map-o3);
+  border-color: transparent;
+  background:
+    repeating-linear-gradient(90deg, var(--o) 0 10px, transparent 10px 14px, var(--o) 14px 16px, transparent 16px 20px) 0 0 / 100% 2px no-repeat border-box,
+    repeating-linear-gradient(90deg, var(--o) 0 10px, transparent 10px 14px, var(--o) 14px 16px, transparent 16px 20px) 0 100% / 100% 2px no-repeat border-box,
+    repeating-linear-gradient(180deg, var(--o) 0 10px, transparent 10px 14px, var(--o) 14px 16px, transparent 16px 20px) 0 0 / 2px 100% no-repeat border-box,
+    repeating-linear-gradient(180deg, var(--o) 0 10px, transparent 10px 14px, var(--o) 14px 16px, transparent 16px 20px) 100% 0 / 2px 100% no-repeat border-box;
+}
+.compare-letter { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px; border-radius: 4px;
+  background: var(--o, var(--ink)); color: var(--panel); font-size: 12px; padding: 0 4px; }
+.compare-row .compare-letter { background: var(--ink); }
+.compare-add { font: inherit; font-size: 13px; max-width: 24ch; }
+
+.compare { border: 1px solid var(--line); border-radius: 10px; background: var(--panel); padding: 12px 14px; margin: 8px 0 14px; }
+.compare[hidden] { display: none; }
+.compare-body { display: grid; gap: 10px; }
+.compare-body h3, .compare-body h4, .compare-body p { margin: 0; }
+.compare-keys { display: flex; flex-wrap: wrap; gap: 8px; }
+.compare-key { display: grid; grid-template-columns: auto 1fr; gap: 2px 8px; align-items: baseline; min-width: 14rem; }
+.compare-key .compare-name { font-weight: 700; overflow-wrap: anywhere; }
+.compare-key > .faint { grid-column: 2; font-size: 12.5px; }
+.compare-section { display: grid; gap: 6px; border-top: 1px solid var(--line); padding-top: 8px; }
+.compare-words { display: inline-flex; flex-wrap: wrap; gap: 4px; vertical-align: middle; }
+.compare-word { padding: 0 8px; border-radius: 999px; border: 1px solid var(--line); background: color-mix(in srgb, var(--accent) 6%, transparent); }
+.compare-row { display: grid; grid-template-columns: auto minmax(8rem, 1fr) auto; gap: 8px; align-items: center; font-size: 13px; }
+.compare-bar { display: flex; height: 12px; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: var(--panel); }
+.compare-seg.all, .compare-swatch.all { background: var(--ink); }
+.compare-seg.some, .compare-swatch.some { background: color-mix(in srgb, var(--ink) 50%, transparent); }
+.compare-seg.only, .compare-swatch.only { background: color-mix(in srgb, var(--ink) 20%, transparent); }
+.compare-swatch { display: inline-block; width: 12px; height: 8px; border: 1px solid var(--line); border-radius: 2px; vertical-align: middle; }
+.compare-legend { font-size: 12.5px; }
+.compare-list summary { cursor: pointer; }
+.compare-list ul { margin: 6px 0 0; }
+.compare-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.compare-said { margin-left: 4px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cascade.revealed { transition: none; }
+}

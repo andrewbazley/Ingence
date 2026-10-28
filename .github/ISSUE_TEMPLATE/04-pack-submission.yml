@@ -1,0 +1,101 @@
+name: "Pack submission"
+description: "Offer a domain pack: the words and file types of one science."
+title: "[Pack]: "
+labels: ["pack"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A pack adds one science's words to Ingence and decides nothing. A pack is shared with everyone, so
+        every word in it must be one that many laboratories in the field use.
+
+        You can start from your own project: `ingence teach export-answers` writes what you taught it as a
+        pack. Read every line of the file before you share it: it records who answered and when, and may hold
+        words only your laboratory uses.
+
+        Before you post, see [Reporting a problem without sharing your data](https://ingence.org/guides/reporting-a-problem.html).
+  - type: checkboxes
+    id: no-private-data
+    attributes:
+      label: Before you post
+      description: The guide above says what to leave out and what to write in its place.
+      options:
+        - label: "I have not pasted file paths, folder names, people's names or counts from my own data"
+          required: true
+  - type: input
+    id: ingence-version
+    attributes:
+      label: Ingence version
+      description: Run `ingence --version` in a terminal and paste the first line it prints.
+      placeholder: "ingence 0.4.0"
+    validations:
+      required: true
+  - type: dropdown
+    id: system
+    attributes:
+      label: Your system
+      description: The operating system you ran Ingence on.
+      options:
+        - "macOS 13 or later, Apple silicon (arm64)"
+        - "macOS 13 or later, Intel (x86_64)"
+        - "Windows 10 and 11"
+        - "Ubuntu Linux LTS releases"
+        - "Another system or an older version (say which below)"
+    validations:
+      required: true
+  - type: dropdown
+    id: python-version
+    attributes:
+      label: Python version
+      description: Run `python --version` in the environment Ingence is installed in.
+      options:
+        - "3.12"
+        - "3.13"
+        - "3.14"
+        - "Another version (say which below)"
+    validations:
+      required: true
+  - type: input
+    id: pack-name
+    attributes:
+      label: The pack's name and field
+      placeholder: "for example: mass-spectrometry"
+    validations:
+      required: true
+  - type: textarea
+    id: who-for
+    attributes:
+      label: Who it is for and what it reads
+      description: What kinds of files and names it helps Ingence read, and which laboratories would use it.
+    validations:
+      required: true
+  - type: textarea
+    id: pack-file
+    attributes:
+      label: The pack file
+      description: >-
+        Drag the file into this box, or give the address where it is published. If GitHub does not
+        accept a .yaml file, rename it to .txt or put it in a zip.
+    validations:
+      required: true
+  - type: checkboxes
+    id: pack-checks
+    attributes:
+      label: About the pack
+      options:
+        - label: "Every word in it is used by many laboratories in the field; none is particular to my laboratory"
+          required: true
+        - label: "I read the whole file and removed names, paths and anything else that came from my own data"
+          required: true
+        - label: "I am willing to release it under the MIT licence"
+          required: true
+        - label: "I installed it with `ingence teach pack install` and ran Ingence with it"
+  - type: textarea
+    id: name-shapes
+    attributes:
+      label: Name shapes (optional)
+      description: >-
+        Only if a project of yours shows the problem. Run `ingence teach shapes -p PROJECT` and paste
+        the table it prints. It shows the shapes of your file and folder names, not the names. Read it
+        before you post.
+      render: text

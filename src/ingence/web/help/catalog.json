@@ -1,0 +1,1691 @@
+{
+  "version": "1",
+  "note": "Every explanation the Dashboard shows on hover or in point mode. Plain words; every Ingence term used is defined in the glossary. A control's data-help attribute names its key; `auto` gives a key, by selector and in order (the first rule that matches wins), to controls the pages build themselves and that carry none. A key the catalog lacks shows nothing and is logged once, so a missing explanation is found in review.",
+  "entries": {
+    "help.point": {
+      "title": "Keyboard shortcuts",
+      "text": "Opens the list of keyboard shortcuts for every view. From the list, you can also have each control on this page explained.",
+      "shortcut": "?"
+    },
+    "project.name": {
+      "title": "Project name",
+      "text": "The name you gave the project shows in magenta. A project without a name shows its folder's name in gray."
+    },
+    "project.rename": {
+      "title": "Rename",
+      "text": "Gives the project a name. Only the name changes."
+    },
+    "page.history": {
+      "title": "History",
+      "text": "Every scan, the answers applied in each, and what changed between two scans."
+    },
+    "footer.docs": {
+      "title": "Documentation",
+      "text": "Opens the Ingence documentation, ingence.org, in a new tab. The Dashboard fetches nothing from it."
+    },
+    "footer.report": {
+      "title": "Report a problem",
+      "text": "Shows a report for hello@ingence.org: versions, counts and changed settings, with no folder, file, person or project names. You read it, then send it yourself."
+    },
+    "landing.link": {
+      "title": "Open another project",
+      "text": "Opens the start page: the projects on this computer, and a new one. Another project opens in its own window."
+    },
+    "landing.first.overview": {
+      "title": "Overview",
+      "text": "What is here, from when, and how complete it is. Start here when the scan ends."
+    },
+    "landing.first.overlap": {
+      "title": "Overlap",
+      "text": "How experiments connect: shared words, the same workflow, the same instrument and repeats."
+    },
+    "landing.first.experiments": {
+      "title": "Experiments",
+      "text": "Each experiment’s story: its files, its steps and what was analyzed."
+    },
+    "section.inventory": {
+      "title": "Inventory",
+      "text": "What is here, by file type, extension and folder depth. It shows what Ingence could not decide beside what it could."
+    },
+    "section.questions": {
+      "title": "Questions",
+      "text": "Ingence's results first, then the few questions that matter, then the rest. Each answer is saved at once and waits for Re-run."
+    },
+    "section.groupings": {
+      "title": "Word groups",
+      "text": "Files and folders that seem to belong together. Ingence suggests them and groups nothing until you say yes."
+    },
+    "section.claims": {
+      "title": "Conclusion samples",
+      "text": "A few files for each result a rule found. Say whether the rule reads your files right."
+    },
+    "section.candidates": {
+      "title": "Suggested pairs",
+      "text": "Pairs of files where one seems to be made from the other. Confirm or reject each pair."
+    },
+    "section.extensions": {
+      "title": "Extensions",
+      "text": "File extensions Ingence does not know yet, and what you say each one is."
+    },
+    "section.programs": {
+      "title": "Programs",
+      "text": "Folders that look like an installed program or a code package. Say whether each one is, and Ingence keeps it apart from your data."
+    },
+    "section.coverage": {
+      "title": "Coverage",
+      "text": "What Ingence has not read yet, and why. Your answers change only the order in which Ingence reads contents."
+    },
+    "section.rules": {
+      "title": "Rules",
+      "text": "The rules Ingence applies, each in plain words, with how many results of this scan depend on it."
+    },
+    "section.settings": {
+      "title": "Settings",
+      "text": "How Ingence scans: what it lists, reads and hashes. A change is a draft until you commit it."
+    },
+    "section.dictionary": {
+      "title": "Dictionary",
+      "text": "Every word Ingence knows in names: its spellings, its kind, where it came from, and how many names it matches."
+    },
+    "dictionary.search": {
+      "title": "Find a word",
+      "text": "Type part of a word or a spelling. The list changes as you type."
+    },
+    "dictionary.yours": {
+      "title": "Yours",
+      "text": "The words you and others on this project added or answered."
+    },
+    "dictionary.origin": {
+      "title": "Where it came from",
+      "text": "Core words ship with Ingence. Other words come from a domain word list, a laboratory word list, or your answers."
+    },
+    "dictionary.kind": {
+      "title": "Kind",
+      "text": "What sort of thing a word names: a technique, a unit, a stage."
+    },
+    "dictionary.order": {
+      "title": "Order",
+      "text": "Most used first, or A to Z."
+    },
+    "dictionary.table": {
+      "title": "Words",
+      "text": "One row per word. Choose a row to see its spellings, the names it matches, and the answers about it."
+    },
+    "dictionary.add": {
+      "title": "Add",
+      "text": "Adds a spelling to a listed word, or a new word with its kind. It is saved as yours and applies at the next Re-run."
+    },
+    "dictionary.inactivate": {
+      "title": "Inactivate",
+      "text": "The word stops matching names at the next Re-run. Nothing is deleted, and you can bring it back."
+    },
+    "dictionary.reactivate": {
+      "title": "Bring back",
+      "text": "The word matches names again at the next Re-run."
+    },
+    "dictionary.packs": {
+      "title": "Word lists",
+      "text": "The domain word lists that ship with Ingence, and lists installed here. A list adds words and decides nothing."
+    },
+    "dictionary.pack_answer": {
+      "title": "Accept or refuse",
+      "text": "Accept loads or keeps the word list. Refuse stops loading it and stops the question, from the next Re-run."
+    },
+    "dictionary.collisions": {
+      "title": "Shared spellings",
+      "text": "Where a shipped word list and the core share a spelling, Ingence uses the core's meaning. A laboratory list ties with the core until you choose."
+    },
+    "dictionary.pack_remove": {
+      "title": "Remove",
+      "text": "Ingence stops loading the word list from the next Re-run. The file you installed it from stays as it is."
+    },
+    "dictionary.import": {
+      "title": "Install from a file",
+      "text": "Installs a word list file, such as one exported here."
+    },
+    "dictionary.export": {
+      "title": "Export yours",
+      "text": "Saves your words and answers as a word list file, with the words you inactivated."
+    },
+    "dictionary.copy": {
+      "title": "Copy as YAML",
+      "text": "Copies this word as an entry for a word list file, to paste under entries:. It changes nothing here."
+    },
+    "workspace.commit": {
+      "title": "Commit",
+      "text": "Saves your draft changes to the project, with a note of what and why. Re-run then applies them."
+    },
+    "transfer.import": {
+      "title": "Import",
+      "text": "Reads a file of answers or settings, and saves the answers under their author's name. Settings come in as drafts."
+    },
+    "transfer.export": {
+      "title": "Export",
+      "text": "Saves what this page holds as a file on this computer. The button's own help says what it saves."
+    },
+    "transfer.take_settings": {
+      "title": "Take as drafts",
+      "text": "Makes the imported values drafts. Commit to keep them."
+    },
+    "transfer.done": {
+      "title": "Hide",
+      "text": "Hides what the last import saved. The answer log keeps it."
+    },
+    "workspace.rerun": {
+      "title": "Re-run",
+      "text": "Applies every change since the last scan; press the number to see the changes by kind. Ingence says which changes you start in a terminal."
+    },
+    "workspace.waiting": {
+      "title": "Waiting for Re-run",
+      "text": "How many changes wait, by kind. Open a kind to see each change."
+    },
+    "workspace.notice": {
+      "title": "Since the last scan",
+      "text": "Later closes this line until another change waits."
+    },
+    "workspace.stop": {
+      "title": "Stop",
+      "text": "Stops the scan. Ingence asks first and says what it keeps."
+    },
+    "workspace.not_ready": {
+      "title": "Last finished scan",
+      "text": "A new scan is running. The views show the last finished scan until the new one is ready."
+    },
+    "section.changes": {
+      "title": "Changes",
+      "text": "Every scan, oldest first, with the answers applied in it. Compare any two side by side."
+    },
+    "review.answer": {
+      "title": "Your answer",
+      "text": "Saved in the answer log under your name when you choose it. A later answer on the same row is saved as a new answer."
+    },
+    "review.note": {
+      "title": "A note",
+      "text": "Your own words, saved with your answer or alone. Click a word chip below it to keep that word with this row."
+    },
+    "review.filter": {
+      "title": "Narrow the list",
+      "text": "Show only the questions of one kind or from one rule."
+    },
+    "review.answered": {
+      "title": "Answered rows",
+      "text": "Rows you answered leave the list. This brings them back so you can change an answer."
+    },
+    "review.define": {
+      "title": "Define this word",
+      "text": "Say what this word means here. It applies at the next Re-run."
+    },
+    "coverage.worth_reading": {
+      "title": "Read first",
+      "text": "Says whether Ingence reads files with this extension early. An answer never stops Ingence from reading a file."
+    },
+    "history.compare": {
+      "title": "Compare two scans",
+      "text": "Shows what changed between the two scans you choose. Each Re-run makes a new scan, even one that only applies the rules."
+    },
+    "decider.name": {
+      "title": "Your name",
+      "text": "Ingence saves this name with every answer you give on this computer. It is kept in your own settings, outside the project."
+    },
+    "reorganised.notice": {
+      "title": "Files moved",
+      "text": "Files moved since an earlier scan. Your answers stay as written; this shows where the files went."
+    },
+    "review.where": {
+      "title": "Where this meaning applies",
+      "text": "Everywhere is the usual choice, because a word usually means the same across the laboratory. The other choice keeps the meaning to one folder and what is inside it."
+    },
+    "review.group": {
+      "title": "Several rows at once",
+      "text": "Saves a note, and a word every selected row offers, to each selected row as its own answer. Select rows with the boxes on the left."
+    },
+    "review.kind": {
+      "title": "What kind of thing it is",
+      "text": "A reagent, a technique, a condition, and so on. The kind sets which rules can use the word, so choose the closest one."
+    },
+    "history.what_changed": {
+      "title": "What changed",
+      "text": "This scan beside the one before it: which words Ingence read differently, and which results changed."
+    },
+    "programs.answer": {
+      "title": "Answer about this folder",
+      "text": "Opens the question beside the list. Say whether this folder is the program it looks like, or not a program at all."
+    },
+    "programs.not_a_program": {
+      "title": "Not a program",
+      "text": "Says this folder is not an installed program or package. The next scan reads it as data, and you can take this back."
+    },
+    "claims.for_all": {
+      "title": "One answer for every file like it",
+      "text": "Saves your answer for every file the rule gave the same value, one answer per file. A file you already answered keeps its answer."
+    },
+    "folder.annotate": {
+      "title": "Annotate this folder",
+      "text": "Say in your own words what the folder holds. Ingence saves it in the answer log as a note and changes no result."
+    },
+    "settings.value": {
+      "title": "A setting's value",
+      "text": "The value in use. A change is a draft until you commit it."
+    },
+    "settings.source": {
+      "title": "Where the value comes from",
+      "text": "Opens the settings file that sets this value. The Dashboard never edits settings.yaml."
+    },
+    "settings.default": {
+      "title": "Use the default",
+      "text": "Puts the value back to Ingence's default. After you commit, the setting is no longer marked as chosen."
+    },
+    "graph.center": {
+      "title": "Choose the center",
+      "text": "Search for a folder or file by a word from its name. Or use Show connections on a file or folder."
+    },
+    "graph.relations": {
+      "title": "Relations",
+      "text": "Which lines to draw: contains, produced from, mentions. Turning one off keeps every item in place."
+    },
+    "graph.proposals": {
+      "title": "Suggested pairs",
+      "text": "Pairs a rule suggested that nobody confirmed, drawn dashed. They are off at first; answer them on Suggested pairs."
+    },
+    "graph.caps": {
+      "title": "What is left out",
+      "text": "The most items and lines drawn, one step from the center. Past a limit, it says how many it left out, or that it could not count them."
+    },
+    "graph.legend": {
+      "title": "How to read a line",
+      "text": "A thin line means a folder contains it, and a thick arrow means the scan published it. A dashed line is only a suggestion."
+    },
+    "graph.ladders": {
+      "title": "Folder levels",
+      "text": "The levels from data folder down to area, theme, experiment and file. A tinted band groups the items of one chain of levels."
+    },
+    "graph.layout": {
+      "title": "The drawing",
+      "text": "The center's folder is above it, and the rest is in rows below. The distance on the page is not evidence."
+    },
+    "graph.list": {
+      "title": "The same content as a list",
+      "text": "The drawing as tables, for the keyboard or a screen reader. Choose a row to see its evidence."
+    },
+    "graph.inspector": {
+      "title": "What is selected",
+      "text": "For a file or folder: where it is and what the last scan did. For a line: its relation, direction, rule, version and evidence."
+    },
+    "graph.run": {
+      "title": "Which scan this is",
+      "text": "The scan the graph was read from. While Ingence applies an answer, the graph stays on the last finished scan."
+    },
+    "graph.unresolved": {
+      "title": "What could not be connected",
+      "text": "Relations whose other end is not in this scan. They are listed and not drawn, because drawing them would invent an item."
+    },
+    "graph.mentions": {
+      "title": "What this file mentions",
+      "text": "The paths written inside this file. It counts how many name one file, how many are unclear, and how many name nothing here."
+    },
+    "graph.recentre": {
+      "title": "Center here",
+      "text": "Draws the graph again around this item. Back returns to the center before."
+    },
+    "graph.records": {
+      "title": "The records behind it",
+      "text": "The identifiers of the line, the suggested pair and the observations behind it, so you can look each one up."
+    },
+    "graph.review": {
+      "title": "Answer this pair",
+      "text": "Opens this pair on Suggested pairs, where you answer it. The graph saves nothing."
+    },
+    "graph.view_in_graph": {
+      "title": "Show connections",
+      "text": "Opens Connections, in Advanced, centered on this folder or file."
+    },
+    "graph.not_drawn": {
+      "title": "What these filters leave out",
+      "text": "Lines touching this item that these choices leave out. Ingence counts them, so a quiet drawing does not look empty."
+    },
+    "focus.open": {
+      "title": "Open what you are looking at",
+      "text": "Shows the file, folder, question, scan or word you are looking at in the side panel. Each page keeps its own, after a reload too."
+    },
+    "focus.clear": {
+      "title": "Stop following",
+      "text": "Stops following the item you were looking at. Nothing is changed."
+    },
+    "inspector.word": {
+      "title": "A word's page",
+      "text": "Opens the word: its meaning here, where the meaning comes from, and where the word is used. You can give your own meaning."
+    },
+    "inspector.file": {
+      "title": "Open this file",
+      "text": "Shows the file or folder: what the scan saved, what each word of its name means, and each rule's result."
+    },
+    "inspector.correct": {
+      "title": "Give the word your own meaning",
+      "text": "For a word that means something else in your data. Your meaning is saved in the answer log and applies at the next Re-run."
+    },
+    "state.retry": {
+      "title": "Try again",
+      "text": "Tries again. The reason it stopped is shown above, in Ingence's words."
+    },
+    "rules.search": {
+      "title": "Find a rule",
+      "text": "Type words from a rule's name, its plain sentence or its group's heading. Rules without every word you typed are hidden."
+    },
+    "rules.group": {
+      "title": "A group of rules",
+      "text": "Opens or closes the rules that do one kind of work. The header says how many rules it holds and their results in this scan."
+    },
+    "rules.expand": {
+      "title": "Open or close every group",
+      "text": "Opens every group of rules, or closes them all. A search opens the groups that match."
+    },
+    "rules.copy": {
+      "title": "Copy as a revision",
+      "text": "Copies the change for your project's own rules file: the rule with its values, or switched off. It changes nothing here."
+    },
+    "rules.switch_off": {
+      "title": "How to switch off",
+      "text": "Shows the file that switches this rule off, for your project's rulebook folder. Nothing changes until you save it."
+    },
+    "rules.conclusions": {
+      "title": "Its results",
+      "text": "Opens the results of this rule in this scan, in Questions."
+    },
+    "rules.link": {
+      "title": "Open this rule",
+      "text": "Opens the rule in Rules, in Advanced. Point at it to read it in plain words."
+    },
+    "rules.inactive": {
+      "title": "Inactive rules",
+      "text": "Rules switched off or replaced, each with the reason. None applies to the next scan."
+    },
+    "rules.parameter": {
+      "title": "A setting of this rule",
+      "text": "A change here is saved as a draft at once. It applies after you commit it and Re-run."
+    },
+    "review.pager": {
+      "title": "50 rows at a time",
+      "text": "The page shows 50 rows at a time. Move to the next 50 or back."
+    },
+    "groupings.resolutions": {
+      "title": "Groups you approved",
+      "text": "Approving a set of words groups every experiment with exactly those words. Ingence asks about each difference on its own."
+    },
+    "history.by_hand": {
+      "title": "By hand",
+      "text": "The commands that do the same in a terminal, in this project's folder."
+    },
+    "history.restore": {
+      "title": "Restore a scan",
+      "text": "Shows what going back would change, before anything happens. Nothing is deleted when you confirm."
+    },
+    "history.jobs": {
+      "title": "Jobs",
+      "text": "After an answer or a commit, a job reads the names again and applies the rules. It continues if you close the browser page."
+    },
+    "workspace.years": {
+      "title": "Experiment date range",
+      "text": "Ingence reads a number in a name as a year only inside this range. Without a range, it uses 2013 to the present."
+    },
+    "groupings.approve": {
+      "title": "Approve the words as a group",
+      "text": "Untick any word that does not make these experiments one group, then approve. Ingence saves it in the answer log under your name."
+    },
+    "groupings.lattice": {
+      "title": "Word groups experiments share",
+      "text": "Each word group is exactly the words some experiments share. Ingence asks first about the group most experiments share, then about each group that adds words."
+    },
+    "groupings.howto": {
+      "title": "How to read the word groups",
+      "text": "Opens a picture of the word groups below, with each mark numbered and explained. Opening it answers nothing."
+    },
+    "groupings.compare_box": {
+      "title": "Compare this word group",
+      "text": "Tick 2 to 4 word groups to see their words, experiments and files side by side. Ticking saves nothing."
+    },
+    "groupings.compare_tray": {
+      "title": "Groups to compare",
+      "text": "The ticked groups, each with its letter in the comparison and on the map. Compare opens them side by side."
+    },
+    "groupings.show_on_map": {
+      "title": "Show on the map",
+      "text": "Opens the Map of groups with this group's experiments outlined and zoomed in."
+    },
+    "compare.howto": {
+      "title": "How to read the comparison",
+      "text": "Opens a picture of the comparison with each mark numbered and explained."
+    },
+    "compare.words": {
+      "title": "Words compared",
+      "text": "The words every compared group has, and the words only one group has. Each count is out of the words in any group."
+    },
+    "compare.experiments": {
+      "title": "Experiments compared",
+      "text": "How many experiments are in every group, out of those in any. In each bar, dark is in every group, middle in some, light in that group only."
+    },
+    "compare.files": {
+      "title": "Files compared",
+      "text": "The files in each group's experiments. Files in common are the files of the experiments in common."
+    },
+    "compare.show_on_map": {
+      "title": "Show the groups on the map",
+      "text": "Opens the Map of groups with each group outlined and lettered. Ingence shades the part where two outlines meet."
+    },
+    "groupings.lattice_mode": {
+      "title": "How this scan asked",
+      "text": "By word groups, largest first, or the earlier way, with one question for each word added or missing. Change it in Rules, in Advanced."
+    },
+    "section.explorer": {
+      "title": "Explorer",
+      "text": "The Wheel, Lineage and Timeline show what a folder holds and how its files led to one another. One selection works across all three."
+    },
+    "section.neighbourhood": {
+      "title": "Connections",
+      "text": "One folder or file and what is directly around it: its folder, contents, sources and mentions, each with its evidence."
+    },
+    "section.map": {
+      "title": "Map of groups",
+      "text": "Every experiment as a dot, placed by the words its themes use. Experiments with similar words lie close; distances are approximate."
+    },
+    "map.color_by": {
+      "title": "Color by",
+      "text": "One measure at a time: the theme, how much raw data was analyzed, or the year. The key under the map explains each color."
+    },
+    "map.plot": {
+      "title": "The map",
+      "text": "Point at a dot for its name, and click it for its card. Click a theme's name to keep its experiments and fade the rest."
+    },
+    "map.tools": {
+      "title": "Zoom and names",
+      "text": "Zoom in, zoom out or reset, and show or hide the theme names. The keys + - 0 and L do the same."
+    },
+    "map.legend": {
+      "title": "What the colors mean",
+      "text": "What each color of the measure stands for. Hatching is an experiment with no value for this measure."
+    },
+    "map.unplaced": {
+      "title": "Experiments not placed",
+      "text": "An experiment with none of the words the themes use has no place on the map. It is listed here instead."
+    },
+    "map.card": {
+      "title": "The experiment clicked",
+      "text": "Its name, folder, theme, year, files and analysis, and how many experiments share its place."
+    },
+    "map.stability": {
+      "title": "The theme's stability",
+      "text": "How well the theme holds when Ingence draws the groups again, from 0 (chance) to 1 (identical). Below the tick, the theme is uncertain."
+    },
+    "map.open_years": {
+      "title": "Open in Overlap",
+      "text": "Opens this experiment in the Overlap view."
+    },
+    "map.relations": {
+      "title": "Relations",
+      "text": "Opens the files around this experiment in Connections. Press N."
+    },
+    "map.howto": {
+      "title": "How to read the map",
+      "text": "Opens a picture of the map with each mark numbered and explained. Opening it changes nothing on the map."
+    },
+    "map.compare": {
+      "title": "Compare themes",
+      "text": "Tick 2 to 4 themes, then compare their words, experiments and files. Each theme is outlined on the map, and the overlap is shaded."
+    },
+    "map.outlines": {
+      "title": "Outlines",
+      "text": "An outline is the smallest round shape around one group's experiments, with a letter at its edge. A dot of another group can lie inside it."
+    },
+    "map.groups": {
+      "title": "The groups outlined",
+      "text": "Each group on the map, how many of its experiments have a place, and a way to remove its outline."
+    },
+    "map.show_stack": {
+      "title": "Show the word group",
+      "text": "Opens the word group these words belong to, opened and marked."
+    },
+    "section.years": {
+      "title": "Overlap",
+      "text": "Themes and experiments over time, one row each, from the whole project down to one file. Click a row to read about it."
+    },
+    "section.topics": {
+      "title": "Collections",
+      "text": "Your own named sets of experiments, word groups and themes. Each one shows what it holds in this scan and what changed since the last."
+    },
+    "topics.open": {
+      "title": "Open the collection",
+      "text": "Opens this collection in Collections."
+    },
+    "topics.choose": {
+      "title": "Add to",
+      "text": "Choose a collection you made, or name a new one. Ingence saves this in the answer log, and nothing waits for Re-run."
+    },
+    "topics.name": {
+      "title": "The collection's name",
+      "text": "What you call the set, in up to 120 characters. You can rename it later."
+    },
+    "topics.pickbar": {
+      "title": "Picked for a collection",
+      "text": "What you picked on this page. Choose Add to collection to put it in a collection, or Clear to start over."
+    },
+    "topics.clear_picks": {
+      "title": "Clear what you picked",
+      "text": "Removes everything you picked on this page. Nothing is saved."
+    },
+    "topics.add": {
+      "title": "Add to collection",
+      "text": "Puts what you picked into a new or existing collection. Ingence saves it in the answer log under your name."
+    },
+    "topics.chip": {
+      "title": "A collection of yours",
+      "text": "A collection that holds this. Click it to open the collection."
+    },
+    "topics.chips": {
+      "title": "Your collections",
+      "text": "Your collections that hold this row's experiments. For a row of several experiments, the numbers say how many of them each collection holds."
+    },
+    "topics.more": {
+      "title": "More experiments",
+      "text": "Shows the next page of this collection's experiments."
+    },
+    "topics.rename": {
+      "title": "Rename",
+      "text": "Gives the collection another name. The answer log keeps the earlier name."
+    },
+    "topics.remove_member": {
+      "title": "Remove",
+      "text": "Removes this member from the collection and keeps the others. You cannot remove the last member; withdraw the collection instead."
+    },
+    "topics.withdraw": {
+      "title": "Withdraw",
+      "text": "Stops showing the collection on the views. The answer log keeps what you said and when."
+    },
+    "topics.export": {
+      "title": "Export files (CSV)",
+      "text": "Saves a spreadsheet of the files in the collection's experiments, with path, data folder, name, stage and experiment. Your browser saves it as a download."
+    },
+    "topics.show_years": {
+      "title": "Show on Overlap",
+      "text": "Opens Overlap with only this collection's experiments. Clear the collection there to see every experiment again."
+    },
+    "topics.show_map": {
+      "title": "Show on the Map",
+      "text": "Opens the Map with this collection's outline drawn and zoomed in."
+    },
+    "topics.flag_nothing": {
+      "title": "Members that match no experiment",
+      "text": "Some members name something this scan does not have, such as a folder that moved. They stay listed, with the reason."
+    },
+    "topics.flag_unread": {
+      "title": "Members Ingence could not read",
+      "text": "Ingence could not read a member of this collection in this scan. Its counts are a minimum, and the true number is unknown."
+    },
+    "topics.flag_drift": {
+      "title": "Changed since the last scan",
+      "text": "How many experiments joined or left the collection since the scan before. The card gives the reason for each."
+    },
+    "topics.starts": {
+      "title": "Places to start",
+      "text": "Ingence's broadest themes, offered as places to start a collection. Nothing is made until you choose."
+    },
+    "topics.suggestion": {
+      "title": "Start a collection from it",
+      "text": "Makes a collection with a name you choose, holding this theme's experiments one by one."
+    },
+    "groups.pick": {
+      "title": "Pick a word group for a collection",
+      "text": "Ticks this word group. A collection that holds a word group follows its words, so new experiments with those words join it."
+    },
+    "years.pick": {
+      "title": "Pick for a collection",
+      "text": "Shows a box on each theme and experiment. Tick some, then choose Add to collection."
+    },
+    "years.pick_row": {
+      "title": "Pick this row",
+      "text": "Ticks this row for a collection."
+    },
+    "years.lens": {
+      "title": "Collection",
+      "text": "Shows only the experiments of one of your collections, at every level. Choose every experiment to see them all."
+    },
+    "years.lens_clear": {
+      "title": "Clear the collection",
+      "text": "Shows every experiment again."
+    },
+    "years.wheel_topics": {
+      "title": "Your collections on the Wheel",
+      "text": "The thin rings outside the Wheel are your collections, one ring each. A ring is drawn where the collection holds an experiment."
+    },
+    "map.topics": {
+      "title": "Your collections on the map",
+      "text": "Each switch draws the outline of one collection's experiments, in its color. Shift-click dots, or Shift-drag a box, to pick them for a collection."
+    },
+    "section.found": {
+      "title": "No analysis found",
+      "text": "Experiments with raw data where Ingence found no analysis in the files it read. If the analysis is elsewhere, say so, and the next scan leaves it out."
+    },
+    "section.manifest": {
+      "title": "What changed",
+      "text": "Each scan, with what changed from the scan before it, and the answers applied in it."
+    },
+    "section.ladders": {
+      "title": "Folder levels",
+      "text": "The levels the Overlap view uses for each kind of data folder. It shows what a row is at each level, and where it comes from."
+    },
+    "years.chip": {
+      "title": "A choice",
+      "text": "One of the ways to draw this scale."
+    },
+    "years.measure": {
+      "title": "Color by",
+      "text": "What the color shows: how much raw data was analyzed, or whether a person noted something (magenta)."
+    },
+    "years.wheel": {
+      "title": "The Wheel",
+      "text": "The current scale as rings: broad themes, themes, experiments. The angle is how many, and the color follows the measure."
+    },
+    "years.details": {
+      "title": "Details",
+      "text": "In a narrow window, the card of the selected item waits in a drawer. This opens it; Escape or Close shuts it."
+    },
+    "years.drawer_close": {
+      "title": "Close the drawer",
+      "text": "Closes the card and returns to the rows. Escape does the same."
+    },
+    "years.sheet_close": {
+      "title": "Close the Wheel",
+      "text": "Closes the Wheel and returns to the rows. Escape does the same."
+    },
+    "years.overlap_draw": {
+      "title": "Draw shared words as",
+      "text": "A matrix shows every theme against every other, readable up to 12 themes. A ring shows only the pairs that share a word."
+    },
+    "years.wheel_key": {
+      "title": "A theme around the Wheel",
+      "text": "Its number, full name and number of experiments. A narrow arc shows only the number; click to choose the theme."
+    },
+    "years.narrow_search": {
+      "title": "Search experiments",
+      "text": "Goes to the search box at the top of the page."
+    },
+    "years.narrow_questions": {
+      "title": "Questions",
+      "text": "Opens Questions, where Ingence asks what it could not decide. The number is how many questions come first."
+    },
+    "years.rows_are": {
+      "title": "Rows are",
+      "text": "What a row is at the experiment scale: folders, stages, file types, or each file."
+    },
+    "years.design": {
+      "title": "Design grid",
+      "text": "The conditions in this experiment's file names, as a grid of every combination. Each cell is shaded by how many times it was repeated."
+    },
+    "years.design_grid": {
+      "title": "The grid",
+      "text": "A hatched cell is a combination no name has, and an outlined cell has empty output. The number is how many times it was repeated."
+    },
+    "years.filter": {
+      "title": "Filter",
+      "text": "Keeps only the files whose name, folder, stage or type contains this."
+    },
+    "years.busy": {
+      "title": "The busiest days",
+      "text": "The days that hold most of this experiment's files. The view opens on them, and you can choose the whole range."
+    },
+    "years.axis": {
+      "title": "The time axis",
+      "text": "Pinch, or press Ctrl and scroll, to zoom around the pointer. Drag, or scroll sideways, to move. Click a year to see what happened then."
+    },
+    "years.reset": {
+      "title": "Reset zoom",
+      "text": "Back to the whole span."
+    },
+    "years.word": {
+      "title": "A word",
+      "text": "Opens the word's page: what it means here, where it came from, and how to give it another meaning."
+    },
+    "years.action": {
+      "title": "An action",
+      "text": "Opens or moves to what the card describes."
+    },
+    "years.rename": {
+      "title": "Name this theme",
+      "text": "Your name for this theme, saved under your name. Ingence's own words stay underneath."
+    },
+    "years.elsewhere": {
+      "title": "Analyzed elsewhere",
+      "text": "Say that this experiment's analysis is in a place Ingence did not read. The next scan leaves it off the No analysis found list."
+    },
+    "years.inventory": {
+      "title": "Inventory",
+      "text": "Everything Ingence counted when it listed the files: file types, sizes and folders. Opens the Inventory page."
+    },
+    "years.questions": {
+      "title": "Questions",
+      "text": "The questions Ingence asks, the most useful first. Opens Questions, in Advanced."
+    },
+    "years.map": {
+      "title": "Map of groups",
+      "text": "Where each experiment lies by the words its theme uses. Opens the Map of groups, in Advanced."
+    },
+    "years.more_lines": {
+      "title": "More themes",
+      "text": "Shows every theme in a list that scrolls, or folds the list back to 4."
+    },
+    "years.unplaced": {
+      "title": "In no theme",
+      "text": "The experiments no theme holds, because their words are too far from the others. Opens them as rows."
+    },
+    "years.no_analysis": {
+      "title": "No analysis found",
+      "text": "The experiments of this theme with raw data and no analysis in the files Ingence read. Opens the list."
+    },
+    "years.open_theme": {
+      "title": "Open its experiments",
+      "text": "One scale down: the experiments of this theme as rows."
+    },
+    "years.open_files": {
+      "title": "Open its files",
+      "text": "One scale down: the files of this experiment as rows."
+    },
+    "years.rule_row": {
+      "title": "A rule's result",
+      "text": "Opens the rule that found it, its version, and the evidence it read."
+    },
+    "years.record": {
+      "title": "File details",
+      "text": "Everything Ingence saved about this file: its name's parts, its clocks, and every result with its rule."
+    },
+    "years.teach": {
+      "title": "Teach a word",
+      "text": "Lists the words of this file's name. Open one to see its meaning here, and to give your own."
+    },
+    "years.same_columns": {
+      "title": "Same columns",
+      "text": "Opens the files one by one, only the tables with the same columns as this one."
+    },
+    "years.graph": {
+      "title": "Connections",
+      "text": "Opens Connections centered on it: its sources, what was made from it, and what mentions it."
+    },
+    "found.row": {
+      "title": "An experiment",
+      "text": "Click or press Enter to open the experiment's folder beside the list."
+    },
+    "found.elsewhere": {
+      "title": "Analyzed elsewhere",
+      "text": "Says this experiment's analysis is in a place Ingence did not read. The next scan leaves it off the list."
+    },
+    "found.not_elsewhere": {
+      "title": "Not elsewhere",
+      "text": "Takes back that this experiment's analysis is elsewhere. The next scan lists it again."
+    },
+    "found.note": {
+      "title": "Note",
+      "text": "Where the analysis is, in your words, such as another drive or folder. It stays with the answer."
+    },
+    "found.thresholds": {
+      "title": "Thresholds",
+      "text": "The settings Ingence used for this list, each by its name in Advanced > Settings."
+    },
+    "manifest.run": {
+      "title": "A scan",
+      "text": "Open it to see what changed from the scan before it, and the answers applied in it."
+    },
+    "manifest.why": {
+      "title": "Why",
+      "text": "Ingence's own sentence for this answer, and where it is in the answer log."
+    },
+    "manifest.more": {
+      "title": "Show the others",
+      "text": "Shows the rest of this scan's sentences."
+    },
+    "manifest.quality": {
+      "title": "Quality figures",
+      "text": "Counts of what this scan found and read, beside the scan it is compared with. Point at a figure to see how it is counted."
+    },
+    "state.check_again": {
+      "title": "Check again",
+      "text": "Checks again whether Ingence can reach this project's data folder. It reads nothing inside it."
+    },
+    "state.show_last_run": {
+      "title": "Show the last scan",
+      "text": "Folds the notice to one line so the last scan has more room. Details brings the notice back."
+    },
+    "state.run_rules": {
+      "title": "Run the rules now",
+      "text": "Applies the rules to the listed files in the background, and shows this page when they finish. It reads only the project, never your data folders."
+    },
+    "questions.answer": {
+      "title": "Answer",
+      "text": "Saves your answer under your name at once. It waits for Re-run."
+    },
+    "questions.change": {
+      "title": "Change",
+      "text": "Opens the answers again so you can change yours. The answer log keeps the earlier answer."
+    },
+    "questions.kind": {
+      "title": "Kind and rule version",
+      "text": "The kind of question, and the version of the rule that asks it."
+    },
+    "questions.stands": {
+      "title": "Where the word appears",
+      "text": "Searches the folder for names that contain this word."
+    },
+    "questions.note": {
+      "title": "Note",
+      "text": "A note saved with your answer in the answer log."
+    },
+    "questions.own_words": {
+      "title": "In your own words",
+      "text": "Say what the word means in your own words, and what kind of thing it is."
+    },
+    "questions.why": {
+      "title": "Why this is asked",
+      "text": "Which rule asks this question, its version, and what that rule finds."
+    },
+    "questions.ranking": {
+      "title": "How the ranking works",
+      "text": "How Ingence orders the questions: it compares one fact at a time, and weights or adds nothing."
+    },
+    "questions.chip": {
+      "title": "The rest of the questions",
+      "text": "Opens this kind of question as a table, 50 rows a page, with filters for area and rule."
+    },
+    "questions.elsewhere": {
+      "title": "Elsewhere",
+      "text": "Questions that wait on other tabs, and how many wait on each."
+    },
+    "questions.select": {
+      "title": "Choose rows",
+      "text": "Chooses every row in this table, or none. With rows chosen, a bar above the table answers them together."
+    },
+    "questions.bulk": {
+      "title": "Answer together",
+      "text": "Saves this answer for every chosen row, one answer each with the same note. It waits for Re-run."
+    },
+    "questions.next": {
+      "title": "Next question",
+      "text": "Opens the next question still waiting for an answer, in the order the tables show them."
+    },
+    "years.show_on_map": {
+      "title": "Show on the map",
+      "text": "Opens the Map of groups with this theme's experiments outlined and zoomed in."
+    },
+    "section.experiments": {
+      "title": "Experiments",
+      "text": "Every experiment Ingence found, how complete each one is, and how its files were linked to it. Filter, sort, and open a row to see its files."
+    },
+    "experiments.assumption": {
+      "title": "What Ingence assumes about pairs",
+      "text": "A raw file counts as analyzed when a pair or link joins it to an analysis file or results table. Ingence takes its own pairs as right."
+    },
+    "experiments.filter_name": {
+      "title": "Filter by name",
+      "text": "Keeps the experiments whose name or folder holds what you type. The list changes as you type."
+    },
+    "experiments.filter_person": {
+      "title": "Filter by area",
+      "text": "Keeps the experiments of one area. An area is the folder level your settings name, such as the top folders of a data folder."
+    },
+    "experiments.filter_line": {
+      "title": "Filter by theme",
+      "text": "Keeps the experiments in one theme. Ingence finds themes from the words experiments share."
+    },
+    "experiments.filter_topic": {
+      "title": "Filter by collection",
+      "text": "Keeps the experiments in one of your collections. Ingence never uses a collection to find results."
+    },
+    "experiments.topics": {
+      "title": "Collections",
+      "text": "Your collections that hold this experiment, each a magenta chip. If Ingence could not read a collection, the table says so above."
+    },
+    "experiments.topic_chip": {
+      "title": "A collection",
+      "text": "Shows only the experiments in this collection."
+    },
+    "experiments.filter_state": {
+      "title": "Filter by completeness",
+      "text": "Raw and analysis found, raw only, analysis only, or neither. Each describes what Ingence found in the files it read."
+    },
+    "experiments.sort": {
+      "title": "Sort and order",
+      "text": "Sort by name, date, files or completeness. An unknown date or share always comes last."
+    },
+    "experiments.sort_head": {
+      "title": "Sort by this column",
+      "text": "Sorts the table by this column. Choose it again to reverse the order."
+    },
+    "experiments.clear": {
+      "title": "Clear the filters",
+      "text": "Removes every filter and goes back to the first page, sorted by name."
+    },
+    "experiments.table": {
+      "title": "The experiments",
+      "text": "One row for each experiment. Counts are what Ingence found in the files it read."
+    },
+    "experiments.row": {
+      "title": "An experiment",
+      "text": "Choose its name to open its card and files in Overlap."
+    },
+    "experiments.open": {
+      "title": "Open the experiment",
+      "text": "Opens this experiment in Overlap: its card, and its files one by one."
+    },
+    "experiments.found_by": {
+      "title": "How it was found",
+      "text": "The rule that found this experiment. It used what the folder holds, or a date and a word in the folder's name."
+    },
+    "experiments.files": {
+      "title": "Its files",
+      "text": "The files found in the experiment. Open it to see them by stage and by file type."
+    },
+    "experiments.followed": {
+      "title": "Raw files analyzed",
+      "text": "How many of its raw files have an analysis file or a results table, of all its raw files. With no raw files found, the count is unknown."
+    },
+    "experiments.followed_why": {
+      "title": "Why this count",
+      "text": "What the count rests on: pairs you confirmed, and the pairs and links Ingence found itself, which it assumes are right."
+    },
+    "experiments.legend": {
+      "title": "The bar's two shades",
+      "text": "Magenta counts raw files analyzed through a pair you confirmed. Gray counts those analyzed through a pair or link Ingence found itself."
+    },
+    "experiments.pairs": {
+      "title": "Suggested pairs",
+      "text": "Opens Suggested pairs, where you confirm or refuse a pair Ingence suggested. That list holds every pair in the scan."
+    },
+    "experiments.characterized": {
+      "title": "How well it was characterized",
+      "text": "Of its files, how many have a stage and how many a role. Each count is out of all files in the experiment."
+    },
+    "experiments.why": {
+      "title": "Why this state",
+      "text": "How Ingence judged the state. It uses the No analysis found test, or what it found when there are too few raw files."
+    },
+    "experiments.state": {
+      "title": "Completeness",
+      "text": "Whether Ingence found raw files and analysis in the experiment, in the files it read. It says nothing about files Ingence did not read."
+    },
+    "experiments.pager": {
+      "title": "Pages",
+      "text": "The table lists 50 experiments at a time. Previous and Next move through them."
+    },
+    "section.words": {
+      "title": "Words",
+      "text": "Teach Ingence your words: pick a word and choose its meaning. Answers wait for Re-run."
+    },
+    "words.meter": {
+      "title": "How much of the names Ingence understands",
+      "text": "Counts of word parts in names. Solid is understood now, light is what your answers would add, and hatched is the rest."
+    },
+    "words.show_answered": {
+      "title": "Show answered words",
+      "text": "Lists the words you answered, each with your answer and Withdraw. A new answer for the same place replaces it; one kept below a folder stays below that folder."
+    },
+    "words.show_understood": {
+      "title": "Show words it understood",
+      "text": "Adds the words the Dictionary already knows, so you can confirm or correct a meaning."
+    },
+    "words.state": {
+      "title": "Narrow by state",
+      "text": "Shows only the words in one state, such as unknown, tied or understood. The number is how many words are in it."
+    },
+    "words.list": {
+      "title": "The words",
+      "text": "The words Ingence is unsure of, those in the most files first. Open a word to teach it."
+    },
+    "words.card": {
+      "title": "The word's card",
+      "text": "What the word means, and whether the spellings beside it are the same thing. Save, or Enter, saves your answers; nothing applies until Re-run."
+    },
+    "words.sense": {
+      "title": "A meaning it already has",
+      "text": "Saves this meaning for the word under your name. The Dictionary has it for this word or a similar spelling."
+    },
+    "words.own": {
+      "title": "Something else",
+      "text": "Say what the word means, what kind of thing it is, and whether that holds everywhere or below one folder."
+    },
+    "words.own_row": {
+      "title": "Your own meaning",
+      "text": "Write what the word means, choose its kind, and choose where it applies. Say what it means saves it with your other answers."
+    },
+    "words.not_a_word": {
+      "title": "Not a person's word",
+      "text": "Says a computer or program reads this, such as an extension or a code. Then choose what it is to a computer."
+    },
+    "words.cannot_say": {
+      "title": "Can't say",
+      "text": "Saves a note saying you cannot tell. The word stays in the list."
+    },
+    "words.skip": {
+      "title": "Skip",
+      "text": "Moves the word to the end of the list and opens the next one. Nothing is saved."
+    },
+    "words.record": {
+      "title": "Save",
+      "text": "Saves your answers for this word and its spellings under your name, then opens the next word. Answers wait for Re-run."
+    },
+    "words.glued": {
+      "title": "One word or separate words",
+      "text": "A capital divides this spelling. One word reads it whole, and Separate words reads each piece."
+    },
+    "words.same": {
+      "title": "The same thing",
+      "text": "This spelling means what this word means. It is saved with the meaning you gave the word."
+    },
+    "words.kind": {
+      "title": "Different things of one kind",
+      "text": "This spelling is its own thing, of the same kind as this word. You write its meaning."
+    },
+    "words.unrelated": {
+      "title": "Unrelated",
+      "text": "The two spellings are different things. Ingence will not suggest this pair again."
+    },
+    "words.kind_meaning": {
+      "title": "Its own meaning",
+      "text": "What this spelling means, of the same kind as the word. It starts as the spelling itself; change it if you like."
+    },
+    "words.note": {
+      "title": "A note",
+      "text": "A note stays with the answer. It is optional and changes nothing."
+    },
+    "coverage.words": {
+      "title": "Teach words in Words",
+      "text": "Teach the words that have no meaning yet in the Words section of Questions. They are ordered by how many files have them."
+    },
+    "questions.words": {
+      "title": "The words Ingence is unsure of",
+      "text": "The words Ingence is unsure of that are in the most files. Teach them first, because a word's meaning changes later questions."
+    },
+    "questions.words_link": {
+      "title": "Open Words",
+      "text": "Opens the Words section, with every word Ingence is unsure of."
+    },
+    "words.withdraw": {
+      "title": "Withdraw this answer",
+      "text": "Takes back your answer about this word, after asking. The answer log keeps it, and it waits for Re-run like every answer."
+    },
+    "overview.found": {
+      "title": "What was found",
+      "text": "How many experiments and files Ingence found, from when, and in which top folders."
+    },
+    "overview.completeness": {
+      "title": "Completeness",
+      "text": "How many raw files were analyzed. Experiments with no analysis are listed here."
+    },
+    "overview.ask": {
+      "title": "Ask",
+      "text": "Type a question about your data. Ingence lists the experiments that match and says why."
+    },
+    "overview.assumptions": {
+      "title": "Assumptions and checks",
+      "text": "Assumptions are results Ingence takes as true until you correct them. Checks are questions worth a minute; where Ingence has a guess, you can keep it."
+    },
+    "page.overview": {
+      "title": "Overview",
+      "text": "What the scan found, on one page. Ask a question, read the counts, and correct what Ingence assumed."
+    },
+    "page.overlap": {
+      "title": "Overlap",
+      "text": "How your experiments connect: shared words, the same workflow, the same instrument, and repeats."
+    },
+    "page.experiments": {
+      "title": "Experiments",
+      "text": "Every experiment Ingence found, and your collections."
+    },
+    "page.checks": {
+      "title": "Checks",
+      "text": "The few questions that matter, one at a time. Where Ingence has a guess you can keep it; where it has none, the question waits for your answer."
+    },
+    "page.advanced": {
+      "title": "Advanced",
+      "text": "The rules, the Dictionary, the settings, every list and the other views."
+    },
+    "section.overview": {
+      "title": "Overview",
+      "text": "What the scan found, on one page."
+    },
+    "section.checks": {
+      "title": "Checks",
+      "text": "One question at a time, with Ingence's guess where it has one. Below it are the words that matter and every assumption."
+    },
+    "ask.box": {
+      "title": "Ask",
+      "text": "Type a question about your experiments and press Enter. Ingence lists the experiments that relate to it.",
+      "shortcut": "/"
+    },
+    "overview.goal": {
+      "title": "Goal",
+      "text": "One of your goals, and the experiments that relate to it. Each tier is listed apart, with its reason."
+    },
+    "overview.show_these": {
+      "title": "Show these",
+      "text": "Opens Experiments with this goal's experiments, and lights them in Overlap."
+    },
+    "overview.areas": {
+      "title": "Areas",
+      "text": "The top-level folders in your data folders. Each one is a person, an instrument, a project, a date or a folder."
+    },
+    "overview.area_kind": {
+      "title": "What an area is",
+      "text": "Choose what this folder stands for, to correct the kind Ingence assumed. The change waits for Re-run."
+    },
+    "overview.repeats": {
+      "title": "Repeats",
+      "text": "Experiments done once, and experiments done again. Seen once means one experiment supports it."
+    },
+    "overview.themes": {
+      "title": "Themes",
+      "text": "Experiments that share many words. Choose a theme to open Overlap."
+    },
+    "overview.checks": {
+      "title": "Checks",
+      "text": "The questions where one answer settles the most files. Choose one to open it in Checks."
+    },
+    "overview.job": {
+      "title": "The scan",
+      "text": "The scan that is running, and how far it is. Stop stops it."
+    },
+    "assumptions.wrong": {
+      "title": "This is wrong",
+      "text": "Tells Ingence this assumption is wrong. The correction waits for Re-run."
+    },
+    "assumptions.all": {
+      "title": "All assumptions",
+      "text": "Every assumption of this scan, the most files first, each with This is wrong."
+    },
+    "checks.quick": {
+      "title": "Quick checks",
+      "text": "A few checks after the first scan, one at a time. They show once for each project."
+    },
+    "checks.keep": {
+      "title": "Keep",
+      "text": "Keeps Ingence's guess and shows the next check."
+    },
+    "checks.next": {
+      "title": "Next",
+      "text": "Shows the next check. This one has no result until you answer it."
+    },
+    "checks.change": {
+      "title": "Change",
+      "text": "Shows the answers to choose from. Your answer waits for Re-run."
+    },
+    "checks.skip": {
+      "title": "Skip",
+      "text": "Keeps every guess and opens the Overview. Checks lists every check later."
+    },
+    "checks.answer": {
+      "title": "An answer",
+      "text": "Saves this answer under your name. It waits for Re-run."
+    },
+    "checks.cancel": {
+      "title": "Cancel",
+      "text": "Closes the answers and keeps the guess."
+    },
+    "checks.move": {
+      "title": "Previous and Next",
+      "text": "Moves to the check before or after this one."
+    },
+    "checks.all_questions": {
+      "title": "All questions",
+      "text": "Opens every question, in Advanced."
+    },
+    "checks.words": {
+      "title": "Words that matter",
+      "text": "The spellings and meanings Ingence assumed. Each has This is wrong."
+    },
+    "section.overlap": {
+      "title": "Overlap",
+      "text": "How your experiments connect. Connections draws the experiments and the lines between them. By year lists areas, then experiments, by time."
+    },
+    "section.stability": {
+      "title": "Stability",
+      "text": "How steady each theme is when Ingence groups the experiments again from other starting points. A theme below 0.80 has an uncertain boundary."
+    },
+    "overlap.mode": {
+      "title": "Connections or By year",
+      "text": "Connections draws the experiments and how they overlap. By year lists areas, then their experiments, by date."
+    },
+    "overlap.drawing": {
+      "title": "The drawing",
+      "text": "Each dot is an experiment, colored by its theme. A line joins two experiments that overlap. Pinch, or hold Ctrl and scroll, to zoom."
+    },
+    "overlap.filter_area": {
+      "title": "Area",
+      "text": "Shows only the experiments in one area. An area is a top-level folder inside a data folder."
+    },
+    "overlap.filter_theme": {
+      "title": "Theme",
+      "text": "Shows only the experiments of one theme."
+    },
+    "overlap.filter_kind": {
+      "title": "Lines",
+      "text": "Choose the kinds of overlap to draw. The number is how many pairs of experiments have that kind."
+    },
+    "overlap.highlight": {
+      "title": "Highlight",
+      "text": "The experiments that the Overview's Show these named are highlighted. The others are dimmed."
+    },
+    "overlap.clear_highlight": {
+      "title": "Clear highlight",
+      "text": "Shows every experiment at full strength again."
+    },
+    "overlap.legend": {
+      "title": "Legend",
+      "text": "The colors of the themes, and how each kind of line is drawn. The eight largest themes each have a color."
+    },
+    "overlap.list": {
+      "title": "The lines drawn, as a list",
+      "text": "The same lines as the drawing, one row each. Open a row to see why the two experiments overlap."
+    },
+    "overlap.open_pair": {
+      "title": "Open the overlap",
+      "text": "Shows why these two experiments overlap, with the evidence for each kind."
+    },
+    "overlap.open_node": {
+      "title": "Open the experiment",
+      "text": "Shows this experiment's story, day by day."
+    },
+    "overlap.evidence": {
+      "title": "Evidence",
+      "text": "Why Ingence joined these two experiments: the shared words, the workflow, the instrument, a repeat, a copy or a source."
+    },
+    "overlap.files": {
+      "title": "Show the files",
+      "text": "Lists the files of both experiments. Files whose names hold a shared word come first."
+    },
+    "overlap.file": {
+      "title": "A file",
+      "text": "Opens what Ingence recorded about this file."
+    },
+    "overlap.by_year": {
+      "title": "Open in By year",
+      "text": "Opens this experiment in Overlap's By year mode, with its story and its files."
+    },
+    "story.days": {
+      "title": "Days",
+      "text": "One box per day with files, colored by the stage of that day's files."
+    },
+    "story.workflow": {
+      "title": "Workflow",
+      "text": "The steps this experiment's files went through, and the last step they reached."
+    },
+    "story.repeats": {
+      "title": "Repeats",
+      "text": "The experiments that Ingence reads as repeats of this one."
+    },
+    "story.repeat": {
+      "title": "A repeat",
+      "text": "Opens this repeat of the experiment."
+    },
+    "story.made_from": {
+      "title": "Made from",
+      "text": "The experiments whose files this experiment was made from."
+    },
+    "story.files": {
+      "title": "Show the files",
+      "text": "Lists this experiment's files, by folder."
+    },
+    "workflow.card": {
+      "title": "Workflow",
+      "text": "The steps your files go through, by file type. Ingence suggests a workflow from what it found. You can change it or turn it off."
+    },
+    "workflow.change": {
+      "title": "Change",
+      "text": "Change the file types at each step, or the order of the steps. Ingence first shows what would change."
+    },
+    "workflow.turn_off": {
+      "title": "Turn off",
+      "text": "Stops Ingence from using this workflow. Ingence first shows what would change."
+    },
+    "workflow.show_change": {
+      "title": "Show what changes",
+      "text": "Ingence counts what your change would change. Nothing is saved yet."
+    },
+    "workflow.change_confirm": {
+      "title": "Change",
+      "text": "Saves the change. It waits for Re-run."
+    },
+    "workflow.turn_off_confirm": {
+      "title": "Turn off",
+      "text": "Turns the workflow off. This waits for Re-run."
+    },
+    "workflow.cancel": {
+      "title": "Cancel",
+      "text": "Closes this without saving anything."
+    },
+    "workflow.add_type": {
+      "title": "Add a type",
+      "text": "Adds a file type of this project to this step."
+    },
+    "workflow.remove_type": {
+      "title": "Remove a type",
+      "text": "Removes this file type from this step."
+    },
+    "workflow.move": {
+      "title": "Move a step",
+      "text": "Moves this step earlier or later in the workflow."
+    },
+    "workflow.remove_stage": {
+      "title": "Remove a step",
+      "text": "Removes this step from the workflow."
+    },
+    "years.story": {
+      "title": "Story",
+      "text": "What happened in this experiment, day by day: the stage of its files, its workflow, its repeats."
+    },
+    "years.stability": {
+      "title": "Stability",
+      "text": "Opens Stability in Advanced: how stable each theme is. O opens it too."
+    },
+    "experiments.story": {
+      "title": "Open the story",
+      "text": "Shows this experiment's story under its row. Click the name again to close it."
+    },
+    "experiments.by_year": {
+      "title": "Open in By year",
+      "text": "Opens this experiment in Overlap's By year mode."
+    },
+    "ask.read": {
+      "title": "Your question",
+      "text": "The words Ingence read in your question, the words it left out, and the words it does not know."
+    },
+    "ask.filters": {
+      "title": "Filters",
+      "text": "The years, file types and areas your question names. Ingence lists only the experiments that fit them."
+    },
+    "ask.included": {
+      "title": "Words included",
+      "text": "Other words Ingence counts as yours: a spelling, a plural, or a word of the same kind in the Dictionary."
+    },
+    "ask.tier": {
+      "title": "Named and Associated",
+      "text": "Named experiments have your words in their names. Associated experiments connect to your words in another way, said on each line."
+    },
+    "ask.same_theme": {
+      "title": "Same theme",
+      "text": "Suggestions: experiments in the same theme as a match. Your words may not be in them."
+    },
+    "ask.save_goal": {
+      "title": "Save as goal",
+      "text": "Keeps this question as a goal. The Overview shows its answer card."
+    },
+    "ask.open": {
+      "title": "Open an experiment",
+      "text": "Opens the experiment: its days, its files and its repeats."
+    },
+    "assumptions.example": {
+      "title": "Example",
+      "text": "A file that rests on this assumption. Opens it in the inspector, under the line."
+    },
+    "overview.goal_story": {
+      "title": "The experiment's story",
+      "text": "Opens this experiment's story under it, day by day. Press it again to close the story."
+    },
+    "experiments.goal_all": {
+      "title": "Show all",
+      "text": "Lists every experiment again, without the goal's filter."
+    }
+  },
+  "pictures": {
+    "groupings_stacks": {
+      "title": "How to read the word groups",
+      "file": "groupings-stacks.png",
+      "alt": "One word group from the sample. A base block at the bottom is asked now, and 7 blocks above it wait, folded under one open line.",
+      "lead": "A word group is a set of words that experiments share, with every group that adds words to it. Each block counts the experiments that have all of its words.",
+      "marks": [
+        {
+          "id": "stack",
+          "title": "A word group",
+          "text": "A set of words that enough experiments share, 5 by default, with the groups that add words above it. The top line says how many experiments have the base words."
+        },
+        {
+          "id": "base",
+          "title": "The base",
+          "text": "The base block is the set every experiment in the group has. It is at the bottom, as wide as the group, and all its words are strong."
+        },
+        {
+          "id": "block",
+          "title": "A block above",
+          "text": "A block on another block adds words to the one below. Its width is its share of the base's experiments; point at it to outline the block it adds to."
+        },
+        {
+          "id": "strong_word",
+          "title": "A strong word",
+          "text": "A word in a bold pill with a plus sign is one this block adds to the block below it."
+        },
+        {
+          "id": "faint_word",
+          "title": "A faint word",
+          "text": "A gray word is one the block shares with the block below it. It is not new here."
+        },
+        {
+          "id": "state",
+          "title": "The state",
+          "text": "The tag says where the block stands: asked now, one group, not one group, waiting, or not asked. The edge shows the same with a glow, green, dashes or faded words."
+        },
+        {
+          "id": "experiments",
+          "title": "How many experiments",
+          "text": "How many of the base's experiments have this block's words. Open it to see their folders."
+        },
+        {
+          "id": "fold",
+          "title": "Blocks that only wait",
+          "text": "Blocks that wait for the block below them fold into one line, so a tall group stays short. In this picture the line is open."
+        },
+        {
+          "id": "answers",
+          "title": "Your answer",
+          "text": "Only a block asked now has these. Ingence saves One group or Not one group in the answer log under your name."
+        },
+        {
+          "id": "meter",
+          "title": "The meter",
+          "text": "The bar counts the blocks in the group that are settled, out of all of them. Settled means approved, declined, or set aside because a block below was declined."
+        },
+        {
+          "id": "compare",
+          "title": "Compare",
+          "text": "Tick 2 to 4 blocks, in this group or another, to see their words, experiments and files side by side. Ticking saves nothing."
+        },
+        {
+          "id": "map",
+          "title": "Show on the map",
+          "text": "Opens the Map of groups with this group's experiments outlined and zoomed in."
+        }
+      ],
+      "note": "Ingence does not ask about word groups that too few experiments share. They are listed under the others, each with its number."
+    },
+    "map": {
+      "title": "How to read the map",
+      "file": "map.png",
+      "alt": "The Map of groups of the sample, with dots in 5 colors and each theme named above a dotted ring. Groups A and B are outlined, with their overlap shaded. The key is under the map, and the card of the 2 groups is at the right.",
+      "lead": "Each dot is one experiment. Dots that lie close use similar words. A place is approximate, so read which dots are near each other, and ignore exact distances.",
+      "marks": [
+        {
+          "id": "dot",
+          "title": "An experiment",
+          "text": "One dot is one experiment. Its color is the measure under Color by, and its size grows with its number of files."
+        },
+        {
+          "id": "name",
+          "title": "A theme",
+          "text": "Each theme is named once, above the middle of its experiments. Click a name to keep that theme's experiments and fade the rest."
+        },
+        {
+          "id": "ring",
+          "title": "A dotted ring",
+          "text": "The ring marks the middle of a theme's experiments, the average of their places. It is not an experiment."
+        },
+        {
+          "id": "outline",
+          "title": "An outline",
+          "text": "A group's outline is the smallest round shape around its experiments. A dot of another group can lie inside it."
+        },
+        {
+          "id": "letter",
+          "title": "The letter",
+          "text": "The letter at an outline's edge names the group in the key and in the comparison."
+        },
+        {
+          "id": "overlap",
+          "title": "Where outlines overlap",
+          "text": "The gray part is where two outlines meet. It can hold a dot that is in neither group."
+        },
+        {
+          "id": "colors",
+          "title": "The colors",
+          "text": "The key under the map says what each dot color stands for. Hatching is an experiment with no value for the measure."
+        },
+        {
+          "id": "outline_legend",
+          "title": "The outlines' key",
+          "text": "The Outlines button shows or hides the outlines. The key lists each outline with its letter, words and placed experiments."
+        },
+        {
+          "id": "measure",
+          "title": "Color by",
+          "text": "Chooses what a dot's color means: its theme, how much of its raw data was analyzed, or its year."
+        },
+        {
+          "id": "tools",
+          "title": "Zoom and names",
+          "text": "Zoom in, zoom out or reset, and show or hide the names. Drag on the map to zoom to a box, and double-click to reset."
+        },
+        {
+          "id": "sentence",
+          "title": "What the places mean",
+          "text": "Ingence's own sentence on how it made the places, and what they do not say."
+        },
+        {
+          "id": "card",
+          "title": "The groups outlined",
+          "text": "Each group outlined, how many of its experiments have a place, and a way to remove its outline. Click a dot to see that experiment's card here."
+        }
+      ],
+      "note": "An experiment with none of the words the themes use has no place. Ingence does not draw it and counts it under the map."
+    },
+    "compare": {
+      "title": "How to read the comparison",
+      "file": "compare.png",
+      "alt": "A comparison of 2 groups of the sample. It shows each group with its letter, the words in both and in one only, and the experiments in both. Below are a bar for each group, closed lists of experiments, the files, and a button for the map.",
+      "lead": "The comparison puts 2 to 4 groups side by side. Each group keeps its letter on the map. A group is a word group or a theme.",
+      "marks": [
+        {
+          "id": "keys",
+          "title": "The groups",
+          "text": "Each group with its letter, what it is, and how many experiments and files it holds. A letter's box has the same dash as its outline on the map."
+        },
+        {
+          "id": "words_all",
+          "title": "Words in all",
+          "text": "The words every group has, out of all the words any group has."
+        },
+        {
+          "id": "words_only",
+          "title": "Words in one only",
+          "text": "The words only that group has. A group with none says none."
+        },
+        {
+          "id": "experiments_all",
+          "title": "Experiments in all",
+          "text": "How many experiments are in every group, out of all the experiments in any group."
+        },
+        {
+          "id": "bars",
+          "title": "The bars",
+          "text": "One bar for each group's experiments: dark are in every group, middle in some, light in that group only. The number beside it counts the light part."
+        },
+        {
+          "id": "lists",
+          "title": "The lists",
+          "text": "Each list is closed until you open it. It shows the experiments in every group, or in one only, with their numbers of files."
+        },
+        {
+          "id": "files",
+          "title": "Files",
+          "text": "The files of the experiments in every group, out of the files of the experiments in any group. Shared files are the files of shared experiments."
+        },
+        {
+          "id": "map",
+          "title": "Show on the map",
+          "text": "Opens the Map of groups with each group outlined with its letter, and the overlap shaded."
+        }
+      ],
+      "note": "With 3 or 4 groups, the comparison also lists what each 2 groups share."
+    }
+  },
+  "auto": [
+    {
+      "selector": "#decider button",
+      "key": "decider.name"
+    },
+    {
+      "selector": ".answered-toggle button",
+      "key": "review.answered"
+    },
+    {
+      "selector": ".filters select",
+      "key": "review.filter"
+    },
+    {
+      "selector": ".group input, .group select, .group button",
+      "key": "review.group"
+    },
+    {
+      "selector": "tr.row input[type='checkbox']",
+      "key": "review.group"
+    },
+    {
+      "selector": ".define-row .define-kind",
+      "key": "review.kind"
+    },
+    {
+      "selector": ".define-row input, .define-row button",
+      "key": "review.define"
+    },
+    {
+      "selector": "details.what select, details.what button",
+      "key": "history.compare"
+    },
+    {
+      "selector": "ol.timeline button.link",
+      "key": "history.what_changed"
+    },
+    {
+      "selector": ".program > button.answer",
+      "key": "programs.answer"
+    },
+    {
+      "selector": ".answers.secondary button",
+      "key": "review.note"
+    },
+    {
+      "selector": "input[placeholder*='note']",
+      "key": "review.note"
+    },
+    {
+      "selector": ".answers button.answer",
+      "key": "review.answer"
+    },
+    {
+      "selector": "table.settings input",
+      "key": "settings.value"
+    },
+    {
+      "selector": ".commit-dialog input, .commit-dialog button",
+      "key": "workspace.commit"
+    }
+  ],
+  "tours": {
+    "first_visit": [
+      "overview.found",
+      "overview.completeness",
+      "overview.ask",
+      "overview.assumptions"
+    ]
+  }
+}

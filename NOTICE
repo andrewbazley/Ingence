@@ -1,0 +1,120 @@
+Ingence
+Copyright (c) 2026 Andrew Bazley
+
+This product includes software developed by third parties. Each dependency is
+distributed under its own license and retains its own notices; installing
+Ingence does not relicense any of them. The lists below cover the base install
+and every optional extra. Each package's own dependencies carry their own terms.
+
+Python packages. Each line gives the package, the version range pyproject.toml declares,
+the license the installed package's own metadata declares, and its project address.
+
+Base install (installed with Ingence)
+
+  duckdb >=1.0,<2                | MIT License (classifier) | https://github.com/duckdb/duckdb-python
+  pyarrow >=16                   | Apache-2.0 | https://github.com/apache/arrow
+  pydantic >=2.7                 | MIT | https://github.com/pydantic/pydantic
+  typer >=0.12                   | MIT | https://github.com/fastapi/typer
+  rich >=13.7                    | MIT | https://github.com/Textualize/rich
+  pyyaml >=6.0                   | MIT | https://github.com/yaml/pyyaml
+  blake3 >=0.4                   | CC0-1.0 OR Apache-2.0 | https://github.com/oconnor663/blake3-py
+  numpy >=1.26                   | BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0 | https://github.com/numpy/numpy
+  pypdf >=4.2                    | BSD-3-Clause | https://github.com/py-pdf/pypdf
+  openpyxl >=3.1                 | MIT | https://foss.heptapod.net/openpyxl/openpyxl
+  olefile >=0.47                 | BSD | https://www.decalage.info/python/olefileio
+  scikit-learn >=1.5             | BSD-3-Clause | https://github.com/scikit-learn/scikit-learn
+  scipy >=1.13                   | BSD License (classifier) | https://github.com/scipy/scipy
+
+Optional extra "api" (pip install "ingence[api]")
+
+  fastapi >=0.110                | MIT | https://github.com/fastapi/fastapi
+  uvicorn >=0.29                 | BSD-3-Clause | https://github.com/Kludex/uvicorn
+
+Optional extra "content" (pip install "ingence[content]")
+
+  tifffile >=2024.1.30           | BSD-3-Clause | https://github.com/cgohlke/tifffile
+  Pillow >=10.3                  | MIT-CMU | https://github.com/python-pillow/Pillow
+  nbformat >=5.10                | BSD License (classifier) | https://github.com/jupyter/nbformat.git
+  datasketch >=1.6               | MIT | https://github.com/ekzhu/datasketch
+  pyahocorasick >=2.0            | BSD-3-Clause and Public-Domain | http://github.com/WojciechMula/pyahocorasick
+
+Optional extra "images" (pip install "ingence[images]")
+
+  imagehash >=4.3                | 2-clause BSD License | https://github.com/JohannesBuchner/imagehash
+  pylibCZIrw >=4.1               | GNU Lesser General Public License v3 (LGPLv3) (classifier) | https://pypi.org/project/pylibCZIrw/
+
+Optional extra "detect" (pip install "ingence[detect]")
+
+  magika >=0.6                   | Apache-2.0 | https://github.com/google/magika/
+  python-magic >=0.4             | MIT | http://github.com/ahupp/python-magic
+
+Optional extra "browser" (pip install "ingence[browser]")
+Drives the Dashboard in a real browser for the test suite; never needed to run Ingence.
+
+  playwright >=1.55              | Apache-2.0 | https://github.com/Microsoft/playwright-python
+
+Optional extra "docs" (pip install "ingence[docs]")
+Builds the documentation pages; never needed to run Ingence, and nothing here is redistributed with it.
+
+  sphinx >=9.1                   | BSD-2-Clause | https://github.com/sphinx-doc/sphinx
+  pydata-sphinx-theme >=0.23     | BSD License (classifier) | https://github.com/pydata/pydata-sphinx-theme
+  myst-parser >=5.1              | MIT License (classifier) | https://github.com/executablebooks/MyST-Parser
+  sphinx-design >=0.7            | MIT License (classifier) | https://github.com/executablebooks/sphinx-design
+
+Optional extra "dev" (pip install "ingence[dev]")
+Tools for working on Ingence; never needed to run it, and nothing here is redistributed with it.
+
+  pytest >=8.2                   | MIT | https://github.com/pytest-dev/pytest
+  pytest-cov >=5.0               | MIT | https://github.com/pytest-dev/pytest-cov
+  hypothesis >=6.100             | MPL-2.0 | https://github.com/HypothesisWorks/hypothesis
+  ruff >=0.5                     | MIT | https://github.com/astral-sh/ruff
+  mypy >=1.10                    | MIT | https://github.com/python/mypy
+  pre-commit >=3.7               | MIT | https://github.com/pre-commit/pre-commit
+  types-PyYAML >=6.0             | Apache-2.0 | https://github.com/python/typeshed
+
+Browser libraries shipped inside the package. They are served from the installed
+package and never fetched from a network; each keeps its own license file, and a
+library's file keeps, in its own header comments, the notices of any smaller
+pieces built into it.
+
+  atkinson-hyperlegible 1.393 | SIL Open Font License 1.1 | https://github.com/googlefonts/atkinson-hyperlegible
+    Copyright 2020 Braille Institute of America, Inc.
+    License text: src/ingence/web/vendor/atkinson-hyperlegible/LICENSE
+  cytoscape 3.34.3 | MIT | https://www.npmjs.com/package/cytoscape
+    Copyright (c) 2016-2026, The Cytoscape Consortium.
+    License text: src/ingence/web/vendor/cytoscape/LICENSE
+  ibm-plex-mono 2.5.0 | SIL Open Font License 1.1 | https://www.npmjs.com/package/@ibm/plex-mono
+    Copyright © 2017 IBM Corp. with Reserved Font Name "Plex"
+    License text: src/ingence/web/vendor/ibm-plex-mono/LICENSE
+
+Libraries bundled into the Graph workspace (built from explorer/ into
+src/ingence/web/explorer/explorer.js). Their full license texts are in
+src/ingence/web/explorer/THIRD_PARTY_NOTICES.txt, installed with the package.
+
+  react 19.3.0                 | MIT | Copyright (c) Meta Platforms, Inc. and affiliates.
+  react-dom 19.3.0             | MIT | Copyright (c) Meta Platforms, Inc. and affiliates.
+  scheduler 0.28.0             | MIT | Copyright (c) Meta Platforms, Inc. and affiliates.
+  @dagrejs/dagre 1.1.8         | MIT | Copyright (c) 2012-2014 Chris Pettitt
+  @dagrejs/graphlib 2.2.4      | MIT | Copyright (c) 2012-2014 Chris Pettitt
+
+The Unified Code for Units of Measure (UCUM), also known as the "UCUM
+Specification", is copyright (c) 1999-2024, Regenstrief Institute, Inc. All
+rights reserved. A complete, unaltered copy of the UCUM essence file version 2.2
+is vendored at vendor/ucum/ and is distributed under the UCUM Copyright Notice
+and License version 1.1, whose full text is at LICENSES/UCUM-1.1.md and at
+https://github.com/ucum-org/ucum/blob/main/LICENSE.md. The Work is provided on an
+"as is" basis, without warranties or conditions of any kind; see section 7 of
+that licence for the full disclaimer. Ingence references UCUM codes and does not
+modify, extend or derive from the Work, and the vendored copy is not included in
+the installed package.
+
+Bundled license texts for the data and report terms used by this project are in
+LICENSES/. Their provenance:
+
+  LICENSES/CC0-1.0.txt     Creative Commons CC0 1.0 Universal
+  LICENSES/CC-BY-4.0.txt   Creative Commons Attribution 4.0 International,
+                           retrieved from creativecommons.org
+  LICENSES/OFL-1.1-Atkinson-Hyperlegible.txt
+                           SIL Open Font License 1.1, as the Atkinson Hyperlegible font ships it
+  LICENSES/OFL-1.1-IBM-Plex-Mono.txt
+                           SIL Open Font License 1.1, as the IBM Plex Mono font ships it

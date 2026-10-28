@@ -1,0 +1,108 @@
+name: "A rule misread my files"
+description: "Ingence reached a conclusion about your files that is wrong, or missed one that it should have reached."
+title: "[Rule]: "
+labels: ["rule"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Every conclusion in the Dashboard names the rule that made it: open the file and look beside the
+        conclusion. That rule's name and version are what we need most.
+
+        A rule that is wrong is the most useful thing you can tell us. Describe the shape of your folders in
+        words, with invented names.
+
+        Before you post, see [Reporting a problem without sharing your data](https://ingence.org/guides/reporting-a-problem.html).
+  - type: checkboxes
+    id: no-private-data
+    attributes:
+      label: Before you post
+      description: The guide above says what to leave out and what to write in its place.
+      options:
+        - label: "I have not pasted file paths, folder names, people's names or counts from my own data"
+          required: true
+  - type: input
+    id: ingence-version
+    attributes:
+      label: Ingence version
+      description: Run `ingence --version` in a terminal and paste the first line it prints.
+      placeholder: "ingence 0.4.0"
+    validations:
+      required: true
+  - type: dropdown
+    id: system
+    attributes:
+      label: Your system
+      description: The operating system you ran Ingence on.
+      options:
+        - "macOS 13 or later, Apple silicon (arm64)"
+        - "macOS 13 or later, Intel (x86_64)"
+        - "Windows 10 and 11"
+        - "Ubuntu Linux LTS releases"
+        - "Another system or an older version (say which below)"
+    validations:
+      required: true
+  - type: dropdown
+    id: python-version
+    attributes:
+      label: Python version
+      description: Run `python --version` in the environment Ingence is installed in.
+      options:
+        - "3.12"
+        - "3.13"
+        - "3.14"
+        - "Another version (say which below)"
+    validations:
+      required: true
+  - type: dropdown
+    id: what-was-wrong
+    attributes:
+      label: What was wrong
+      options:
+        - A file was put in the wrong experiment
+        - Two files were called copies of each other and are not
+        - A file was said to be made from another file and was not
+        - A file was not said to be made from another file and was
+        - A stage (raw, processed or analysis) was wrong
+        - A date or time was read wrongly
+        - Ingence said nothing where it should have said something
+        - Something else (say what below)
+    validations:
+      required: true
+  - type: input
+    id: rule-name
+    attributes:
+      label: The rule's name and version
+      description: Shown beside the conclusion when you open the file in the Dashboard. Leave empty if you could not find it.
+      placeholder: "a rule name, version 1"
+  - type: textarea
+    id: concluded
+    attributes:
+      label: What Ingence concluded
+      description: In words, with invented stand-ins for names.
+    validations:
+      required: true
+  - type: textarea
+    id: true-answer
+    attributes:
+      label: What is true
+      description: >-
+        What the files really are, and how you know. The signs a person would use (a word in a name,
+        a position in a folder, a date) are the most useful part.
+    validations:
+      required: true
+  - type: textarea
+    id: shape
+    attributes:
+      label: The shape of your folders
+      description: >-
+        In words, with invented names: for example "a folder named for a run, holding a movie and the
+        spreadsheet it was measured into".
+  - type: textarea
+    id: name-shapes
+    attributes:
+      label: Name shapes (optional)
+      description: >-
+        Run `ingence teach shapes -p PROJECT` and paste the table it prints. It shows the shapes of
+        your file and folder names, not the names. Read it before you post.
+      render: text

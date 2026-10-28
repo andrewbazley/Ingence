@@ -1,0 +1,42 @@
+# The quality figures of the same-columns summary. `ingence.quality.catalogue` reads this file in
+# the shape of `quality/catalogue.yaml`. Every figure is counted from what a dive stored for each
+# table (the digest of its column names, their order and the delimiter, and how many columns it
+# has), never from the rule's claims, so the figures are the same when the rule is switched off.
+sections:
+  columns: "Same columns"
+figures:
+  columns.tables_counted:
+    section: columns
+    label: "Tables whose columns were read"
+    unit: tables
+    known_from: dive
+    total: "tables in the run (csv, tsv and tab files)"
+    method: "Files with a stored digest of their columns and at least the least number of columns the page lists, out of the files of the run whose extension is csv, tsv or tab; a table below the least, or with two readings that disagree, is not counted. Stated when the run was written: a later answer or setting does not change it."
+  columns.layouts:
+    section: columns
+    label: "Different sets of columns"
+    unit: sets of columns
+    known_from: dive
+    total: "tables whose columns were read"
+    method: "Distinct stored digests among the tables counted: a digest is the column names, their order and the delimiter. Stated when the run was written: a later answer or setting does not change it."
+  columns.classes:
+    section: columns
+    label: "Sets of columns shared by two or more tables"
+    unit: sets of columns
+    known_from: dive
+    total: "different sets of columns"
+    method: "Distinct stored digests that two or more of the tables counted have. Stated when the run was written: a later answer or setting does not change it."
+  columns.tables_in_classes:
+    section: columns
+    label: "Tables that share their columns with another"
+    unit: tables
+    known_from: dive
+    total: "tables whose columns were read"
+    method: "Tables counted whose digest is shared by at least one other table counted. Stated when the run was written: a later answer or setting does not change it."
+  columns.classes_spanning_folders:
+    section: columns
+    label: "Shared sets of columns found in more than one folder"
+    unit: sets of columns
+    known_from: dive
+    total: "sets of columns shared by two or more tables"
+    method: "Shared sets of columns whose tables lie in two or more different folders. Stated when the run was written: a later answer or setting does not change it."

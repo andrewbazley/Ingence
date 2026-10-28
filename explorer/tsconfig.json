@@ -1,0 +1,20 @@
+{
+  "//": "The explorer's type check. It reads the API's generated declarations from src/ingence/web/types/api.d.ts, so a field the server does not send fails here.",
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable", "WebWorker"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "noEmit": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "types": []
+  },
+  "include": ["src", "../src/ingence/web/types/api.d.ts"]
+}
