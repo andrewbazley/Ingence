@@ -1,4 +1,5 @@
 # Ingence
+[![DOI](https://zenodo.org/badge/1415918784.svg)](https://doi.org/10.5281/zenodo.23773564)
 
 Ingence is a read-only indexing and inference engine for scientific filesystems. It reads files’ names, metadata and contents where they already sit, and interprets them through two editable, versioned sources: a Dictionary, which defines what the words in names and files mean, and a Rulebook, the engine’s interpretive logic, which turns that evidence into proposals about how files relate. Every conclusion names the rule and evidence behind it, and where the rules cannot decide, the engine abstains.
 
