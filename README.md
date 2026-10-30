@@ -5,17 +5,30 @@ Ingence is a read-only indexing and inference engine for scientific filesystems.
 
 The Dashboard, served locally in your browser, is where you explore the results: search for a file or experiment, see what was read from it and what was not, follow how files connect, and answer the questions the engine could not settle. A survey of what a filesystem holds is useful on its own, before any inference is confirmed.
 
-## What Ingence does and does not do
-
 Ingence shows what is in your folders, how the experiments connect, which ones repeat and which
-are complete. It does not interpret your results. Ingence never changes your files.
+are complete. It does not interpret your results and never changes your files.
 
 ## Maturity: pre-alpha
 
-Ingence is a pre-alpha. It works from start to finish, and it changes often.
+Ingence is a new tool whose development ongoing, and we encourage community feedback and discussion!
 
-Send feedback to hello@ingence.org or to [GitHub Discussions](https://github.com/andrewbazley/ingence/discussions). Say what you ran and what you expected.
-Before you send anything, see [Reporting a problem without sharing your data](https://ingence.org/guides/reporting-a-problem.html).
+Reach us at hello@ingence.org or to [GitHub Discussions](https://github.com/andrewbazley/ingence/discussions).
+If sharing details related to running Ingence on your own data, see [Data privacy and sharing feedback](https://ingence.org/guides/reporting-a-problem.html).
+
+## Principles
+
+- **Ingence never changes your files.** It never moves, renames, deletes or writes to the files it
+  reads, and it never runs code it finds.
+- **What was observed and what was inferred are kept apart.** A fact and an inference cannot be
+  written to the same field.
+- **Every result can be reconstructed** from four inputs: the file list, the rules, the Dictionary
+  and the answer log.
+- **"No result" is a valid output.** "Unknown", "not read yet" and "conflicting" are three different
+  states, and they stay apart.
+- **No language model makes a result.** Ingence is made LLM-compatible, but no agent reads your files unless      you as it to, and none is needed to interact with Ingence results.
+- **More evidence never weakens a result.**
+- **It runs locally, on the system where it's installed.**
+
 
 ## Install
 
@@ -84,7 +97,7 @@ as one file of words, and `ingence teach pack install <file, folder or https://a
 such a file in another project. Ingence refuses a file whose words do not match its digest, or
 that needs a newer Ingence.
 
-## Use it with an AI assistant
+## Use it with an Agent
 
 Ingence uses no language model. It gives your assistant a summary at the level you choose, never
 your files' contents. Your assistant's answers enter a project only when you import them.
@@ -145,21 +158,6 @@ scan:
 ```
 
 Each link is then recorded as a link, and its target is not checked.
-
-## Principles
-
-- **Ingence never changes your files.** It never moves, renames, deletes or writes to the files it
-  reads, and it never runs code it finds.
-- **What was observed and what was inferred are kept apart.** A fact and an inference cannot be
-  written to the same field.
-- **Every result can be made again** from four inputs: the file list, the rules, the Dictionary
-  and the answer log.
-- **"No result" is a valid output.** "Unknown", "not read yet" and "conflicting" are three different
-  states, and they stay apart.
-- **No language model makes a result.** None reads your files, and none is needed to read what
-  Ingence shows.
-- **More evidence never weakens a result.**
-- **It runs on your computer.**
 
 ## Offline, and when the data folder is away
 
@@ -226,7 +224,7 @@ records the engine's commit, which names a development build exactly.
 
 ## Where a project lives
 
-Anywhere: your own disk, a drive, a server, inside the data folder, or the data folder itself. A
+Your own disk, a drive, a server, inside the data folder, or the data folder itself. A
 project inside the data folder adds its own files there. Every scan leaves them out, and it leaves
 out Ingence's own installation and any other Ingence project it finds. Your own disk is best.
 Ingence writes to the project in every scan, and a local disk is faster and is there when a drive
@@ -239,7 +237,6 @@ for version 0.4.0 is in `manuscript/` under CC-BY-4.0. Its supplemental material
 invented laboratory data collection under CC0-1.0, which is on Zenodo at
 https://doi.org/10.5281/zenodo.23756686. The texts of these licenses are in `LICENSES/`. The software
 Ingence uses keeps its own licenses and notices, listed in `NOTICE`. Web files copied into the
-package carry their own license beside them.
+package carry their own license beside them. Copyright (c) 2026 Andrew Bazley. 
 
-Copyright (c) 2026 Andrew Bazley. Supported by the Astera Institute through the Hidden Science
-Competition.
+Supported by the Astera Institute through the 2026 Hidden Science Competition.
